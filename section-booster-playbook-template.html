@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>[[SECTION_NAME]] — Your Section Booster Playbook</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      color-scheme: light;
+      --cream:       #e8e4d3;
+      --cream-light: #f5f2e8;
+      --burgundy:    #5a002a;
+      --red-mid:     #950d20;
+      --red-bright:  #b83229;
+      --gold:        #c7a35a;
+      --ink:         #1a1410;
+      --ink-soft:    #3d3530;
+      --muted:       #7a6e65;
+      --border:      rgba(90, 0, 42, 0.12);
+      --shadow:      0 2px 16px rgba(26,20,16,0.07);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ─── BASE ───────────────────────────────────────────── */
+    body {
+      background: var(--cream-light);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── FONT FACE: Seriously Nostalgic ─────────────────── */
+    @font-face {
+      font-family: 'Seriously Nostalgic';
+      src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Seriously Nostalgic';
+      src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgiital-reg-webfont.woff2') format('woff2');
+      font-weight: normal;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    /* ─── TYPOGRAPHY ─────────────────────────────────────── */
+    .display {
+      font-family: 'Seriously Nostalgic', 'Bodoni Moda', serif;
+      font-weight: normal;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 0.75rem; }
+    h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.01em; }
+
+    p { margin-bottom: 1rem; color: var(--ink-soft); }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--ink); font-weight: 600; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 56px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    .site-header {
+      background: var(--burgundy);
+      padding: 20px 0;
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header .logo {
+      font-family: 'Seriously Nostalgic', 'Bodoni Moda', serif;
+      font-size: 1.15rem;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .site-header .tagline {
+      font-size: 0.75rem;
+      color: rgba(232,228,211,0.7);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      background: var(--burgundy);
+      padding: 64px 0 72px;
+      border-bottom: 3px solid var(--gold);
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero h1 {
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: rgba(232,228,211,0.75);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+    .hero-meta {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      font-size: 0.8rem;
+      color: rgba(232,228,211,0.7);
+      letter-spacing: 0.04em;
+    }
+    .hero-meta-item strong {
+      color: rgba(232,228,211,0.9);
+      font-weight: 500;
+    }
+
+    /* ─── STEP PILLS ─────────────────────────────────────── */
+    .steps-nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .steps-nav .container {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .steps-nav .container::-webkit-scrollbar { display: none; }
+    .step-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .step-pill:hover {
+      color: var(--burgundy);
+      border-bottom-color: var(--red-mid);
+    }
+    .step-pill .num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── SECTION LABELS ─────────────────────────────────── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red-mid);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ─── PREVIEW IMAGE ──────────────────────────────────── */
+    .preview-wrap {
+      margin-top: 32px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(26,20,16,0.12);
+      border: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .preview-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .preview-caption {
+      padding: 12px 18px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── VIDEO ──────────────────────────────────────────── */
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      background: var(--ink);
+      margin-top: 32px;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ─── DOWNLOAD CARD ──────────────────────────────────── */
+    .download-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .download-card-info h3 { margin-bottom: 4px; }
+    .download-card-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--burgundy);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 12px 22px;
+      border-radius: 6px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-download:hover { background: var(--red-mid); }
+    .btn-download svg { flex-shrink: 0; }
+
+    /* ─── CODE BLOCK ─────────────────────────────────────── */
+    .code-wrap {
+      margin-top: 32px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .code-header {
+      background: var(--ink);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .code-filename {
+      font-size: 0.78rem;
+      color: rgba(232,228,211,0.5);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .btn-copy {
+      background: rgba(232,228,211,0.1);
+      border: 1px solid rgba(232,228,211,0.15);
+      color: rgba(232,228,211,0.7);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-copy:hover {
+      background: rgba(232,228,211,0.18);
+      color: var(--cream);
+    }
+    .btn-copy.copied {
+      background: rgba(199,163,90,0.2);
+      color: var(--gold);
+      border-color: rgba(199,163,90,0.3);
+    }
+    .code-scroll {
+      background: #1e1914;
+      overflow-x: auto;
+      max-height: 420px;
+    }
+    .code-scroll pre {
+      padding: 24px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #c9c3b4;
+      white-space: pre;
+      margin: 0;
+    }
+
+    /* ─── STEPS LIST ─────────────────────────────────────── */
+    .steps-list {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .step-item {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--burgundy);
+      color: var(--cream);
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .step-content h3 { font-size: 0.95rem; margin-bottom: 4px; }
+    .step-content p { font-size: 0.9rem; margin: 0; }
+
+    /* ─── INFO CARDS ─────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+    @media (max-width: 560px) { .card-grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .card h3 { font-size: 0.9rem; margin-bottom: 6px; }
+    .card p { font-size: 0.85rem; margin: 0; }
+
+    /* ─── TROUBLESHOOTING ────────────────────────────────── */
+    .trouble-list {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .trouble-item {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red-mid);
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+    }
+    .trouble-item h3 {
+      font-size: 0.9rem;
+      color: var(--red-mid);
+      margin-bottom: 4px;
+    }
+    .trouble-item p { font-size: 0.875rem; margin: 0; }
+
+    /* ─── CTA ────────────────────────────────────────────── */
+    .cta-section {
+      background: var(--burgundy);
+      border-top: none;
+    }
+    .cta-inner {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .cta-inner .section-label { color: var(--gold); }
+    .cta-inner h2 {
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .cta-inner p {
+      color: rgba(232,228,211,0.72);
+      font-size: 1rem;
+      margin-bottom: 32px;
+    }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: var(--burgundy);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 15px 30px;
+      border-radius: 6px;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .btn-cta:hover { opacity: 0.88; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    .site-footer {
+      background: var(--ink);
+      padding: 36px 0;
+      text-align: center;
+    }
+    .site-footer p {
+      font-size: 0.78rem;
+      color: rgba(232,228,211,0.65);
+      margin: 0;
+    }
+    .site-footer a {
+      color: rgba(232,228,211,0.85);
+      text-decoration: none;
+    }
+    .site-footer a:hover { color: var(--gold); }
+
+    /* ─── DIVIDER ────────────────────────────────────────── */
+    .gold-rule {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 0 28px;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      section { padding: 40px 0; }
+      .hero { padding: 48px 0 56px; }
+      .download-card { flex-direction: column; align-items: flex-start; }
+      .site-header .tagline { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="https://simplydigitalshops.com" class="logo">Simply Digital Shops</a>
+      <span class="tagline">Designed to stand out. Built to convert.</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Section Booster Playbook</div>
+      <h1 class="display">[[SECTION_NAME]]</h1>
+      <p class="hero-subtitle">[[SECTION_DESCRIPTION]]</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">Prepared for <strong>[[CUSTOMER_NAME]]</strong></span>
+        <span class="hero-meta-item">Order <strong>#[[ORDER_ID]]</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW IMAGE -->
+  <section style="padding: 48px 0 0; border-top: none;">
+    <div class="container">
+      <span class="section-label">What you're installing</span>
+      <div class="gold-rule"></div>
+      <div class="preview-wrap">
+        <img src="[[PREVIEW_IMAGE_URL]]" alt="[[SECTION_NAME]] preview" />
+        <p class="preview-caption">[[SECTION_NAME]] — live section preview</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY NAV -->
+  <nav class="steps-nav">
+    <div class="container">
+      <a href="#tutorial" class="step-pill"><span class="num">1</span> Watch</a>
+      <a href="#download" class="step-pill"><span class="num">2</span> Download</a>
+      <a href="#install" class="step-pill"><span class="num">3</span> Install</a>
+      <a href="#customise" class="step-pill"><span class="num">4</span> Customise</a>
+      <a href="#troubleshoot" class="step-pill"><span class="num">5</span> Troubleshoot</a>
+    </div>
+  </nav>
+
+  <!-- TUTORIAL VIDEO -->
+  <section id="tutorial">
+    <div class="container">
+      <span class="section-label">Step 1</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Watch the tutorial first</h2>
+      <p>Before you touch anything, watch this walkthrough. It covers the full install and shows you what each customisation option does in the theme editor.</p>
+      <div class="video-wrap">
+        <iframe
+          src="[[VIDEO_EMBED_URL]]"
+          title="[[SECTION_NAME]] Tutorial"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download">
+    <div class="container">
+      <span class="section-label">Step 2</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Get your files</h2>
+      <p>Download the <code>.liquid</code> file below, then follow the install steps. You can also copy the code block directly if you prefer to create the file manually in the Shopify theme editor.</p>
+
+      <div class="download-card">
+        <div class="download-card-info">
+          <h3>[[SECTION_NAME]].liquid</h3>
+          <p>Ready to upload to your Shopify theme</p>
+        </div>
+        <a href="[[DOWNLOAD_URL]]" class="btn-download" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download file
+        </a>
+      </div>
+
+      <!-- CODE BLOCK -->
+      <div class="code-wrap" style="margin-top: 28px;">
+        <div class="code-header">
+          <span class="code-filename">[[SECTION_NAME_SLUG]].liquid</span>
+          <button class="btn-copy" onclick="copyCode(this)">Copy code</button>
+        </div>
+        <div class="code-scroll">
+          <pre id="code-content">[[CODE_BLOCK]]</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALLATION -->
+  <section id="install">
+    <div class="container">
+      <span class="section-label">Step 3</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Install the section</h2>
+      <p>Follow these steps in order. The whole process takes about five minutes.</p>
+      <div class="steps-list" id="install-steps">
+        [[INSTALLATION_STEPS_HTML]]
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMISATION -->
+  <section id="customise">
+    <div class="container">
+      <span class="section-label">Step 4</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Make it yours</h2>
+      <p>Once the section is installed, here's what you can adjust directly in the Shopify theme editor — no code needed.</p>
+      <div class="card-grid" id="customise-cards">
+        [[CUSTOMISATION_CARDS_HTML]]
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section id="troubleshoot">
+    <div class="container">
+      <span class="section-label">Step 5</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Troubleshooting</h2>
+      <p>Something not looking right? Check these common issues first.</p>
+      <div class="trouble-list" id="trouble-items">
+        [[TROUBLESHOOTING_HTML]]
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner">
+        <span class="section-label">Want us to do it for you?</span>
+        <div class="gold-rule" style="margin: 0 auto 28px;"></div>
+        <h2 class="display">Your store, fully built.</h2>
+        <p>If you'd rather hand this over entirely, we build complete Shopify stores for conscious product brands — strategy, design, and everything in between.</p>
+        <a href="https://simplydigitalshops.com/work-with-us" class="btn-cta">
+          See how we work
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        &copy; Simply Digital Shops &nbsp;·&nbsp;
+        <a href="https://simplydigitalshops.com">simplydigitalshops.com</a>
+        &nbsp;·&nbsp; Questions? <a href="mailto:hello@simplydigitalshops.com">hello@simplydigitalshops.com</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // ─── COPY CODE ─────────────────────────────────────────
+    function copyCode(btn) {
+      const code = document.getElementById('code-content').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy code';
+          btn.classList.remove('copied');
+        }, 2500);
+      });
+    }
+  </script>
+
+</body>
+</html>
