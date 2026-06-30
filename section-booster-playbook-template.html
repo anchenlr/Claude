@@ -488,6 +488,97 @@
       margin: 0 0 28px;
     }
 
+    /* ─── WATCHOUT LIST ─────────────────────────────────── */
+    .watchout-list {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .watchout-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 20px;
+      font-size: 0.875rem;
+      color: var(--ink-soft);
+    }
+    .watchout-item::before {
+      content: '!';
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--burgundy);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* ─── DEVELOPER NOTES ───────────────────────────────── */
+    .dev-notes-wrap {
+      margin-top: 28px;
+      background: #f0ebe0;
+      border: 1px dashed rgba(90, 0, 42, 0.25);
+      border-radius: 8px;
+      padding: 24px 28px;
+    }
+    .dev-notes-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .dev-notes-wrap p { font-size: 0.9rem; }
+
+    /* ─── SIDEKICK BOX ──────────────────────────────────── */
+    .sidekick-box {
+      margin-top: 28px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--burgundy);
+      border-radius: 0 0 8px 8px;
+      padding: 28px 32px;
+    }
+    .sidekick-box h3 {
+      font-size: 1rem;
+      color: var(--burgundy);
+      margin-bottom: 10px;
+    }
+    .sidekick-box p { font-size: 0.9rem; }
+    .sidekick-box .btn-sidekick {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      background: var(--burgundy);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 6px;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+    }
+    .sidekick-box .btn-sidekick:hover { background: var(--red-mid); }
+
     /* ─── RESPONSIVE ─────────────────────────────────────── */
     @media (max-width: 600px) {
       section { padding: 40px 0; }
@@ -529,6 +620,19 @@
       <div class="preview-wrap">
         <img src="[[PREVIEW_IMAGE_URL]]" alt="[[SECTION_NAME]] preview" />
         <p class="preview-caption">[[SECTION_NAME]] — live section preview</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KNOWN ISSUES / WATCHOUTS -->
+  <section id="before-you-start" style="padding: 40px 0; background: var(--cream-light);">
+    <div class="container">
+      <span class="section-label">Before you start</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Known issues &amp; watchouts</h2>
+      <p>A few things to be aware of before you begin.</p>
+      <div class="watchout-list">
+        [[BEFORE_YOU_START]]
       </div>
     </div>
   </section>
@@ -631,6 +735,39 @@
       <p>Something not looking right? Check these common issues first.</p>
       <div class="trouble-list" id="trouble-items">
         [[TROUBLESHOOTING_HTML]]
+      </div>
+    </div>
+  </section>
+
+  <!-- WHEN TO RECOMMEND DESIGNER SIDEKICK -->
+  <section id="sidekick">
+    <div class="container">
+      <span class="section-label">Need more help?</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">When to recommend Designer SideKick</h2>
+      <p>This playbook covers the standard install. If the customer needs anything beyond that, Designer SideKick is the right next step.</p>
+      <div class="sidekick-box">
+        <h3>Recommend Designer SideKick when the customer wants:</h3>
+        <p>Styling changes, theme conflicts resolved, layout adjustments, or deeper customisation that goes beyond the theme editor settings.</p>
+        <a href="https://simplydigitalshops.com/designer-sidekick" class="btn-sidekick">
+          Book Designer SideKick
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVELOPER NOTES -->
+  <section id="dev-notes">
+    <div class="container">
+      <span class="section-label">Internal reference</span>
+      <div class="gold-rule"></div>
+      <h2 class="display">Developer notes</h2>
+      <div class="dev-notes-wrap">
+        <span class="dev-notes-badge">Not customer-facing</span>
+        [[DEVELOPER_NOTE]]
       </div>
     </div>
   </section>
