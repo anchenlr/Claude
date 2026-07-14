@@ -79,6 +79,36 @@
       </div>
     </section>
 
+    <!-- FREE BOOSTER REDEMPTION (gated — only reachable after opt-in) -->
+    <section id="free-booster">
+      <div class="container">
+        <span class="section-label coral">Your Free Showcase Gift</span>
+        <div class="gold-rule"></div>
+        <h2 class="display">Claim the Sticky Add to Cart Booster free.</h2>
+        <p class="section-intro">This lightweight Shopify section keeps the Add to Cart action visible as a shopper moves down the page — helping make the next step easier without adding another monthly app.</p>
+
+        <div class="booster-card" style="margin-top: 32px;">
+          <div class="booster-card-media">
+            <img src="[[STICKY_BOOSTER_IMAGE_URL]]" alt="Sticky Add to Cart Booster preview" onerror="this.parentElement.textContent='Sticky Add to Cart Booster'" />
+          </div>
+        </div>
+
+        <div class="coupon-block">
+          <p>Use the code below to reduce the Booster price to zero. The button takes you to the product with the Showcase discount applied wherever possible.</p>
+          <div class="coupon-code-row">
+            <span class="coupon-code" id="coupon-code" data-config="couponCode">AIShowcase</span>
+            <button class="btn-copy" data-copy-target="coupon-code" type="button">Copy code</button>
+          </div>
+          <div>
+            <a class="btn btn-primary" data-config="boosterDiscountUrl" data-track="showcase_claim_booster_click" href="{{BOOSTER_DISCOUNT_URL}}">Claim the Free Booster</a>
+          </div>
+          <p class="coupon-note">
+            <a href="{{BOOSTER_PRODUCT_URL}}" data-config="boosterProductUrl" style="color: rgba(234,233,227,0.75); text-decoration: underline;">See what the Booster does</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- LINK BACK -->
     <section class="cta-section">
       <div class="container">
@@ -86,7 +116,7 @@
           <span class="section-label on-dark">Want the full picture again?</span>
           <div class="gold-rule" style="margin: 0 auto 28px;"></div>
           <h2 class="display">Revisit the Showcase resource page</h2>
-          <p>See the session recap, the free Sticky Add to Cart Booster offer and everything else from the AI Systems Showcase in one place.</p>
+          <p>See the session recap, the Custom Section Boosters offer and everything else from the AI Systems Showcase in one place.</p>
           <a class="btn btn-primary" href="{{OPTIN_URL}}" data-config="optinUrl">Back to the Resource Page</a>
         </div>
       </div>
@@ -106,5 +136,6 @@
     </div>
   </footer>
 
+  <script src="assets/showcase.js"></script>
 </body>
 </html>

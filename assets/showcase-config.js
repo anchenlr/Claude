@@ -24,13 +24,18 @@ window.SHOWCASE_CONFIG = {
   walkthroughUrl: "{{WALKTHROUGH_URL}}",
   checklistUrl: "{{CHECKLIST_URL}}",
 
-  // Shopify Site Booster / offer links
+  // Sticky Add to Cart Booster — the free, opt-in-gated gift.
+  // Only ever shown on the thank-you page, after someone has opted in.
   boosterProductUrl: "{{BOOSTER_PRODUCT_URL}}",
   boosterDiscountUrl: "{{BOOSTER_DISCOUNT_URL}}",
-  boostersCollectionUrl: "{{BOOSTERS_COLLECTION_URL}}",
-
-  // Offer details
   couponCode: "AIShowcase",
+
+  // Custom Section Boosters — the public 30%-off teaser shown on the
+  // opt-in page itself (no opt-in required), same pattern as the WOW
+  // Summit page's "Special WOW Offer" section.
+  boostersCollectionUrl: "{{BOOSTERS_COLLECTION_URL}}",
+  boostersThirtyOffUrl: "{{BOOSTERS_30_OFF_URL}}",
+  boostersThirtyOffCode: "{{BOOSTERS_30_OFF_CODE}}",
 
   // Hidden form fields sent with every opt-in
   campaign: "AIShowcase2026",

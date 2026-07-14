@@ -163,55 +163,26 @@
       </div>
     </section>
 
-    <!-- 5. EXPERIENCE THE SYSTEM YOURSELF -->
-    <section id="experience">
+    <!-- 5. SPECIAL SHOWCASE OFFER (public — no opt-in required) -->
+    <section id="special-offer">
       <div class="container">
-        <span class="section-label">Your Showcase Gift</span>
+        <span class="section-label coral">Special Showcase Offer</span>
         <div class="gold-rule"></div>
-        <h2 class="display">Experience the system yourself</h2>
-        <p class="section-intro">Shopify Site Boosters are delivered using the very same premium post-purchase experience demonstrated in the session — so claiming one is the fastest way to see the system from the customer's side.</p>
+        <h2 class="display">Custom Section Boosters</h2>
+        <p class="section-intro">Custom Section Boosters are custom-coded Liquid sections and blocks built for Shopify stores — designed to do what your theme can't. Whether you're a store owner ready to elevate your site or a designer wanting to deliver a more polished client experience, these drop-in sections add the functionality, flexibility and finesse your theme is missing. They're delivered using the very same premium post-purchase experience demonstrated in this session.</p>
 
-        <div class="booster-grid">
-          <div class="booster-card">
-            <div class="booster-card-media">
-              <img src="[[STICKY_BOOSTER_IMAGE_URL]]" alt="Sticky Add to Cart Booster preview" onerror="this.parentElement.textContent='Sticky Add to Cart Booster'" />
-            </div>
-            <div class="booster-card-body">
-              <h3>Sticky Add to Cart Booster</h3>
-              <p>Keeps the Add to Cart action visible as a shopper moves down the page — helping make the next step easier without adding another monthly app. Free with your Showcase code.</p>
-            </div>
+        <div class="booster-card" style="margin-top: 32px;">
+          <div class="booster-card-media">
+            <img src="[[BOOSTERS_COLLECTION_IMAGE_URL]]" alt="Custom Section Boosters preview" onerror="this.parentElement.textContent='Custom Section Boosters'" />
           </div>
-          <div class="booster-card">
-            <div class="booster-card-media">
-              <img src="[[BOOSTERS_COLLECTION_IMAGE_URL]]" alt="Shopify Site Boosters collection preview" onerror="this.parentElement.textContent='Shopify Site Boosters'" />
-            </div>
-            <div class="booster-card-body">
-              <h3>Shopify Site Boosters Collection</h3>
-              <p>Clean, hand-coded Shopify sections designed to give your store the features your theme is missing — without stacking up more app fees.</p>
-            </div>
+          <div class="booster-card-body">
+            <h3>30% Discount for AI Systems Showcase Attendees</h3>
+            <p>Use coupon code <strong data-config="boostersThirtyOffCode">{{BOOSTERS_30_OFF_CODE}}</strong> at checkout.</p>
+            <p style="margin-top: 14px;">
+              <a class="btn btn-primary" data-config="boostersThirtyOffUrl" data-track="showcase_boosters_30_off_click" href="{{BOOSTERS_30_OFF_URL}}">Explore Custom Section Boosters</a>
+            </p>
           </div>
         </div>
-
-        <div class="coupon-block">
-          <span class="section-label on-dark" style="text-align:center;">Your Free Showcase Gift</span>
-          <h2 class="display" style="color: var(--cream);">Claim the Sticky Add to Cart Booster free.</h2>
-          <p>Use the code below to reduce the Booster price to zero. The button takes you to the product with the Showcase discount applied wherever possible.</p>
-          <div class="coupon-code-row">
-            <span class="coupon-code" id="coupon-code" data-config="couponCode">AIShowcase</span>
-            <button class="btn-copy" data-copy-target="coupon-code" type="button">Copy code</button>
-          </div>
-          <div>
-            <a class="btn btn-primary" data-config="boosterDiscountUrl" data-track="showcase_claim_booster_click" href="{{BOOSTER_DISCOUNT_URL}}">Claim the Free Booster</a>
-          </div>
-          <p class="coupon-note">
-            <a href="{{BOOSTER_PRODUCT_URL}}" data-config="boosterProductUrl" style="color: rgba(234,233,227,0.75); text-decoration: underline;">See what the Booster does</a>
-          </p>
-        </div>
-
-        <p class="section-intro" style="margin-top: 32px;">
-          Prefer to start with a ready-made Shopify improvement?
-          <a href="{{BOOSTERS_COLLECTION_URL}}" data-config="boostersCollectionUrl" data-track="showcase_boosters_collection_click" style="color: var(--plum); font-weight: 600;">Explore Shopify Site Boosters</a>.
-        </p>
       </div>
     </section>
 
