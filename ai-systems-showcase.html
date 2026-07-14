@@ -49,8 +49,8 @@
     <div class="hero">
       <div class="container">
         <div class="hero-eyebrow">AI Systems Showcase Resource</div>
-        <div class="hero-banner-frame">
-          <img class="hero-banner" src="assets/ai-systems-showcase-banner.png" alt="AI Systems Showcase — what women are building with AI" width="1280" height="400" />
+        <div class="hero-banner-frame" style="position:relative; width:100%; aspect-ratio:1280/400; margin:0 auto 28px; border-radius:10px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.35);">
+          <img class="hero-banner" src="assets/ai-systems-showcase-banner.png" alt="AI Systems Showcase — what women are building with AI" width="1280" height="400" style="position:absolute; inset:0; top:0; left:0; width:100%; height:100%; max-width:none; object-fit:contain; display:block; margin:0; border-radius:0; box-shadow:none;" />
         </div>
         <h1 class="display">Go beyond the download.</h1>
         <p class="hero-subtitle">Thanks for joining my AI Systems Showcase session. Get the blueprint behind the AI-powered delivery system I use to turn a simple Shopify product into a polished, personalised post-purchase experience.</p>
@@ -65,39 +65,39 @@
       </div>
     </div>
 
-    <!-- 2. ABOUT THE SESSION -->
-    <section id="session">
+    <!-- 2. WHAT'S INSIDE THE BLUEPRINT (merged session recap + blueprint contents) -->
+    <section id="blueprint">
       <div class="container">
-        <span class="section-label coral">The Session</span>
+        <span class="section-label coral">Your Showcase Resources</span>
         <div class="gold-rule"></div>
-        <h2 class="display">Beyond the Download: Using AI to Create a Premium Post-Purchase Experience</h2>
-        <p class="section-intro">A purchase confirmation followed by a plain download link technically does the job. But it misses the opportunity to guide the customer, reinforce the value of what they bought, and make a small digital product feel considered from beginning to end. In this session, I walked through the system I built to make that handoff better — without manually recreating and sending the same resources after every sale.</p>
+        <h2 class="display">What's Inside the Blueprint</h2>
+        <p class="section-intro">In my AI Systems Showcase session, I shared how I transformed a simple digital download into a more thoughtful, premium customer experience.</p>
+        <p class="section-intro">The Premium Post-Purchase Blueprint gives you a behind-the-scenes look at the system, the decisions behind it and the ideas you can adapt for your own business.</p>
 
-        <div class="card-grid" style="margin-top: 32px;">
+        <div class="card-grid" style="margin-top: 28px;">
           <div class="info-card">
-            <div class="info-card-num">1</div>
-            <h3>A customer purchases</h3>
-            <p>Shopify captures the order and product information.</p>
+            <h3>Customer Journey</h3>
+            <p>See how the experience moves from purchase to personalised delivery.</p>
           </div>
           <div class="info-card">
-            <div class="info-card-num">2</div>
-            <h3>Make starts the workflow</h3>
-            <p>The automation receives the customer and purchase details.</p>
+            <h3>Automation Workflow</h3>
+            <p>Follow the simple flow connecting Shopify, Make, Airtable and AI.</p>
           </div>
           <div class="info-card">
-            <div class="info-card-num">3</div>
-            <h3>Airtable supplies the content</h3>
-            <p>Product-specific code, instructions, links and resources are pulled from the database.</p>
+            <h3>Tech Stack</h3>
+            <p>See the tools used to create and deliver the experience.</p>
           </div>
           <div class="info-card">
-            <div class="info-card-num">4</div>
-            <h3>AI assembles the resource</h3>
-            <p>The system turns the relevant information into a useful, branded HTML playbook.</p>
+            <h3>AI Prompt Strategy</h3>
+            <p>Understand how AI helps shape the personalised delivery content.</p>
           </div>
-          <div class="info-card" style="grid-column: 1 / -1;">
-            <div class="info-card-num">5</div>
-            <h3>The customer receives a premium handoff</h3>
-            <p>They receive more than a file: they receive context, guidance and a clear next step.</p>
+          <div class="info-card">
+            <h3>Lessons Learned</h3>
+            <p>Discover the practical decisions that made the system simpler and more reliable.</p>
+          </div>
+          <div class="info-card">
+            <h3>Ideas You Can Adapt</h3>
+            <p>Explore ways to apply the same thinking to your own products, services or customer journey.</p>
           </div>
         </div>
       </div>
@@ -121,51 +121,7 @@
       </div>
     </section>
 
-    <!-- 4. WHAT'S INSIDE THE BLUEPRINT -->
-    <section id="blueprint">
-      <div class="container">
-        <span class="section-label coral">Your Showcase Resources</span>
-        <div class="gold-rule"></div>
-        <h2 class="display">What's inside the blueprint</h2>
-        <p class="section-intro">Take the system apart — then adapt it for your own offer.</p>
-
-        <div class="card-grid">
-          <div class="info-card">
-            <h3>Customer Journey</h3>
-            <p>Exactly what the customer sees and receives, from checkout to the final personalised handoff.</p>
-          </div>
-          <div class="info-card">
-            <h3>Automation Flow</h3>
-            <p>How Shopify, Make and Airtable are connected, step by step, to trigger and run the delivery.</p>
-          </div>
-          <div class="info-card">
-            <h3>Tech Stack</h3>
-            <p>Every tool and account involved, and what each one is responsible for in the system.</p>
-          </div>
-          <div class="info-card">
-            <h3>AI Prompt Examples</h3>
-            <p>The actual prompts used to turn raw product data into a branded, useful resource.</p>
-          </div>
-          <div class="info-card">
-            <h3>Lessons Learned</h3>
-            <p>What broke, what needed adjusting, and what I'd do differently building it again.</p>
-          </div>
-          <div class="info-card">
-            <h3>Ideas You Can Adapt</h3>
-            <p>How to reuse the same delivery pattern for templates, audits, reports or client deliverables.</p>
-          </div>
-        </div>
-
-        <div class="optin-block" style="margin-top: 40px;">
-          <span class="section-label" style="justify-content:center; text-align:center;">Ready to Build a Better Handoff?</span>
-          <h2 class="display">Get the blueprint, walkthrough and free Booster details sent to your inbox.</h2>
-          <p>Then explore the full delivery experience on the next page.</p>
-          <button class="btn btn-primary" id="midpage-cta" data-modal-open>Send Me the Blueprint</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. SPECIAL SHOWCASE OFFER (public — no opt-in required) -->
+    <!-- 4. SPECIAL SHOWCASE OFFER (public — no opt-in required) -->
     <section id="special-offer">
       <div class="container">
         <span class="section-label coral">Special Showcase Offer</span>
@@ -190,7 +146,7 @@
 
   </main>
 
-  <!-- 6. FOOTER / STAY CONNECTED -->
+  <!-- 5. FOOTER / STAY CONNECTED -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-links">
