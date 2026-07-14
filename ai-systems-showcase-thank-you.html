@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <title>Your Blueprint Is Ready | Simply Digital Shops</title>
+
+  <link rel="icon" href="{{FAVICON_URL}}" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/showcase-styles.css" />
+  <script src="assets/showcase-config.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="https://simplydigitalshops.com" class="logo">Simply Digital Shops</a>
+      <span class="tagline">Designed to stand out. Built to convert.</span>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- CONFIRMATION HERO -->
+    <div class="hero">
+      <div class="container">
+        <div class="hero-eyebrow">You're In</div>
+        <h1 class="display">Your blueprint is ready.</h1>
+        <p class="hero-subtitle">Start with the system walkthrough, download the Make blueprint, then claim your free Sticky Add to Cart Booster below.</p>
+        <p class="hero-support">A copy is also on its way to your inbox. Check Promotions or Spam if it does not arrive within a few minutes.</p>
+      </div>
+    </div>
+
+    <!-- BLUEPRINT MOCKUP -->
+    <section id="mockup">
+      <div class="container text-center">
+        <div class="booster-card" style="max-width: 560px; margin: 0 auto;">
+          <div class="booster-card-media" style="aspect-ratio: 16/10;">
+            <img src="[[BLUEPRINT_MOCKUP_IMAGE_URL]]" alt="Preview of the Premium Post-Purchase Blueprint resource" onerror="this.parentElement.textContent='Premium Post-Purchase Blueprint'" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCE ACCESS CARDS -->
+    <section id="resources">
+      <div class="container">
+        <span class="section-label coral">Start Here</span>
+        <div class="gold-rule"></div>
+        <h2 class="display">Your Showcase resources</h2>
+
+        <div class="card-grid">
+          <div class="info-card">
+            <h3>Read the System Walkthrough</h3>
+            <p>Understand the logic, tools, data flow and customisation points before importing the automation.</p>
+            <p style="margin-top: 14px;">
+              <a class="btn btn-outline" href="{{WALKTHROUGH_URL}}" data-config="walkthroughUrl" data-track="showcase_walkthrough_click">Read the Walkthrough</a>
+            </p>
+          </div>
+          <div class="info-card">
+            <h3>Download the Make Blueprint</h3>
+            <p>Download the blueprint file and import it into your Make account when you're ready to build.</p>
+            <p style="margin-top: 14px;">
+              <a class="btn btn-outline" href="{{BLUEPRINT_DOWNLOAD_URL}}" data-config="blueprintDownloadUrl" data-track="showcase_blueprint_download_click">Download the Blueprint</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINK BACK -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-inner">
+          <span class="section-label on-dark">Want the full picture again?</span>
+          <div class="gold-rule" style="margin: 0 auto 28px;"></div>
+          <h2 class="display">Revisit the Showcase resource page</h2>
+          <p>See the session recap, the free Sticky Add to Cart Booster offer and everything else from the AI Systems Showcase in one place.</p>
+          <a class="btn btn-primary" href="{{OPTIN_URL}}" data-config="optinUrl">Back to the Resource Page</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SUPPORT NOTE / FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://simplydigitalshops.com">simplydigitalshops.com</a>
+        <a href="{{SUPPORT_URL}}" data-config="supportUrl">Contact Support</a>
+        <a href="{{PRIVACY_URL}}" data-config="privacyUrl">Privacy Policy</a>
+      </div>
+      <p>The blueprint provides the workflow structure, but you'll still need to connect your own accounts, map your own fields and adapt the content for your offer. Trouble with a download or the Booster code? <a href="{{SUPPORT_URL}}" data-config="supportUrl">Contact Anchen</a>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
