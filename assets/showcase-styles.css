@@ -321,6 +321,25 @@ section + section { border-top: 1px solid var(--border); }
   letter-spacing: 0.02em;
 }
 
+/* Reminds attendees which of the Showcase's many sessions this page
+   belongs to — deliberately more visible than a plain eyebrow line. */
+.hero-session-tag {
+  display: inline-block;
+  background: rgba(201, 160, 232, 0.14);
+  border: 1px solid rgba(201, 160, 232, 0.4);
+  color: var(--lavender);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 7px 18px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero-session-tag strong {
+  color: var(--lavender);
+  font-weight: 700;
+}
+
 /* ─── SECTION LABELS ─────────────────────────────────── */
 .section-label {
   font-size: 0.7rem;
@@ -407,6 +426,26 @@ section + section { border-top: 1px solid var(--border); }
 }
 .info-card h3 { font-size: 0.98rem; margin-bottom: 6px; }
 .info-card p { font-size: 0.88rem; margin: 0; }
+
+.info-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--lavender-soft), var(--coral-soft));
+  color: var(--plum);
+  margin-bottom: 16px;
+}
+
+/* Resource cards benefit from a touch more presence than a plain info-card */
+.resource-card {
+  box-shadow: var(--shadow);
+}
+.resource-card:hover {
+  border-color: rgba(199, 163, 90, 0.5);
+}
 
 /* ─── BOOSTER CARDS ──────────────────────────────────── */
 .booster-grid {
