@@ -23,12 +23,8 @@ window.SHOWCASE_CONFIG = {
   // ("after user subscribes" -> redirect to URL).
 
   // Resource downloads
-  // TODO still needed: WALKTHROUGH_URL below is incomplete — looks like
-  // a document title/slug ("SDS-Section-Booster-Playbook-Delivery-
-  // Walkthrough"), not a full URL. Needs the actual link to wherever
-  // that document is hosted before this button will work.
   blueprintDownloadUrl: "https://offers.simplydigitalshops.com/summits/downloads/Shopify%20Section%20Booster%20Playbook%20Delivery.blueprint.json",
-  walkthroughUrl: "{{WALKTHROUGH_URL}}",
+  walkthroughUrl: "https://docs.google.com/document/d/1YGJfeu2C6jq8f6pVTdhWwgQalK_QMu2agKQ_PAYi-wM/copy",
 
   // Sticky Add to Cart Booster — the free, opt-in-gated gift.
   // Only ever shown on the thank-you page, after someone has opted in.

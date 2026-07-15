@@ -1,12 +1,11 @@
 /**
  * AI Systems Showcase — shared behaviour.
- * Modal (accessible, focus-trapped), opt-in form submission, coupon
- * copy-to-clipboard, and a minimal analytics shim.
+ * Modal (accessible, focus-trapped), coupon copy-to-clipboard, and a
+ * minimal analytics shim.
  *
- * Form submission security note: this deliberately POSTs to
- * SHOWCASE_CONFIG.formEndpoint (a same-origin serverless function or
- * webhook) and never talks to ActiveCampaign's REST API from the
- * browser. Do not add an AC API key to this file or to any HTML page.
+ * The opt-in form itself is ActiveCampaign's own hosted-form embed
+ * (see the modal in ai-systems-showcase.html) — its submission
+ * handling lives in the <script> that comes with that embed, not here.
  */
 (function () {
   "use strict";
@@ -103,98 +102,6 @@
     }
     trapFocus(e);
   });
-
-  /* ─── OPT-IN FORM ────────────────────────────────────── */
-  var form = document.getElementById("optin-form");
-
-  function setFieldError(input, message) {
-    var errorEl = document.getElementById(input.id + "-error");
-    if (message) {
-      input.setAttribute("aria-invalid", "true");
-      if (errorEl) {
-        errorEl.textContent = message;
-        errorEl.classList.add("visible");
-      }
-    } else {
-      input.removeAttribute("aria-invalid");
-      if (errorEl) {
-        errorEl.textContent = "";
-        errorEl.classList.remove("visible");
-      }
-    }
-  }
-
-  function validateForm(nameInput, emailInput) {
-    var valid = true;
-
-    if (!nameInput.value.trim()) {
-      setFieldError(nameInput, "First name is required.");
-      valid = false;
-    } else {
-      setFieldError(nameInput, "");
-    }
-
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailInput.value.trim()) {
-      setFieldError(emailInput, "Email address is required.");
-      valid = false;
-    } else if (!emailPattern.test(emailInput.value.trim())) {
-      setFieldError(emailInput, "Enter a valid email address.");
-      valid = false;
-    } else {
-      setFieldError(emailInput, "");
-    }
-
-    return valid;
-  }
-
-  if (form) {
-    var nameInput = document.getElementById("optin-name");
-    var emailInput = document.getElementById("optin-email");
-    var honeypot = document.getElementById("optin-company");
-    var submitBtn = document.getElementById("optin-submit");
-    var statusEl = document.getElementById("optin-status");
-
-    // This form's action posts directly to an ActiveCampaign hosted form
-    // (see the form's action attribute / SHOWCASE_CONFIG.formEndpoint) —
-    // a plain browser POST, not a fetch/JSON call. ActiveCampaign handles
-    // creating/tagging the contact and redirecting to the thank-you page
-    // itself (configured inside that form's own settings in AC), so there
-    // is no success/error response for this script to react to here.
-    form.addEventListener("submit", function (e) {
-      if (!validateForm(nameInput, emailInput)) {
-        e.preventDefault();
-        statusEl.textContent = "Please fix the highlighted fields and try again.";
-        statusEl.className = "form-status error visible";
-        return;
-      }
-
-      // Honeypot: if a bot filled the hidden field, silently drop the
-      // submission instead of letting it reach ActiveCampaign.
-      if (honeypot && honeypot.value) {
-        e.preventDefault();
-        return;
-      }
-
-      // Best-effort UTM capture: only actually reaches ActiveCampaign if
-      // this form has matching custom fields configured for them there.
-      // Harmless (ignored by AC) if it doesn't.
-      var params = new URLSearchParams(window.location.search);
-      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
-        if (!params.has(key)) return;
-        var hidden = document.createElement("input");
-        hidden.type = "hidden";
-        hidden.name = key;
-        hidden.value = params.get(key);
-        form.appendChild(hidden);
-      });
-
-      trackEvent("showcase_form_submit", {});
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Sending…";
-      // No preventDefault: let the browser submit natively to ActiveCampaign.
-    });
-  }
 
   /* ─── COPY TO CLIPBOARD (coupon code) ────────────────── */
   document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
