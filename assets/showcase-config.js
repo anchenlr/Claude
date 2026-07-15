@@ -34,7 +34,7 @@ window.SHOWCASE_CONFIG = {
   // Only ever shown on the thank-you page, after someone has opted in.
   boosterProductUrl: "https://simplydigitalshops.com/products/sticky-add-to-cart-custom-section-booster",
   boosterDiscountUrl: "https://simplydigitalshops.com/discount/AISHOWCASE?redirect=%2Fproducts%2Fsticky-add-to-cart-custom-section-booster",
-  couponCode: "AIShowcase",
+  couponCode: "AISHOWCASE",
 
   // Custom Section Boosters — the public 30%-off teaser shown on the
   // opt-in page itself (no opt-in required), same pattern as the WOW
