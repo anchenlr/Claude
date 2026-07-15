@@ -145,11 +145,20 @@ section + section { border-top: 1px solid var(--border); }
   justify-content: space-between;
 }
 .site-header .logo {
+  display: block;
+  line-height: 0;
+  /* Falls back to this text styling only if the image below fails to load
+     and its onerror handler replaces it with plain text. */
   font-family: 'Seriously Nostalgic', 'Bodoni Moda', serif;
   font-size: 1.15rem;
   color: var(--cream);
   letter-spacing: 0.02em;
   text-decoration: none;
+}
+.site-header .logo img {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 .site-header .tagline {
   font-size: 0.75rem;
