@@ -9,37 +9,39 @@
  */
 window.SHOWCASE_CONFIG = {
   // Core URLs
-  optinUrl: "{{OPTIN_URL}}",
-  thankYouUrl: "{{THANK_YOU_URL}}",
-  privacyUrl: "{{PRIVACY_URL}}",
-  supportUrl: "{{SUPPORT_URL}}",
+  optinUrl: "https://offers.simplydigitalshops.com/summits/ai-systems-showcase.html",
+  thankYouUrl: "https://offers.simplydigitalshops.com/summits/ai-systems-showcase-thank-you.html",
+  privacyUrl: "https://simplydigitalshops.com/policies/privacy-policy",
+  supportUrl: "https://simplydigitalshops.com/pages/contact",
 
-  // Form submission (must be a same-origin serverless/webhook endpoint —
-  // never call the ActiveCampaign REST API directly from the browser)
-  formEndpoint: "{{FORM_ENDPOINT}}",
-  acSourceTag: "{{AC_SOURCE_TAG}}",
+  // NOTE: the opt-in form's action now posts directly to the
+  // ActiveCampaign hosted form (see the <form> tag in
+  // ai-systems-showcase.html) instead of reading a URL from here — a
+  // form's submission target belongs in its own action attribute, not
+  // injected by JS. thankYouUrl above is for reference only: the actual
+  // post-submit redirect must be set inside that AC form's own settings
+  // ("after user subscribes" -> redirect to URL).
 
   // Resource downloads
-  blueprintDownloadUrl: "{{BLUEPRINT_DOWNLOAD_URL}}",
+  // TODO still needed: WALKTHROUGH_URL below is incomplete — looks like
+  // a document title/slug ("SDS-Section-Booster-Playbook-Delivery-
+  // Walkthrough"), not a full URL. Needs the actual link to wherever
+  // that document is hosted before this button will work.
+  blueprintDownloadUrl: "https://offers.simplydigitalshops.com/summits/downloads/Shopify%20Section%20Booster%20Playbook%20Delivery.blueprint.json",
   walkthroughUrl: "{{WALKTHROUGH_URL}}",
-  checklistUrl: "{{CHECKLIST_URL}}",
 
   // Sticky Add to Cart Booster — the free, opt-in-gated gift.
   // Only ever shown on the thank-you page, after someone has opted in.
-  boosterProductUrl: "{{BOOSTER_PRODUCT_URL}}",
-  boosterDiscountUrl: "{{BOOSTER_DISCOUNT_URL}}",
+  boosterProductUrl: "https://simplydigitalshops.com/products/sticky-add-to-cart-custom-section-booster",
+  boosterDiscountUrl: "https://simplydigitalshops.com/discount/AISHOWCASE?redirect=%2Fproducts%2Fsticky-add-to-cart-custom-section-booster",
   couponCode: "AIShowcase",
 
   // Custom Section Boosters — the public 30%-off teaser shown on the
   // opt-in page itself (no opt-in required), same pattern as the WOW
   // Summit page's "Special WOW Offer" section.
-  boostersCollectionUrl: "{{BOOSTERS_COLLECTION_URL}}",
-  boostersThirtyOffUrl: "{{BOOSTERS_30_OFF_URL}}",
-  boostersThirtyOffCode: "{{BOOSTERS_30_OFF_CODE}}",
-
-  // Hidden form fields sent with every opt-in
-  campaign: "AIShowcase2026",
-  resourceName: "Premium Post-Purchase Blueprint",
+  boostersCollectionUrl: "https://simplydigitalshops.com/collections/shopify-custom-section-boosters",
+  boostersThirtyOffUrl: "https://simplydigitalshops.com/discount/AISHOWCASE30?redirect=%2Fcollections%2Fshopify-custom-section-boosters",
+  boostersThirtyOffCode: "AISHOWCASE30",
 };
 
 /**

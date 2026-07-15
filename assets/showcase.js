@@ -154,67 +154,45 @@
     var honeypot = document.getElementById("optin-company");
     var submitBtn = document.getElementById("optin-submit");
     var statusEl = document.getElementById("optin-status");
-    var config = window.SHOWCASE_CONFIG || {};
 
+    // This form's action posts directly to an ActiveCampaign hosted form
+    // (see the form's action attribute / SHOWCASE_CONFIG.formEndpoint) —
+    // a plain browser POST, not a fetch/JSON call. ActiveCampaign handles
+    // creating/tagging the contact and redirecting to the thank-you page
+    // itself (configured inside that form's own settings in AC), so there
+    // is no success/error response for this script to react to here.
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
       if (!validateForm(nameInput, emailInput)) {
+        e.preventDefault();
         statusEl.textContent = "Please fix the highlighted fields and try again.";
         statusEl.className = "form-status error visible";
         return;
       }
 
       // Honeypot: if a bot filled the hidden field, silently drop the
-      // submission without telling the bot anything failed.
+      // submission instead of letting it reach ActiveCampaign.
       if (honeypot && honeypot.value) {
-        statusEl.textContent = "Thanks! Check your inbox shortly.";
-        statusEl.className = "form-status success visible";
+        e.preventDefault();
         return;
       }
 
-      var payload = {
-        firstName: nameInput.value.trim(),
-        email: emailInput.value.trim(),
-        source: "AI Systems Showcase",
-        campaign: config.campaign,
-        resource: config.resourceName,
-        acSourceTag: config.acSourceTag,
-        pageUrl: window.location.href,
-      };
-
-      // Preserve UTM params if present in the current URL.
+      // Best-effort UTM capture: only actually reaches ActiveCampaign if
+      // this form has matching custom fields configured for them there.
+      // Harmless (ignored by AC) if it doesn't.
       var params = new URLSearchParams(window.location.search);
       ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
-        if (params.has(key)) payload[key] = params.get(key);
+        if (!params.has(key)) return;
+        var hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = key;
+        hidden.value = params.get(key);
+        form.appendChild(hidden);
       });
 
+      trackEvent("showcase_form_submit", {});
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
-      statusEl.className = "form-status";
-      statusEl.textContent = "";
-
-      fetch(config.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("Request failed with status " + res.status);
-          return res.json().catch(function () { return {}; });
-        })
-        .then(function () {
-          trackEvent("showcase_form_submit_success", {});
-          window.location.href = config.thankYouUrl;
-        })
-        .catch(function (err) {
-          trackEvent("showcase_form_submit_error", { message: String(err) });
-          statusEl.textContent =
-            "Something went wrong sending your details. Please try again, or email us directly.";
-          statusEl.className = "form-status error visible";
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Get the Blueprint";
-        });
+      // No preventDefault: let the browser submit natively to ActiveCampaign.
     });
   }
 

@@ -8,16 +8,16 @@
 
   <title>AI Systems Showcase Resource | Simply Digital Shops</title>
   <meta name="description" content="Get the Make blueprint and walkthrough behind Anchen le Roux's AI-powered post-purchase delivery system, plus a free Shopify Sticky Add to Cart Booster." />
-  <link rel="canonical" href="{{OPTIN_URL}}" />
+  <link rel="canonical" href="https://offers.simplydigitalshops.com/summits/ai-systems-showcase.html" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="AI Systems Showcase Resource | Simply Digital Shops" />
   <meta property="og:description" content="Get the Make blueprint and walkthrough behind Anchen le Roux's AI-powered post-purchase delivery system, plus a free Shopify Sticky Add to Cart Booster." />
-  <meta property="og:url" content="{{OPTIN_URL}}" />
-  <meta property="og:image" content="{{SOCIAL_SHARE_IMAGE_URL}}" />
+  <meta property="og:url" content="https://offers.simplydigitalshops.com/summits/ai-systems-showcase.html" />
+  <meta property="og:image" content="https://simplydigitalshops.com/cdn/shop/files/Sticky_Add_To_Cart_Custom_Section_Booster_Playbook_Mockups.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="{{FAVICON_URL}}" />
+  <link rel="icon" href="https://offers.simplydigitalshops.com/summits/assets/favicon%20sds.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -111,7 +111,7 @@
         <h2 class="display">Hi, I'm Anchen.</h2>
         <div class="bio-block">
           <div class="bio-portrait">
-            <img src="[[ANCHEN_PORTRAIT_URL]]" alt="Portrait of Anchen le Roux" onerror="this.parentElement.textContent='Anchen le Roux'" />
+            <img src="https://offers.simplydigitalshops.com/summits/assets/Anchen%20Bio%201080px%20Template.jpg" alt="Portrait of Anchen le Roux" onerror="this.parentElement.textContent='Anchen le Roux'" />
           </div>
           <div class="bio-text">
             <p>I'm a web developer, Shopify expert and the founder of Simply Digital Shops. I've been building websites for more than 20 years, and I'm especially interested in the point where thoughtful design, clean technology and a better customer experience meet.</p>
@@ -131,13 +131,13 @@
 
         <div class="booster-card" style="margin-top: 32px;">
           <div class="booster-card-media">
-            <img src="[[BOOSTERS_COLLECTION_IMAGE_URL]]" alt="Custom Section Boosters preview" onerror="this.parentElement.textContent='Custom Section Boosters'" />
+            <img src="https://simplydigitalshops.com/cdn/shop/files/Helping_designers_and_DIYers_create_custom_Shopify_solutions_that_run_faster_perform_better_and_sell_more..jpg" alt="Custom Section Boosters preview" onerror="this.parentElement.textContent='Custom Section Boosters'" />
           </div>
           <div class="booster-card-body">
             <h3>30% Discount for AI Systems Showcase Attendees</h3>
-            <p>Use coupon code <strong data-config="boostersThirtyOffCode">{{BOOSTERS_30_OFF_CODE}}</strong> at checkout.</p>
+            <p>Use coupon code <strong data-config="boostersThirtyOffCode">AISHOWCASE30</strong> at checkout.</p>
             <p style="margin-top: 14px;">
-              <a class="btn btn-primary" data-config="boostersThirtyOffUrl" data-track="showcase_boosters_30_off_click" href="{{BOOSTERS_30_OFF_URL}}">Explore Custom Section Boosters</a>
+              <a class="btn btn-primary" data-config="boostersThirtyOffUrl" data-track="showcase_boosters_30_off_click" href="https://simplydigitalshops.com/discount/AISHOWCASE30?redirect=%2Fcollections%2Fshopify-custom-section-boosters">Explore Custom Section Boosters</a>
             </p>
           </div>
         </div>
@@ -151,9 +151,9 @@
     <div class="container">
       <div class="footer-links">
         <a href="https://simplydigitalshops.com">simplydigitalshops.com</a>
-        <a href="{{BOOSTERS_COLLECTION_URL}}" data-config="boostersCollectionUrl">Shopify Site Boosters</a>
+        <a href="https://simplydigitalshops.com/collections/shopify-custom-section-boosters" data-config="boostersCollectionUrl">Shopify Site Boosters</a>
         <a href="mailto:hello@simplydigitalshops.com">hello@simplydigitalshops.com</a>
-        <a href="{{PRIVACY_URL}}" data-config="privacyUrl">Privacy Policy</a>
+        <a href="https://simplydigitalshops.com/policies/privacy-policy" data-config="privacyUrl">Privacy Policy</a>
       </div>
       <p>&copy; Simply Digital Shops · AI Systems Showcase companion page for Anchen le Roux</p>
     </div>
@@ -172,14 +172,26 @@
         <div id="optin-status" class="form-status" role="status" aria-live="polite"></div>
 
         <!--
-          This form posts JSON to SHOWCASE_CONFIG.formEndpoint (see
-          assets/showcase-config.js) — a same-origin serverless function
-          or Make webhook that you control, which then creates/updates
-          the contact in ActiveCampaign server-side. Never point this
-          form at ActiveCampaign's REST API directly; the API key must
-          not be exposed in browser-delivered code.
+          NEEDS CONFIRMATION FROM ANCHEN: this posts directly to the
+          ActiveCampaign hosted form (an option the security review
+          explicitly allows — no API key involved). But AC hosted forms
+          are usually generated with extra hidden fields (commonly named
+          things like u / f / s / c / m / act / v / or) unique to this
+          specific form, which we don't have. Without them AC may
+          silently reject the submission even though the browser still
+          appears to submit fine. Get the exact markup from
+          ActiveCampaign: this form -> Integrate -> Raw HTML, and:
+            1) copy any hidden <input> fields from there into this form
+               (keep our field ids/classes/labels as they are);
+            2) confirm the field name AC expects for the name field
+               (this assumes "fullname" — may need to be "first_name" or
+               a numeric field[n] name instead);
+            3) in that same AC form's settings, set "after user
+               subscribes" to redirect to the thank-you page URL — that
+               redirect is what sends people to
+               ai-systems-showcase-thank-you.html, not this page's JS.
         -->
-        <form id="optin-form" novalidate>
+        <form id="optin-form" action="https://simplydigitaldesign.activehosted.com/f/8" method="POST" novalidate>
           <div class="form-field">
             <label for="optin-name">First name</label>
             <input type="text" id="optin-name" name="fullname" autocomplete="given-name" required />
@@ -201,7 +213,7 @@
         </form>
         <p class="modal-disclaimer">
           You'll also receive practical Shopify and digital-experience tips from Simply Digital Shops. Unsubscribe at any time.
-          <a href="{{PRIVACY_URL}}" data-config="privacyUrl">Privacy Policy</a>
+          <a href="https://simplydigitalshops.com/policies/privacy-policy" data-config="privacyUrl">Privacy Policy</a>
         </p>
       </div>
     </div>
