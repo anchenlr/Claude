@@ -15,21 +15,30 @@ Training!" button label.
 
 | File | What it is | Where it goes |
 |---|---|---|
-| `custom-css.css` | The full checkout skin — fonts, colors, form fields, buttons, and all styles for the section blocks | ThriveCart Custom CSS box |
+| `custom-css-paste-ready.html` | The checkout skin wrapped in `<style>` tags, ready to paste | ThriveCart → Checkout → **Tracking** → "All pages" box |
+| `custom-css.css` | The same skin as raw CSS (source of the file above) | Only if your editor has a dedicated Custom CSS box |
 | `checkout-sections.html` | Seven copy-paste HTML blocks (header, hero, introducing, pre-launch note, what you'll get, about Anchen, footer) plus three clearly-marked optional extras | ThriveCart Custom HTML elements |
 | `preview.html` | Browser preview of the whole page with a mock order form — open it locally to see the design | Nowhere — reference only |
 
 ## Install steps
 
-1. **Open the checkout editor.** In ThriveCart go to the **Shopify SEO,
-   Simplified** product → **Checkout** tab → **Design** → **Customize**.
+1. **Paste the CSS.** In ThriveCart go to **Products** → edit
+   **Shopify SEO, Simplified** → **Checkout** tab → **Tracking**. Paste
+   the entire contents of `custom-css-paste-ready.html` (including the
+   `<style>` and `</style>` lines) into the **"All pages"** custom
+   scripts box, then save. This is ThriveCart's documented way to add
+   custom styling to checkout pages.
 
-2. **Paste the CSS.** Find the **Custom CSS** area in the editor's
-   settings and paste the entire contents of `custom-css.css`. Save. The
-   page background, fonts, input fields and the "Get your Training!"
-   button restyle immediately.
+   *Alternative if you prefer to keep everything in the editor:* open
+   the checkout editor (**Checkout** tab → **Design**), drag an **HTML
+   element** to the top of the page, and paste
+   `custom-css-paste-ready.html` into it — a `<style>` block inside an
+   HTML element styles the whole page. (Some ThriveCart editor versions
+   also have a dedicated Custom CSS box; if yours does, paste
+   `custom-css.css` there instead. Yours apparently doesn't — hence the
+   Tracking route.)
 
-3. **Add the HTML blocks.** Drag a **Custom HTML** element to where you
+2. **Add the HTML blocks.** Drag a **Custom HTML** element to where you
    want each section and paste one block from `checkout-sections.html`
    into it (each block is fenced with `── BLOCK n ──` comments), in this
    order:
@@ -40,17 +49,17 @@ Training!" button label.
    - What you'll get → About Anchen — below the form
    - Footer — very bottom
 
-4. **Fill in the TODOs.** Search `checkout-sections.html` for `TODO`:
+3. **Fill in the TODOs.** Search `checkout-sections.html` for `TODO`:
    - Anchen's photo URL (Block 6)
    - Privacy Policy / Terms of Service / Main Website links (Block 7)
    - Optionally swap the burgundy text panel in Block 5 for the iMac
      product mockup image from the current page
 
-5. **Remove padding around the blocks.** If the editor wraps custom HTML
+4. **Remove padding around the blocks.** If the editor wraps custom HTML
    elements in padded containers, set that element's padding to 0 so the
    burgundy header/hero and dark footer run edge-to-edge.
 
-6. **Preview on mobile.** Everything is responsive (cards stack, tagline
+5. **Preview on mobile.** Everything is responsive (cards stack, tagline
    hides, the about card stacks below 600 px), but check ThriveCart's
    mobile preview after placing the blocks.
 
