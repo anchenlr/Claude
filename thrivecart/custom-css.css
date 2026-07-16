@@ -1,0 +1,395 @@
+/* ═══════════════════════════════════════════════════════════════
+   SIMPLY DIGITAL SHOPS — ThriveCart Checkout Skin
+   Product: Shopify SEO Simplified
+
+   WHERE TO PASTE:
+   ThriveCart → your product → Checkout tab → Design → Customize
+   → scroll to “Custom CSS” → paste this entire file → Save.
+
+   This file does two jobs:
+   1. Restyles ThriveCart’s own checkout elements (page background,
+      fonts, form fields, buttons) using safe, generic selectors.
+   2. Provides all styling for the custom HTML section blocks in
+      checkout-sections.html (everything prefixed “sds-”).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── FONTS ────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&display=swap');
+
+@font-face {
+  font-family: 'Seriously Nostalgic';
+  src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Seriously Nostalgic';
+  src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgiital-reg-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── BRAND TOKENS ─────────────────────────────────────────── */
+:root {
+  --sds-cream:       #e8e4d3;
+  --sds-cream-light: #f5f2e8;
+  --sds-burgundy:    #5a002a;
+  --sds-red-mid:     #950d20;
+  --sds-red-bright:  #b83229;
+  --sds-gold:        #c7a35a;
+  --sds-ink:         #1a1410;
+  --sds-ink-soft:    #3d3530;
+  --sds-muted:       #7a6e65;
+  --sds-border:      rgba(90, 0, 42, 0.12);
+  --sds-shadow:      0 2px 16px rgba(26, 20, 16, 0.07);
+  --sds-display:     'Seriously Nostalgic', 'Bodoni Moda', serif;
+  --sds-body:        'Inter', sans-serif;
+}
+
+/* ─── THRIVECART PAGE BASE ─────────────────────────────────── */
+/* Generic selectors on purpose: they apply no matter which
+   ThriveCart template you’re on. */
+body {
+  background: var(--sds-cream-light) !important;
+  font-family: var(--sds-body) !important;
+  color: var(--sds-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--sds-display) !important;
+  font-weight: normal !important;
+  color: var(--sds-ink);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+p, label, span, li, td { font-family: var(--sds-body); }
+
+a { color: var(--sds-red-mid); }
+a:hover { color: var(--sds-burgundy); }
+
+/* ─── THRIVECART FORM FIELDS ───────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  background: #ffffff !important;
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  color: var(--sds-ink) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--sds-burgundy) !important;
+  box-shadow: 0 0 0 3px rgba(199, 163, 90, 0.25) !important;
+  outline: none !important;
+}
+
+::placeholder { color: var(--sds-muted); opacity: 0.8; }
+
+/* ─── THRIVECART BUTTONS (Complete Order etc.) ─────────────── */
+button[type="submit"],
+input[type="submit"],
+.button,
+.btn {
+  background: var(--sds-burgundy) !important;
+  background-image: none !important;
+  color: var(--sds-cream) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 12px rgba(90, 0, 42, 0.25) !important;
+  transition: background 0.2s !important;
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+.button:hover,
+.btn:hover {
+  background: var(--sds-red-mid) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM HTML SECTION STYLES (blocks in checkout-sections.html)
+   ═══════════════════════════════════════════════════════════════ */
+
+.sds-block * { box-sizing: border-box; margin: 0; padding: 0; }
+.sds-block { font-family: var(--sds-body); line-height: 1.7; }
+
+.sds-container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.sds-display {
+  font-family: var(--sds-display);
+  font-weight: normal;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.sds-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-red-mid);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.sds-gold-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--sds-gold);
+  margin: 0 0 28px;
+}
+
+/* ─── HEADER BAR ───────────────────────────────────────────── */
+.sds-header {
+  background: var(--sds-burgundy);
+  padding: 20px 0;
+}
+.sds-header .sds-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sds-header .sds-logo {
+  font-family: var(--sds-display);
+  font-size: 1.15rem;
+  color: var(--sds-cream);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.sds-header .sds-tagline {
+  font-size: 0.75rem;
+  color: rgba(232, 228, 211, 0.7);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── HERO ─────────────────────────────────────────────────── */
+.sds-hero {
+  background: var(--sds-burgundy);
+  padding: 64px 0 72px;
+  border-bottom: 3px solid var(--sds-gold);
+}
+.sds-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sds-hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--sds-gold);
+}
+.sds-hero h1 {
+  color: var(--sds-cream) !important;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 20px;
+}
+.sds-hero-subtitle {
+  font-size: 1.05rem;
+  color: rgba(232, 228, 211, 0.75);
+  max-width: 560px;
+  line-height: 1.65;
+}
+.sds-hero-meta {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.sds-hero-meta span {
+  font-size: 0.8rem;
+  color: rgba(232, 228, 211, 0.7);
+  letter-spacing: 0.04em;
+}
+.sds-hero-meta strong {
+  color: rgba(232, 228, 211, 0.9);
+  font-weight: 500;
+}
+
+/* ─── SECTION SHELL ────────────────────────────────────────── */
+.sds-section { padding: 56px 0; }
+.sds-section h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: 0.75rem;
+}
+.sds-section > .sds-container > p {
+  color: var(--sds-ink-soft);
+  margin-bottom: 1rem;
+}
+
+/* ─── WHAT'S INSIDE CARDS ──────────────────────────────────── */
+.sds-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+.sds-card {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 8px;
+  padding: 24px;
+}
+.sds-card-icon { font-size: 1.4rem; margin-bottom: 12px; display: block; }
+.sds-card h3 {
+  font-family: var(--sds-body) !important;
+  font-size: 0.9rem;
+  font-weight: 600 !important;
+  margin-bottom: 6px;
+}
+.sds-card p { font-size: 0.85rem; color: var(--sds-ink-soft); }
+
+/* ─── TESTIMONIAL ──────────────────────────────────────────── */
+.sds-testimonial {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-left: 3px solid var(--sds-gold);
+  border-radius: 0 10px 10px 0;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-testimonial blockquote {
+  font-family: var(--sds-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--sds-ink);
+  margin-bottom: 16px;
+}
+.sds-testimonial cite {
+  font-style: normal;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sds-muted);
+}
+.sds-stars { color: var(--sds-gold); letter-spacing: 3px; margin-bottom: 14px; display: block; }
+
+/* ─── GUARANTEE ────────────────────────────────────────────── */
+.sds-guarantee {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  background: var(--sds-cream);
+  border: 1px solid rgba(199, 163, 90, 0.45);
+  border-radius: 10px;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-guarantee-seal {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--sds-gold);
+  color: var(--sds-burgundy);
+  font-family: var(--sds-display);
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  text-align: center;
+}
+.sds-guarantee h3 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 6px;
+}
+.sds-guarantee p { font-size: 0.9rem; color: var(--sds-ink-soft); }
+
+/* ─── FAQ ──────────────────────────────────────────────────── */
+.sds-faq-list { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+.sds-faq-list details {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+.sds-faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 22px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--sds-ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.sds-faq-list summary::-webkit-details-marker { display: none; }
+.sds-faq-list summary::after {
+  content: '+';
+  font-family: var(--sds-display);
+  font-size: 1.2rem;
+  color: var(--sds-red-mid);
+  flex-shrink: 0;
+}
+.sds-faq-list details[open] summary::after { content: '–'; }
+.sds-faq-list details p {
+  padding: 0 22px 18px;
+  font-size: 0.875rem;
+  color: var(--sds-ink-soft);
+}
+
+/* ─── FOOTER ───────────────────────────────────────────────── */
+.sds-footer {
+  background: var(--sds-ink);
+  padding: 36px 0;
+  text-align: center;
+}
+.sds-footer p {
+  font-size: 0.78rem;
+  color: rgba(232, 228, 211, 0.65);
+}
+.sds-footer a {
+  color: rgba(232, 228, 211, 0.85);
+  text-decoration: none;
+}
+.sds-footer a:hover { color: var(--sds-gold); }
+
+/* ─── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .sds-section { padding: 40px 0; }
+  .sds-hero { padding: 48px 0 56px; }
+  .sds-header .sds-tagline { display: none; }
+  .sds-card-grid { grid-template-columns: 1fr; }
+  .sds-guarantee { flex-direction: column; }
+}
