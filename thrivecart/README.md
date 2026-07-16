@@ -1,66 +1,77 @@
-# Shopify SEO Simplified — ThriveCart Checkout Redesign
+# Shopify SEO, Simplified — ThriveCart Checkout Redesign
 
-A Simply Digital Shops-branded skin for the ThriveCart checkout at
-`simplydigitaldesign.thrivecart.com/shopify-seo-simplified/`, matching the
-brand system used in the Section Booster Playbook template (burgundy /
-cream / gold, Seriously Nostalgic + Bodoni Moda display type, Inter body
-type).
+A redesign of the ThriveCart checkout at
+`simplydigitaldesign.thrivecart.com/shopify-seo-simplified/` in the
+Simply Digital Shops design language (burgundy / cream / gold,
+Seriously Nostalgic + Bodoni Moda display type, Inter body type — the
+same system as the Section Booster Playbook template in this repo).
+
+All copy is taken from the live checkout page: the hero tagline, the
+"Introducing" section, the learn-how-to list, the "What You'll Get
+Inside" bullets, Anchen's bio, the $147 price, and the "Get your
+Training!" button label.
 
 ## What's in this folder
 
 | File | What it is | Where it goes |
 |---|---|---|
 | `custom-css.css` | The full checkout skin — fonts, colors, form fields, buttons, and all styles for the section blocks | ThriveCart Custom CSS box |
-| `checkout-sections.html` | Seven copy-paste HTML blocks: header, hero, what's inside, testimonial, guarantee, FAQ, footer | ThriveCart Custom HTML elements |
+| `checkout-sections.html` | Seven copy-paste HTML blocks (header, hero, introducing, pre-launch note, what you'll get, about Anchen, footer) plus three clearly-marked optional extras | ThriveCart Custom HTML elements |
 | `preview.html` | Browser preview of the whole page with a mock order form — open it locally to see the design | Nowhere — reference only |
 
 ## Install steps
 
-1. **Open the checkout editor.** In ThriveCart go to your **Shopify SEO
+1. **Open the checkout editor.** In ThriveCart go to the **Shopify SEO,
    Simplified** product → **Checkout** tab → **Design** → **Customize**.
-   (A one-column "sales page"-style template works best with these
-   full-width blocks.)
 
 2. **Paste the CSS.** Find the **Custom CSS** area in the editor's
    settings and paste the entire contents of `custom-css.css`. Save. The
-   page background, fonts, input fields and the order button restyle
-   immediately.
+   page background, fonts, input fields and the "Get your Training!"
+   button restyle immediately.
 
-3. **Add the HTML blocks.** In the editor, drag a **Custom HTML** element
-   to where you want each section and paste one block from
-   `checkout-sections.html` into it (each block is fenced with
-   `── BLOCK n ──` comments). Suggested order:
+3. **Add the HTML blocks.** Drag a **Custom HTML** element to where you
+   want each section and paste one block from `checkout-sections.html`
+   into it (each block is fenced with `── BLOCK n ──` comments), in this
+   order:
 
    - Header bar — very top of the page
-   - Hero — directly above ThriveCart's cart/order form
-   - *(ThriveCart's own cart form sits here)*
-   - What's inside → Testimonial → Guarantee → FAQ — below the form
+   - Hero → Introducing → Pre-launch note — above ThriveCart's form
+   - *(ThriveCart's own contact/payment form sits here)*
+   - What you'll get → About Anchen — below the form
    - Footer — very bottom
 
-4. **Remove padding around the blocks.** If the editor wraps custom HTML
+4. **Fill in the TODOs.** Search `checkout-sections.html` for `TODO`:
+   - Anchen's photo URL (Block 6)
+   - Privacy Policy / Terms of Service / Main Website links (Block 7)
+   - Optionally swap the burgundy text panel in Block 5 for the iMac
+     product mockup image from the current page
+
+5. **Remove padding around the blocks.** If the editor wraps custom HTML
    elements in padded containers, set that element's padding to 0 so the
    burgundy header/hero and dark footer run edge-to-edge.
 
-5. **Swap the placeholder copy.** The testimonial quote/attribution, the
-   guarantee length (currently 14 days), the price references, and the
-   "what's inside" bullets are all placeholders — edit them right in the
-   HTML blocks to match the real offer.
-
 6. **Preview on mobile.** Everything is responsive (cards stack, tagline
-   hides, guarantee stacks below 600px), but check ThriveCart's mobile
-   preview after placing the blocks.
+   hides, the about card stacks below 600 px), but check ThriveCart's
+   mobile preview after placing the blocks.
+
+## Optional extras
+
+`checkout-sections.html` ends with three optional blocks — testimonial,
+guarantee, FAQ — whose copy is **placeholder, not from your live page**.
+Rewrite them before using (the guarantee in particular is a real
+commitment — only publish it if you honour it), or ignore them entirely.
 
 ## Notes
 
-- **No JavaScript anywhere.** The FAQ accordion uses native
+- **No JavaScript anywhere.** The optional FAQ accordion uses native
   `<details>/<summary>`, so it works even if ThriveCart strips scripts
   from custom HTML.
 - **Fonts.** Body/display fonts load from Google Fonts. The signature
   *Seriously Nostalgic* font loads from
   `offers.simplydigitalshops.com/fonts/…`. If that host doesn't send CORS
-  headers (`Access-Control-Allow-Origin`) for the thrivecart.com domain,
-  browsers will skip the font and fall back to Bodoni Moda, which is the
-  intended fallback — the page still looks right.
+  headers for the thrivecart.com domain, browsers skip it and fall back
+  to Bodoni Moda, which is the intended fallback — the page still looks
+  right.
 - **Generic selectors on purpose.** The skin styles ThriveCart's native
   form fields and buttons through element-level selectors
   (`input[type=email]`, `button[type=submit]`, …) rather than ThriveCart's
@@ -68,6 +79,9 @@ type).
   and template updates. Use the editor's own color settings for anything
   the CSS doesn't catch (e.g. section background colors behind the cart
   form — set those to cream `#f5f2e8` or white).
+- **Branding.** The header/footer say “Simply Digital Design” to match
+  the checkout's domain; the tagline is borrowed from the Simply Digital
+  Shops template. Both are plain text in Blocks 1 and 7 — edit freely.
 - **Brand tokens** (for tweaking in the editor UI):
   - Burgundy `#5a002a` · Red `#950d20` · Gold `#c7a35a`
   - Cream `#e8e4d3` · Cream light `#f5f2e8` · Ink `#1a1410`

@@ -273,6 +273,87 @@ input[type="submit"]:hover,
 }
 .sds-card p { font-size: 0.85rem; color: var(--sds-ink-soft); }
 
+/* ─── CHECK LIST (Inside, you'll learn how to…) ────────────── */
+.sds-check-list {
+  list-style: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sds-check-list li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 0.95rem;
+  color: var(--sds-ink-soft);
+}
+.sds-check-list li::before {
+  content: '✓';
+  color: var(--sds-gold);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ─── ABOUT THE TEACHER ────────────────────────────────────── */
+.sds-about {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-about img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--sds-gold);
+  flex-shrink: 0;
+}
+.sds-about h3 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 8px;
+}
+.sds-about p { font-size: 0.9rem; color: var(--sds-ink-soft); }
+
+/* ─── PRODUCT PANEL (What you'll get visual) ───────────────── */
+.sds-product-panel {
+  background: var(--sds-burgundy);
+  border-radius: 10px;
+  border-bottom: 3px solid var(--sds-gold);
+  padding: 56px 32px;
+  text-align: center;
+  margin-top: 28px;
+}
+.sds-product-panel .sds-product-title {
+  font-family: var(--sds-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--sds-cream);
+}
+.sds-product-panel img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ─── PRE-LAUNCH NOTE ──────────────────────────────────────── */
+.sds-prelaunch {
+  background: var(--sds-cream);
+  border: 1px dashed rgba(199, 163, 90, 0.7);
+  border-radius: 8px;
+  padding: 16px 22px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--sds-ink-soft);
+  margin-top: 24px;
+}
+
 /* ─── TESTIMONIAL ──────────────────────────────────────────── */
 .sds-testimonial {
   background: var(--sds-cream);
@@ -392,4 +473,5 @@ input[type="submit"]:hover,
   .sds-header .sds-tagline { display: none; }
   .sds-card-grid { grid-template-columns: 1fr; }
   .sds-guarantee { flex-direction: column; }
+  .sds-about { flex-direction: column; }
 }
