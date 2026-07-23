@@ -91,16 +91,21 @@ commitment — only publish it if you honour it), or ignore them entirely.
 - **Branding.** The header/footer say “Simply Digital Design” to match
   the checkout's domain; the tagline is borrowed from the Simply Digital
   Shops template. Both are plain text in Blocks 1 and 7 — edit freely.
-- **Logo.** Block 1 uses a *text* logo by default. Two ways to show an
-  image logo instead: (a) swap the `<span class="sds-logo">` line in
-  Block 1 for the `<img class="sds-logo-img" src="…">` snippet noted in
-  that block, or (b) — usually cleaner — use ThriveCart's own logo slot
-  (Settings → Business, or the cart Design panel), which renders above
-  everything and also appears in the native mobile layout. If your logo
-  wasn't showing, it's almost certainly because the custom header block
-  landed *inside* the cart column instead of at the very top; move that
-  HTML element to the top of the page, or just use ThriveCart's built-in
-  logo and delete Block 1.
+- **Logo + tagline alignment.** For the logo and the tagline to line up,
+  they must live in the *same* element. Block 1 now holds both — an
+  `<img class="sds-logo-img">` on the left and the tagline on the right,
+  vertically centred via `align-items: center`. Paste your uploaded
+  logo's URL into that `src=""`. **If you use Block 1's logo, turn OFF
+  ThriveCart's built-in logo** — otherwise you get two logos that won't
+  align (which is what caused the earlier misalignment). Prefer a
+  transparent-background PNG/SVG so it sits cleanly on the burgundy bar.
+- **Full-bleed banded sections.** ThriveCart boxes each custom-HTML block
+  inside a padded, width-limited column, so by default the burgundy bands
+  and the hero's gold bottom border stop short of the screen edges. The
+  CSS now pulls `.sds-header`, `.sds-hero` and `.sds-footer` out to the
+  full viewport width (`margin-left/right: calc(50% - 50vw)`), so the
+  bands and that gold border run edge-to-edge. If you still see a sliver
+  of column padding, set the ThriveCart HTML element's own padding to 0.
 - **Compact sidebar list.** Block 1b (`.sds-mini`) is a narrow, gold-
   accented “What's inside” bullet list for the left column of the cart
   — drop it under the product image or above the coupon field.

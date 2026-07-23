@@ -163,6 +163,19 @@ input[type="submit"]:hover,
   margin: 0 0 28px;
 }
 
+/* ─── FULL-BLEED ───────────────────────────────────────────────
+   ThriveCart drops each custom-HTML block inside a padded, width-
+   limited column, so backgrounds and the hero's gold bottom border
+   stop short of the screen edges. These margins pull the banded
+   sections back out to the full viewport width. The inner
+   .sds-container keeps the actual content aligned and readable. */
+.sds-header,
+.sds-hero,
+.sds-footer {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
 /* ─── HEADER BAR ───────────────────────────────────────────── */
 .sds-header {
   background: var(--sds-burgundy);
@@ -170,8 +183,9 @@ input[type="submit"]:hover,
 }
 .sds-header .sds-container {
   display: flex;
-  align-items: center;
+  align-items: center;      /* keeps logo + tagline on one baseline */
   justify-content: space-between;
+  gap: 20px;
 }
 .sds-header .sds-logo {
   font-family: var(--sds-display);
@@ -181,15 +195,17 @@ input[type="submit"]:hover,
   text-decoration: none;
 }
 .sds-header .sds-logo-img {
-  height: 34px;
+  height: 40px;
   width: auto;
   display: block;
+  flex-shrink: 0;
 }
 .sds-header .sds-tagline {
   font-size: 0.75rem;
   color: rgba(232, 228, 211, 0.7) !important;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  text-align: right;
 }
 
 /* ─── HERO ─────────────────────────────────────────────────── */

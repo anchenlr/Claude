@@ -29,18 +29,23 @@
 ═══════════════════════════════════════════════════════════════ -->
 
 
-<!-- ─── BLOCK 1 · HEADER BAR ─────────────────────────────────── -->
-<!-- Uses a TEXT logo by default. To show your image logo instead,
-     replace the <span class="sds-logo">…</span> line with:
-       <img class="sds-logo-img" src="YOUR_LOGO_URL" alt="Simply Digital Design" />
-     (a PNG/SVG with a transparent background reads best on burgundy).
-     NOTE: ThriveCart's hosted checkout also has its own logo slot in
-     Settings → Business / the cart Design panel — if you set the logo
-     there it appears above this bar, so you may not need this block at
-     all. See README “Logo” note. -->
+<!-- ─── BLOCK 1 · HEADER BAR (logo + tagline in ONE row) ─────────
+     For the logo and tagline to line up, they must live in the SAME
+     element — so put BOTH here and turn OFF ThriveCart's built-in
+     logo (otherwise you get two logos that won't align).
+
+     1. Paste YOUR uploaded logo's URL into the src="" below. (In the
+        ThriveCart editor, right-click the logo image you uploaded and
+        “Copy image address”, or re-upload it via an Image element and
+        copy the URL.)
+     2. Prefer a PNG/SVG with a transparent background — it sits on the
+        burgundy bar cleanly.
+     3. If you'd rather keep a TEXT logo, delete the <img> line and
+        un-comment the <span> line below it. -->
 <div class="sds-block sds-header">
   <div class="sds-container">
-    <span class="sds-logo">Simply Digital Design</span>
+    <img class="sds-logo-img" src="YOUR_LOGO_URL" alt="Simply Digital Shops" />
+    <!-- <span class="sds-logo">Simply Digital Shops</span> -->
     <span class="sds-tagline">Designed to stand out. Built to convert.</span>
   </div>
 </div>
