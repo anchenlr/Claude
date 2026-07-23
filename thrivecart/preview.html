@@ -16,7 +16,28 @@
     body { font-size: 16px; line-height: 1.7; }
 
     .mock-cart-zone { padding: 40px 0 8px; }
-    .mock-cart { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+    .mock-cart { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    .mock-two-col { display: flex; gap: 40px; align-items: flex-start; }
+    .mock-left { flex: 0 0 340px; }
+    .mock-right { flex: 1; }
+    .mock-product-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7a0a1e, #5a002a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sds-cream);
+      font-family: var(--sds-display);
+      font-size: 1.4rem;
+      text-align: center;
+      padding: 20px;
+    }
+    @media (max-width: 820px) {
+      .mock-two-col { flex-direction: column; }
+      .mock-left { flex: 1; width: 100%; }
+    }
     .mock-cart-card {
       background: #fff;
       border: 1px solid var(--sds-border);
@@ -176,45 +197,76 @@
     </div>
   </div>
 
-  <!-- MOCK OF THRIVECART'S NATIVE ORDER FORM (preview only) -->
+  <!-- MOCK OF THRIVECART'S NATIVE TWO-COLUMN ORDER FORM (preview only) -->
   <div class="mock-cart-zone">
     <div class="mock-cart">
-      <div class="mock-cart-card">
-        <h2 class="sds-display">Contact information</h2>
-        <div class="mock-field">
-          <input type="email" placeholder="Your email address" />
-        </div>
-        <div class="mock-coupon"><span>Have a coupon code?</span><span>⌄</span></div>
-        <div class="mock-summary">
-          <div class="mock-summary-row"><strong>Total payment</strong></div>
-          <div class="mock-summary-row"><span>Shopify SEO, Simplified</span><span>$147</span></div>
-          <div class="mock-summary-note">All prices in USD</div>
-        </div>
-        <h2 class="sds-display">Payment information</h2>
-        <div class="mock-paytabs">
-          <div class="mock-paytab active">Credit card</div>
-          <div class="mock-paytab">PayPal</div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-field" style="flex: 2;">
-            <label>Card number</label>
-            <input type="text" placeholder="1234 1234 1234 1234" />
+      <div class="mock-two-col">
+
+        <!-- LEFT COLUMN -->
+        <div class="mock-left">
+          <div class="mock-product-img">Shopify SEO,<br>Simplified</div>
+
+          <!-- BLOCK 1b · COMPACT WHAT'S INSIDE (the new sidebar block) -->
+          <div class="sds-block">
+            <div class="sds-mini">
+              <span class="sds-mini-label">What's inside</span>
+              <h4 class="sds-display">Everything you get</h4>
+              <ul>
+                <li>The Shopify SEO, Simplified training</li>
+                <li>Step-by-step Shopify backend walkthroughs</li>
+                <li>Workbook &amp; implementation checklist</li>
+                <li>SEO strategy for physical &amp; digital products</li>
+                <li>A practical SEO maintenance system</li>
+              </ul>
+            </div>
           </div>
-          <div class="mock-field">
-            <label>Expiration date</label>
-            <input type="text" placeholder="MM / YY" />
-          </div>
-          <div class="mock-field">
-            <label>Security code</label>
-            <input type="text" placeholder="CVC" />
+
+          <div class="mock-coupon"><span>Coupon code</span><button type="submit" style="padding:8px 18px;font-size:0.85rem;">Apply</button></div>
+          <div class="mock-summary">
+            <div class="mock-summary-row"><strong>Total payment</strong></div>
+            <div class="mock-summary-row"><span>Shopify SEO, Simplified</span><span>$147</span></div>
+            <div class="mock-summary-note">All prices in USD</div>
           </div>
         </div>
-        <div class="mock-field">
-          <label>Country</label>
-          <select><option>New Zealand</option></select>
+
+        <!-- RIGHT COLUMN -->
+        <div class="mock-right">
+          <div class="mock-cart-card">
+            <h2 class="sds-display">Contact information</h2>
+            <div class="mock-field" style="margin-bottom:14px;">
+              <input type="text" placeholder="Your name" />
+            </div>
+            <div class="mock-field">
+              <input type="email" placeholder="Your email address" />
+            </div>
+            <h2 class="sds-display" style="margin-top:24px;">Payment information</h2>
+            <div class="mock-paytabs">
+              <div class="mock-paytab active">Credit card</div>
+              <div class="mock-paytab">PayPal</div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-field" style="flex: 2;">
+                <label>Card number</label>
+                <input type="text" placeholder="1234 1234 1234 1234" />
+              </div>
+              <div class="mock-field">
+                <label>Expiration date</label>
+                <input type="text" placeholder="MM / YY" />
+              </div>
+              <div class="mock-field">
+                <label>Security code</label>
+                <input type="text" placeholder="CVC" />
+              </div>
+            </div>
+            <div class="mock-field">
+              <label>Country</label>
+              <select><option>New Zealand</option></select>
+            </div>
+            <button type="submit" class="mock-submit">Complete Order</button>
+            <p class="mock-secure">🔒 100% safe &amp; secure · Visa · Mastercard · Amex · Discover · PayPal</p>
+          </div>
         </div>
-        <button type="submit" class="mock-submit">Get your Training!</button>
-        <p class="mock-secure">🔒 Secure, encrypted checkout · Visa · Mastercard · Amex · PayPal</p>
+
       </div>
     </div>
   </div>

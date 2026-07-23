@@ -63,18 +63,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* !important here kills ThriveCart's default dark-blue heading colour,
+   which otherwise wins on specificity and bleeds through the page. */
 h1, h2, h3, h4 {
   font-family: var(--sds-display) !important;
   font-weight: normal !important;
-  color: var(--sds-ink);
+  color: var(--sds-ink) !important;
   letter-spacing: -0.01em;
   line-height: 1.15;
 }
 
 p, label, span, li, td { font-family: var(--sds-body); }
-
-a { color: var(--sds-red-mid); }
-a:hover { color: var(--sds-burgundy); }
 
 /* ─── THRIVECART FORM FIELDS ───────────────────────────────── */
 input[type="text"],
@@ -112,16 +111,16 @@ button[type="submit"],
 input[type="submit"],
 .button,
 .btn {
-  background: var(--sds-burgundy) !important;
+  background: var(--sds-gold) !important;
   background-image: none !important;
-  color: var(--sds-cream) !important;
+  color: var(--sds-burgundy) !important;
   border: none !important;
   border-radius: 6px !important;
   font-family: var(--sds-body) !important;
   font-weight: 600 !important;
   letter-spacing: 0.03em !important;
   text-shadow: none !important;
-  box-shadow: 0 2px 12px rgba(90, 0, 42, 0.25) !important;
+  box-shadow: 0 2px 12px rgba(199, 163, 90, 0.35) !important;
   transition: background 0.2s !important;
 }
 
@@ -129,7 +128,7 @@ button[type="submit"]:hover,
 input[type="submit"]:hover,
 .button:hover,
 .btn:hover {
-  background: var(--sds-red-mid) !important;
+  background: #b8934a !important; /* deeper gold */
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -182,13 +181,18 @@ input[type="submit"]:hover,
 .sds-header .sds-logo {
   font-family: var(--sds-display);
   font-size: 1.15rem;
-  color: var(--sds-cream);
+  color: var(--sds-cream) !important;
   letter-spacing: 0.02em;
   text-decoration: none;
 }
+.sds-header .sds-logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
 .sds-header .sds-tagline {
   font-size: 0.75rem;
-  color: rgba(232, 228, 211, 0.7);
+  color: rgba(232, 228, 211, 0.7) !important;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -224,7 +228,7 @@ input[type="submit"]:hover,
 }
 .sds-hero-subtitle {
   font-size: 1.05rem;
-  color: rgba(232, 228, 211, 0.75);
+  color: rgba(232, 228, 211, 0.88) !important;
   max-width: 560px;
   line-height: 1.65;
 }
@@ -237,11 +241,11 @@ input[type="submit"]:hover,
 }
 .sds-hero-meta span {
   font-size: 0.8rem;
-  color: rgba(232, 228, 211, 0.7);
+  color: rgba(232, 228, 211, 0.8) !important;
   letter-spacing: 0.04em;
 }
 .sds-hero-meta strong {
-  color: rgba(232, 228, 211, 0.9);
+  color: rgba(232, 228, 211, 0.95) !important;
   font-weight: 500;
 }
 
@@ -359,6 +363,48 @@ input[type="submit"]:hover,
   margin-top: 24px;
 }
 
+/* ─── COMPACT "WHAT'S INSIDE" (left sidebar) ───────────────── */
+/* Drop this block into the left column, above/below the coupon.
+   No .sds-container wrapper — it fills the sidebar width. */
+.sds-mini {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-left: 3px solid var(--sds-gold);
+  border-radius: 0 10px 10px 0;
+  padding: 22px 24px;
+  margin: 20px 0;
+}
+.sds-mini .sds-mini-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-red-mid);
+  display: block;
+  margin-bottom: 4px;
+}
+.sds-mini h4 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.15rem !important;
+  color: var(--sds-burgundy) !important;
+  margin-bottom: 16px;
+}
+.sds-mini ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.sds-mini li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--sds-ink-soft);
+}
+.sds-mini li::before {
+  content: '✓';
+  color: var(--sds-gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
 /* ─── TESTIMONIAL ──────────────────────────────────────────── */
 .sds-testimonial {
   background: var(--sds-cream);
@@ -457,19 +503,21 @@ input[type="submit"]:hover,
 
 /* ─── FOOTER ───────────────────────────────────────────────── */
 .sds-footer {
-  background: var(--sds-ink);
+  background: var(--sds-burgundy);
   padding: 36px 0;
   text-align: center;
 }
 .sds-footer p {
   font-size: 0.78rem;
-  color: rgba(232, 228, 211, 0.65);
+  color: rgba(232, 228, 211, 0.75) !important;
 }
+/* !important beats ThriveCart's default blue link colour */
 .sds-footer a {
-  color: rgba(232, 228, 211, 0.85);
-  text-decoration: none;
+  color: var(--sds-gold) !important;
+  text-decoration: none !important;
+  font-weight: 500;
 }
-.sds-footer a:hover { color: var(--sds-gold); }
+.sds-footer a:hover { color: var(--sds-cream) !important; }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 600px) {

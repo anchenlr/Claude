@@ -91,6 +91,24 @@ commitment — only publish it if you honour it), or ignore them entirely.
 - **Branding.** The header/footer say “Simply Digital Design” to match
   the checkout's domain; the tagline is borrowed from the Simply Digital
   Shops template. Both are plain text in Blocks 1 and 7 — edit freely.
+- **Logo.** Block 1 uses a *text* logo by default. Two ways to show an
+  image logo instead: (a) swap the `<span class="sds-logo">` line in
+  Block 1 for the `<img class="sds-logo-img" src="…">` snippet noted in
+  that block, or (b) — usually cleaner — use ThriveCart's own logo slot
+  (Settings → Business, or the cart Design panel), which renders above
+  everything and also appears in the native mobile layout. If your logo
+  wasn't showing, it's almost certainly because the custom header block
+  landed *inside* the cart column instead of at the very top; move that
+  HTML element to the top of the page, or just use ThriveCart's built-in
+  logo and delete Block 1.
+- **Compact sidebar list.** Block 1b (`.sds-mini`) is a narrow, gold-
+  accented “What's inside” bullet list for the left column of the cart
+  — drop it under the product image or above the coupon field.
+- **Button & footer colours.** The order button is gold with burgundy
+  text; the footer is dark red (burgundy) with gold links. The `!important`
+  flags on headings, the hero subtitle, and footer links exist to beat
+  ThriveCart's default dark-blue theme colour, which otherwise bleeds
+  through.
 - **Brand tokens** (for tweaking in the editor UI):
   - Burgundy `#5a002a` · Red `#950d20` · Gold `#c7a35a`
   - Cream `#e8e4d3` · Cream light `#f5f2e8` · Ink `#1a1410`

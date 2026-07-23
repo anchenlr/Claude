@@ -30,6 +30,14 @@
 
 
 <!-- ─── BLOCK 1 · HEADER BAR ─────────────────────────────────── -->
+<!-- Uses a TEXT logo by default. To show your image logo instead,
+     replace the <span class="sds-logo">…</span> line with:
+       <img class="sds-logo-img" src="YOUR_LOGO_URL" alt="Simply Digital Design" />
+     (a PNG/SVG with a transparent background reads best on burgundy).
+     NOTE: ThriveCart's hosted checkout also has its own logo slot in
+     Settings → Business / the cart Design panel — if you set the logo
+     there it appears above this bar, so you may not need this block at
+     all. See README “Logo” note. -->
 <div class="sds-block sds-header">
   <div class="sds-container">
     <span class="sds-logo">Simply Digital Design</span>
@@ -37,6 +45,26 @@
   </div>
 </div>
 <!-- ─── END BLOCK 1 ──────────────────────────────────────────── -->
+
+
+<!-- ─── BLOCK 1b · COMPACT “WHAT'S INSIDE” (left sidebar) ─────────
+     Drop this into the LEFT column of the cart (e.g. just under the
+     product image or above the coupon field). It's intentionally
+     narrow — no page container — so it fits a sidebar. -->
+<div class="sds-block">
+  <div class="sds-mini">
+    <span class="sds-mini-label">What's inside</span>
+    <h4 class="sds-display">Everything you get</h4>
+    <ul>
+      <li>The Shopify SEO, Simplified training</li>
+      <li>Step-by-step Shopify backend walkthroughs</li>
+      <li>Workbook &amp; implementation checklist</li>
+      <li>SEO strategy for physical &amp; digital products</li>
+      <li>A practical SEO maintenance system</li>
+    </ul>
+  </div>
+</div>
+<!-- ─── END BLOCK 1b ─────────────────────────────────────────── -->
 
 
 <!-- ─── BLOCK 2 · HERO ───────────────────────────────────────── -->
