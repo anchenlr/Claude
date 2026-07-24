@@ -7,8 +7,7 @@
      footer at the bottom, attached to the page ROOT (<html>) so they run
      edge-to-edge regardless of ThriveCart's padded/centred content box.
 
-     It also hides ThriveCart's "Powered by" footer branding (keeping the
-     small hCaptcha legal notice) so our footer stands alone.
+     It also hides ThriveCart's built-in footer so our footer stands alone.
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
@@ -549,30 +548,18 @@ input[type="submit"]:hover,
 }
 .sds-footer a:hover { color: var(--sds-cream) !important; }
 
-/* ─── HIDE THRIVECART'S DEFAULT FOOTER BRANDING ────────────────
+/* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
    ThriveCart's built-in footer (.thrivecart-footer) sits inside the
-   width-capped body, so it shows the "Powered by ThriveCart" brand and
-   copyright in a narrow column above our band. Hide those pieces so our
-   injected footer stands alone. The small hCaptcha legal line
-   (.captcha-legal) is KEPT on purpose — hCaptcha's terms require that
-   notice to remain visible. To hide the whole thing anyway, add
-   `.thrivecart-footer { display: none !important; }` (understand the
-   hCaptcha implication first). */
-.thrivecart-footer .thrivecart-footer-brand,
-.thrivecart-footer .footer-links,
-.thrivecart-footer .footer-content > span,
-.thrivecart-footer .builder-v2-block-plaintext {
+   width-capped body and shows "Powered by ThriveCart", a copyright, and
+   the hCaptcha legal notice in a narrow column above our band. It's
+   hidden entirely so our injected footer stands alone.
+   NOTE: this also hides the hCaptcha notice (.captcha-legal). hCaptcha's
+   terms ask that either their badge or that notice stay visible, so this
+   is a deliberate choice — to restore just the notice, remove this rule
+   and use the branding-only version from git history instead. */
+.region-footer,
+.thrivecart-footer {
   display: none !important;
-}
-.thrivecart-footer .footer-content { padding: 14px 0 !important; text-align: center; }
-.thrivecart-footer .captcha-legal {
-  font-size: 0.68rem !important;
-  color: var(--sds-muted) !important;
-  margin: 0 !important;
-}
-.thrivecart-footer .captcha-legal a {
-  color: var(--sds-red-mid) !important;
-  text-decoration: none !important;
 }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────── */
