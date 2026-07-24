@@ -558,6 +558,46 @@ input[type="submit"]:hover,
   font-weight: 400;
 }
 
+/* ─── MATCH THRIVECART'S COUPON + ORDER SUMMARY TO THE CARDS ────
+   Give the two native left-column boxes the same rounded cream-card look
+   as the "What's inside" (.sds-mini) block. */
+
+/* Coupon field row → cream card */
+.coupon-wrap {
+  background: var(--sds-cream) !important;
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+.coupon-wrap .coupon-field {
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+}
+.coupon-wrap .pure-button {
+  background: var(--sds-gold) !important;
+  color: var(--sds-burgundy) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  font-weight: 600 !important;
+  padding: 10px 18px !important;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Order summary (pricing breakdown) → rounded cream card w/ subtle border.
+   We override ThriveCart's own --style-* custom properties; our !important
+   beats their inline (non-important) values. Keeps the gold divider. */
+.builder-v2-block-core_pricing_breakdown {
+  --style-background-color: #e8e4d3 !important;        /* cream */
+  --style-border-color: rgba(90, 0, 42, 0.12) !important; /* subtle border */
+  --style-border-radius: 10px !important;
+  --style-border-width: 1px !important;
+}
+
 /* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
    ThriveCart's built-in footer (.thrivecart-footer) sits inside the
    width-capped body and shows "Powered by ThriveCart", a copyright, and
