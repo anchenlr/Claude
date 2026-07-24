@@ -581,6 +581,16 @@ input[type="submit"]:hover,
   --style-border-width: 1px !important;
 }
 
+/* ─── HIDE ADDRESS FIELDS (country / state / postcode) ─────────
+   This is a $0 offer, so no address is needed and ThriveCart won't let
+   it be removed in settings. Hide the whole country/state/zip row. The
+   country keeps its default value in the DOM, so the form still submits
+   cleanly. (If ThriveCart ever flags state/zip as required on submit,
+   tell me and I'll also clear their required flag.) */
+.ui-countryzip {
+  display: none !important;
+}
+
 /* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
    ThriveCart's built-in footer (.thrivecart-footer) sits inside the
    width-capped body and shows "Powered by ThriveCart", a copyright, and

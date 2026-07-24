@@ -7,7 +7,8 @@
      footer at the bottom, attached to the page ROOT (<html>) so they run
      edge-to-edge regardless of ThriveCart's padded/centred content box.
 
-     It also hides ThriveCart's built-in footer so our footer stands alone.
+     It also hides ThriveCart's built-in footer and the address fields
+     (country/state/postcode) for this $0 offer.
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
@@ -596,6 +597,16 @@ input[type="submit"]:hover,
   --style-border-color: rgba(90, 0, 42, 0.12) !important; /* subtle border */
   --style-border-radius: 10px !important;
   --style-border-width: 1px !important;
+}
+
+/* ─── HIDE ADDRESS FIELDS (country / state / postcode) ─────────
+   This is a $0 offer, so no address is needed and ThriveCart won't let
+   it be removed in settings. Hide the whole country/state/zip row. The
+   country keeps its default value in the DOM, so the form still submits
+   cleanly. (If ThriveCart ever flags state/zip as required on submit,
+   tell me and I'll also clear their required flag.) */
+.ui-countryzip {
+  display: none !important;
 }
 
 /* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────

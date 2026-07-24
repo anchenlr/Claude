@@ -121,6 +121,12 @@ commitment — only publish it if you honour it), or ignore them entirely.
   container, so they look right inside ThriveCart's normal content box —
   no full-width treatment needed. Place them above the cart if your
   template won't allow blocks below it.
+- **Address fields hidden ($0 offer).** The country/state/postcode row
+  (`.ui-countryzip`) is hidden via CSS since this is a free offer that
+  needs no address and ThriveCart won't remove it in settings. The
+  country keeps its default value in the DOM so the form still submits.
+  If ThriveCart ever flags state/zip as required on submit, they'd need
+  their `required` flag cleared too — ask and I'll add that.
 - **ThriveCart's own footer is hidden.** ThriveCart renders a built-in
   footer (`.thrivecart-footer`) with "Powered by ThriveCart", a copyright
   and the hCaptcha legal notice, inside the width-capped body. The CSS
