@@ -1,7 +1,11 @@
-<!-- Paste this ENTIRE file (including the style tags) into:
+<!-- Paste this ENTIRE file into:
      ThriveCart → Products → Edit product → Checkout tab → Tracking
      → "All pages" custom scripts box.
-     Alternative: paste it into an HTML element inside the checkout editor. -->
+     It contains BOTH the checkout skin (in <style>) AND a small
+     script that auto-injects the footer at the bottom of the page
+     (for templates that won't let you place a block below the cart).
+     If you place Block 7 by hand instead, delete the <script> block.
+-->
 <style>
 /* ═══════════════════════════════════════════════════════════════
    SIMPLY DIGITAL SHOPS — ThriveCart Checkout Skin
@@ -546,3 +550,27 @@ input[type="submit"]:hover,
   .sds-about { flex-direction: column; }
 }
 </style>
+
+<script>
+(function () {
+  function addFooter() {
+    if (document.getElementById('sds-footer-injected')) return; // once only
+    var f = document.createElement('div');
+    f.id = 'sds-footer-injected';
+    f.className = 'sds-block sds-footer';
+    f.innerHTML =
+      '<div class="sds-container"><p>' +
+        '&copy; Simply Digital Design &nbsp;&middot;&nbsp; ' +
+        '<a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp; ' +
+        '<a href="#">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
+        '<a href="#">Our Main Website</a>' +
+      '</p></div>';
+    document.body.appendChild(f);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addFooter);
+  } else {
+    addFooter();
+  }
+})();
+</script>
