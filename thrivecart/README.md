@@ -121,6 +121,14 @@ commitment — only publish it if you honour it), or ignore them entirely.
   container, so they look right inside ThriveCart's normal content box —
   no full-width treatment needed. Place them above the cart if your
   template won't allow blocks below it.
+- **ThriveCart's own footer.** ThriveCart renders a built-in footer
+  (`.thrivecart-footer`) with "Powered by ThriveCart" and a copyright,
+  inside the width-capped body. The CSS hides that branding so our
+  injected footer stands alone, but deliberately **keeps the small
+  hCaptcha legal line** (`.captcha-legal`) visible — hCaptcha's terms
+  require it. To remove the ThriveCart footer entirely, add
+  `.thrivecart-footer { display: none !important; }` to the CSS (only if
+  you're comfortable dropping the hCaptcha notice).
 - **Compact sidebar list.** Block 1b (`.sds-mini`) is a narrow, gold-
   accented “What's inside” bullet list for the left column of the cart
   — drop it under the product image or above the coupon field.

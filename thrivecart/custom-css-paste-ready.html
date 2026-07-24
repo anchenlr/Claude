@@ -4,8 +4,11 @@
 
      It contains BOTH the checkout skin (in <style>) AND a script that
      auto-injects the full-width bands: header + hero at the top and the
-     footer at the bottom, attached to the page body so they run edge-to-
-     edge regardless of ThriveCart's padded content box.
+     footer at the bottom, attached to the page ROOT (<html>) so they run
+     edge-to-edge regardless of ThriveCart's padded/centred content box.
+
+     It also hides ThriveCart's "Powered by" footer branding (keeping the
+     small hCaptcha legal notice) so our footer stands alone.
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
@@ -546,6 +549,32 @@ input[type="submit"]:hover,
 }
 .sds-footer a:hover { color: var(--sds-cream) !important; }
 
+/* ─── HIDE THRIVECART'S DEFAULT FOOTER BRANDING ────────────────
+   ThriveCart's built-in footer (.thrivecart-footer) sits inside the
+   width-capped body, so it shows the "Powered by ThriveCart" brand and
+   copyright in a narrow column above our band. Hide those pieces so our
+   injected footer stands alone. The small hCaptcha legal line
+   (.captcha-legal) is KEPT on purpose — hCaptcha's terms require that
+   notice to remain visible. To hide the whole thing anyway, add
+   `.thrivecart-footer { display: none !important; }` (understand the
+   hCaptcha implication first). */
+.thrivecart-footer .thrivecart-footer-brand,
+.thrivecart-footer .footer-links,
+.thrivecart-footer .footer-content > span,
+.thrivecart-footer .builder-v2-block-plaintext {
+  display: none !important;
+}
+.thrivecart-footer .footer-content { padding: 14px 0 !important; text-align: center; }
+.thrivecart-footer .captcha-legal {
+  font-size: 0.68rem !important;
+  color: var(--sds-muted) !important;
+  margin: 0 !important;
+}
+.thrivecart-footer .captcha-legal a {
+  color: var(--sds-red-mid) !important;
+  text-decoration: none !important;
+}
+
 /* ─── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 600px) {
   .sds-section { padding: 40px 0; }
@@ -565,7 +594,10 @@ input[type="submit"]:hover,
   var LOGO = 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png';
 
   function build() {
-    // ---- TOP: header + hero ----
+    var root = document.documentElement; // <html> — full viewport width
+    var body = document.body;
+
+    // ---- TOP: header + hero (inserted before <body>) ----
     if (!document.getElementById('sds-top-injected')) {
       var top = document.createElement('div');
       top.id = 'sds-top-injected';
@@ -584,10 +616,10 @@ input[type="submit"]:hover,
             '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
           '</div>' +
         '</div></div>';
-      document.body.insertBefore(top, document.body.firstChild);
+      root.insertBefore(top, body); // between <head>/<body>, above the cart
     }
 
-    // ---- BOTTOM: footer ----
+    // ---- BOTTOM: footer (appended after <body>) ----
     if (!document.getElementById('sds-footer-injected')) {
       var f = document.createElement('div');
       f.id = 'sds-footer-injected';
@@ -599,7 +631,7 @@ input[type="submit"]:hover,
           '<a href="https://simplydigitalshops.com/policies/terms-of-service">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
           '<a href="https://simplydigitalshops.com/">Our Main Website</a>' +
         '</p></div>';
-      document.body.appendChild(f);
+      root.appendChild(f); // after <body>, at the very bottom
     }
   }
 

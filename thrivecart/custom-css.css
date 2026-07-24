@@ -531,6 +531,32 @@ input[type="submit"]:hover,
 }
 .sds-footer a:hover { color: var(--sds-cream) !important; }
 
+/* ─── HIDE THRIVECART'S DEFAULT FOOTER BRANDING ────────────────
+   ThriveCart's built-in footer (.thrivecart-footer) sits inside the
+   width-capped body, so it shows the "Powered by ThriveCart" brand and
+   copyright in a narrow column above our band. Hide those pieces so our
+   injected footer stands alone. The small hCaptcha legal line
+   (.captcha-legal) is KEPT on purpose — hCaptcha's terms require that
+   notice to remain visible. To hide the whole thing anyway, add
+   `.thrivecart-footer { display: none !important; }` (understand the
+   hCaptcha implication first). */
+.thrivecart-footer .thrivecart-footer-brand,
+.thrivecart-footer .footer-links,
+.thrivecart-footer .footer-content > span,
+.thrivecart-footer .builder-v2-block-plaintext {
+  display: none !important;
+}
+.thrivecart-footer .footer-content { padding: 14px 0 !important; text-align: center; }
+.thrivecart-footer .captcha-legal {
+  font-size: 0.68rem !important;
+  color: var(--sds-muted) !important;
+  margin: 0 !important;
+}
+.thrivecart-footer .captcha-legal a {
+  color: var(--sds-red-mid) !important;
+  text-decoration: none !important;
+}
+
 /* ─── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 600px) {
   .sds-section { padding: 40px 0; }

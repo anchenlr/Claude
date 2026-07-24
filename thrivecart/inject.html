@@ -4,10 +4,12 @@
   WHY: ThriveCart drops custom-HTML blocks into a padded, NON-full-width
   content box, so the burgundy header/hero end up framed by a grey
   gutter, and some templates won't let you place a block below the cart
-  at all. This script attaches the three full-width bands straight to
-  the page <body> — the real full-width container — so they always run
-  edge-to-edge and land in the right spot (header + hero at the very top,
-  footer at the very bottom) regardless of the editor's layout limits.
+  at all. This script attaches the three full-width bands to the page
+  ROOT (<html>) — one level above <body>, which ThriveCart caps/centres —
+  so they always run true edge-to-edge and land in the right spot (header
+  + hero at the very top, footer at the very bottom) regardless of the
+  editor's layout limits. (Attaching to <body> inherited its width cap
+  and pushed the bands to one side — hence <html>.)
 
   WHERE IT GOES: it's bundled into custom-css-paste-ready.html (right
   after the </style>). Paste that whole file into
@@ -28,7 +30,10 @@
   var LOGO = 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png';
 
   function build() {
-    // ---- TOP: header + hero ----
+    var root = document.documentElement; // <html> — full viewport width
+    var body = document.body;
+
+    // ---- TOP: header + hero (inserted before <body>) ----
     if (!document.getElementById('sds-top-injected')) {
       var top = document.createElement('div');
       top.id = 'sds-top-injected';
@@ -47,10 +52,10 @@
             '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
           '</div>' +
         '</div></div>';
-      document.body.insertBefore(top, document.body.firstChild);
+      root.insertBefore(top, body); // between <head>/<body>, above the cart
     }
 
-    // ---- BOTTOM: footer ----
+    // ---- BOTTOM: footer (appended after <body>) ----
     if (!document.getElementById('sds-footer-injected')) {
       var f = document.createElement('div');
       f.id = 'sds-footer-injected';
@@ -62,7 +67,7 @@
           '<a href="https://simplydigitalshops.com/policies/terms-of-service">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
           '<a href="https://simplydigitalshops.com/">Our Main Website</a>' +
         '</p></div>';
-      document.body.appendChild(f);
+      root.appendChild(f); // after <body>, at the very bottom
     }
   }
 
