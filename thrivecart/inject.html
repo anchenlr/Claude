@@ -61,12 +61,18 @@
       f.id = 'sds-footer-injected';
       f.className = 'sds-block sds-footer';
       f.innerHTML =
-        '<div class="sds-container"><p>' +
-          '&copy; Simply Digital Design &nbsp;&middot;&nbsp; ' +
-          '<a href="https://simplydigitalshops.com/policies/privacy-policy">Privacy Policy</a> &nbsp;&middot;&nbsp; ' +
-          '<a href="https://simplydigitalshops.com/policies/terms-of-service">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
-          '<a href="https://simplydigitalshops.com/">Our Main Website</a>' +
-        '</p></div>';
+        '<div class="sds-container">' +
+          '<p>' +
+            '&copy; Simply Digital Design &nbsp;&middot;&nbsp; ' +
+            '<a href="https://simplydigitalshops.com/policies/privacy-policy">Privacy Policy</a> &nbsp;&middot;&nbsp; ' +
+            '<a href="https://simplydigitalshops.com/policies/terms-of-service">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
+            '<a href="https://simplydigitalshops.com/">Our Main Website</a>' +
+          '</p>' +
+          '<p class="sds-captcha">This site is protected by hCaptcha and its ' +
+            '<a href="https://hcaptcha.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and ' +
+            '<a href="https://hcaptcha.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.' +
+          '</p>' +
+        '</div>';
       root.appendChild(f); // after <body>, at the very bottom
     }
   }

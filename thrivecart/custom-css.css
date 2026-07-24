@@ -381,8 +381,7 @@ input[type="submit"]:hover,
 .sds-mini {
   background: var(--sds-cream);
   border: 1px solid var(--sds-border);
-  border-left: 3px solid var(--sds-gold);
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
   padding: 22px 24px;
   margin: 20px 0;
 }
@@ -530,6 +529,17 @@ input[type="submit"]:hover,
   font-weight: 500;
 }
 .sds-footer a:hover { color: var(--sds-cream) !important; }
+/* small hCaptcha legal line under the footer links */
+.sds-footer .sds-captcha {
+  font-size: 0.66rem !important;
+  color: rgba(232, 228, 211, 0.5) !important;
+  margin-top: 12px !important;
+  letter-spacing: 0.02em;
+}
+.sds-footer .sds-captcha a {
+  color: rgba(232, 228, 211, 0.7) !important;
+  font-weight: 400;
+}
 
 /* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
    ThriveCart's built-in footer (.thrivecart-footer) sits inside the
