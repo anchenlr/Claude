@@ -168,17 +168,18 @@ input[type="submit"]:hover,
   margin: 0 0 28px;
 }
 
-/* ─── FULL-BLEED ───────────────────────────────────────────────
-   ThriveCart drops each custom-HTML block inside a padded, width-
-   limited column, so backgrounds and the hero's gold bottom border
-   stop short of the screen edges. These margins pull the banded
-   sections back out to the full viewport width. The inner
-   .sds-container keeps the actual content aligned and readable. */
+/* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
+   The header / hero / footer are meant to be full-width colour bands.
+   They fill 100% of whatever ThriveCart container they sit in, so
+   place each of these three HTML blocks in a FULL-WIDTH ROW in the
+   builder (not inside the two-column cart area). We deliberately do
+   NOT use viewport (100vw / calc-50vw) tricks here: ThriveCart's
+   columns aren't always centred, and those tricks then shove the band
+   sideways over other content. See README “Full-width bands”. */
 .sds-header,
 .sds-hero,
 .sds-footer {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100%;
 }
 
 /* ─── HEADER BAR ───────────────────────────────────────────── */

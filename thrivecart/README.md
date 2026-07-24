@@ -99,13 +99,17 @@ commitment — only publish it if you honour it), or ignore them entirely.
   ThriveCart's built-in logo** — otherwise you get two logos that won't
   align (which is what caused the earlier misalignment). Prefer a
   transparent-background PNG/SVG so it sits cleanly on the burgundy bar.
-- **Full-bleed banded sections.** ThriveCart boxes each custom-HTML block
-  inside a padded, width-limited column, so by default the burgundy bands
-  and the hero's gold bottom border stop short of the screen edges. The
-  CSS now pulls `.sds-header`, `.sds-hero` and `.sds-footer` out to the
-  full viewport width (`margin-left/right: calc(50% - 50vw)`), so the
-  bands and that gold border run edge-to-edge. If you still see a sliver
-  of column padding, set the ThriveCart HTML element's own padding to 0.
+- **Full-width bands = placement, not CSS.** The header, hero and footer
+  are full-width colour bands, and the hero's gold bottom border rides
+  the hero's width. They fill 100% of whatever container they're dropped
+  into, so **put each of these three blocks in its own FULL-WIDTH ROW**
+  in the builder — not inside the two-column cart area. In ThriveCart's
+  Enhanced editor: add a new full-width Row/Block for each band and drop
+  the HTML element in there. (Earlier a viewport `calc(50% - 50vw)` trick
+  was used to force this, but ThriveCart's columns aren't always centred,
+  so it shoved the footer sideways over the summary box — hence the
+  placement approach instead.) If a band still looks inset, set that HTML
+  element's own left/right padding to 0.
 - **Compact sidebar list.** Block 1b (`.sds-mini`) is a narrow, gold-
   accented “What's inside” bullet list for the left column of the cart
   — drop it under the product image or above the coupon field.

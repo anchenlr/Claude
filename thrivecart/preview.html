@@ -16,15 +16,6 @@
     html, body { overflow-x: hidden; }
     body { font-size: 16px; line-height: 1.7; }
 
-    /* Simulates ThriveCart's padded, width-limited content column so we
-       can confirm the header/hero/footer break out to full width. */
-    .tc-sim {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 30px;
-      outline: 1px dashed rgba(90,0,42,0.25);
-    }
-
     .mock-cart-zone { padding: 40px 0 8px; }
     .mock-cart { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
     .mock-two-col { display: flex; gap: 40px; align-items: flex-start; }
@@ -156,9 +147,7 @@
 </head>
 <body>
 
-  <div class="preview-banner">Preview — dashed box = ThriveCart's column · banded sections break out full-width</div>
-
-  <div class="tc-sim">
+  <div class="preview-banner">Preview — the white card stands in for ThriveCart's own order form</div>
 
   <!-- BLOCK 1 · HEADER BAR (image logo + tagline, one row) -->
   <div class="sds-block sds-header">
@@ -348,8 +337,6 @@
       </p>
     </div>
   </div>
-
-  </div><!-- /.tc-sim -->
 
 </body>
 </html>
