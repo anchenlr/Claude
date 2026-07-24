@@ -1,0 +1,75 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  BANDS AUTO-INJECT — header + hero at the top, footer at the bottom.
+
+  WHY: ThriveCart drops custom-HTML blocks into a padded, NON-full-width
+  content box, so the burgundy header/hero end up framed by a grey
+  gutter, and some templates won't let you place a block below the cart
+  at all. This script attaches the three full-width bands straight to
+  the page <body> — the real full-width container — so they always run
+  edge-to-edge and land in the right spot (header + hero at the very top,
+  footer at the very bottom) regardless of the editor's layout limits.
+
+  WHERE IT GOES: it's bundled into custom-css-paste-ready.html (right
+  after the </style>). Paste that whole file into
+  Checkout → Tracking → "All pages" and the bands appear automatically.
+
+  IMPORTANT: because these are injected, REMOVE the matching hand-placed
+  blocks from the editor (Block 1 header, Block 2 hero, Block 7 footer) —
+  otherwise you'll see each one twice. Keep the OTHER blocks (What's
+  inside sidebar, Introducing, What you'll get, About) as editor blocks.
+
+  TO EDIT copy/links: change the strings below, then re-paste.
+═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  if (window.__sdsBands) return;           // guard against double-load
+  window.__sdsBands = true;
+
+  var LOGO = 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png';
+
+  function build() {
+    // ---- TOP: header + hero ----
+    if (!document.getElementById('sds-top-injected')) {
+      var top = document.createElement('div');
+      top.id = 'sds-top-injected';
+      top.innerHTML =
+        '<div class="sds-block sds-header"><div class="sds-container">' +
+          '<img class="sds-logo-img" src="' + LOGO + '" alt="Simply Digital Shops" />' +
+          '<span class="sds-tagline">Designed to stand out. Built to convert.</span>' +
+        '</div></div>' +
+        '<div class="sds-block sds-hero"><div class="sds-container">' +
+          '<div class="sds-hero-eyebrow">A step-by-step Shopify SEO course</div>' +
+          '<h1 class="sds-display">Shopify SEO, Simplified</h1>' +
+          '<p class="sds-hero-subtitle">A simple, practical approach to optimising Shopify stores for real results.</p>' +
+          '<div class="sds-hero-meta">' +
+            '<span>&#10003; <strong>Step-by-step training</strong></span>' +
+            '<span>&#10003; <strong>Workbook &amp; checklist included</strong></span>' +
+            '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
+          '</div>' +
+        '</div></div>';
+      document.body.insertBefore(top, document.body.firstChild);
+    }
+
+    // ---- BOTTOM: footer ----
+    if (!document.getElementById('sds-footer-injected')) {
+      var f = document.createElement('div');
+      f.id = 'sds-footer-injected';
+      f.className = 'sds-block sds-footer';
+      f.innerHTML =
+        '<div class="sds-container"><p>' +
+          '&copy; Simply Digital Design &nbsp;&middot;&nbsp; ' +
+          '<a href="https://simplydigitalshops.com/policies/privacy-policy">Privacy Policy</a> &nbsp;&middot;&nbsp; ' +
+          '<a href="https://simplydigitalshops.com/policies/terms-of-service">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
+          '<a href="https://simplydigitalshops.com/">Our Main Website</a>' +
+        '</p></div>';
+      document.body.appendChild(f);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
+})();
+</script>

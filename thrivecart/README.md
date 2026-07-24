@@ -15,8 +15,8 @@ Training!" button label.
 
 | File | What it is | Where it goes |
 |---|---|---|
-| `custom-css-paste-ready.html` | The checkout skin (in `<style>`) **plus** the footer auto-inject script, ready to paste | ThriveCart → Checkout → **Tracking** → "All pages" box |
-| `footer-inject.html` | Source of the footer auto-inject script (already bundled into the paste-ready file) | — (edit here, then re-bundle) |
+| `custom-css-paste-ready.html` | The checkout skin (in `<style>`) **plus** the band auto-inject script (header + hero + footer), ready to paste | ThriveCart → Checkout → **Tracking** → "All pages" box |
+| `inject.html` | Source of the band auto-inject script (already bundled into the paste-ready file) | — (edit here, then re-bundle) |
 | `custom-css.css` | The same skin as raw CSS (source of the file above) | Only if your editor has a dedicated Custom CSS box |
 | `checkout-sections.html` | Seven copy-paste HTML blocks (header, hero, introducing, pre-launch note, what you'll get, about Anchen, footer) plus three clearly-marked optional extras | ThriveCart Custom HTML elements |
 | `preview.html` | Browser preview of the whole page with a mock order form — open it locally to see the design | Nowhere — reference only |
@@ -39,28 +39,27 @@ Training!" button label.
    `custom-css.css` there instead. Yours apparently doesn't — hence the
    Tracking route.)
 
-2. **Add the HTML blocks.** Drag a **Custom HTML** element to where you
-   want each section and paste one block from `checkout-sections.html`
-   into it (each block is fenced with `── BLOCK n ──` comments), in this
-   order:
+   The paste above ALSO auto-injects the three full-width bands —
+   **header, hero and footer** — so you do **not** place those by hand.
+   (See "Full-width bands" below for why.)
 
-   - Header bar — very top of the page
-   - Hero → Introducing → Pre-launch note — above ThriveCart's form
-   - *(ThriveCart's own contact/payment form sits here)*
-   - What you'll get → About Anchen — below the form
-   - Footer — very bottom
+2. **Add the middle HTML blocks.** Only the non-band sections go in by
+   hand. Drag a **Custom HTML** element to where you want each and paste
+   one block from `checkout-sections.html` (each is fenced with
+   `── BLOCK n ──` comments):
 
-3. **Fill in the TODOs.** Search `checkout-sections.html` for `TODO`:
-   - Anchen's photo URL (Block 6)
-   - Privacy Policy / Terms of Service / Main Website links (Block 7)
-   - Optionally swap the burgundy text panel in Block 5 for the iMac
-     product mockup image from the current page
+   - *(injected header + hero sit at the very top)*
+   - What's inside sidebar (Block 1b) — left column of the cart
+   - Introducing (Block 3) → Pre-launch note (Block 4) — above the form
+   - What you'll get (Block 5) → About Anchen (Block 6) — above the form
+     too, if your template won't let you place them below it
+   - *(injected footer sits at the very bottom)*
 
-4. **Remove padding around the blocks.** If the editor wraps custom HTML
-   elements in padded containers, set that element's padding to 0 so the
-   burgundy header/hero and dark footer run edge-to-edge.
+   Do **not** hand-place Block 1 (header), Block 2 (hero) or Block 7
+   (footer) — the script injects those. If you already placed them,
+   delete them so they don't show twice.
 
-5. **Preview on mobile.** Everything is responsive (cards stack, tagline
+3. **Preview on mobile.** Everything is responsive (cards stack, tagline
    hides, the about card stacks below 600 px), but check ThriveCart's
    mobile preview after placing the blocks.
 
@@ -100,27 +99,28 @@ commitment — only publish it if you honour it), or ignore them entirely.
   ThriveCart's built-in logo** — otherwise you get two logos that won't
   align (which is what caused the earlier misalignment). Prefer a
   transparent-background PNG/SVG so it sits cleanly on the burgundy bar.
-- **Footer sits below the cart automatically.** ThriveCart's editor often
-  has no drop zone *below* the checkout block. So the footer is added by a
-  tiny script (bundled into `custom-css-paste-ready.html`) that appends it
-  to the bottom of the page on load — it always lands under the cart and
-  runs full width, no drop zone needed. **You therefore don't place Block
-  7 by hand** — just paste the Tracking file. To change the footer links,
-  edit the `innerHTML` in `footer-inject.html` (or in the `<script>` at the
-  bottom of the paste-ready file) and re-paste. If your template *does* let
-  you place a block below the cart and you'd rather use Block 7 manually,
-  delete the `<script>` block from the paste before pasting.
-- **Full-width bands = placement.** The header and hero are full-width
-  colour bands and fill 100% of whatever container they sit in, so place
-  each in its own FULL-WIDTH ROW at the top (not inside the two-column
-  cart area). The footer is handled by the inject script above. (An earlier
-  `calc(50% - 50vw)` viewport trick was dropped: ThriveCart's columns
-  aren't always centred, so it shoved the band sideways over other
-  content.)
-- **Blocks that go below the cart.** If your template also won't let you
-  place “What you'll get” (Block 5) or “About” (Block 6) below the cart,
-  put them *above* the cart (between the hero and the pre-launch note) —
-  or ask and I'll fold them into the same auto-inject script as the footer.
+- **Full-width bands are auto-injected.** ThriveCart drops custom-HTML
+  blocks into a padded, *non*-full-width content box, so a burgundy band
+  placed by hand ends up framed by a grey gutter; and some templates
+  won't let you place anything below the cart at all. To sidestep both,
+  the script in `custom-css-paste-ready.html` attaches the three bands —
+  **header + hero** to the top of the page `<body>` and the **footer** to
+  the bottom — so they run true edge-to-edge and always land in the right
+  spot, no matter what the editor's layout allows. That's why you don't
+  hand-place Blocks 1, 2 and 7.
+  - To edit the injected copy/links (logo URL, hero text, footer links),
+    change the strings in `inject.html` (or the `<script>` at the bottom
+    of the paste-ready file) and re-paste.
+  - A `window.__sdsBands` guard + per-band id checks stop duplicates if
+    the script runs twice.
+  - (An earlier `calc(50% - 50vw)` CSS trick was dropped: ThriveCart's
+    columns aren't always centred, so it shoved bands sideways over other
+    content. Injecting into the body is the robust fix.)
+- **Middle sections stay as editor blocks.** Introducing, the What's-
+  inside sidebar, What you'll get and About all use a centred 780px inner
+  container, so they look right inside ThriveCart's normal content box —
+  no full-width treatment needed. Place them above the cart if your
+  template won't allow blocks below it.
 - **Compact sidebar list.** Block 1b (`.sds-mini`) is a narrow, gold-
   accented “What's inside” bullet list for the left column of the cart
   — drop it under the product image or above the coupon field.
