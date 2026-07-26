@@ -19,6 +19,7 @@ Training!" button label.
 | `inject.html` | Source of the band auto-inject script (already bundled into the paste-ready file) | — (edit here, then re-bundle) |
 | `custom-css.css` | The same skin as raw CSS (source of the file above) | Only if your editor has a dedicated Custom CSS box |
 | `checkout-sections.html` | Seven copy-paste HTML blocks (header, hero, introducing, pre-launch note, what you'll get, about Anchen, footer) plus three clearly-marked optional extras | ThriveCart Custom HTML elements |
+| `success.html` | Self-contained SUCCESS/thank-you page block (own `<style>` + header/footer inject + branded "You've Got It!" card) | The SUCCESS page → a Custom HTML element |
 | `preview.html` | Browser preview of the whole page with a mock order form — open it locally to see the design | Nowhere — reference only |
 
 ## Install steps
@@ -62,6 +63,23 @@ Training!" button label.
 3. **Preview on mobile.** Everything is responsive (cards stack, tagline
    hides, the about card stacks below 600 px), but check ThriveCart's
    mobile preview after placing the blocks.
+
+## Success / thank-you page
+
+The success page is a **separate page** and does NOT receive the checkout's
+"All pages" tracking, so none of the checkout CSS reaches it. It gets its
+own self-contained paste instead:
+
+1. Open the **Success page** editor for the product.
+2. Drag a **Custom HTML** element to the top of the content.
+3. Paste the whole of `success.html` into it. That single block carries
+   its own `<style>`, injects the full-width header + footer bands (no
+   sales hero, since it's post-purchase), brands ThriveCart's own success
+   widgets (the "View invoice" button and the "Your products" access box),
+   and adds a branded "You've Got It!" card.
+4. Keep your existing "View invoice" button and access link below it.
+5. Edit the placeholders in `success.html` (search `EDIT-`): logo URL,
+   optional product mockup image, and the welcome message.
 
 ## Optional extras
 
