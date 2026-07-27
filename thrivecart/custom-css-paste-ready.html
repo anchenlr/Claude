@@ -3,12 +3,13 @@
      → "All pages" custom scripts box. REPLACE any previous version so
      there is only ONE copy of this script on the page.
 
-     It contains BOTH the checkout skin (in <style>) AND a script that
-     auto-injects the full-width bands (header/hero at top, footer at
-     bottom) attached to the page ROOT (<html>), hides ThriveCart's
-     built-in footer + the $0-offer address fields, styles the coupon,
-     order summary and order bump to match, and powers the "Get access
-     to the course" buttons (they auto-scroll to the cart).
+     Contains the checkout skin (<style>) + a script that injects the
+     full-width header/hero/footer bands, hides ThriveCart's built-in
+     footer, styles the coupon / order summary / order bump, and powers
+     the "Get access to the course" buttons (auto-scroll to the cart).
+
+     NOTE: the address-field hide was removed — it was blocking
+     "Complete Order" (ThriveCart validates those fields as required).
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
@@ -647,15 +648,13 @@ html { scroll-behavior: smooth; }
 .bump-affirm-text-cta p { color: var(--sds-cream) !important; font-weight: 600; }
 .bump-arrow { --arrow-color: var(--sds-red-mid) !important; }
 
-/* ─── HIDE ADDRESS FIELDS (country / state / postcode) ─────────
-   This is a $0 offer, so no address is needed and ThriveCart won't let
-   it be removed in settings. Hide the whole country/state/zip row. The
-   country keeps its default value in the DOM, so the form still submits
-   cleanly. (If ThriveCart ever flags state/zip as required on submit,
-   tell me and I'll also clear their required flag.) */
-.ui-countryzip {
-  display: none !important;
-}
+/* ─── ADDRESS FIELDS ───────────────────────────────────────────
+   NOTE: the CSS hide (.ui-countryzip{display:none}) was REMOVED because
+   ThriveCart still validates those fields as required, so hiding them
+   with empty values silently blocked "Complete Order". If you want them
+   hidden again, it must be done by filling them first (see the optional
+   address script in inject.html) or by disabling address collection in
+   ThriveCart's product settings. */
 
 /* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
    ThriveCart's built-in footer (.thrivecart-footer) sits inside the
