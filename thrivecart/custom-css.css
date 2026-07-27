@@ -163,6 +163,31 @@ input[type="submit"]:hover,
   margin: 0 0 28px;
 }
 
+/* ─── CTA BUTTON (jumps down to the checkout) ──────────────────── */
+html { scroll-behavior: smooth; }
+#sds-checkout { scroll-margin-top: 24px; }
+.sds-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--sds-gold);
+  color: var(--sds-burgundy) !important;
+  text-decoration: none !important;
+  font-family: var(--sds-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 15px 32px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
+}
+.sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
+.sds-hero .sds-cta { margin-top: 34px; }
+.sds-cta-wrap { margin-top: 30px; }
+
 /* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
    The header / hero / footer are meant to be full-width colour bands.
    They fill 100% of whatever ThriveCart container they sit in, so
