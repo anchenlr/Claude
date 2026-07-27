@@ -1,23 +1,16 @@
 <!-- Paste this ENTIRE file into:
      ThriveCart → Products → Edit product → Checkout tab → Tracking
-     → "All pages" custom scripts box.
+     → "All pages" custom scripts box. REPLACE any previous version so
+     there is only ONE copy of this script on the page.
 
      It contains BOTH the checkout skin (in <style>) AND a script that
-     auto-injects the full-width bands: header + hero at the top and the
-     footer at the bottom, attached to the page ROOT (<html>) so they run
-     edge-to-edge regardless of ThriveCart's padded/centred content box.
-
-     It also hides ThriveCart's built-in footer and the address fields
-     (country/state/postcode) for this $0 offer.
-
-     The "Get access to the course" buttons (hero + intro) smooth-scroll
-     to the checkout automatically (they find the coupon / order summary /
-     email field). No anchor block is required.
+     auto-injects the full-width bands (header/hero at top, footer at
+     bottom) attached to the page ROOT (<html>), hides ThriveCart's
+     built-in footer + the $0-offer address fields, and powers the
+     "Get access to the course" buttons (they auto-scroll to the cart).
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
-     Keep the other blocks (What's inside sidebar, Introducing, What
-     you'll get, About) as normal editor blocks.
 -->
 <style>
 /* ═══════════════════════════════════════════════════════════════
@@ -189,7 +182,8 @@ input[type="submit"]:hover,
 html { scroll-behavior: smooth; }
 #sds-checkout { scroll-margin-top: 24px; }
 .sds-cta {
-  display: inline-flex;
+  display: inline-flex !important;
+  width: auto !important;
   align-items: center;
   gap: 9px;
   background: var(--sds-gold);
@@ -207,7 +201,7 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
 }
 .sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
-.sds-cta-wrap { margin-top: 30px; text-align: center; }
+.sds-cta-wrap { margin-top: 30px; text-align: center !important; }
 .sds-hero .sds-cta-wrap { margin-top: 34px; }
 
 /* ─── FULL-WIDTH BANDS ─────────────────────────────────────────

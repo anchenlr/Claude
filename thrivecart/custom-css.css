@@ -167,7 +167,8 @@ input[type="submit"]:hover,
 html { scroll-behavior: smooth; }
 #sds-checkout { scroll-margin-top: 24px; }
 .sds-cta {
-  display: inline-flex;
+  display: inline-flex !important;
+  width: auto !important;
   align-items: center;
   gap: 9px;
   background: var(--sds-gold);
@@ -185,7 +186,7 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
 }
 .sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
-.sds-cta-wrap { margin-top: 30px; text-align: center; }
+.sds-cta-wrap { margin-top: 30px; text-align: center !important; }
 .sds-hero .sds-cta-wrap { margin-top: 34px; }
 
 /* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
