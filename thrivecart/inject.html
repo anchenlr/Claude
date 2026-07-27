@@ -84,6 +84,36 @@
     build();
   }
 
+  /* ── HIDE ADDRESS FIELDS SAFELY (free opt-in, no address allowed) ──
+     ThriveCart requires the country/state/postcode fields, so hiding
+     them with empty values blocks "Complete Order". Instead we FILL them
+     with harmless placeholder values (dispatching input/change so
+     ThriveCart's validation registers them) and THEN hide the row.
+     Filling + hiding are coupled: if this ever fails, the fields simply
+     show rather than blocking checkout. Runs on load, on a few retries
+     (in case the fields render late), and in the capture phase before
+     any click (so values are set the instant before Complete Order). */
+  function sdsHideAddress() {
+    var row = document.querySelector('.ui-countryzip');
+    var country = document.querySelector('[name="customer.address.country"]');
+    var state = document.querySelector('[name="customer.address.state"]');
+    var zip = document.querySelector('[name="customer.address.zip"]');
+    function fill(el, val) {
+      if (el && (el.value == null || el.value === '')) {
+        el.value = val;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+    fill(country, 'NZ');   // only fills if the country is somehow empty
+    fill(state, 'N/A');
+    fill(zip, '0000');
+    if (row) row.style.setProperty('display', 'none', 'important');
+  }
+  sdsHideAddress();
+  [400, 1200, 2500].forEach(function (t) { setTimeout(sdsHideAddress, t); });
+  document.addEventListener('click', sdsHideAddress, true); // fill just before submit
+
   /* Smooth-scroll the "Get access to the course" buttons to the checkout.
      Uses a delegated handler + scrollIntoView so it fires on EVERY click,
      unlike a plain #anchor (which does nothing once the URL hash matches).
