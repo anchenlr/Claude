@@ -185,8 +185,8 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
 }
 .sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
-.sds-hero .sds-cta { margin-top: 34px; }
-.sds-cta-wrap { margin-top: 30px; }
+.sds-cta-wrap { margin-top: 30px; text-align: center; }
+.sds-hero .sds-cta-wrap { margin-top: 34px; }
 
 /* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
    The header / hero / footer are meant to be full-width colour bands.

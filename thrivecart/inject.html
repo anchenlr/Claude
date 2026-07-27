@@ -51,7 +51,7 @@
             '<span>&#10003; <strong>Workbook &amp; checklist included</strong></span>' +
             '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
           '</div>' +
-          '<a href="#sds-checkout" class="sds-cta">Get access to the course &#8595;</a>' +
+          '<div class="sds-cta-wrap"><a href="#sds-checkout" class="sds-cta">Get access to the course &#8595;</a></div>' +
         '</div></div>';
       root.insertBefore(top, body); // between <head>/<body>, above the cart
     }
@@ -83,5 +83,25 @@
   } else {
     build();
   }
+
+  /* Smooth-scroll the "Get access to the course" buttons to the checkout.
+     Uses a delegated handler + scrollIntoView so it fires on EVERY click,
+     unlike a plain #anchor (which does nothing once the URL hash matches).
+     Falls back to the cart form if Block 4 (id=sds-checkout) isn't found. */
+  function findCheckout() {
+    return document.getElementById('sds-checkout')
+      || document.querySelector('.coupon-wrap')
+      || document.querySelector('.builder-v2-block-core_pricing_breakdown')
+      || document.querySelector('input[type="email"]');
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.sds-cta') : null;
+    if (!btn) return;
+    var target = findCheckout();
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
 })();
 </script>

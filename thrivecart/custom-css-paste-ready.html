@@ -10,8 +10,9 @@
      It also hides ThriveCart's built-in footer and the address fields
      (country/state/postcode) for this $0 offer.
 
-     The hero "Get access to the course" button jumps to id="sds-checkout"
-     -> keep Block 4 (pre-launch note) placed just above the cart form.
+     The "Get access to the course" buttons (hero + intro) smooth-scroll
+     to the checkout via JS -> keep Block 4 (pre-launch note) above the
+     cart form as the target (with a fallback to the cart if it moves).
 
      IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
      and footer (Block 7) from the editor so they do not appear twice.
@@ -206,8 +207,8 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
 }
 .sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
-.sds-hero .sds-cta { margin-top: 34px; }
-.sds-cta-wrap { margin-top: 30px; }
+.sds-cta-wrap { margin-top: 30px; text-align: center; }
+.sds-hero .sds-cta-wrap { margin-top: 34px; }
 
 /* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
    The header / hero / footer are meant to be full-width colour bands.
@@ -699,7 +700,7 @@ html { scroll-behavior: smooth; }
             '<span>&#10003; <strong>Workbook &amp; checklist included</strong></span>' +
             '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
           '</div>' +
-          '<a href="#sds-checkout" class="sds-cta">Get access to the course &#8595;</a>' +
+          '<div class="sds-cta-wrap"><a href="#sds-checkout" class="sds-cta">Get access to the course &#8595;</a></div>' +
         '</div></div>';
       root.insertBefore(top, body); // between <head>/<body>, above the cart
     }
@@ -731,5 +732,25 @@ html { scroll-behavior: smooth; }
   } else {
     build();
   }
+
+  /* Smooth-scroll the "Get access to the course" buttons to the checkout.
+     Uses a delegated handler + scrollIntoView so it fires on EVERY click,
+     unlike a plain #anchor (which does nothing once the URL hash matches).
+     Falls back to the cart form if Block 4 (id=sds-checkout) isn't found. */
+  function findCheckout() {
+    return document.getElementById('sds-checkout')
+      || document.querySelector('.coupon-wrap')
+      || document.querySelector('.builder-v2-block-core_pricing_breakdown')
+      || document.querySelector('input[type="email"]');
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.sds-cta') : null;
+    if (!btn) return;
+    var target = findCheckout();
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
 })();
 </script>
