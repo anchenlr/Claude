@@ -615,6 +615,22 @@ html { scroll-behavior: smooth; }
   --style-border-width: 1px !important;
 }
 
+/* ─── ORDER BUMP → match the cream cards ───────────────────────
+   Swap ThriveCart's dashed bump border for the same rounded solid
+   cream-card look as the other blocks; keep the burgundy affirm bar. */
+.bump {
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  background: var(--sds-cream) !important;
+  overflow: hidden;                 /* clip the affirm bar to the radius */
+}
+.bump-inner { border: none !important; background: transparent !important; }
+.bump-affirm { background: var(--sds-burgundy) !important; }
+.bump-affirm-text-cta,
+.bump-affirm-text-cta p { color: var(--sds-cream) !important; font-weight: 600; }
+.bump-arrow { --arrow-color: var(--sds-red-mid) !important; }
+
 /* ─── HIDE ADDRESS FIELDS (country / state / postcode) ─────────
    This is a $0 offer, so no address is needed and ThriveCart won't let
    it be removed in settings. Hide the whole country/state/zip row. The
