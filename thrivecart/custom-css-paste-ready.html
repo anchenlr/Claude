@@ -387,6 +387,14 @@ html { scroll-behavior: smooth; }
   margin-bottom: 8px;
 }
 .sds-about p { font-size: 0.9rem; color: var(--sds-ink-soft); }
+/* !important beats ThriveCart's default blue link colour */
+.sds-about a {
+  color: var(--sds-red-mid) !important;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sds-about a:hover { color: var(--sds-burgundy) !important; }
 
 /* ─── PRODUCT PANEL (What you'll get visual) ───────────────── */
 .sds-product-panel {
