@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Win Snapshot — TEMPLATE (variable map)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===================================================================
+     THE FIRST SALE SNAPSHOT — SIMPLY DIGITAL SHOPS DESIGN SYSTEM
+     Palette: Burgundy & Gold (white base, cream accent, two brand colors)
+     Sourced from the Simply Digital Shops logo + Section Booster Playbook.
+     Signature detail: the hero runs on the burgundy → bright-red gradient
+     (the "AI showcase" effect) — deep burgundy easing into a vivid red.
+     To reskin: change the color tokens + the two font names. Nothing else.
+     =================================================================== */
+  :root{
+    --bg:#FFFFFF;
+    --cream:#FBF4E9;
+    --c1:#8E0A0D;           /* burgundy — primary accent, sampled from logo */
+    --c1-deep:#650709;
+    --c1-bright:#DE1F26;    /* bright red — the warm end of the hero gradient */
+    --c1-soft:#F7E7E4;
+    --c2:#A86F1F;           /* gold — secondary accent, sampled from logo */
+    --c2-deep:#7A4F15;
+    --c2-soft:#F3E7D2;
+    --ink:#241712;
+    --text:#4A3B35;
+    --muted:#7D6C62;
+    --line:#ECE1D3;
+
+    /* Signature burgundy → bright-red gradient (AI showcase effect) */
+    --grad-hero:linear-gradient(140deg,#3E0305 0%,#650709 24%,#8E0A0D 54%,#C2151A 82%,#E8232A 100%);
+    --grad-soft:linear-gradient(140deg,#650709 0%,#8E0A0D 55%,#DE1F26 100%);
+
+    --display:'Seriously Nostalgic','Bodoni Moda',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+
+    --section-pad:clamp(64px,9vw,116px);
+    --wrap:800px;
+    --radius:24px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  /* ===== FONT FACE: Seriously Nostalgic ===== */
+  @font-face {
+    font-family: 'Seriously Nostalgic';
+    src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Seriously Nostalgic';
+    src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgiital-reg-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* ===== LAYOUT PRIMITIVES ===== */
+  .band--cream{background:var(--cream);}
+  .band--ink{background:var(--ink);}
+  .band--hero{background:var(--grad-hero);}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-left:28px;padding-right:28px;}
+  .section{padding-top:var(--section-pad);padding-bottom:var(--section-pad);}
+  .center{text-align:center;}
+  section[id]{scroll-margin-top:24px;}
+
+  /* ===== UNIVERSAL TYPE SCALE ===== */
+  .eyebrow{font-size:13.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c1);}
+  .eyebrow.alt{color:var(--c2-deep);}
+
+  .display-xl{font-family:var(--display);font-weight:400;font-size:clamp(54px,9.3vw,98px);line-height:.95;letter-spacing:-.5px;color:var(--c1);}
+  .display-xl .accent{font-style:italic;color:var(--c2);}
+
+  .display-lg{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,64px);line-height:1.02;letter-spacing:-.5px;color:var(--ink);}
+  .display-lg .accent{font-style:italic;color:var(--c1);}
+
+  .display-sm{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.6vw,44px);line-height:1.05;letter-spacing:-.4px;color:var(--ink);}
+  .display-sm .accent{font-style:italic;color:var(--c1);}
+
+  .statement{font-family:var(--display);font-weight:400;font-size:clamp(32px,5.2vw,52px);line-height:1.1;letter-spacing:-.5px;color:var(--ink);text-wrap:balance;}
+  .statement .accent{font-style:italic;color:var(--c2);}
+
+  .lead{font-size:clamp(18px,3.6vw,22px);line-height:1.5;color:var(--text);text-wrap:pretty;}
+  .body{font-size:clamp(16px,2.8vw,18px);line-height:1.62;color:var(--text);}
+  .meta{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+
+  /* ===== BUTTONS ===== */
+  .btn{display:inline-block;background:var(--c1);color:#fff;text-decoration:none;border-radius:999px;padding:16px 36px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;transition:background .15s ease,transform .15s ease;}
+  .btn:hover{background:var(--c1-deep);transform:translateY(-2px);}
+  .btn:focus-visible{outline:3px solid var(--c2);outline-offset:3px;}
+  .btn--sm{padding:11px 22px;font-size:12px;letter-spacing:.12em;}
+
+  /* ===== SITE HEADER ===== */
+  .siteheader{background:var(--bg);border-bottom:1px solid var(--line);}
+  .headbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px;}
+  .brand{font-family:var(--display);font-size:22px;color:var(--c1);line-height:1;}
+  .siteheader .brand{font-size:25px;}
+
+  /* ===== HERO (burgundy → bright-red gradient band) ===== */
+  .hero{min-height:68vh;display:flex;flex-direction:column;}
+  .hero-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:36px 0;}
+  .hero .eyebrow{font-size:16px;margin-bottom:30px;color:rgba(251,244,233,.82);}
+  .hero h1{margin-bottom:28px;}
+  .hero .display-xl{color:#fff;}
+  .hero .display-xl .accent{color:var(--c2-soft);}
+  .hero .lead{max-width:56ch;color:rgba(251,244,233,.92);}
+  .hero-scroll{font-family:var(--display);font-style:italic;font-size:24px;color:var(--c2-soft);margin-top:32px;}
+
+  /* ===== JUMP NAV ===== */
+  .jumpnav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg);}
+  .jumpnav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:14px 44px;justify-content:center;max-width:980px;padding-top:20px;padding-bottom:20px;}
+  .jump-label{font-family:var(--display);font-style:italic;font-size:19px;color:var(--muted);}
+  .jumpnav a{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;transition:color .15s ease;}
+  .jumpnav a:hover,.jumpnav a:focus-visible{color:var(--c1);}
+  .jumpnav a:focus-visible{outline:2px solid var(--c1);outline-offset:4px;border-radius:3px;}
+
+  /* ===== YOUR FIX (signature win) ===== */
+  .sigwin > .eyebrow{display:block;margin-bottom:22px;}
+  .sw-title{font-family:var(--display);font-weight:400;font-size:clamp(44px,7vw,76px);line-height:1;letter-spacing:-.5px;color:var(--c1);}
+  .sw-title .accent{font-style:italic;color:var(--c2);}
+  .sw-intro{font-size:clamp(17px,3vw,20px);line-height:1.55;color:var(--text);max-width:56ch;margin-top:22px;}
+  .sw-grid{display:grid;grid-template-columns:1fr 1px 1fr;column-gap:48px;align-items:stretch;margin-top:40px;padding-top:40px;border-top:1px solid var(--line);}
+  .sw-rule{background:var(--line);}
+  .sw-col .eyebrow{display:block;margin-bottom:14px;}
+  .sw-col p{font-size:16px;line-height:1.6;color:var(--text);}
+
+  /* ===== THE PLAY ===== */
+  .play-head{margin-bottom:18px;}
+  .play-intro{font-size:clamp(16.5px,3.2vw,20px);color:var(--text);max-width:52ch;margin-bottom:40px;}
+  .steps-card{background:var(--bg);border-radius:var(--radius);padding:10px 58px 10px 44px;box-shadow:0 12px 44px rgba(36,23,18,.08);}
+  .step{display:flex;gap:32px;align-items:flex-start;padding:42px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .num{font-family:var(--display);font-size:clamp(42px,5.5vw,56px);line-height:.85;color:var(--c2);min-width:66px;flex:none;}
+  .step-title{font-family:var(--display);font-size:clamp(28px,3.6vw,33px);line-height:1.06;color:var(--c1);margin-bottom:10px;}
+  .step-desc{font-size:16px;color:var(--text);line-height:1.62;}
+  .step-tip{margin-top:18px;}
+  .tip-tag{display:inline-block;background:var(--c2-soft);color:var(--c2-deep);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;margin-bottom:10px;}
+  .tip-text{display:block;font-size:14.5px;line-height:1.55;color:var(--text);}
+
+  /* ===== FIRST MOVE ===== */
+  .firstmove{background:var(--c1-soft);border-radius:var(--radius);padding:clamp(36px,5vw,54px);}
+  .firstmove .eyebrow{color:var(--c2-deep);margin-bottom:20px;}
+  .firstmove .display-lg{font-size:clamp(34px,5vw,54px);margin-bottom:20px;}
+  .firstmove .body{max-width:56ch;margin-bottom:0;}
+  .setup-meta{display:flex;align-items:center;gap:14px;border-top:1px solid rgba(36,23,18,.16);margin-top:38px;padding:22px 0;}
+  .setup-meta .label{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--c1-deep);}
+  .setup-meta .value{font-size:16px;font-weight:600;color:var(--ink);}
+  .checklist-wrap{padding-top:40px;border-top:1px solid rgba(36,23,18,.16);}
+  .checklist-wrap .eyebrow{display:block;color:var(--c1-deep);margin-bottom:20px;}
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:15px;}
+  .checklist label{display:flex;gap:14px;align-items:flex-start;cursor:pointer;font-size:16px;color:var(--ink);line-height:1.5;}
+  .checklist input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;border:2px solid var(--c2);border-radius:6px;margin-top:1px;cursor:pointer;position:relative;transition:background .15s ease;}
+  .checklist input:checked{background:var(--c2);}
+  .checklist input:checked::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border-right:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(45deg);}
+  .checklist input:focus-visible{outline:3px solid var(--c2-soft);outline-offset:2px;}
+  .checklist input:checked + span{color:var(--muted);text-decoration:line-through;}
+  .watch{margin-top:44px;background:var(--bg);border-radius:14px;padding:24px 26px;}
+  .watch .eyebrow{display:block;color:var(--c1-deep);margin-bottom:10px;}
+  .watch p{font-size:16px;color:var(--text);line-height:1.6;}
+
+  /* ===== THE RESULTS ===== */
+  .results .eyebrow{display:block;margin-bottom:18px;}
+  .results h2{margin-bottom:18px;}
+  .results .intro{font-size:clamp(16.5px,3.2vw,20px);color:var(--text);max-width:48ch;margin:0 auto 52px;}
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;text-align:left;}
+  .result{background:var(--bg);border-radius:18px;padding:30px 28px;box-shadow:0 8px 26px rgba(36,23,18,.06);}
+  .result .mark{width:30px;height:3px;background:var(--c1);border-radius:2px;margin-bottom:18px;}
+  .result h4{font-family:var(--display);font-weight:400;font-size:25px;line-height:1.12;color:var(--ink);margin-bottom:10px;}
+  .result p{font-size:16px;color:var(--text);line-height:1.55;}
+
+  /* ===== LEVEL UP (dark band) ===== */
+  .levelup .eyebrow{display:block;margin-bottom:22px;color:var(--c1-bright);}
+  .levelup h3{color:var(--cream);margin-bottom:22px;}
+  .levelup h3 .accent{color:var(--c1-bright);}
+  .levelup .body{font-size:clamp(16.5px,3.2vw,20px);color:rgba(251,244,233,.82);max-width:46ch;margin:0 auto 34px;}
+
+  /* ===== FOOTER ===== */
+  footer{padding-top:36px;padding-bottom:52px;text-align:center;}
+  footer .brand{display:block;margin-bottom:6px;}
+  footer .fine{color:var(--muted);font-size:13px;}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:700px){
+    .sw-grid{grid-template-columns:1fr;row-gap:32px;}
+    .sw-rule{display:none;}
+    .results-grid{grid-template-columns:1fr;gap:18px;}
+  }
+  @media (min-width:701px) and (max-width:820px){
+    .results-grid{gap:16px;}
+    .result{padding:26px 22px;}
+  }
+  @media (max-width:560px){
+    .hero{min-height:auto;}
+    .hero-main{padding:40px 0;}
+    .hero-scroll{margin-top:36px;}
+    .steps-card{padding:6px 24px;}
+    .step{gap:18px;padding:32px 0;}
+    .step .num{min-width:50px;}
+    .headbar{padding-top:14px;padding-bottom:14px;}
+    .siteheader .brand{font-size:22px;}
+    .jumpnav .wrap{gap:10px 22px;padding-top:16px;padding-bottom:16px;}
+    .setup-meta{flex-wrap:wrap;gap:6px 14px;}
+    .section{padding-top:58px;padding-bottom:58px;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.btn{transition:none;}}
+
+  /* ===== TEXT-WRAP SAFETY (for long AI-generated field values) ===== */
+  .var-c,.var-s{overflow-wrap:anywhere;word-break:break-word;}
+</style>
+</head>
+<body>
+
+  <!-- ============ SITE HEADER ============ -->
+  <header class="siteheader">
+    <div class="wrap headbar">
+      <div class="brand"><span class="var-s">Simply Digital Shops</span></div>
+      <a class="btn btn--sm" href="https://simplydigitalshops.com/work-with-us"><span class="var-s">Work With Us</span></a>
+    </div>
+  </header>
+
+  <!-- ============ HERO (burgundy → bright-red gradient band) ============ -->
+  <div class="band--hero">
+    <div class="wrap hero">
+      <div class="hero-main">
+        <p class="eyebrow">Made for <span class="var-c">{{first_name}}</span> <span class="var-c">{{last_name}}</span></p>
+        <h1 class="display-xl"><span class="var-s">The First Sale Snapshot</span></h1>
+        <p class="lead"><span class="var-s">One honest answer. One focused, achievable win — picked to help you launch, improve, or finally feel proud to share your store.</span></p>
+        <p class="hero-scroll">scroll to see your snapshot</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ JUMP NAV ============ -->
+  <nav class="jumpnav" aria-label="Jump to a section">
+    <div class="wrap">
+      <span class="jump-label">Jump to</span>
+      <a href="#win">Your fix</a>
+      <a href="#play">The play</a>
+      <a href="#first-move">First move</a>
+      <a href="#results">The results</a>
+      <a href="#next">Go bigger</a>
+    </div>
+  </nav>
+
+  <!-- ============ YOUR FIX (signature win) ============ -->
+  <section id="win" class="section wrap sigwin">
+    <span class="eyebrow">Your fix</span>
+    <h2 class="sw-title"><span class="var-c">{{signature_win_title}}</span></h2>
+    <p class="sw-intro"><span class="var-c">{{signature_win_intro}}</span></p>
+    <div class="sw-grid">
+      <div class="sw-col">
+        <span class="eyebrow alt">The problem</span>
+        <p><span class="var-c">{{the_problem}}</span></p>
+      </div>
+      <span class="sw-rule" aria-hidden="true"></span>
+      <div class="sw-col">
+        <span class="eyebrow">Why it helps</span>
+        <p><span class="var-c">{{signature_win_desc}}</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE PLAY (cream band) ============ -->
+  <div class="band--cream">
+    <section id="play" class="section wrap">
+      <div class="play-head"><h2 class="display-lg">Here's the <span class="accent">play.</span></h2></div>
+      <p class="play-intro"><span class="var-c">{{play_intro}}</span></p>
+      <div class="steps-card">
+        <div class="step">
+          <div class="num">01</div>
+          <div>
+            <p class="step-title"><span class="var-c">{{step_1_title}}</span></p>
+            <p class="step-desc"><span class="var-c">{{step_1_desc}}</span></p>
+            <div class="step-tip"><span class="tip-tag">Hot tip</span><span class="tip-text"><span class="var-c">{{step_1_tip}}</span></span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">02</div>
+          <div>
+            <p class="step-title"><span class="var-c">{{step_2_title}}</span></p>
+            <p class="step-desc"><span class="var-c">{{step_2_desc}}</span></p>
+            <div class="step-tip"><span class="tip-tag">Hot tip</span><span class="tip-text"><span class="var-c">{{step_2_tip}}</span></span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">03</div>
+          <div>
+            <p class="step-title"><span class="var-c">{{step_3_title}}</span></p>
+            <p class="step-desc"><span class="var-c">{{step_3_desc}}</span></p>
+            <div class="step-tip"><span class="tip-tag">Hot tip</span><span class="tip-text"><span class="var-c">{{step_3_tip}}</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ FIRST MOVE ============ -->
+  <section id="first-move" class="section wrap">
+    <div class="firstmove">
+      <p class="eyebrow">Your first move</p>
+      <h3 class="display-lg"><span class="var-c">{{first_move_title}}</span></h3>
+      <p class="body"><span class="var-c">{{first_move_desc}}</span></p>
+      <div class="setup-meta">
+        <span class="label">Setup time</span>
+        <span class="value"><span class="var-c">{{time_estimate}}</span></span>
+      </div>
+      <div class="checklist-wrap">
+        <span class="eyebrow">Your first-date checklist</span>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="var-c">{{checklist_1}}</span></span></label></li>
+          <li><label><input type="checkbox"><span><span class="var-c">{{checklist_2}}</span></span></label></li>
+          <li><label><input type="checkbox"><span><span class="var-c">{{checklist_3}}</span></span></label></li>
+          <li><label><input type="checkbox"><span><span class="var-c">{{checklist_4}}</span></span></label></li>
+        </ul>
+      </div>
+      <div class="watch">
+        <span class="eyebrow">One thing to watch</span>
+        <p><span class="var-c">{{watch_out}}</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE RESULTS (cream band) ============ -->
+  <div class="band--cream">
+    <section id="results" class="section wrap center results">
+      <span class="eyebrow alt">The results</span>
+      <h2 class="display-lg"><span class="var-c">{{results_title}}</span></h2>
+      <p class="intro"><span class="var-c">{{results_intro}}</span></p>
+      <div class="results-grid">
+        <div class="result">
+          <div class="mark"></div>
+          <h4><span class="var-c">{{result_1_title}}</span></h4>
+          <p><span class="var-c">{{result_1_desc}}</span></p>
+        </div>
+        <div class="result">
+          <div class="mark"></div>
+          <h4><span class="var-c">{{result_2_title}}</span></h4>
+          <p><span class="var-c">{{result_2_desc}}</span></p>
+        </div>
+        <div class="result">
+          <div class="mark"></div>
+          <h4><span class="var-c">{{result_3_title}}</span></h4>
+          <p><span class="var-c">{{result_3_desc}}</span></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ LEVEL UP (dark band) ============ -->
+  <div class="band--ink">
+    <section id="next" class="section wrap center levelup">
+      <span class="eyebrow">Ready to go bigger?</span>
+      <h3 class="display-lg"><span class="var-c">{{level_up_title}}</span></h3>
+      <p class="body"><span class="var-s">The Shopify Site Sprint brings your whole store together in two focused weeks, giving you a polished, professional Shopify site you can finally feel proud to launch.</span></p>
+      <a class="btn" href="https://simplydigitalshops.com/work-with-us"><span class="var-s">See the Shopify Site Sprint</span></a>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand"><span class="var-s">Simply Digital Shops</span></span>
+      <div class="fine"><span class="var-s">simplydigitalshops.com · hello@simplydigitalshops.com</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>
