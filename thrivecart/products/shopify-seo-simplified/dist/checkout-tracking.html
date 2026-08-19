@@ -1,19 +1,6 @@
-<!-- Paste this ENTIRE file into:
-     ThriveCart → Products → Edit product → Checkout tab → Tracking
-     → "All pages" custom scripts box. REPLACE any previous version so
-     there is only ONE copy of this script on the page.
-
-     Contains the checkout skin (<style>) + a script that injects the
-     full-width header/hero/footer bands, hides ThriveCart's built-in
-     footer, styles the coupon / order summary / order bump, powers the
-     "Get access to the course" buttons, and SAFELY hides the address
-     fields (fills postcode/state with placeholders so validation passes,
-     then hides them — if that ever fails the fields show rather than
-     blocking checkout).
-
-     IMPORTANT: remove the hand-placed header (Block 1), hero (Block 2)
-     and footer (Block 7) from the editor so they do not appear twice.
--->
+<!-- Shopify checkout skin + bands for: shopify-seo-simplified
+     Paste into ThriveCart → Checkout → Tracking → "All pages".
+     REPLACE any previous version so only ONE copy runs. -->
 <style>
 /* ═══════════════════════════════════════════════════════════════
    SIMPLY DIGITAL SHOPS — ThriveCart Checkout Skin
@@ -679,104 +666,169 @@ html { scroll-behavior: smooth; }
   .sds-guarantee { flex-direction: column; }
   .sds-about { flex-direction: column; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS / THANK-YOU PAGE (elements only present on that page)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* brand ThriveCart's built-in success widgets */
+.order-success { background: var(--sds-cream) !important; border: 1px solid var(--sds-border) !important; border-radius: 10px !important; }
+.order-success .link-title { font-family: var(--sds-display) !important; color: var(--sds-burgundy) !important; }
+.order-success .fulfillment-trigger { color: var(--sds-red-mid) !important; font-weight: 600; }
+.button-wrapper-invoice .button { background-color: var(--sds-gold) !important; }
+.button-wrapper-invoice .builder-v2-block-plaintext { color: var(--sds-burgundy) !important; }
+
+/* branded confirmation card */
+.sds-confirm { max-width: 640px; margin: 48px auto; padding: 0 24px; text-align: center; font-family: var(--sds-body); }
+.sds-confirm .sds-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sds-red-mid); display: inline-flex; align-items: center; gap: 8px; }
+.sds-confirm h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 14px 0 6px; text-align: center !important; }
+.sds-confirm .sds-check { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--sds-gold); color: var(--sds-burgundy); font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
+.sds-confirm .sds-product { background: var(--sds-burgundy); border-radius: 10px; border-bottom: 3px solid var(--sds-gold); padding: 40px 24px; margin: 26px 0; }
+.sds-confirm .sds-product .t { font-family: var(--sds-display); font-size: clamp(1.4rem, 3.5vw, 2rem); color: var(--sds-cream); }
+.sds-confirm .sds-product img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
+.sds-confirm .sds-msg { background: var(--sds-cream); border: 1px solid var(--sds-border); border-radius: 10px; padding: 28px 32px; text-align: left; color: var(--sds-ink-soft); line-height: 1.75; font-size: 1.08rem; }
+.sds-confirm .sds-msg p { margin: 0 0 14px; }
+.sds-confirm .sds-msg p:last-child { margin: 0; }
+.sds-confirm .sds-msg a { color: var(--sds-red-mid); font-weight: 500; }
 </style>
 
 <script>
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCT CONFIG — Shopify SEO, Simplified
+   Edit ONLY this file per product. The shared framework.css + engine.js
+   turn these values into the header/hero/footer bands.
+   (HTML entities like &amp; and &#8595; are fine — values go into innerHTML.)
+   ═══════════════════════════════════════════════════════════════ */
+var SDS_CONFIG = {
+  /* shared brand (same across all Simply Digital products) */
+  logoUrl: 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png',
+  tagline: 'Designed to stand out. Built to convert.',
+  footer: {
+    brand: 'Simply Digital Design',
+    links: [
+      { label: 'Privacy Policy',   url: 'https://simplydigitalshops.com/policies/privacy-policy' },
+      { label: 'Terms of Service', url: 'https://simplydigitalshops.com/policies/terms-of-service' },
+      { label: 'Our Main Website', url: 'https://simplydigitalshops.com/' }
+    ]
+  },
+
+  /* free / digital offer → hide the address fields (fill-then-hide) */
+  hideAddress: true,
+
+  /* hero band (checkout page) */
+  hero: {
+    eyebrow: 'A step-by-step Shopify SEO course',
+    title: 'Shopify SEO, Simplified',
+    subtitle: 'A simple, practical approach to optimising Shopify stores for real results.',
+    meta: [
+      'Step-by-step training',
+      'Workbook &amp; checklist included',
+      'For store owners &amp; service providers'
+    ],
+    ctaLabel: 'Get access to the course'
+  }
+};
+SDS_CONFIG.page = 'checkout';
+/* ═══════════════════════════════════════════════════════════════
+   SIMPLY DIGITAL — Shared ThriveCart engine (product-agnostic)
+
+   Reads a global `SDS_CONFIG` object (defined per product, above this
+   script at build time) and:
+     • injects the full-width header + hero + footer bands to <html>
+       (hero only when SDS_CONFIG.page === 'checkout')
+     • fills + hides the address fields when SDS_CONFIG.hideAddress
+     • smooth-scrolls the .sds-cta buttons to the checkout
+   Do NOT edit this file per product — only edit the product's config.
+   ═══════════════════════════════════════════════════════════════ */
 (function () {
-  if (window.__sdsBands) return;           // guard against double-load
+  if (window.__sdsBands) return;            // guard against double-load
   window.__sdsBands = true;
 
-  var LOGO = 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png';
+  var C = (typeof SDS_CONFIG !== 'undefined') ? SDS_CONFIG : {};
+  var page = C.page || 'checkout';
+  var brand = (C.footer && C.footer.brand) || '';
+
+  function headerHTML() {
+    var logo = C.logoUrl
+      ? '<img class="sds-logo-img" src="' + C.logoUrl + '" alt="' + brand + '" />'
+      : '<span class="sds-logo">' + brand + '</span>';
+    return '<div class="sds-block sds-header"><div class="sds-container">' +
+             logo +
+             '<span class="sds-tagline">' + (C.tagline || '') + '</span>' +
+           '</div></div>';
+  }
+
+  function heroHTML() {
+    var h = C.hero || {};
+    var meta = (h.meta || []).map(function (m) {
+      return '<span>&#10003; <strong>' + m + '</strong></span>';
+    }).join('');
+    return '<div class="sds-block sds-hero"><div class="sds-container">' +
+             (h.eyebrow ? '<div class="sds-hero-eyebrow">' + h.eyebrow + '</div>' : '') +
+             '<h1 class="sds-display">' + (h.title || '') + '</h1>' +
+             (h.subtitle ? '<p class="sds-hero-subtitle">' + h.subtitle + '</p>' : '') +
+             (meta ? '<div class="sds-hero-meta">' + meta + '</div>' : '') +
+             (h.ctaLabel ? '<div class="sds-cta-wrap"><a href="#sds-checkout" class="sds-cta">' + h.ctaLabel + ' &#8595;</a></div>' : '') +
+           '</div></div>';
+  }
+
+  function footerHTML() {
+    var f = C.footer || {};
+    var links = (f.links || []).map(function (l) {
+      return '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.label + '</a>';
+    }).join(' &nbsp;&middot;&nbsp; ');
+    return '<div class="sds-container">' +
+             '<p>&copy; ' + brand + (links ? ' &nbsp;&middot;&nbsp; ' + links : '') + '</p>' +
+             '<p class="sds-captcha">This site is protected by hCaptcha and its ' +
+               '<a href="https://hcaptcha.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and ' +
+               '<a href="https://hcaptcha.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>' +
+           '</div>';
+  }
 
   function build() {
-    var root = document.documentElement; // <html> — full viewport width
-    var body = document.body;
-
-    // ---- TOP: header + hero (inserted before <body>) ----
+    var root = document.documentElement, body = document.body;
     if (!document.getElementById('sds-top-injected')) {
       var top = document.createElement('div');
       top.id = 'sds-top-injected';
-      top.innerHTML =
-        '<div class="sds-block sds-header"><div class="sds-container">' +
-          '<img class="sds-logo-img" src="' + LOGO + '" alt="Simply Digital Shops" />' +
-          '<span class="sds-tagline">Designed to stand out. Built to convert.</span>' +
-        '</div></div>' +
-        '<div class="sds-block sds-hero"><div class="sds-container">' +
-          '<div class="sds-hero-eyebrow">A step-by-step Shopify SEO course</div>' +
-          '<h1 class="sds-display">Shopify SEO, Simplified</h1>' +
-          '<p class="sds-hero-subtitle">A simple, practical approach to optimising Shopify stores for real results.</p>' +
-          '<div class="sds-hero-meta">' +
-            '<span>&#10003; <strong>Step-by-step training</strong></span>' +
-            '<span>&#10003; <strong>Workbook &amp; checklist included</strong></span>' +
-            '<span>&#10003; <strong>For store owners &amp; service providers</strong></span>' +
-          '</div>' +
-          '<div class="sds-cta-wrap"><a href="#sds-checkout" class="sds-cta">Get access to the course &#8595;</a></div>' +
-        '</div></div>';
-      root.insertBefore(top, body); // between <head>/<body>, above the cart
+      top.innerHTML = headerHTML() + (page === 'checkout' ? heroHTML() : '');
+      root.insertBefore(top, body);
     }
-
-    // ---- BOTTOM: footer (appended after <body>) ----
     if (!document.getElementById('sds-footer-injected')) {
       var f = document.createElement('div');
       f.id = 'sds-footer-injected';
       f.className = 'sds-block sds-footer';
-      f.innerHTML =
-        '<div class="sds-container">' +
-          '<p>' +
-            '&copy; Simply Digital Design &nbsp;&middot;&nbsp; ' +
-            '<a href="https://simplydigitalshops.com/policies/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a> &nbsp;&middot;&nbsp; ' +
-            '<a href="https://simplydigitalshops.com/policies/terms-of-service" target="_blank" rel="noopener">Terms of Service</a> &nbsp;&middot;&nbsp; ' +
-            '<a href="https://simplydigitalshops.com/" target="_blank" rel="noopener">Our Main Website</a>' +
-          '</p>' +
-          '<p class="sds-captcha">This site is protected by hCaptcha and its ' +
-            '<a href="https://hcaptcha.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and ' +
-            '<a href="https://hcaptcha.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.' +
-          '</p>' +
-        '</div>';
-      root.appendChild(f); // after <body>, at the very bottom
+      f.innerHTML = footerHTML();
+      root.appendChild(f);
     }
   }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
-  } else {
-    build();
+  /* ── address fill-then-hide (checkout only, when enabled) ────────── */
+  if (page === 'checkout' && C.hideAddress) {
+    var sdsHideAddress = function () {
+      var row = document.querySelector('.ui-countryzip');
+      var country = document.querySelector('[name="customer.address.country"]');
+      var state = document.querySelector('[name="customer.address.state"]');
+      var zip = document.querySelector('[name="customer.address.zip"]');
+      var fill = function (el, val) {
+        if (el && (el.value == null || el.value === '')) {
+          el.value = val;
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      };
+      fill(country, 'NZ');
+      fill(state, 'N/A');
+      fill(zip, '0000');
+      if (row) row.style.setProperty('display', 'none', 'important');
+    };
+    sdsHideAddress();
+    [400, 1200, 2500].forEach(function (t) { setTimeout(sdsHideAddress, t); });
+    document.addEventListener('click', sdsHideAddress, true);
   }
 
-  /* ── HIDE ADDRESS FIELDS SAFELY (free opt-in, no address allowed) ──
-     ThriveCart requires the country/state/postcode fields, so hiding
-     them with empty values blocks "Complete Order". Instead we FILL them
-     with harmless placeholder values (dispatching input/change so
-     ThriveCart's validation registers them) and THEN hide the row.
-     Filling + hiding are coupled: if this ever fails, the fields simply
-     show rather than blocking checkout. Runs on load, on a few retries
-     (in case the fields render late), and in the capture phase before
-     any click (so values are set the instant before Complete Order). */
-  function sdsHideAddress() {
-    var row = document.querySelector('.ui-countryzip');
-    var country = document.querySelector('[name="customer.address.country"]');
-    var state = document.querySelector('[name="customer.address.state"]');
-    var zip = document.querySelector('[name="customer.address.zip"]');
-    function fill(el, val) {
-      if (el && (el.value == null || el.value === '')) {
-        el.value = val;
-        el.dispatchEvent(new Event('input', { bubbles: true }));
-        el.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-    }
-    fill(country, 'NZ');   // only fills if the country is somehow empty
-    fill(state, 'N/A');
-    fill(zip, '0000');
-    if (row) row.style.setProperty('display', 'none', 'important');
-  }
-  sdsHideAddress();
-  [400, 1200, 2500].forEach(function (t) { setTimeout(sdsHideAddress, t); });
-  document.addEventListener('click', sdsHideAddress, true); // fill just before submit
-
-  /* Smooth-scroll the "Get access to the course" buttons to the checkout.
-     Uses a delegated handler + scrollIntoView so it fires on EVERY click,
-     unlike a plain #anchor (which does nothing once the URL hash matches).
-     Falls back to the cart form if Block 4 (id=sds-checkout) isn't found. */
+  /* ── smooth-scroll the CTA buttons to the checkout ───────────────── */
   function findCheckout() {
     return document.getElementById('sds-checkout')
       || document.querySelector('.coupon-wrap')
@@ -787,10 +839,7 @@ html { scroll-behavior: smooth; }
     var btn = e.target.closest ? e.target.closest('.sds-cta') : null;
     if (!btn) return;
     var target = findCheckout();
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
 })();
 </script>
