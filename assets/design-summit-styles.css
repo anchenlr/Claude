@@ -1,38 +1,40 @@
 /* ─────────────────────────────────────────────────────────
    Future of Design Summit — shared styles
    Used by future-of-design-summit.html and future-of-design-summit-thank-you.html
-   Structure and component rules match assets/showcase-styles.css
-   (the AI Systems Showcase page) exactly — only the token VALUES below
-   are repointed to this summit's pink + near-black palette. Every class
-   rule below still refers to the same variable NAMES on purpose, so the
-   two pages stay easy to compare and keep in sync.
+   Structure and component rules — AND the core brand palette — match
+   assets/showcase-styles.css (the AI Systems Showcase page) exactly.
+   Only the two accent tokens below (--coral / --lavender, "used
+   sparingly") are repointed to this summit's pink, the same way the AI
+   Systems Showcase page used coral + lavender as its sparing accent.
+   Every class rule below still refers to the same variable NAMES, so
+   the two pages stay easy to compare and keep in sync.
    ───────────────────────────────────────────────────────── */
 
 /* ─── TOKENS ─────────────────────────────────────────── */
 :root {
   color-scheme: light;
 
-  /* Future of Design Summit palette (pink + near-black) */
-  --deep-red:    #c81368;
-  --burgundy:    #6e0f52;
-  --plum:        #20101e;
-  --cream:       #f5f1ea;
-  --cream-warm:  #f2e9e4;
-  --near-black:  #100b13;
-  --gold:        #ff1f8f;
+  /* Core Simply Digital Shops palette — unchanged from the AI Systems Showcase page */
+  --deep-red:    #b40000;
+  --burgundy:    #950d20;
+  --plum:        #5b002b;
+  --cream:       #eae9e3;
+  --cream-warm:  #e9e2cb;
+  --near-black:  #212321;
+  --gold:        #c7a35a;
 
   /* Derived */
   --ink:         var(--near-black);
-  --ink-soft:    #3a323a;
-  --muted:       #7d7480;
-  --border:      rgba(32, 16, 30, 0.14);
-  --shadow:      0 2px 16px rgba(16, 11, 19, 0.08);
+  --ink-soft:    #3d3a35;
+  --muted:       #7a746a;
+  --border:      rgba(91, 0, 43, 0.14);
+  --shadow:      0 2px 16px rgba(33, 35, 33, 0.08);
 
-  /* Future of Design Summit accents — used sparingly */
-  --coral:       #ff6fb0;
-  --coral-soft:  rgba(255, 111, 176, 0.16);
-  --lavender:    #f6b8d8;
-  --lavender-soft: rgba(246, 184, 216, 0.2);
+  /* Future of Design Summit accents — used sparingly, same role coral/lavender played on the AI Systems Showcase page */
+  --coral:       #e6127a;
+  --coral-soft:  rgba(230, 18, 122, 0.14);
+  --lavender:    #f5a8cf;
+  --lavender-soft: rgba(245, 168, 207, 0.18);
 
   --focus-ring: 3px solid #4d90fe;
 }
