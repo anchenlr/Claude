@@ -216,7 +216,12 @@ section + section { border-top: 1px solid var(--border); }
   transform: rotate(-12deg);
 }
 /*
-  Aspect-ratio box for the hero banner (source asset is 1280x400).
+  Aspect-ratio box for the hero banner (source asset is 600x196 — a
+  screenshot, not a full-resolution export). max-width caps the frame
+  at the asset's native width so it's never upscaled past its actual
+  resolution (which would look soft/blurry) — unlike the AI Systems
+  Showcase's 1280x400 banner, which was sized to fill the container
+  edge-to-edge.
   aspect-ratio is set on the FRAME (not the img) so it resolves
   against the frame's own resolved width — a percentage padding-top
   trick here would instead resolve against the containing block's
@@ -228,7 +233,8 @@ section + section { border-top: 1px solid var(--border); }
 .hero-banner-frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 1280 / 400;
+  max-width: 600px;
+  aspect-ratio: 600 / 196;
   margin: 0 auto 28px;
   border-radius: 10px;
   overflow: hidden;
