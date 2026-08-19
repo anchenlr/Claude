@@ -10,10 +10,12 @@ copy via a small config.
 ```
 thrivecart/
 ├── framework/                 ← shared, product-agnostic (rarely edit)
-│   ├── framework.css          full checkout + success skin
+│   ├── framework.css          checkout skin (loaded on both pages)
+│   ├── success.css            success-page-only styles
 │   ├── engine.js              injects header/hero/footer, hides address,
 │   │                          scrolls CTA buttons — reads SDS_CONFIG
 │   └── build.sh               assembles each product's paste-ready files
+│                              (one self-contained IIFE, config inlined)
 └── products/
     └── <product-name>/
         ├── config.js          ← EDIT: logo/tagline/footer + hero copy + flags
