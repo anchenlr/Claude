@@ -5,9 +5,7 @@
  *
  * Same pattern as assets/showcase-config.js (the AI Systems Showcase page),
  * kept as its own file because this summit has its own offer, gift and
- * form. Every {{TOKEN}} value below is a placeholder. Search this file for
- * "{{" to find everything that still needs a real value before launch.
- * The site is not launch-ready while any {{TOKEN}} remains.
+ * form.
  */
 window.SHOWCASE_CONFIG = {
   // Core URLs
@@ -29,24 +27,30 @@ window.SHOWCASE_CONFIG = {
   // blueprint this time — this is a document walkthrough only.
   walkthroughUrl: "https://docs.google.com/document/d/1T-vfMtgy4lYWZZeLsDMPCR82cEhsDbTgooMoz2XxuVE/copy",
 
-  // Shopify Homepage Scorecard — the free, opt-in-gated gift for this
+  // Shopify Homepage Scorecard — Anchen's existing lead magnet (the quick
+  // self-assessment she opens the "AI Show & Tell" session with, briefly).
+  // It's a separate, lighter tool from The Conversion Roadmap below, and
+  // funnels into it. Used here as the free, opt-in-gated gift for this
   // summit (replaces the Sticky Add to Cart Booster used on the AI
   // Systems Showcase page). No coupon code needed: it's free to access,
   // no purchase/checkout step. Only ever shown on the thank-you page,
   // after someone has opted in.
   scorecardUrl: "https://offers.simplydigitalshops.com/shopify-scorecard",
 
-  // The Conversion Roadmap — the paid product demonstrated in the
-  // session. Public discount teaser shown on the opt-in page itself (no
-  // opt-in required) AND repeated on the thank-you page, same pattern as
-  // the AI Systems Showcase's "Special Showcase Offer" section.
-  conversionRoadmapUrl: "{{CONVERSION_ROADMAP_URL}}",
-  conversionRoadmapDiscountUrl: "{{CONVERSION_ROADMAP_DISCOUNT_URL}}",
-  conversionRoadmapDiscountCode: "{{CONVERSION_ROADMAP_DISCOUNT_CODE}}",
+  // The Conversion Roadmap — the paid, deeper audit product demonstrated
+  // live in the session (sold via ThriveCart). Public discount teaser
+  // shown on the opt-in page itself (no opt-in required) AND repeated on
+  // the thank-you page, same pattern as the AI Systems Showcase's
+  // "Special Showcase Offer" section. conversionRoadmapUrl (footer link)
+  // is the same product page without the coupon param — confirm/replace
+  // if a dedicated non-discount landing page exists instead.
+  conversionRoadmapUrl: "https://simplydigitaldesign.thrivecart.com/shopify-conversion-roadmap/",
+  conversionRoadmapDiscountUrl: "https://simplydigitaldesign.thrivecart.com/shopify-conversion-roadmap/?coupon=DESIGNERBOSS26",
+  conversionRoadmapDiscountCode: "DESIGNERBOSS26",
 
   // VIP Day — the "I'll build it for you" upsell CTA alongside the
   // Conversion Roadmap offer.
-  vipDayUrl: "{{VIP_DAY_URL}}",
+  vipDayUrl: "https://simplydigitaldesign.thrivecart.com/shopify-sidekick-vip-intensive/",
 };
 
 /**
