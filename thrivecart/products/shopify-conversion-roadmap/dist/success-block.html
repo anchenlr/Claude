@@ -694,9 +694,7 @@ html { scroll-behavior: smooth; }
 <script>
 /* ═══════════════════════════════════════════════════════════════
    PRODUCT CONFIG — Shopify Conversion Roadmap  ($37, digital)
-   DRAFT — hero copy below is a first pass from the product description;
-   review/replace the lines marked EDIT. Everything else is inherited
-   from the shared brand.
+   Copy taken from the live checkout.
    ═══════════════════════════════════════════════════════════════ */
 var SDS_CONFIG = {
   /* shared brand (same across all Simply Digital products) */
@@ -711,22 +709,21 @@ var SDS_CONFIG = {
     ]
   },
 
-  /* Paid $37 digital product. Set true only if you also need the address
-     fields hidden here (the free opt-in did for legal reasons). Test a
-     purchase after enabling, since ThriveCart may require them. */
+  /* Paid $37 product — address fields left visible (set true only if this
+     offer must not collect an address; test a purchase after enabling). */
   hideAddress: false,
 
-  /* hero band (checkout page) — EDIT the copy below */
+  /* hero band (checkout page) */
   hero: {
-    eyebrow: 'A strategy-first Shopify audit',                                   /* EDIT */
-    title: 'Shopify Conversion Roadmap',                                         /* EDIT */
-    subtitle: 'A personalised, strategy-first audit of your store — see exactly what’s holding it back and get a prioritised plan to fix it.', /* EDIT */
-    meta: [                                                                      /* EDIT */
-      'Personalised audit',
-      'Prioritised action plan',
-      'For Shopify store owners'
+    eyebrow: 'A personalised, strategy-first audit',
+    title: 'Shopify Conversion Roadmap',
+    subtitle: 'Get a clear picture of exactly what’s holding your store back — and a prioritised plan to fix it.',
+    meta: [
+      '20 conversion categories scored',
+      'Quick wins + 30 &amp; 90-day plan',
+      'Delivered in 24–48 hours'
     ],
-    ctaLabel: 'Get my roadmap'                                                   /* EDIT */
+    ctaLabel: 'Get my roadmap'
   }
 };
 SDS_CONFIG.page = 'success';
@@ -845,20 +842,20 @@ SDS_CONFIG.page = 'success';
 })();
 </script>
 
-<!-- ─── SUCCESS CONFIRMATION CARD — Shopify Conversion Roadmap (DRAFT)
-     Edit the copy. To use the product mockup image instead of the
-     burgundy text panel, replace the inner <span> with:
-       <img src="https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fchatgpt-image-jun-22-2026-024106-pm-1782096193.png" alt="Shopify Conversion Roadmap" /> -->
+<!-- ─── SUCCESS CONFIRMATION CARD — Shopify Conversion Roadmap ─────
+     Worded for the 24–48h personal delivery. Edit freely. To use the
+     product mockup image instead of the burgundy text panel, replace the
+     inner <span> with:  <img src="YOUR_ROADMAP_IMAGE_URL" alt="Shopify Conversion Roadmap" /> -->
 <div class="sds-block sds-confirm">
   <span class="sds-check">&#10003;</span>
   <div><span class="sds-eyebrow">Order complete</span></div>
-  <h1 class="sds-display">You've Got It!</h1>
+  <h1 class="sds-display">You're all set!</h1>
   <div class="sds-product">
     <span class="t">Shopify Conversion Roadmap</span>
   </div>
   <div class="sds-msg">
-    <p>Thank you so much for your order — I'm so pleased to have you here!</p>
-    <p>You'll receive your ThriveCart login details by email shortly. Use them to log in and access your Conversion Roadmap inside ThriveCart Learn.</p>
+    <p>Thank you so much for your order — I can't wait to dig into your store!</p>
+    <p>Next, keep an eye on your inbox for a short form asking for your store details and a few screenshots. As soon as I have those, I'll personally review your store and send your branded Conversion Roadmap within <strong>24–48 hours</strong>.</p>
     <p>If you want to follow up, you can email me on <a href="mailto:anchen@simplydigitaldesign.com">anchen@simplydigitaldesign.com</a>.</p>
   </div>
 </div>
