@@ -1,0 +1,863 @@
+<!-- Branded SUCCESS page block for: shopify-sidekick-vip-intensive
+     Paste into a Custom HTML element on the ThriveCart success page. -->
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   SIMPLY DIGITAL SHOPS — ThriveCart Checkout Skin
+   Product: Shopify SEO Simplified
+
+   WHERE TO PASTE:
+   ThriveCart → your product → Checkout tab → Design → Customize
+   → scroll to “Custom CSS” → paste this entire file → Save.
+
+   This file does two jobs:
+   1. Restyles ThriveCart’s own checkout elements (page background,
+      fonts, form fields, buttons) using safe, generic selectors.
+   2. Provides all styling for the custom HTML section blocks in
+      checkout-sections.html (everything prefixed “sds-”).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── FONTS ────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,600;1,400&display=swap');
+
+@font-face {
+  font-family: 'Seriously Nostalgic';
+  src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Seriously Nostalgic';
+  src: url('https://offers.simplydigitalshops.com/fonts/seriouslynostalgiital-reg-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── BRAND TOKENS ─────────────────────────────────────────── */
+:root {
+  --sds-cream:       #e8e4d3;
+  --sds-cream-light: #f5f2e8;
+  --sds-burgundy:    #5a002a;
+  --sds-red-mid:     #950d20;
+  --sds-red-bright:  #b83229;
+  --sds-gold:        #c7a35a;
+  --sds-ink:         #1a1410;
+  --sds-ink-soft:    #3d3530;
+  --sds-muted:       #7a6e65;
+  --sds-border:      rgba(90, 0, 42, 0.12);
+  --sds-shadow:      0 2px 16px rgba(26, 20, 16, 0.07);
+  --sds-display:     'Seriously Nostalgic', 'Bodoni Moda', serif;
+  --sds-body:        'Inter', sans-serif;
+}
+
+/* ─── THRIVECART PAGE BASE ─────────────────────────────────── */
+/* Generic selectors on purpose: they apply no matter which
+   ThriveCart template you’re on. */
+body {
+  background: var(--sds-cream-light) !important;
+  font-family: var(--sds-body) !important;
+  color: var(--sds-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* !important here kills ThriveCart's default dark-blue heading colour,
+   which otherwise wins on specificity and bleeds through the page. */
+h1, h2, h3, h4 {
+  font-family: var(--sds-display) !important;
+  font-weight: normal !important;
+  color: var(--sds-ink) !important;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+p, label, span, li, td { font-family: var(--sds-body); }
+
+/* ─── THRIVECART FORM FIELDS ───────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  background: #ffffff !important;
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  color: var(--sds-ink) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--sds-burgundy) !important;
+  box-shadow: 0 0 0 3px rgba(199, 163, 90, 0.25) !important;
+  outline: none !important;
+}
+
+::placeholder { color: var(--sds-muted); opacity: 0.8; }
+
+/* ─── THRIVECART BUTTONS (Complete Order etc.) ─────────────── */
+button[type="submit"],
+input[type="submit"],
+.button,
+.btn {
+  background: var(--sds-gold) !important;
+  background-image: none !important;
+  color: var(--sds-burgundy) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 12px rgba(199, 163, 90, 0.35) !important;
+  transition: background 0.2s !important;
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+.button:hover,
+.btn:hover {
+  background: #b8934a !important; /* deeper gold */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM HTML SECTION STYLES (blocks in checkout-sections.html)
+   ═══════════════════════════════════════════════════════════════ */
+
+.sds-block * { box-sizing: border-box; margin: 0; padding: 0; }
+.sds-block { font-family: var(--sds-body); line-height: 1.7; }
+
+.sds-container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.sds-display {
+  font-family: var(--sds-display);
+  font-weight: normal;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.sds-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-red-mid);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.sds-gold-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--sds-gold);
+  margin: 0 0 28px;
+}
+
+/* ─── CTA BUTTON (jumps down to the checkout) ──────────────────── */
+html { scroll-behavior: smooth; }
+#sds-checkout { scroll-margin-top: 24px; }
+.sds-cta {
+  display: inline-flex !important;
+  width: auto !important;
+  align-items: center;
+  gap: 9px;
+  background: var(--sds-gold);
+  color: var(--sds-burgundy) !important;
+  text-decoration: none !important;
+  font-family: var(--sds-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 15px 32px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 14px rgba(199, 163, 90, 0.35);
+}
+.sds-cta:hover { background: #b8934a; color: var(--sds-burgundy) !important; }
+.sds-cta-wrap { margin-top: 30px; text-align: center !important; }
+.sds-hero .sds-cta-wrap { margin-top: 34px; }
+
+/* ─── FULL-WIDTH BANDS ─────────────────────────────────────────
+   The header / hero / footer are meant to be full-width colour bands.
+   They fill 100% of whatever ThriveCart container they sit in, so
+   place each of these three HTML blocks in a FULL-WIDTH ROW in the
+   builder (not inside the two-column cart area). We deliberately do
+   NOT use viewport (100vw / calc-50vw) tricks here: ThriveCart's
+   columns aren't always centred, and those tricks then shove the band
+   sideways over other content. See README “Full-width bands”. */
+.sds-header,
+.sds-hero,
+.sds-footer {
+  width: 100%;
+}
+
+/* ─── HEADER BAR ───────────────────────────────────────────── */
+.sds-header {
+  background: var(--sds-burgundy);
+  padding: 20px 0;
+}
+.sds-header .sds-container {
+  display: flex;
+  align-items: center;      /* keeps logo + tagline on one baseline */
+  justify-content: space-between;
+  gap: 20px;
+}
+.sds-header .sds-logo {
+  font-family: var(--sds-display);
+  font-size: 1.15rem;
+  color: var(--sds-cream) !important;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.sds-header .sds-logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+.sds-header .sds-tagline {
+  font-size: 0.75rem;
+  color: rgba(232, 228, 211, 0.7) !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* ─── HERO ─────────────────────────────────────────────────── */
+.sds-hero {
+  background: var(--sds-burgundy);
+  padding: 64px 0 72px;
+  border-bottom: 3px solid var(--sds-gold);
+}
+.sds-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sds-hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--sds-gold);
+}
+.sds-hero h1 {
+  color: var(--sds-cream) !important;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 20px;
+}
+.sds-hero-subtitle {
+  font-size: 1.05rem;
+  color: rgba(232, 228, 211, 0.88) !important;
+  max-width: 560px;
+  line-height: 1.65;
+}
+.sds-hero-meta {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.sds-hero-meta span {
+  font-size: 0.8rem;
+  color: rgba(232, 228, 211, 0.8) !important;
+  letter-spacing: 0.04em;
+}
+.sds-hero-meta strong {
+  color: rgba(232, 228, 211, 0.95) !important;
+  font-weight: 500;
+}
+
+/* ─── SECTION SHELL ────────────────────────────────────────── */
+.sds-section { padding: 56px 0; }
+.sds-section h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: 0.75rem;
+}
+.sds-section > .sds-container > p {
+  color: var(--sds-ink-soft);
+  margin-bottom: 1rem;
+}
+
+/* ─── WHAT'S INSIDE CARDS ──────────────────────────────────── */
+.sds-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+.sds-card {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 8px;
+  padding: 24px;
+}
+.sds-card-icon { font-size: 1.4rem; margin-bottom: 12px; display: block; }
+.sds-card h3 {
+  font-family: var(--sds-body) !important;
+  font-size: 0.9rem;
+  font-weight: 600 !important;
+  margin-bottom: 6px;
+}
+.sds-card p { font-size: 0.85rem; color: var(--sds-ink-soft); }
+
+/* ─── CHECK LIST (Inside, you'll learn how to…) ────────────── */
+.sds-check-list {
+  list-style: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sds-check-list li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 0.95rem;
+  color: var(--sds-ink-soft);
+}
+.sds-check-list li::before {
+  content: '✓';
+  color: var(--sds-gold);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ─── ABOUT THE TEACHER ────────────────────────────────────── */
+.sds-about {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-about img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--sds-gold);
+  flex-shrink: 0;
+}
+.sds-about h3 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 8px;
+}
+.sds-about p { font-size: 0.9rem; color: var(--sds-ink-soft); }
+/* !important beats ThriveCart's default blue link colour */
+.sds-about a {
+  color: var(--sds-red-mid) !important;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sds-about a:hover { color: var(--sds-burgundy) !important; }
+
+/* ─── PRODUCT PANEL (What you'll get visual) ───────────────── */
+.sds-product-panel {
+  background: var(--sds-burgundy);
+  border-radius: 10px;
+  border-bottom: 3px solid var(--sds-gold);
+  padding: 56px 32px;
+  text-align: center;
+  margin-top: 28px;
+}
+.sds-product-panel .sds-product-title {
+  font-family: var(--sds-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--sds-cream);
+}
+.sds-product-panel img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ─── PRE-LAUNCH NOTE ──────────────────────────────────────── */
+.sds-prelaunch {
+  background: var(--sds-cream);
+  border: 1px dashed rgba(199, 163, 90, 0.7);
+  border-radius: 8px;
+  padding: 16px 22px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--sds-ink-soft);
+  margin-top: 24px;
+}
+
+/* ─── COMPACT "WHAT'S INSIDE" (left sidebar) ───────────────── */
+/* Drop this block into the left column, above/below the coupon.
+   No .sds-container wrapper — it fills the sidebar width. */
+.sds-mini {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin: 20px 0;
+}
+.sds-mini .sds-mini-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-red-mid);
+  display: block;
+  margin-bottom: 4px;
+}
+.sds-mini h4 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.15rem !important;
+  color: var(--sds-burgundy) !important;
+  margin-bottom: 16px;
+}
+.sds-mini ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.sds-mini li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--sds-ink-soft);
+}
+.sds-mini li::before {
+  content: '✓';
+  color: var(--sds-gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── TESTIMONIAL ──────────────────────────────────────────── */
+.sds-testimonial {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-left: 3px solid var(--sds-gold);
+  border-radius: 0 10px 10px 0;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-testimonial blockquote {
+  font-family: var(--sds-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--sds-ink);
+  margin-bottom: 16px;
+}
+.sds-testimonial cite {
+  font-style: normal;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sds-muted);
+}
+.sds-stars { color: var(--sds-gold); letter-spacing: 3px; margin-bottom: 14px; display: block; }
+
+/* ─── GUARANTEE ────────────────────────────────────────────── */
+.sds-guarantee {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  background: var(--sds-cream);
+  border: 1px solid rgba(199, 163, 90, 0.45);
+  border-radius: 10px;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-guarantee-seal {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--sds-gold);
+  color: var(--sds-burgundy);
+  font-family: var(--sds-display);
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  text-align: center;
+}
+.sds-guarantee h3 {
+  font-family: var(--sds-display) !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 6px;
+}
+.sds-guarantee p { font-size: 0.9rem; color: var(--sds-ink-soft); }
+
+/* ─── FAQ ──────────────────────────────────────────────────── */
+.sds-faq-list { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+.sds-faq-list details {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+.sds-faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 22px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--sds-ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.sds-faq-list summary::-webkit-details-marker { display: none; }
+.sds-faq-list summary::after {
+  content: '+';
+  font-family: var(--sds-display);
+  font-size: 1.2rem;
+  color: var(--sds-red-mid);
+  flex-shrink: 0;
+}
+.sds-faq-list details[open] summary::after { content: '–'; }
+.sds-faq-list details p {
+  padding: 0 22px 18px;
+  font-size: 0.875rem;
+  color: var(--sds-ink-soft);
+}
+
+/* ─── FOOTER ───────────────────────────────────────────────── */
+.sds-footer {
+  background: var(--sds-burgundy);
+  padding: 36px 0;
+  text-align: center;
+}
+.sds-footer p {
+  font-size: 0.78rem;
+  color: rgba(232, 228, 211, 0.75) !important;
+}
+/* !important beats ThriveCart's default blue link colour */
+.sds-footer a {
+  color: var(--sds-gold) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+.sds-footer a:hover { color: var(--sds-cream) !important; }
+/* small hCaptcha legal line under the footer links */
+.sds-footer .sds-captcha {
+  font-size: 0.66rem !important;
+  color: rgba(232, 228, 211, 0.5) !important;
+  margin-top: 12px !important;
+  letter-spacing: 0.02em;
+}
+.sds-footer .sds-captcha a {
+  color: rgba(232, 228, 211, 0.7) !important;
+  font-weight: 400;
+}
+
+/* ─── MATCH THRIVECART'S COUPON + ORDER SUMMARY TO THE CARDS ────
+   Give the two native left-column boxes the same rounded cream-card look
+   as the "What's inside" (.sds-mini) block. */
+
+/* Coupon field row → cream card */
+.coupon-wrap {
+  background: var(--sds-cream) !important;
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+.coupon-wrap .coupon-field {
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+}
+.coupon-wrap .pure-button {
+  background: var(--sds-gold) !important;
+  color: var(--sds-burgundy) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: var(--sds-body) !important;
+  font-weight: 600 !important;
+  padding: 10px 18px !important;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Order summary (pricing breakdown) → rounded cream card w/ subtle border.
+   We override ThriveCart's own --style-* custom properties; our !important
+   beats their inline (non-important) values. Keeps the gold divider. */
+.builder-v2-block-core_pricing_breakdown {
+  --style-background-color: #e8e4d3 !important;        /* cream */
+  --style-border-color: rgba(90, 0, 42, 0.12) !important; /* subtle border */
+  --style-border-radius: 10px !important;
+  --style-border-width: 1px !important;
+}
+
+/* ─── ORDER BUMP → match the cream cards ───────────────────────
+   Swap ThriveCart's dashed bump border for the same rounded solid
+   cream-card look as the other blocks; keep the burgundy affirm bar. */
+.bump {
+  border: 1px solid var(--sds-border) !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  background: var(--sds-cream) !important;
+  overflow: hidden;                 /* clip the affirm bar to the radius */
+}
+.bump-inner { border: none !important; background: transparent !important; }
+.bump-affirm { background: var(--sds-burgundy) !important; }
+.bump-affirm-text-cta,
+.bump-affirm-text-cta p { color: var(--sds-cream) !important; font-weight: 600; }
+.bump-arrow { --arrow-color: var(--sds-red-mid) !important; }
+
+/* ─── ADDRESS FIELDS ───────────────────────────────────────────
+   NOTE: the CSS hide (.ui-countryzip{display:none}) was REMOVED because
+   ThriveCart still validates those fields as required, so hiding them
+   with empty values silently blocked "Complete Order". If you want them
+   hidden again, it must be done by filling them first (see the optional
+   address script in inject.html) or by disabling address collection in
+   ThriveCart's product settings. */
+
+/* ─── HIDE THRIVECART'S DEFAULT FOOTER ─────────────────────────
+   ThriveCart's built-in footer (.thrivecart-footer) sits inside the
+   width-capped body and shows "Powered by ThriveCart", a copyright, and
+   the hCaptcha legal notice in a narrow column above our band. It's
+   hidden entirely so our injected footer stands alone.
+   NOTE: this also hides the hCaptcha notice (.captcha-legal). hCaptcha's
+   terms ask that either their badge or that notice stay visible, so this
+   is a deliberate choice — to restore just the notice, remove this rule
+   and use the branding-only version from git history instead. */
+.region-footer,
+.thrivecart-footer {
+  display: none !important;
+}
+
+/* ─── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .sds-section { padding: 40px 0; }
+  .sds-hero { padding: 48px 0 56px; }
+  .sds-header .sds-tagline { display: none; }
+  .sds-card-grid { grid-template-columns: 1fr; }
+  .sds-guarantee { flex-direction: column; }
+  .sds-about { flex-direction: column; }
+}
+
+/* Success/thank-you page styles live in success.css (loaded only there). */
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS / THANK-YOU PAGE styles (loaded only on the success page)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* brand ThriveCart's built-in success widgets */
+.order-success { background: var(--sds-cream) !important; border: 1px solid var(--sds-border) !important; border-radius: 10px !important; }
+.order-success .link-title { font-family: var(--sds-display) !important; color: var(--sds-burgundy) !important; }
+.order-success .fulfillment-trigger { color: var(--sds-red-mid) !important; font-weight: 600; }
+.button-wrapper-invoice .button { background-color: var(--sds-gold) !important; }
+.button-wrapper-invoice .builder-v2-block-plaintext { color: var(--sds-burgundy) !important; }
+
+/* branded confirmation card */
+.sds-confirm { max-width: 640px; margin: 48px auto; padding: 0 24px; text-align: center; font-family: var(--sds-body); }
+.sds-confirm .sds-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sds-red-mid); display: inline-flex; align-items: center; gap: 8px; }
+.sds-confirm h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 14px 0 6px; text-align: center !important; }
+.sds-confirm .sds-check { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--sds-gold); color: var(--sds-burgundy); font-size: 1.4rem; font-weight: 700; margin-bottom: 18px; }
+.sds-confirm .sds-product { background: var(--sds-burgundy); border-radius: 10px; border-bottom: 3px solid var(--sds-gold); padding: 40px 24px; margin: 26px 0; }
+.sds-confirm .sds-product .t { font-family: var(--sds-display); font-size: clamp(1.4rem, 3.5vw, 2rem); color: var(--sds-cream); }
+.sds-confirm .sds-product img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 6px; }
+.sds-confirm .sds-msg { background: var(--sds-cream); border: 1px solid var(--sds-border); border-radius: 10px; padding: 28px 32px; text-align: left; color: var(--sds-ink-soft); line-height: 1.75; font-size: 1.08rem; }
+.sds-confirm .sds-msg p { margin: 0 0 14px; }
+.sds-confirm .sds-msg p:last-child { margin: 0; }
+.sds-confirm .sds-msg a { color: var(--sds-red-mid); font-weight: 500; }
+</style>
+
+<script>
+(function () {
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCT CONFIG — Shopify Sidekick: Code and Conversion VIP Intensive
+   ($1000, service). Copy taken from the live checkout.
+   ═══════════════════════════════════════════════════════════════ */
+var SDS_CONFIG = {
+  /* shared brand (same across all Simply Digital products) */
+  logoUrl: 'https://spark.thrivecart.com/0x0/user_assets%2FLOTL3TGY%2Fuploads%2Fimages%2Fsds-light-logo-1784845132.png',
+  tagline: 'Designed to stand out. Built to convert.',
+  footer: {
+    brand: 'Simply Digital Design',
+    links: [
+      { label: 'Privacy Policy',   url: 'https://simplydigitalshops.com/policies/privacy-policy' },
+      { label: 'Terms of Service', url: 'https://simplydigitalshops.com/policies/terms-of-service' },
+      { label: 'Our Main Website', url: 'https://simplydigitalshops.com/' }
+    ]
+  },
+
+  /* Paid $1000 service — address fields left visible (set true only if
+     this offer must not collect an address; test a purchase after). */
+  hideAddress: false,
+
+  /* hero band (checkout page) */
+  hero: {
+    eyebrow: 'A done-for-you Shopify VIP intensive',
+    title: 'Shopify Sidekick',
+    subtitle: 'Code &amp; Conversion VIP Intensive — expert Shopify development, done for you in a focused 8-hour day.',
+    meta: [
+      '8-hour focused intensive',
+      'Custom dev + Shopify SEO',
+      'Prep call + Voxer support'
+    ],
+    ctaLabel: 'Book my VIP day'
+  }
+};
+SDS_CONFIG.page = 'success';
+/* ═══════════════════════════════════════════════════════════════
+   SIMPLY DIGITAL — Shared ThriveCart engine (product-agnostic)
+
+   FRAGMENT: build.sh wraps this (with the product's config) in ONE
+   self-contained IIFE — do not add an outer function here, and don't
+   run this file on its own. It reads the `SDS_CONFIG` declared just
+   above it in the same IIFE, and:
+     • injects the full-width header + hero + footer bands to <html>
+       (hero only when SDS_CONFIG.page === 'checkout')
+     • fills + hides the address fields when SDS_CONFIG.hideAddress
+     • smooth-scrolls the .sds-cta buttons to the checkout
+   Edit only the product's config, never this file.
+   ═══════════════════════════════════════════════════════════════ */
+if (window.__sdsBands) return;            // guard against double-load
+window.__sdsBands = true;
+
+var C = (typeof SDS_CONFIG !== 'undefined') ? SDS_CONFIG : {};
+var page = C.page || 'checkout';
+var brand = (C.footer && C.footer.brand) || '';
+
+function headerHTML() {
+  var logo = C.logoUrl
+    ? '<img class="sds-logo-img" src="' + C.logoUrl + '" alt="' + brand + '" />'
+    : '<span class="sds-logo">' + brand + '</span>';
+  return '<div class="sds-block sds-header"><div class="sds-container">' +
+           logo +
+           '<span class="sds-tagline">' + (C.tagline || '') + '</span>' +
+         '</div></div>';
+}
+
+function heroHTML() {
+  var h = C.hero || {};
+  var meta = (h.meta || []).map(function (m) {
+    return '<span>&#10003; <strong>' + m + '</strong></span>';
+  }).join('');
+  return '<div class="sds-block sds-hero"><div class="sds-container">' +
+           (h.eyebrow ? '<div class="sds-hero-eyebrow">' + h.eyebrow + '</div>' : '') +
+           '<h1 class="sds-display">' + (h.title || '') + '</h1>' +
+           (h.subtitle ? '<p class="sds-hero-subtitle">' + h.subtitle + '</p>' : '') +
+           (meta ? '<div class="sds-hero-meta">' + meta + '</div>' : '') +
+           (h.ctaLabel ? '<div class="sds-cta-wrap"><a href="#sds-checkout" class="sds-cta">' + h.ctaLabel + ' &#8595;</a></div>' : '') +
+         '</div></div>';
+}
+
+function footerHTML() {
+  var f = C.footer || {};
+  var links = (f.links || []).map(function (l) {
+    return '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.label + '</a>';
+  }).join(' &nbsp;&middot;&nbsp; ');
+  return '<div class="sds-container">' +
+           '<p>&copy; ' + brand + (links ? ' &nbsp;&middot;&nbsp; ' + links : '') + '</p>' +
+           '<p class="sds-captcha">This site is protected by hCaptcha and its ' +
+             '<a href="https://hcaptcha.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and ' +
+             '<a href="https://hcaptcha.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>' +
+         '</div>';
+}
+
+function build() {
+  var root = document.documentElement, body = document.body;
+  if (!document.getElementById('sds-top-injected')) {
+    var top = document.createElement('div');
+    top.id = 'sds-top-injected';
+    top.innerHTML = headerHTML() + (page === 'checkout' ? heroHTML() : '');
+    root.insertBefore(top, body);
+  }
+  if (!document.getElementById('sds-footer-injected')) {
+    var f = document.createElement('div');
+    f.id = 'sds-footer-injected';
+    f.className = 'sds-block sds-footer';
+    f.innerHTML = footerHTML();
+    root.appendChild(f);
+  }
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+else build();
+
+/* ── address fill-then-hide (checkout only, when enabled) ────────── */
+if (page === 'checkout' && C.hideAddress) {
+  var sdsHideAddress = function () {
+    var row = document.querySelector('.ui-countryzip');
+    var country = document.querySelector('[name="customer.address.country"]');
+    var state = document.querySelector('[name="customer.address.state"]');
+    var zip = document.querySelector('[name="customer.address.zip"]');
+    var fill = function (el, val) {
+      if (el && (el.value == null || el.value === '')) {
+        el.value = val;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    };
+    fill(country, 'NZ');
+    fill(state, 'N/A');
+    fill(zip, '0000');
+    if (row) row.style.setProperty('display', 'none', 'important');
+  };
+  sdsHideAddress();
+  [400, 1200, 2500].forEach(function (t) { setTimeout(sdsHideAddress, t); });
+  document.addEventListener('click', sdsHideAddress, true);
+}
+
+/* ── smooth-scroll the CTA buttons to the checkout ───────────────── */
+function findCheckout() {
+  return document.getElementById('sds-checkout')
+    || document.querySelector('.coupon-wrap')
+    || document.querySelector('.builder-v2-block-core_pricing_breakdown')
+    || document.querySelector('input[type="email"]');
+}
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.sds-cta') : null;
+  if (!btn) return;
+  var target = findCheckout();
+  if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+});
+})();
+</script>
+
+<!-- ─── SUCCESS CONFIRMATION CARD — Shopify Sidekick VIP Intensive ─
+     Worded for a booked service (prep call + design day). Edit freely. -->
+<div class="sds-block sds-confirm">
+  <span class="sds-check">&#10003;</span>
+  <div><span class="sds-eyebrow">Booking confirmed</span></div>
+  <h1 class="sds-display">You're booked in!</h1>
+  <div class="sds-product">
+    <span class="t">Shopify Sidekick VIP Intensive</span>
+  </div>
+  <div class="sds-msg">
+    <p>Thank you so much — I can't wait to work on your store!</p>
+    <p>Next, keep an eye on your inbox: I'll be in touch shortly to schedule your <strong>prep call</strong> and lock in your VIP design day, along with everything I'll need from you beforehand.</p>
+    <p>If you have any questions in the meantime, email me on <a href="mailto:anchen@simplydigitaldesign.com">anchen@simplydigitaldesign.com</a>.</p>
+  </div>
+</div>
