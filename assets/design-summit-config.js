@@ -48,9 +48,10 @@ window.SHOWCASE_CONFIG = {
   conversionRoadmapDiscountUrl: "https://simplydigitaldesign.thrivecart.com/shopify-conversion-roadmap/?coupon=DESIGNERBOSS26",
   conversionRoadmapDiscountCode: "DESIGNERBOSS26",
 
-  // VIP Day — the "I'll build it for you" upsell CTA alongside the
-  // Conversion Roadmap offer.
-  vipDayUrl: "https://simplydigitaldesign.thrivecart.com/shopify-sidekick-vip-intensive/",
+  // AI Project Consultation — a no-pressure chat about the attendee's own
+  // AI project, offered alongside the Conversion Roadmap rather than
+  // pitching a paid VIP Day upsell directly.
+  aiConsultationUrl: "https://clients.simplydigitaldesign.com/public/ai-project-consultation",
 };
 
 /**
