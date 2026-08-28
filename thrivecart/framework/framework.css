@@ -546,6 +546,69 @@ html { scroll-behavior: smooth; }
   color: var(--sds-ink-soft);
 }
 
+/* ─── "ONLY AVAILABLE THIS WEEK" (exclusive bonuses) ───────────── */
+.sds-exclusive {
+  background: var(--sds-cream);
+  border: 2px solid var(--sds-gold);
+  border-radius: 10px;
+  padding: 32px;
+  margin-top: 28px;
+}
+.sds-exclusive .sds-badge {
+  display: inline-block;
+  background: var(--sds-gold);
+  color: var(--sds-burgundy);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+.sds-exclusive-item { display: flex; gap: 14px; align-items: flex-start; }
+.sds-exclusive-item + .sds-exclusive-item { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--sds-border); }
+.sds-exclusive-item .ico { font-size: 1.5rem; flex-shrink: 0; line-height: 1.2; }
+.sds-exclusive-item h3 { font-family: var(--sds-body) !important; font-size: 0.98rem; font-weight: 600 !important; margin-bottom: 4px; }
+.sds-exclusive-item p { font-size: 0.9rem; color: var(--sds-ink-soft); margin: 0; }
+
+/* ─── NO-BRAINER (short emphasis band) ─────────────────────────── */
+.sds-nobrainer {
+  background: var(--sds-burgundy);
+  border-radius: 10px;
+  border-bottom: 3px solid var(--sds-gold);
+  padding: 40px 36px;
+  margin-top: 28px;
+  text-align: center;
+}
+.sds-nobrainer p {
+  color: rgba(232, 228, 211, 0.92);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.sds-nobrainer strong { color: var(--sds-cream); font-weight: 600; }
+
+/* ─── DEADLINE NOTE ────────────────────────────────────────────── */
+.sds-deadline {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  background: var(--sds-cream);
+  border: 1px solid rgba(199, 163, 90, 0.6);
+  border-left: 3px solid var(--sds-gold);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-top: 28px;
+  font-size: 0.9rem;
+  color: var(--sds-ink-soft);
+  text-align: center;
+}
+.sds-deadline .ico { font-size: 1.3rem; flex-shrink: 0; }
+.sds-deadline strong { color: var(--sds-red-mid); }
+
 /* ─── FOOTER ───────────────────────────────────────────────── */
 .sds-footer {
   background: var(--sds-burgundy);

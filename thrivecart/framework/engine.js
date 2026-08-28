@@ -18,6 +18,17 @@ var C = (typeof SDS_CONFIG !== 'undefined') ? SDS_CONFIG : {};
 var page = C.page || 'checkout';
 var brand = (C.footer && C.footer.brand) || '';
 
+/* ── hard deadline: once the offer closes, redirect the checkout ──
+   Only active when the product config sets `deadline` + `deadlineRedirect`
+   (other products are unaffected). Success page is never redirected. */
+if (page === 'checkout' && C.deadline && C.deadlineRedirect) {
+  var __dl = new Date(C.deadline).getTime();
+  if (isFinite(__dl) && Date.now() > __dl) {
+    window.location.replace(C.deadlineRedirect);
+    return;
+  }
+}
+
 function headerHTML() {
   var logo = C.logoUrl
     ? '<img class="sds-logo-img" src="' + C.logoUrl + '" alt="' + brand + '" />'
