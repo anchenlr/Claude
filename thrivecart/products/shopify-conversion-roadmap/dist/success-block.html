@@ -421,9 +421,12 @@ html { scroll-behavior: smooth; }
   border-radius: 10px;
   padding: 22px 24px;
   margin: 20px auto;      /* centre when dropped in a full-width area */
-  max-width: 780px;       /* match .sds-container so it lines up with the
-                              other sections; a narrow sidebar column will
-                              still constrain it naturally */
+  /* .sds-container is 780px INCLUDING its own 24px side padding, so its
+     visible text content is really 780 - 48 = 732px. Match that content
+     width (not the container's outer 780px) so this bordered box lines
+     up with the text above/below it. A narrow sidebar column will still
+     constrain it naturally when used there. */
+  max-width: 732px;
 }
 .sds-mini .sds-mini-label {
   font-size: 0.66rem;
