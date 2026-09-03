@@ -164,7 +164,7 @@ input[type="submit"]:hover,
   width: 40px;
   height: 2px;
   background: var(--sds-gold);
-  margin: 0 0 28px;
+  margin: 0 0 20px;
 }
 
 /* ─── CTA BUTTON (jumps down to the checkout) ──────────────────── */
@@ -292,7 +292,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ─── SECTION SHELL ────────────────────────────────────────── */
-.sds-section { padding: 56px 0; }
+.sds-section { padding: 34px 0; }
 .sds-section h2 {
   font-size: clamp(1.4rem, 3vw, 2rem);
   margin-bottom: 0.75rem;
@@ -421,7 +421,8 @@ html { scroll-behavior: smooth; }
   border: 1px solid var(--sds-border);
   border-radius: 10px;
   padding: 22px 24px;
-  margin: 20px 0;
+  margin: 20px auto;      /* centre when dropped in a full-width area */
+  max-width: 560px;       /* stop it stretching edge-to-edge */
 }
 .sds-mini .sds-mini-label {
   font-size: 0.66rem;
