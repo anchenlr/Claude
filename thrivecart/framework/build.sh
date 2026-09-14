@@ -9,6 +9,17 @@
 # reliably inside ThriveCart's tracking box. The checkout paste loads
 # only framework.css; the success paste adds success.css.
 #
+# OPTIONAL PER-PRODUCT THEME OVERRIDE:
+#   products/<name>/theme.css        extra CSS appended after
+#                                     framework.css (and success.css on
+#                                     the success paste) — use !important
+#                                     only where the framework rule you're
+#                                     overriding is itself !important.
+#   products/<name>/theme-fonts.html extra <link> tags (e.g. a Google
+#                                     Font the override needs), inserted
+#                                     before the <style> block.
+# Both are optional; a product without them builds exactly as before.
+#
 # Usage:  bash framework/build.sh            # builds every product
 #         bash framework/build.sh <product>  # builds one product folder
 #
@@ -32,7 +43,15 @@ build_one() {
     echo "<!-- Shopify checkout skin + bands for: $name"
     echo "     Paste into ThriveCart → Checkout → Tracking → \"All pages\"."
     echo "     REPLACE any previous version so only ONE copy runs. -->"
-    echo "<style>"; cat "$FW/framework.css"; echo "</style>"
+    if [ -f "$dir/theme-fonts.html" ]; then cat "$dir/theme-fonts.html"; echo ""; fi
+    echo "<style>"
+    cat "$FW/framework.css"
+    if [ -f "$dir/theme.css" ]; then
+      echo ""
+      echo "/* ─── PRODUCT THEME OVERRIDE ($name) ─────────────────────── */"
+      cat "$dir/theme.css"
+    fi
+    echo "</style>"
     echo ""
     echo "<script>"
     echo "(function () {"
@@ -47,7 +66,15 @@ build_one() {
   {
     echo "<!-- Branded SUCCESS page block for: $name"
     echo "     Paste into a Custom HTML element on the ThriveCart success page. -->"
-    echo "<style>"; cat "$FW/framework.css"; echo ""; cat "$FW/success.css"; echo "</style>"
+    if [ -f "$dir/theme-fonts.html" ]; then cat "$dir/theme-fonts.html"; echo ""; fi
+    echo "<style>"
+    cat "$FW/framework.css"; echo ""; cat "$FW/success.css"
+    if [ -f "$dir/theme.css" ]; then
+      echo ""
+      echo "/* ─── PRODUCT THEME OVERRIDE ($name) ─────────────────────── */"
+      cat "$dir/theme.css"
+    fi
+    echo "</style>"
     echo ""
     echo "<script>"
     echo "(function () {"

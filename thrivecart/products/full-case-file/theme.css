@@ -1,0 +1,26 @@
+/* ═══════════════════════════════════════════════════════════════
+   THEME OVERRIDE — The Full Case File
+   Hybrid look: header/hero/footer swap to the "Fix Your Store"
+   challenge's dark noir palette (matches the sales page at
+   challenge.simplydigitalshops.com/thank-you-upgrade/) so the checkout
+   continues the mood set there. The cart body and "What's included"
+   list are left untouched on the shared light cream system, for
+   legibility and payment-field trust — that's the whole "hybrid".
+
+   The framework's off-white text (~rgba(232,228,211,…)) and gold
+   accent (#c7a35a — identical to the sales page's own gold) already
+   read fine — even higher contrast — against a near-black background,
+   so only the section backgrounds actually need to change here.
+   ═══════════════════════════════════════════════════════════════ */
+
+.sds-header,
+.sds-hero,
+.sds-footer {
+  background: #120a0c;
+}
+
+/* Monospace flourish matching the sales page's eyebrow/tagline style */
+.sds-header .sds-tagline,
+.sds-hero-eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}

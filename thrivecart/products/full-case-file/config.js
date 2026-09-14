@@ -25,7 +25,7 @@ var SDS_CONFIG = {
   /* hero band (checkout page) */
   hero: {
     eyebrow: 'Fix Your Store Challenge — today only',
-    title: 'The Full Case File',
+    title: 'The Full <span style="color:#B01226">Case File</span>',
     subtitle: '$27 today <span style="text-decoration:line-through;opacity:0.6;">$297</span> — keep every recording, the workbook, and the tools for good.',
     meta: [
       'Lifetime recording access',

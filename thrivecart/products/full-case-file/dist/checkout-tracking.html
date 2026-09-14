@@ -1,6 +1,10 @@
 <!-- Shopify checkout skin + bands for: full-case-file
      Paste into ThriveCart → Checkout → Tracking → "All pages".
      REPLACE any previous version so only ONE copy runs. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
 <style>
 /* ═══════════════════════════════════════════════════════════════
    SIMPLY DIGITAL SHOPS — ThriveCart Checkout Skin
@@ -737,6 +741,34 @@ html { scroll-behavior: smooth; }
 }
 
 /* Success/thank-you page styles live in success.css (loaded only there). */
+
+/* ─── PRODUCT THEME OVERRIDE (full-case-file) ─────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   THEME OVERRIDE — The Full Case File
+   Hybrid look: header/hero/footer swap to the "Fix Your Store"
+   challenge's dark noir palette (matches the sales page at
+   challenge.simplydigitalshops.com/thank-you-upgrade/) so the checkout
+   continues the mood set there. The cart body and "What's included"
+   list are left untouched on the shared light cream system, for
+   legibility and payment-field trust — that's the whole "hybrid".
+
+   The framework's off-white text (~rgba(232,228,211,…)) and gold
+   accent (#c7a35a — identical to the sales page's own gold) already
+   read fine — even higher contrast — against a near-black background,
+   so only the section backgrounds actually need to change here.
+   ═══════════════════════════════════════════════════════════════ */
+
+.sds-header,
+.sds-hero,
+.sds-footer {
+  background: #120a0c;
+}
+
+/* Monospace flourish matching the sales page's eyebrow/tagline style */
+.sds-header .sds-tagline,
+.sds-hero-eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
 </style>
 
 <script>
@@ -768,7 +800,7 @@ var SDS_CONFIG = {
   /* hero band (checkout page) */
   hero: {
     eyebrow: 'Fix Your Store Challenge — today only',
-    title: 'The Full Case File',
+    title: 'The Full <span style="color:#B01226">Case File</span>',
     subtitle: '$27 today <span style="text-decoration:line-through;opacity:0.6;">$297</span> — keep every recording, the workbook, and the tools for good.',
     meta: [
       'Lifetime recording access',
