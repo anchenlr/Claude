@@ -641,10 +641,15 @@
     if (!el) return;
     el.textContent = (val === undefined || val === null || val === "") ? (fallback || "–") : val;
   }
-  function setLinks() {
+  function setLinks(data) {
     document.querySelectorAll("[data-link]").forEach(function (el) {
       var key = el.getAttribute("data-link");
       var url = CONFIG.LINKS[key];
+      // The speaker details form needs their email so Fillout updates their
+      // existing response instead of creating a new one.
+      if (key === "updateDetails" && url && data && data.email) {
+        url += (url.indexOf("?") === -1 ? "?" : "&") + "email=" + encodeURIComponent(data.email);
+      }
       if (url) el.setAttribute("href", url);
       if (url && url.indexOf("mailto:") !== 0) el.setAttribute("target", "_blank");
     });
@@ -888,7 +893,7 @@
     renderChecklist(data);
     renderTimeline(data);
     renderAffiliate(data);
-    setLinks();
+    setLinks(data);
     renderResourceLinks(data);
     setupSectionNav();
     renderNavBadges(data);
