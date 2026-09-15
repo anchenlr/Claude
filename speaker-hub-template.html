@@ -125,7 +125,27 @@
   .stat-pill.accent strong { color: var(--white); }
 
   /* ---------- Section shell ---------- */
-  section { padding: 48px 0; }
+  section { padding: 48px 0; scroll-margin-top: 56px; }
+
+  /* ---------- Section nav ---------- */
+  .section-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-nav-inner {
+    display: flex; gap: 4px; overflow-x: auto;
+    max-width: 980px; margin: 0 auto; padding: 0 16px;
+  }
+  .section-nav a {
+    flex-shrink: 0;
+    display: inline-block; padding: 14px 12px;
+    font-size: 13px; font-weight: 600; color: var(--text-light);
+    text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .section-nav a:hover, .section-nav a.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
   section.alt { background: var(--light-blue); }
   .eyebrow {
     font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -192,8 +212,8 @@
   .task-side { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
   .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.3px; }
   .pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; }
-  .pill.received { background: rgba(37,170,225,0.12); color: var(--blue-dark); }
-  .pill.received::before { background: var(--blue); }
+  .pill.received { background: rgba(117,184,161,0.16); color: var(--teal-dark); }
+  .pill.received::before { background: var(--teal); }
   .pill.action { background: rgba(216,90,149,0.12); color: var(--pink-dark); }
   .pill.action::before { background: var(--pink); }
   .already-sent { font-size: 12px; color: var(--text-light); }
@@ -219,7 +239,7 @@
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     transition: all 0.15s; background: var(--white);
   }
-  .checklist-item.checked .chk-box { background: var(--pink); border-color: var(--pink); }
+  .checklist-item.checked .chk-box { background: var(--teal); border-color: var(--teal); }
   .chk-box svg { width: 13px; height: 13px; opacity: 0; transform: scale(0.6); transition: all 0.15s; }
   .checklist-item.checked .chk-box svg { opacity: 1; transform: scale(1); }
   .chk-label { font-size: 15px; color: var(--navy); font-weight: 600; }
@@ -291,6 +311,21 @@
 
 <div id="hubContent">
 
+  <!-- ========== SECTION NAV ========== -->
+  <nav class="section-nav">
+    <div class="section-nav-inner">
+      <a href="#do-this-next">Next step</a>
+      <a href="#your-details">Your details</a>
+      <a href="#whats-due">What's due</a>
+      <a href="#your-checklist">Checklist</a>
+      <a href="#timeline-section">Timeline</a>
+      <a href="#presentation-guidance">Presentation</a>
+      <a href="#powerpack-guidance">PowerPack</a>
+      <a href="#affiliate-promo">Affiliate & promo</a>
+      <a href="#all-links">All links</a>
+    </div>
+  </nav>
+
   <!-- ========== HERO ========== -->
   <div class="hero">
     <div class="wrap hero-inner">
@@ -308,7 +343,7 @@
   </div>
 
   <!-- ========== DO THIS NEXT ========== -->
-  <section>
+  <section id="do-this-next">
     <div class="wrap">
       <div class="next-card">
         <div>
@@ -322,7 +357,7 @@
   </section>
 
   <!-- ========== YOUR DETAILS ========== -->
-  <section class="alt">
+  <section class="alt" id="your-details">
     <div class="wrap">
       <div class="eyebrow">Your details</div>
       <h2 class="section-title">Here's what we have on file</h2>
@@ -363,7 +398,7 @@
   </section>
 
   <!-- ========== WHAT'S DUE ========== -->
-  <section>
+  <section id="whats-due">
     <div class="wrap">
       <div class="eyebrow">What's due from you</div>
       <h2 class="section-title">Your open items</h2>
@@ -407,7 +442,7 @@
   </section>
 
   <!-- ========== CHECKLIST ========== -->
-  <section class="alt">
+  <section class="alt" id="your-checklist">
     <div class="wrap">
       <div class="eyebrow">A couple more things</div>
       <h2 class="section-title">Your personal checklist</h2>
@@ -417,7 +452,7 @@
   </section>
 
   <!-- ========== TIMELINE ========== -->
-  <section>
+  <section id="timeline-section">
     <div class="wrap">
       <div class="eyebrow">Your timeline</div>
       <h2 class="section-title">Key dates</h2>
@@ -427,7 +462,7 @@
   </section>
 
   <!-- ========== PRESENTATION GUIDANCE ========== -->
-  <section class="alt">
+  <section class="alt" id="presentation-guidance">
     <div class="wrap">
       <div class="eyebrow">Presentation guidance</div>
       <h2 class="section-title">This year's theme: What's Working Now</h2>
@@ -447,7 +482,7 @@
   </section>
 
   <!-- ========== POWERPACK GUIDANCE ========== -->
-  <section>
+  <section id="powerpack-guidance">
     <div class="wrap">
       <div class="eyebrow">PowerPack guidance</div>
       <h2 class="section-title">The Page Builder PowerPack</h2>
@@ -461,7 +496,7 @@
   </section>
 
   <!-- ========== AFFILIATE & PROMO ========== -->
-  <section class="alt">
+  <section class="alt" id="affiliate-promo">
     <div class="wrap">
       <div class="eyebrow">Affiliate & promo</div>
       <h2 class="section-title">Spread the word, earn commission</h2>
@@ -482,7 +517,7 @@
   </section>
 
   <!-- ========== ALL LINKS ========== -->
-  <section>
+  <section id="all-links">
     <div class="wrap">
       <div class="eyebrow">All your links</div>
       <h2 class="section-title">Everything in one place</h2>
@@ -604,6 +639,24 @@
       if (url && url.indexOf("mailto:") !== 0) el.setAttribute("target", "_blank");
     });
   }
+  function setupSectionNav() {
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll(".section-nav a"));
+    var sections = navLinks
+      .map(function (a) { return document.querySelector(a.getAttribute("href")); })
+      .filter(Boolean);
+    if (!("IntersectionObserver" in window) || !sections.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = "#" + entry.target.id;
+        navLinks.forEach(function (a) {
+          a.classList.toggle("active", a.getAttribute("href") === id);
+        });
+      });
+    }, { rootMargin: "-100px 0px -70% 0px" });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
   function renderResourceLinks(data) {
     // Resources released later in the process (email/social swipe copy, graphics,
     // summit schedule). Shows "Coming soon" until the matching link is filled in on
@@ -803,6 +856,7 @@
     renderAffiliate(data);
     setLinks();
     renderResourceLinks(data);
+    setupSectionNav();
     document.getElementById("loading").style.display = "none";
     document.getElementById("hubContent").style.display = "block";
   }
