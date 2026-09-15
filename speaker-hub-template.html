@@ -435,7 +435,7 @@
           <div class="info">
             <div class="task-meta">Optional · info due 12 October 2026</div>
             <h3>PowerPack contribution</h3>
-            <p class="desc">Contributing a qualifying premium resource takes your affiliate commission from <span id="powerpackStdPct">40</span>% to <span id="powerpackPremPct">50</span>%.</p>
+            <p class="desc">Contributing a qualifying premium resource increases your affiliate commission rate.</p>
             <div class="task-actions">
               <a href="#" data-link="submitPowerpack" class="btn btn-outline btn-sm">Submit my PowerPack resource →</a>
               <a href="#" data-link="notContributing" class="btn btn-outline btn-sm">I'm not contributing →</a>
@@ -506,7 +506,7 @@
       <h2 class="section-title">The Page Builder PowerPack</h2>
       <div class="guide-card">
         <p>Lifetime access to the presentations, companion workbook and additional speaker resources.</p>
-        <p class="platform-note"><strong>Pricing:</strong> $47 Fast Action · $97 Early Bird · $147 regular. <strong>Commission:</strong> <span id="guideStdPct">40</span>% standard, <span id="guidePremPct">50</span>% if you contribute a qualifying premium resource.</p>
+        <p class="platform-note"><strong>Pricing:</strong> $47 Fast Action · $97 Early Bird · $147 regular. <strong>Commission:</strong> a higher rate applies if you contribute a qualifying premium resource — check your ThriveCart affiliate dashboard for your exact rate.</p>
         <p style="margin-top:10px;">Good contributions: templates, toolkits, ebooks, courses, workshops, limited memberships. Must be free for PowerPack holders to redeem, not something already freely available elsewhere, and not a discount requiring extra payment.</p>
         <div style="margin-top:20px;"><a href="#" data-link="powerpackGuide" class="btn btn-outline btn-sm">Full PowerPack guide →</a></div>
       </div>
@@ -523,7 +523,7 @@
           <code id="affiliateLink">Check your ThriveCart affiliate email for your link</code>
           <button class="btn btn-primary btn-sm" id="copyAffiliateBtn" type="button">Copy →</button>
         </div>
-        <div class="commission-line">Your commission: <strong id="commissionRate">40%</strong></div>
+        <div class="commission-line">Your commission: <strong id="commissionRate">check your ThriveCart dashboard</strong></div>
         <p class="aff-note">We ask every speaker for at least one email and two social posts during the promotional period (20 October – 6 November 2026). Always use your own affiliate link, and disclose it when sharing. Can't find your link? Check your ThriveCart affiliate email, or your ThriveCart dashboard directly.</p>
         <div class="task-actions">
           <a href="#" data-resource="emailSwipeLink" class="btn btn-white btn-sm">Email swipe copy →</a>
@@ -770,11 +770,9 @@
       btnEl.href = "#";
       return;
     }
-    var standardPct = data.standardCommissionPct || 40;
-    var premiumPct = data.premiumCommissionPct || 50;
     var map = {
       basicInfo: { title: "Send us your speaker details", desc: "Your bio, headshot, website and social links — this unlocks everything else.", link: "updateDetails" },
-      powerpack: { title: "Decide on your PowerPack contribution", desc: "Contributing a qualifying premium resource takes your affiliate commission from " + standardPct + "% to " + premiumPct + "%.", link: "submitPowerpack" },
+      powerpack: { title: "Decide on your PowerPack contribution", desc: "Contributing a qualifying premium resource increases your affiliate commission rate.", link: "submitPowerpack" },
       presentation: { title: "Submit your presentation", desc: "Your pre-recorded 30–40 minute session, plus final title and description.", link: "submitPresentation" }
     };
     var cfg = map[next.key];
@@ -871,14 +869,11 @@
     if (data.affiliateLink) {
       linkEl.textContent = data.affiliateLink;
     }
-    var standardPct = data.standardCommissionPct || 40;
-    var premiumPct = data.premiumCommissionPct || 50;
-    var rate = (data.contributionInUpsell ? premiumPct : standardPct) + "%";
-    setText("commissionRate", rate);
-    setText("powerpackStdPct", standardPct);
-    setText("powerpackPremPct", premiumPct);
-    setText("guideStdPct", standardPct);
-    setText("guidePremPct", premiumPct);
+    // commissionPct will come from ThriveCart once that integration is wired up.
+    // Until then, leave the "check your ThriveCart dashboard" fallback in place.
+    if (data.commissionPct !== undefined && data.commissionPct !== null && data.commissionPct !== "") {
+      setText("commissionRate", data.commissionPct + "%");
+    }
     document.getElementById("copyAffiliateBtn").addEventListener("click", function () {
       var text = linkEl.textContent;
       if (navigator.clipboard) {
