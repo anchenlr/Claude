@@ -199,6 +199,12 @@
   .already-sent { font-size: 12px; color: var(--text-light); }
   .already-sent a { font-weight: 600; }
 
+  /* ---------- Coming soon (resources not released yet) ---------- */
+  .btn.is-coming-soon {
+    background: transparent; color: var(--text-light);
+    border: 1.5px dashed var(--border); cursor: default; pointer-events: none;
+  }
+
   /* ---------- Checklist ---------- */
   .checklist { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
   .checklist-item {
@@ -467,9 +473,9 @@
         <div class="commission-line">Your commission: <strong id="commissionRate">40%</strong></div>
         <p class="aff-note">We ask every speaker for at least one email and two social posts during the promotional period (20 October – 6 November 2026). Always use your own affiliate link, and disclose it when sharing. Can't find your link? Check a recent email from us, or your details above.</p>
         <div class="task-actions">
-          <a href="#" data-link="emailSwipe" class="btn btn-white btn-sm">Email swipe copy →</a>
-          <a href="#" data-link="socialSwipe" class="btn btn-white btn-sm">Social swipe copy →</a>
-          <a href="#" data-link="speakerGraphics" class="btn btn-white btn-sm">Speaker graphics →</a>
+          <a href="#" data-resource="emailSwipeLink" class="btn btn-white btn-sm">Email swipe copy →</a>
+          <a href="#" data-resource="socialSwipeLink" class="btn btn-white btn-sm">Social swipe copy →</a>
+          <a href="#" data-resource="speakerGraphicsLink" class="btn btn-white btn-sm">Speaker graphics →</a>
         </div>
       </div>
     </div>
@@ -544,9 +550,6 @@
       presentationGuide: "#TODO-presentation-guide",
       powerpackGuide: "#TODO-powerpack-guide",
       addCalendar: "#TODO-calendar-ics-or-link",
-      emailSwipe: "#TODO-email-swipe-copy",
-      socialSwipe: "#TODO-social-swipe-copy",
-      speakerGraphics: "#TODO-speaker-graphics",
       affiliateAccount: "#TODO-affiliate-signup",
       affiliateDashboard: "#TODO-affiliate-dashboard",
       speakerInfoPage: "#TODO-speaker-info-page",
@@ -601,6 +604,27 @@
       var url = CONFIG.LINKS[key];
       if (url) el.setAttribute("href", url);
       if (url && url.indexOf("mailto:") !== 0) el.setAttribute("target", "_blank");
+    });
+  }
+  function renderResourceLinks(data) {
+    // Resources released later in the process (email/social swipe copy, graphics).
+    // Shows "Coming soon" until the matching link is filled in on Airtable's Hub Settings
+    // table — no code change needed, it goes live the moment that field is set.
+    document.querySelectorAll("[data-resource]").forEach(function (el) {
+      var key = el.getAttribute("data-resource");
+      var url = data[key];
+      var baseLabel = el.textContent.replace(/\s*→\s*$/, "").trim();
+      if (url) {
+        el.href = url;
+        el.target = "_blank";
+        el.classList.remove("is-coming-soon");
+        el.textContent = baseLabel + " →";
+      } else {
+        el.href = "#";
+        el.removeAttribute("target");
+        el.classList.add("is-coming-soon");
+        el.textContent = baseLabel + " (coming soon)";
+      }
     });
   }
 
@@ -778,6 +802,7 @@
     renderTimeline(data);
     renderAffiliate(data);
     setLinks();
+    renderResourceLinks(data);
     document.getElementById("loading").style.display = "none";
     document.getElementById("hubContent").style.display = "block";
   }
