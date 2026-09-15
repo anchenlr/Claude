@@ -204,6 +204,7 @@
     background: transparent; color: var(--text-light);
     border: 1.5px dashed var(--border); cursor: default; pointer-events: none;
   }
+  .links-col a.is-coming-soon { color: var(--text-light); font-style: italic; font-weight: 500; pointer-events: none; cursor: default; }
 
   /* ---------- Checklist ---------- */
   .checklist { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
@@ -441,7 +442,6 @@
           <li>Hide client info, passwords, anything private</li>
           <li>Keep your intro brief, leave room for the useful stuff</li>
         </ul>
-        <div style="margin-top:20px;"><a href="#" data-link="presentationGuide" class="btn btn-outline btn-sm">Full presentation guide →</a></div>
       </div>
     </div>
   </section>
@@ -506,7 +506,7 @@
           <h4>The summit</h4>
           <ul>
             <li><a href="#" data-link="speakerInfoPage">Speaker information page</a></li>
-            <li><a href="#" data-link="summitSchedule">Summit schedule</a></li>
+            <li><a href="#" data-resource="summitScheduleLink">Summit schedule</a></li>
           </ul>
         </div>
         <div class="links-col">
@@ -547,13 +547,11 @@
       submitPowerpack: "#TODO-submit-powerpack-form",
       notContributing: "mailto:anchen@pagebuildersummit.com?subject=Not%20contributing%20to%20PowerPack",
       letUsKnow: "mailto:anchen@pagebuildersummit.com?subject=Presentation%20already%20submitted",
-      presentationGuide: "#TODO-presentation-guide",
       powerpackGuide: "#TODO-powerpack-guide",
       addCalendar: "#TODO-calendar-ics-or-link",
       affiliateAccount: "#TODO-affiliate-signup",
       affiliateDashboard: "#TODO-affiliate-dashboard",
       speakerInfoPage: "#TODO-speaker-info-page",
-      summitSchedule: "#TODO-summit-schedule",
       speakerCommunity: "#TODO-speaker-community"
     }
   };
@@ -607,23 +605,25 @@
     });
   }
   function renderResourceLinks(data) {
-    // Resources released later in the process (email/social swipe copy, graphics).
-    // Shows "Coming soon" until the matching link is filled in on Airtable's Hub Settings
-    // table — no code change needed, it goes live the moment that field is set.
+    // Resources released later in the process (email/social swipe copy, graphics,
+    // summit schedule). Shows "Coming soon" until the matching link is filled in on
+    // Airtable's Hub Settings table — no code change needed, it goes live the
+    // moment that field is set.
     document.querySelectorAll("[data-resource]").forEach(function (el) {
       var key = el.getAttribute("data-resource");
       var url = data[key];
-      var baseLabel = el.textContent.replace(/\s*→\s*$/, "").trim();
+      if (!el.dataset.baseLabel) el.dataset.baseLabel = el.textContent.trim();
+      var label = el.dataset.baseLabel;
       if (url) {
         el.href = url;
         el.target = "_blank";
         el.classList.remove("is-coming-soon");
-        el.textContent = baseLabel + " →";
+        el.textContent = label;
       } else {
         el.href = "#";
         el.removeAttribute("target");
         el.classList.add("is-coming-soon");
-        el.textContent = baseLabel + " (coming soon)";
+        el.textContent = label.replace(/\s*→\s*$/, "") + " (coming soon)";
       }
     });
   }
