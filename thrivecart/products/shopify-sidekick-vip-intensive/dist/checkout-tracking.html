@@ -582,47 +582,60 @@ html { scroll-behavior: smooth; }
 .sds-exclusive-item h3 { font-family: var(--sds-body) !important; font-size: 0.98rem; font-weight: 600 !important; margin-bottom: 4px; }
 .sds-exclusive-item p { font-size: 0.9rem; color: var(--sds-ink-soft); margin: 0; }
 
-/* ─── PRICING MATH (spell out what's bundled into the total) ───── */
-.sds-pricing-math {
+/* ─── VALUE STACK (was/now price + a free bonus line) ──────────── */
+.sds-value-stack {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 24px;
   margin-top: 28px;
-}
-.sds-pm-item {
   background: var(--sds-cream);
   border: 1px solid var(--sds-border);
   border-radius: 10px;
-  padding: 16px 20px;
-  text-align: center;
-  min-width: 140px;
+  padding: 28px 32px;
 }
-.sds-pm-item .sds-pm-name {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--sds-ink);
-  margin-bottom: 4px;
+.sds-vs-price {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
 }
-.sds-pm-item .sds-pm-price {
-  display: block;
+.sds-vs-was {
   font-family: var(--sds-display);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  color: var(--sds-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--sds-red-mid);
+}
+.sds-vs-now {
+  font-family: var(--sds-display);
+  font-size: 2.6rem;
   color: var(--sds-burgundy);
+  line-height: 1;
 }
-.sds-pm-item.sds-pm-total {
-  background: var(--sds-burgundy);
-  border-color: var(--sds-burgundy);
+.sds-vs-tag {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sds-burgundy);
+  background: rgba(199, 163, 90, 0.25);
+  padding: 5px 12px;
+  border-radius: 100px;
 }
-.sds-pm-item.sds-pm-total .sds-pm-name { color: rgba(232, 228, 211, 0.85); }
-.sds-pm-item.sds-pm-total .sds-pm-price { color: var(--sds-cream); font-size: 1.7rem; }
-.sds-pm-op {
-  font-family: var(--sds-display);
-  font-size: 1.6rem;
-  color: var(--sds-gold);
-  flex-shrink: 0;
+.sds-vs-bonus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 24px;
+  border-left: 1px solid var(--sds-border);
+  font-size: 0.95rem;
+  color: var(--sds-ink-soft);
+}
+.sds-vs-bonus .ico { font-size: 1.3rem; flex-shrink: 0; }
+.sds-vs-bonus strong { color: var(--sds-ink); }
+@media (max-width: 560px) {
+  .sds-vs-bonus { padding-left: 0; border-left: none; border-top: 1px solid var(--sds-border); padding-top: 18px; width: 100%; }
 }
 
 /* ─── NO-BRAINER (short emphasis band) ─────────────────────────── */
