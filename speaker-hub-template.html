@@ -130,22 +130,40 @@
   /* ---------- Section nav ---------- */
   .section-nav {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(255,255,255,0.96); backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 0 rgba(49,46,97,0.03);
   }
   .section-nav-inner {
-    display: flex; gap: 4px; overflow-x: auto;
-    max-width: 980px; margin: 0 auto; padding: 0 16px;
+    display: flex; gap: 8px; overflow-x: auto;
+    max-width: 980px; margin: 0 auto; padding: 10px 16px;
   }
   .section-nav a {
     flex-shrink: 0;
-    display: inline-block; padding: 14px 12px;
-    font-size: 13px; font-weight: 600; color: var(--text-light);
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px 8px 10px; border-radius: 999px;
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    background: var(--off-white); border: 1px solid var(--border);
     text-decoration: none; white-space: nowrap;
-    border-bottom: 2px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
+    transition: all 0.15s;
   }
-  .section-nav a:hover, .section-nav a.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .nav-icon { font-size: 12px; color: var(--teal-dark); line-height: 1; }
+  .section-nav a:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .section-nav a.active {
+    background: var(--navy); border-color: var(--navy); color: var(--white);
+  }
+  .section-nav a.active .nav-icon { color: rgba(255,255,255,0.75); }
+  .nav-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
+    background: var(--light-blue); color: var(--navy); font-size: 11px; font-weight: 800;
+  }
+  .nav-badge.pending { background: var(--pink); color: var(--white); }
+  .nav-badge.done { background: var(--teal); color: var(--white); }
+  .section-nav a.active .nav-badge { background: rgba(255,255,255,0.22); color: var(--white); }
+  .nav-check { color: var(--teal); font-weight: 800; }
+  .section-nav a.active .nav-check { color: #cdeee4; }
+  .nav-check:empty, .nav-badge:empty { display: none; }
   section.alt { background: var(--light-blue); }
   .eyebrow {
     font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -311,21 +329,6 @@
 
 <div id="hubContent">
 
-  <!-- ========== SECTION NAV ========== -->
-  <nav class="section-nav">
-    <div class="section-nav-inner">
-      <a href="#do-this-next">Next step</a>
-      <a href="#your-details">Your details</a>
-      <a href="#whats-due">What's due</a>
-      <a href="#your-checklist">Checklist</a>
-      <a href="#timeline-section">Timeline</a>
-      <a href="#presentation-guidance">Presentation</a>
-      <a href="#powerpack-guidance">PowerPack</a>
-      <a href="#affiliate-promo">Affiliate & promo</a>
-      <a href="#all-links">All links</a>
-    </div>
-  </nav>
-
   <!-- ========== HERO ========== -->
   <div class="hero">
     <div class="wrap hero-inner">
@@ -341,6 +344,21 @@
       </div>
     </div>
   </div>
+
+  <!-- ========== SECTION NAV ========== -->
+  <nav class="section-nav">
+    <div class="section-nav-inner">
+      <a href="#do-this-next"><span class="nav-icon">➜</span>Next step</a>
+      <a href="#your-details"><span class="nav-icon">◐</span>Your details<span class="nav-check" id="navCheckDetails"></span></a>
+      <a href="#whats-due"><span class="nav-icon">☐</span>What's due<span class="nav-badge" id="navBadgeDue"></span></a>
+      <a href="#your-checklist"><span class="nav-icon">✓</span>Checklist<span class="nav-badge" id="navBadgeChecklist"></span></a>
+      <a href="#timeline-section"><span class="nav-icon">▤</span>Timeline</a>
+      <a href="#presentation-guidance"><span class="nav-icon">▶</span>Presentation</a>
+      <a href="#powerpack-guidance"><span class="nav-icon">◆</span>PowerPack</a>
+      <a href="#affiliate-promo"><span class="nav-icon">$</span>Affiliate & promo</a>
+      <a href="#all-links"><span class="nav-icon">⚭</span>All links</a>
+    </div>
+  </nav>
 
   <!-- ========== DO THIS NEXT ========== -->
   <section id="do-this-next">
@@ -657,6 +675,27 @@
     sections.forEach(function (s) { observer.observe(s); });
   }
 
+  function renderNavBadges(data) {
+    var detailsCheck = document.getElementById("navCheckDetails");
+    if (detailsCheck) detailsCheck.textContent = data.basicInfoReceived ? "✓" : "";
+
+    var dueCount = [
+      !!data.basicInfoReceived,
+      !!data.contributionInUpsell,
+      !!(data.presentationReceived && data.videoUploaded)
+    ].filter(function (done) { return !done; }).length;
+    var dueBadge = document.getElementById("navBadgeDue");
+    if (dueBadge) {
+      dueBadge.textContent = dueCount === 0 ? "✓" : String(dueCount);
+      dueBadge.classList.toggle("pending", dueCount > 0);
+      dueBadge.classList.toggle("done", dueCount === 0);
+    }
+
+    var doneCount = CHECKLIST_ITEMS.filter(function (item) { return !!data[item.respKey]; }).length;
+    var checklistBadge = document.getElementById("navBadgeChecklist");
+    if (checklistBadge) checklistBadge.textContent = doneCount + "/" + CHECKLIST_ITEMS.length;
+  }
+
   function renderResourceLinks(data) {
     // Resources released later in the process (email/social swipe copy, graphics,
     // summit schedule). Shows "Coming soon" until the matching link is filled in on
@@ -865,6 +904,7 @@
     setLinks();
     renderResourceLinks(data);
     setupSectionNav();
+    renderNavBadges(data);
     document.getElementById("loading").style.display = "none";
     document.getElementById("hubContent").style.display = "block";
   }
