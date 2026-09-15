@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaker Hub — Page Builder Summit</title>
+<meta name="description" content="Your personal home base for Page Builder Summit — presentation, deadlines, PowerPack, promo and your checklist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D85A95;
+    --pink-dark: #CC4E89;
+    --blue: #25AAE1;
+    --blue-dark: #199ED5;
+    --navy: #312E61;
+    --light-blue: #E2F0FB;
+    --white: #FFFFFF;
+    --off-white: #FBFCFE;
+    --text: #333333;
+    --text-light: #666666;
+    --border: rgba(49,46,97,0.12);
+    --radius: 14px;
+  }
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--navy); line-height: 1.15; }
+  a { color: var(--blue); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    background: var(--navy);
+    color: rgba(255,255,255,0.85);
+    padding: 10px 0;
+    font-size: 13px;
+    text-align: center;
+  }
+  .topbar strong { color: var(--white); }
+
+  /* ---------- Loading / error states ---------- */
+  #loading, #errorState {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    gap: 16px;
+  }
+  #errorState { display: none; }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 4px solid var(--light-blue);
+    border-top-color: var(--pink);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #hubContent { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: linear-gradient(160deg, var(--navy) 0%, #443f8a 100%);
+    color: var(--white);
+    padding: 56px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,90,149,0.35), transparent 70%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; padding: 6px;
+  }
+  .logo-mark span { background: rgba(255,255,255,0.9); border-radius: 2px; }
+  .logo-mark span:nth-child(1) { transform: rotate(6deg); }
+  .logo-mark span:nth-child(4) { transform: rotate(-6deg); background: rgba(255,255,255,0.55); }
+  .logo-text { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.2px; color: var(--white); }
+  .logo-text span { color: var(--pink); }
+
+  .hero h1 { font-size: clamp(28px, 4.4vw, 42px); font-weight: 800; color: var(--white); margin-bottom: 14px; }
+  .hero h1 em { font-style: normal; color: var(--pink); }
+  .hero p.lead { font-size: 17px; color: rgba(255,255,255,0.82); max-width: 560px; margin-bottom: 28px; }
+
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .stat-pill strong { font-family: 'Montserrat', sans-serif; font-size: 16px; color: var(--white); }
+  .stat-pill.accent { background: var(--pink); border-color: var(--pink); }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 48px 0; }
+  section.alt { background: var(--light-blue); }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 2px; background: var(--pink); border-radius: 2px; }
+  h2.section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 8px; }
+  .section-sub { color: var(--text-light); max-width: 640px; margin-bottom: 28px; font-size: 15px; }
+
+  /* ---------- Do this next ---------- */
+  .next-card {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .next-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; opacity: 0.85; margin-bottom: 8px; }
+  .next-card h3 { color: var(--white); font-size: 22px; margin-bottom: 6px; }
+  .next-card p { color: rgba(255,255,255,0.9); font-size: 14px; max-width: 480px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 14px 26px; border-radius: 999px; text-decoration: none;
+    white-space: nowrap; border: none; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-white { background: var(--white); color: var(--pink-dark); }
+  .btn-white:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .btn-primary { background: var(--pink); color: var(--white); }
+  .btn-primary:hover { box-shadow: 0 8px 20px rgba(216,90,149,0.35); }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--navy); }
+  .btn-sm { padding: 10px 18px; font-size: 12px; }
+
+  /* ---------- Your details ---------- */
+  .details-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 32px; display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .headshot {
+    width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+    border: 3px solid var(--light-blue); background: var(--light-blue);
+  }
+  .details-grid { flex: 1; min-width: 240px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 28px; }
+  .details-grid .full { grid-column: 1 / -1; }
+  .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); font-weight: 700; margin-bottom: 4px; }
+  .field-value { font-size: 15px; color: var(--navy); font-weight: 600; }
+  .field-value.muted { color: var(--text-light); font-weight: 400; font-style: italic; }
+  .details-footer { margin-top: 24px; }
+
+  /* ---------- Task cards ---------- */
+  .task-grid { display: grid; gap: 18px; }
+  .task-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: flex-start;
+  }
+  .task-card .info { flex: 1; min-width: 240px; }
+  .task-card h3 { font-size: 18px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .task-meta { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 8px; }
+  .task-card p.desc { font-size: 14px; color: var(--text-light); margin-bottom: 14px; }
+  .task-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .task-side { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.3px; }
+  .pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; }
+  .pill.received { background: rgba(37,170,225,0.12); color: var(--blue-dark); }
+  .pill.received::before { background: var(--blue); }
+  .pill.action { background: rgba(216,90,149,0.12); color: var(--pink-dark); }
+  .pill.action::before { background: var(--pink); }
+  .already-sent { font-size: 12px; color: var(--text-light); }
+  .already-sent a { font-weight: 600; }
+
+  /* ---------- Checklist ---------- */
+  .checklist { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
+  .checklist-item {
+    display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+    border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item:hover { background: var(--off-white); border-radius: 8px; }
+  .chk-box {
+    width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; background: var(--white);
+  }
+  .checklist-item.checked .chk-box { background: var(--pink); border-color: var(--pink); }
+  .chk-box svg { width: 13px; height: 13px; opacity: 0; transform: scale(0.6); transition: all 0.15s; }
+  .checklist-item.checked .chk-box svg { opacity: 1; transform: scale(1); }
+  .chk-label { font-size: 15px; color: var(--navy); font-weight: 600; }
+  .checklist-item.checked .chk-label { color: var(--text-light); text-decoration: line-through; text-decoration-color: var(--border); font-weight: 500; }
+
+  /* ---------- Timeline ---------- */
+  .timeline { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .timeline-row { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 20px 26px; border-bottom: 1px solid var(--border); align-items: center; }
+  .timeline-row:last-child { border-bottom: none; }
+  .timeline-row.done { opacity: 0.55; }
+  .timeline-date { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--pink); font-size: 14px; }
+  .timeline-row.done .timeline-date { color: var(--text-light); }
+  .timeline-what { font-size: 15px; color: var(--navy); font-weight: 600; }
+  .timeline-actions { margin-top: 20px; }
+
+  /* ---------- Guidance ---------- */
+  .guide-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; }
+  .guide-card + .guide-card { margin-top: 18px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .tag { background: var(--light-blue); color: var(--navy); font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+  .tip-list { list-style: none; margin-top: 14px; }
+  .tip-list li { display: flex; gap: 12px; padding: 8px 0; font-size: 14px; color: var(--text); }
+  .tip-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+  .pricing-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 18px 0; }
+  .price-box { background: var(--light-blue); border-radius: 10px; padding: 16px 22px; text-align: center; min-width: 120px; }
+  .price-box .amt { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; color: var(--navy); }
+  .price-box .lbl { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+  /* ---------- Affiliate ---------- */
+  .affiliate-box { background: var(--navy); color: var(--white); border-radius: var(--radius); padding: 32px; }
+  .affiliate-box h3 { color: var(--white); font-size: 20px; margin-bottom: 18px; }
+  .link-row { display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 6px 6px 6px 18px; margin-bottom: 14px; flex-wrap: wrap; }
+  .link-row code { flex: 1; font-size: 13px; color: rgba(255,255,255,0.9); word-break: break-all; min-width: 180px; }
+  .commission-line { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 20px; }
+  .commission-line strong { color: var(--pink); font-size: 16px; }
+  .aff-note { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+  .aff-note a { color: rgba(255,255,255,0.9); }
+
+  /* ---------- All links ---------- */
+  .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .links-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); margin-bottom: 12px; }
+  .links-col ul { list-style: none; }
+  .links-col li { margin-bottom: 8px; }
+  .links-col a { font-size: 14px; color: var(--navy); font-weight: 600; text-decoration: none; }
+  .links-col a:hover { color: var(--pink); }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--navy); color: rgba(255,255,255,0.75); padding: 40px 0; text-align: center; font-size: 14px; }
+  footer a { color: var(--white); font-weight: 700; }
+  footer .fine { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 10px; }
+
+  @media (max-width: 640px) {
+    .details-card { flex-direction: column; }
+    .details-grid { grid-template-columns: 1fr; }
+    .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+    .task-side { align-items: flex-start; }
+    section { padding: 36px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><strong>Page Builder Summit 9.0</strong> &nbsp;·&nbsp; 2–6 November 2026 &nbsp;·&nbsp; "What's Working Now"</div>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Loading your hub…</p>
+</div>
+
+<div id="errorState">
+  <h2 class="section-title">We couldn't find your hub</h2>
+  <p class="section-sub">Double-check the link we sent you, or email <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a> and we'll sort it out.</p>
+</div>
+
+<div id="hubContent">
+
+  <!-- ========== HERO ========== -->
+  <div class="hero">
+    <div class="wrap hero-inner">
+      <div class="logo-row">
+        <div class="logo-mark"><span></span><span></span><span></span><span></span></div>
+        <div class="logo-text">Page Builder <span>Summit</span></div>
+      </div>
+      <h1>Hey <em id="heroFirstName">there</em>, you're in!</h1>
+      <p class="lead">This is your home base for everything Page Builder Summit: your presentation, submissions, deadlines and promo. Bookmark it, come back whenever you need it.</p>
+      <div class="hero-stats">
+        <div class="stat-pill accent"><strong id="daysToSummit">–</strong>&nbsp;days to go</div>
+        <div class="stat-pill">Next up: <strong id="nextDeadlineLabel">–</strong>&nbsp;— <span id="nextDeadlineDate">–</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DO THIS NEXT ========== -->
+  <section>
+    <div class="wrap">
+      <div class="next-card">
+        <div>
+          <div class="label">Do this next</div>
+          <h3 id="nextActionTitle">You're all caught up</h3>
+          <p id="nextActionDesc">Nothing urgent right now — check back as deadlines approach.</p>
+        </div>
+        <a id="nextActionBtn" href="#" class="btn btn-white">Do it now →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== YOUR DETAILS ========== -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="eyebrow">Your details</div>
+      <h2 class="section-title">Here's what we have on file</h2>
+      <p class="section-sub">Let us know if anything needs updating.</p>
+      <div class="details-card">
+        <img id="headshot" class="headshot" src="" alt="">
+        <div class="details-grid">
+          <div class="full">
+            <div class="field-label">Name</div>
+            <div class="field-value" id="fldName">–</div>
+          </div>
+          <div>
+            <div class="field-label">Business / title</div>
+            <div class="field-value" id="fldCompany">–</div>
+          </div>
+          <div>
+            <div class="field-label">Website</div>
+            <div class="field-value" id="fldWebsite">–</div>
+          </div>
+          <div class="full">
+            <div class="field-label">Bio</div>
+            <div class="field-value" id="fldBio">–</div>
+          </div>
+          <div class="full">
+            <div class="field-label">Presentation title</div>
+            <div class="field-value" id="fldPresTitle">–</div>
+          </div>
+          <div class="full">
+            <div class="field-label">Presentation description</div>
+            <div class="field-value" id="fldPresDesc">Not yet confirmed</div>
+          </div>
+        </div>
+      </div>
+      <div class="details-footer">
+        <a href="#" data-link="updateDetails" class="btn btn-primary">Update my details →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHAT'S DUE ========== -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">What's due from you</div>
+      <h2 class="section-title">Your open items</h2>
+      <div class="task-grid">
+
+        <div class="task-card">
+          <div class="info">
+            <h3>Speaker details</h3>
+            <p class="desc">Your bio, headshot, website and social links.</p>
+            <div class="task-actions"><a href="#" data-link="updateDetails" class="btn btn-outline btn-sm">Update my details →</a></div>
+          </div>
+          <div class="task-side"><span class="pill" id="pillBasicInfo">–</span></div>
+        </div>
+
+        <div class="task-card">
+          <div class="info">
+            <div class="task-meta">Optional · info due 12 October 2026</div>
+            <h3>PowerPack contribution</h3>
+            <p class="desc">Contributing a qualifying premium resource takes your affiliate commission from 40% to 50%.</p>
+            <div class="task-actions">
+              <a href="#" data-link="submitPowerpack" class="btn btn-outline btn-sm">Submit my PowerPack resource →</a>
+              <a href="#" data-link="notContributing" class="btn btn-outline btn-sm">I'm not contributing →</a>
+            </div>
+          </div>
+          <div class="task-side"><span class="pill" id="pillPowerpack">–</span></div>
+        </div>
+
+        <div class="task-card">
+          <div class="info">
+            <div class="task-meta">Due 20 October 2026</div>
+            <h3>Your presentation</h3>
+            <p class="desc">Your pre-recorded 30–40 minute session, including up to 3 minutes to invite attendees to a free resource or your email list. Final title and description included in the same submission.</p>
+            <div class="task-actions"><a href="#" data-link="submitPresentation" class="btn btn-outline btn-sm">Submit my presentation →</a></div>
+            <p class="already-sent" style="margin-top:10px;">Already sent it but the status hasn't updated? <a href="#" data-link="letUsKnow">Let us know →</a></p>
+          </div>
+          <div class="task-side"><span class="pill" id="pillPresentation">–</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CHECKLIST ========== -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="eyebrow">A couple more things</div>
+      <h2 class="section-title">Your personal checklist</h2>
+      <p class="section-sub">Tick these off as you go — just for you, nobody's chasing you on this list.</p>
+      <div class="checklist" id="checklistWrap"></div>
+    </div>
+  </section>
+
+  <!-- ========== TIMELINE ========== -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Your timeline</div>
+      <h2 class="section-title">Key dates</h2>
+      <div class="timeline" id="timelineWrap"></div>
+      <div class="timeline-actions"><a href="#" data-link="addCalendar" class="btn btn-primary">Add all dates to my calendar →</a></div>
+    </div>
+  </section>
+
+  <!-- ========== PRESENTATION GUIDANCE ========== -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="eyebrow">Presentation guidance</div>
+      <h2 class="section-title">This year's theme: What's Working Now</h2>
+      <div class="guide-card">
+        <p>The web industry is changing quickly, so we want this summit to feel current, practical and forward-looking. Share what you're seeing, what you're doing differently right now and what you believe is coming next. It doesn't need to be brand new, just relevant to how we work today.</p>
+        <div class="tag-row">
+          <span class="tag">WordPress</span><span class="tag">Shopify</span><span class="tag">Webflow</span>
+          <span class="tag">Squarespace</span><span class="tag">Wix Studio</span><span class="tag">Framer</span>
+          <span class="tag">Custom code</span><span class="tag">AI-assisted workflows</span>
+        </div>
+        <p><strong>Format:</strong> 30–40 minutes, pre-recorded. Slides, camera-only, screen-share demo, or a mix. Up to 3 minutes at the end to invite attendees to a free resource or your list.</p>
+        <ul class="tip-list">
+          <li>Test your mic, record a short sample first</li>
+          <li>Keep slides and on-screen text easy to read</li>
+          <li>Close notifications and unrelated tabs</li>
+          <li>Hide client info, passwords, anything private</li>
+          <li>Keep your intro brief, leave room for the useful stuff</li>
+        </ul>
+        <div style="margin-top:20px;"><a href="#" data-link="presentationGuide" class="btn btn-outline btn-sm">Full presentation guide →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== POWERPACK GUIDANCE ========== -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">PowerPack guidance</div>
+      <h2 class="section-title">The Page Builder PowerPack</h2>
+      <div class="guide-card">
+        <p>Lifetime access to the presentations, companion workbook and additional speaker resources.</p>
+        <div class="pricing-row">
+          <div class="price-box"><div class="amt">$47</div><div class="lbl">Fast Action</div></div>
+          <div class="price-box"><div class="amt">$97</div><div class="lbl">Early Bird</div></div>
+          <div class="price-box"><div class="amt">$147</div><div class="lbl">Regular</div></div>
+        </div>
+        <p><strong>Commission:</strong> 40% standard, 50% if you contribute a qualifying premium resource.</p>
+        <p style="margin-top:10px;">Good contributions: templates, toolkits, ebooks, courses, workshops, limited memberships. Must be free for PowerPack holders to redeem, not something already freely available elsewhere, and not a discount requiring extra payment.</p>
+        <div style="margin-top:20px;"><a href="#" data-link="powerpackGuide" class="btn btn-outline btn-sm">Full PowerPack guide →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== AFFILIATE & PROMO ========== -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="eyebrow">Affiliate & promo</div>
+      <h2 class="section-title">Spread the word, earn commission</h2>
+      <div class="affiliate-box">
+        <div class="link-row">
+          <code id="affiliateLink">Check a recent email from us for your link</code>
+          <button class="btn btn-primary btn-sm" id="copyAffiliateBtn" type="button">Copy →</button>
+        </div>
+        <div class="commission-line">Your commission: <strong id="commissionRate">40%</strong></div>
+        <p class="aff-note">We ask every speaker for at least one email and two social posts during the promotional period (20 October – 6 November 2026). Always use your own affiliate link, and disclose it when sharing. Can't find your link? Check a recent email from us, or your details above.</p>
+        <div class="task-actions">
+          <a href="#" data-link="emailSwipe" class="btn btn-white btn-sm">Email swipe copy →</a>
+          <a href="#" data-link="socialSwipe" class="btn btn-white btn-sm">Social swipe copy →</a>
+          <a href="#" data-link="speakerGraphics" class="btn btn-white btn-sm">Speaker graphics →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ALL LINKS ========== -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">All your links</div>
+      <h2 class="section-title">Everything in one place</h2>
+      <div class="links-grid">
+        <div class="links-col">
+          <h4>Forms</h4>
+          <ul>
+            <li><a href="#" data-link="updateDetails">Update my details</a></li>
+            <li><a href="#" data-link="submitPresentation">Submit my presentation</a></li>
+            <li><a href="#" data-link="submitPowerpack">Submit PowerPack resource</a></li>
+          </ul>
+        </div>
+        <div class="links-col">
+          <h4>Your setup</h4>
+          <ul>
+            <li><a href="#" data-link="affiliateAccount">Affiliate account</a></li>
+            <li><a href="#" data-link="affiliateDashboard">Affiliate dashboard</a></li>
+          </ul>
+        </div>
+        <div class="links-col">
+          <h4>The summit</h4>
+          <ul>
+            <li><a href="#" data-link="speakerInfoPage">Speaker information page</a></li>
+            <li><a href="#" data-link="summitSchedule">Summit schedule</a></li>
+          </ul>
+        </div>
+        <div class="links-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#" data-link="speakerCommunity">Speaker community</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER / QUESTIONS ========== -->
+  <footer>
+    <div class="wrap">
+      <p>Questions? Email <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a> — happy to help.</p>
+      <p class="fine">Page Builder Summit 9.0 · 2–6 November 2026</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     CONFIG — fill in the TODO links below when they're ready.
+     Everything marked TODO is a placeholder "#" for now.
+  ========================================================= */
+  var CONFIG = {
+    GET_DATA_URL: "https://hook.us2.make.com/5eo8i8z58w4ms1vm2l84rkop4hbbasko",
+    UPDATE_CHECKLIST_URL: "https://hook.us2.make.com/ei2qnxgw3wsdghgbycsy597g2hropd8g",
+    SUMMIT_START: "2026-11-02T00:00:00Z",
+    LINKS: {
+      updateDetails: "#TODO-update-details-form",
+      submitPresentation: "#TODO-submit-presentation-form",
+      submitPowerpack: "#TODO-submit-powerpack-form",
+      notContributing: "mailto:anchen@pagebuildersummit.com?subject=Not%20contributing%20to%20PowerPack",
+      letUsKnow: "mailto:anchen@pagebuildersummit.com?subject=Presentation%20already%20submitted",
+      presentationGuide: "#TODO-presentation-guide",
+      powerpackGuide: "#TODO-powerpack-guide",
+      addCalendar: "#TODO-calendar-ics-or-link",
+      emailSwipe: "#TODO-email-swipe-copy",
+      socialSwipe: "#TODO-social-swipe-copy",
+      speakerGraphics: "#TODO-speaker-graphics",
+      affiliateAccount: "#TODO-affiliate-signup",
+      affiliateDashboard: "#TODO-affiliate-dashboard",
+      speakerInfoPage: "#TODO-speaker-info-page",
+      summitSchedule: "#TODO-summit-schedule",
+      speakerCommunity: "#TODO-speaker-community"
+    }
+  };
+
+  var MILESTONES = [
+    { key: "basicInfo",    date: "2026-09-30", label: "Speaker details due",  done: function (d) { return !!d.basicInfoReceived; } },
+    { key: "powerpack",    date: "2026-10-12", label: "PowerPack info due",   done: function (d) { return !!d.contributionInUpsell; } },
+    { key: "presentation", date: "2026-10-20", label: "Presentation due",     done: function (d) { return !!(d.presentationReceived && d.videoUploaded); } }
+  ];
+
+  var TIMELINE = [
+    { date: "30 Sep 2026", label: "Speaker confirmation and basic information due" },
+    { date: "12 Oct 2026", label: "PowerPack contribution information due" },
+    { date: "20 Oct 2026", label: "Presentations due" },
+    { date: "20 Oct – 6 Nov", label: "Main promotional period" },
+    { date: "2–6 Nov 2026", label: "Page Builder Summit" }
+  ];
+
+  var CHECKLIST_ITEMS = [
+    { field: "Hub - Add dates to calendar",       respKey: "chkCalendar",        label: "Add summit dates to my calendar" },
+    { field: "Hub - Join speaker community",      respKey: "chkCommunity",       label: "Join the speaker community" },
+    { field: "Hub - Decide promotion strategy",   respKey: "chkPromoStrategy",   label: "Decide my promotion strategy" },
+    { field: "Hub - Set up affiliate account",    respKey: "chkAffiliateSetup",  label: "Set up my affiliate account" },
+    { field: "Hub - Schedule emails",             respKey: "chkEmailsScheduled", label: "Schedule my emails" },
+    { field: "Hub - Schedule social posts",       respKey: "chkSocialScheduled", label: "Schedule my social posts" },
+    { field: "Hub - Show up in chat",             respKey: "chkChatSlot",        label: "Show up in chat during my slot" },
+    { field: "Hub - Check out other speakers",    respKey: "chkOtherSessions",   label: "Check out other speakers' sessions" }
+  ];
+
+  function qs(name) {
+    var m = new URLSearchParams(window.location.search);
+    return m.get(name);
+  }
+  function esc(s) {
+    if (s === null || s === undefined) return "";
+    var d = document.createElement("div");
+    d.textContent = String(s);
+    return d.innerHTML;
+  }
+  function setText(id, val, fallback) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = (val === undefined || val === null || val === "") ? (fallback || "–") : val;
+  }
+  function setLinks() {
+    document.querySelectorAll("[data-link]").forEach(function (el) {
+      var key = el.getAttribute("data-link");
+      var url = CONFIG.LINKS[key];
+      if (url) el.setAttribute("href", url);
+      if (url && url.indexOf("mailto:") !== 0) el.setAttribute("target", "_blank");
+    });
+  }
+
+  var speakerId = qs("id");
+
+  function showError() {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("errorState").style.display = "flex";
+  }
+
+  function daysToSummit() {
+    var now = new Date();
+    var start = new Date(CONFIG.SUMMIT_START);
+    var diff = Math.ceil((start - now) / 86400000);
+    return diff > 0 ? diff : 0;
+  }
+
+  function computeNext(data) {
+    for (var i = 0; i < MILESTONES.length; i++) {
+      var m = MILESTONES[i];
+      if (!m.done(data)) return m;
+    }
+    return null;
+  }
+
+  function fmtDate(iso) {
+    var d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function renderHero(data, next) {
+    var first = (data.name || "").split(" ")[0] || "there";
+    setText("heroFirstName", first);
+    setText("daysToSummit", daysToSummit());
+    if (next) {
+      setText("nextDeadlineLabel", next.label);
+      setText("nextDeadlineDate", fmtDate(next.date));
+    } else {
+      setText("nextDeadlineLabel", "All caught up");
+      setText("nextDeadlineDate", "🎉");
+    }
+  }
+
+  function renderNextAction(data, next) {
+    var titleEl = document.getElementById("nextActionTitle");
+    var descEl = document.getElementById("nextActionDesc");
+    var btnEl = document.getElementById("nextActionBtn");
+    if (!next) {
+      titleEl.textContent = "You're all caught up";
+      descEl.textContent = "Nothing urgent right now — check back as deadlines approach.";
+      btnEl.href = "#";
+      return;
+    }
+    var map = {
+      basicInfo: { title: "Send us your speaker details", desc: "Your bio, headshot, website and social links — this unlocks everything else.", link: "updateDetails" },
+      powerpack: { title: "Decide on your PowerPack contribution", desc: "Contributing a qualifying premium resource takes your affiliate commission from 40% to 50%.", link: "submitPowerpack" },
+      presentation: { title: "Submit your presentation", desc: "Your pre-recorded 30–40 minute session, plus final title and description.", link: "submitPresentation" }
+    };
+    var cfg = map[next.key];
+    titleEl.textContent = cfg.title;
+    descEl.textContent = cfg.desc;
+    btnEl.href = CONFIG.LINKS[cfg.link] || "#";
+    if ((CONFIG.LINKS[cfg.link] || "").indexOf("mailto:") !== 0) btnEl.setAttribute("target", "_blank");
+  }
+
+  function renderDetails(data) {
+    setText("fldName", data.name);
+    var companyBits = [data.company, data.jobTitle].filter(Boolean).join(" · ");
+    setText("fldCompany", companyBits);
+    if (data.website) {
+      var w = document.getElementById("fldWebsite");
+      w.innerHTML = '<a href="' + esc(data.website) + '" target="_blank" rel="noopener">' + esc(data.website) + "</a>";
+    } else {
+      setText("fldWebsite", "");
+    }
+    setText("fldBio", data.bio);
+    var presTitle = data.presentationTitle || data.topic || "";
+    setText("fldPresTitle", presTitle);
+    var descEl = document.getElementById("fldPresDesc");
+    if (data.presentationDescription) {
+      descEl.textContent = data.presentationDescription;
+      descEl.classList.remove("muted");
+    } else {
+      descEl.textContent = "Not yet confirmed";
+      descEl.classList.add("muted");
+    }
+    var hs = document.getElementById("headshot");
+    if (data.headshotUrl) {
+      hs.src = data.headshotUrl;
+      hs.alt = data.name || "Speaker headshot";
+    } else {
+      hs.style.display = "none";
+    }
+  }
+
+  function pill(id, receivedLabel, notReceivedLabel, isReceived) {
+    var el = document.getElementById(id);
+    el.textContent = isReceived ? receivedLabel : notReceivedLabel;
+    el.classList.add(isReceived ? "received" : "action");
+  }
+
+  function renderStatuses(data) {
+    pill("pillBasicInfo", "Received", "Action needed", !!data.basicInfoReceived);
+    pill("pillPowerpack", "Received", "Not yet decided", !!data.contributionInUpsell);
+    pill("pillPresentation", "Received", "Action needed", !!(data.presentationReceived && data.videoUploaded));
+  }
+
+  function renderChecklist(data) {
+    var wrap = document.getElementById("checklistWrap");
+    wrap.innerHTML = "";
+    CHECKLIST_ITEMS.forEach(function (item) {
+      var row = document.createElement("div");
+      row.className = "checklist-item" + (data[item.respKey] ? " checked" : "");
+      row.innerHTML =
+        '<div class="chk-box"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+        '<div class="chk-label">' + esc(item.label) + "</div>";
+      row.addEventListener("click", function () {
+        var nowChecked = !row.classList.contains("checked");
+        row.classList.toggle("checked", nowChecked);
+        updateChecklist(item.field, nowChecked);
+      });
+      wrap.appendChild(row);
+    });
+  }
+
+  function updateChecklist(field, checked) {
+    fetch(CONFIG.UPDATE_CHECKLIST_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: speakerId, item: field, checked: checked })
+    }).catch(function () { /* best-effort; UI already reflects the change */ });
+  }
+
+  function renderTimeline(data) {
+    var wrap = document.getElementById("timelineWrap");
+    wrap.innerHTML = "";
+    var now = new Date();
+    TIMELINE.forEach(function (row) {
+      var isPast = false;
+      var parsed = Date.parse(row.date.split(" – ")[0].split("–")[0] + " 2026");
+      if (!isNaN(parsed) && parsed < now) isPast = true;
+      var r = document.createElement("div");
+      r.className = "timeline-row" + (isPast ? " done" : "");
+      r.innerHTML = '<div class="timeline-date">' + esc(row.date) + '</div><div class="timeline-what">' + esc(row.label) + "</div>";
+      wrap.appendChild(r);
+    });
+  }
+
+  function renderAffiliate(data) {
+    var linkEl = document.getElementById("affiliateLink");
+    if (data.affiliateLink) {
+      linkEl.textContent = data.affiliateLink;
+    }
+    var rate = data.contributionInUpsell ? "50%" : "40%";
+    setText("commissionRate", rate);
+    document.getElementById("copyAffiliateBtn").addEventListener("click", function () {
+      var text = linkEl.textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () {
+          var btn = document.getElementById("copyAffiliateBtn");
+          var original = btn.textContent;
+          btn.textContent = "Copied!";
+          setTimeout(function () { btn.textContent = original; }, 1500);
+        });
+      }
+    });
+  }
+
+  function render(data) {
+    var next = computeNext(data);
+    renderHero(data, next);
+    renderNextAction(data, next);
+    renderDetails(data);
+    renderStatuses(data);
+    renderChecklist(data);
+    renderTimeline(data);
+    renderAffiliate(data);
+    setLinks();
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("hubContent").style.display = "block";
+  }
+
+  if (!speakerId) {
+    showError();
+  } else {
+    fetch(CONFIG.GET_DATA_URL + "?id=" + encodeURIComponent(speakerId))
+      .then(function (res) {
+        if (!res.ok) throw new Error("Bad response");
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data || !data.name) throw new Error("No speaker found");
+        render(data);
+      })
+      .catch(function () { showError(); });
+  }
+})();
+</script>
+
+</body>
+</html>
