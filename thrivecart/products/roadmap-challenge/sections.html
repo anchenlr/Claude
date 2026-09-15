@@ -1,15 +1,53 @@
 <!-- ═══════════════════════════════════════════════════════════════
   CHECKOUT CONTENT BLOCKS — Conversion Roadmap: Challenge Bundle ($97)
-  Copy from the handover. Header/hero/footer come from the tracking
-  script. Add a Custom HTML element per block, in this order above the
-  cart:  What's inside → Only available this week → No-brainer →
-  Deadline note.  Put the "Everything you get" recap block in the LEFT
-  column near the cart.
+  Header/hero/footer come from the tracking script. Add a Custom HTML
+  element per block, in this order above the cart:
+
+    Pricing math → What's inside → Only available this week →
+    Not just AI → No-brainer → Deadline note
+
+  Put the "Everything you get" recap block in the LEFT column near the
+  cart, and the About block last, just above the cart.
+
+  ⚠ TODO before publishing: search "YOUR HOURLY RATE" below (in the
+  "Only available this week" block) and fill in the real number — see
+  chat for why this is a placeholder.
 ═══════════════════════════════════════════════════════════════ -->
 
 
-<!-- ─── WHAT'S INSIDE ────────────────────────────────────────────── -->
+<!-- ─── PRICING MATH (near the top — spells out what's in the $97) ── -->
 <div class="sds-block sds-section">
+  <div class="sds-container">
+    <span class="sds-label">What you're actually getting</span>
+    <div class="sds-gold-rule"></div>
+    <h2 class="sds-display">Here's the math</h2>
+    <p>The Roadmap is a $37 product on its own. This week, it comes bundled with two challenge-only extras — here's exactly what makes up your $97.</p>
+    <div class="sds-pricing-math">
+      <div class="sds-pm-item">
+        <span class="sds-pm-name">The Roadmap</span>
+        <span class="sds-pm-price">$37</span>
+      </div>
+      <span class="sds-pm-op">+</span>
+      <div class="sds-pm-item">
+        <span class="sds-pm-name">Video Walkthrough</span>
+      </div>
+      <span class="sds-pm-op">+</span>
+      <div class="sds-pm-item">
+        <span class="sds-pm-name">Black Friday<br>Priority List</span>
+      </div>
+      <span class="sds-pm-op sds-pm-eq">=</span>
+      <div class="sds-pm-item sds-pm-total">
+        <span class="sds-pm-name">The Challenge Bundle</span>
+        <span class="sds-pm-price">$97</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ─── END PRICING MATH ─────────────────────────────────────────── -->
+
+
+<!-- ─── WHAT'S INSIDE ────────────────────────────────────────────── -->
+<div class="sds-block sds-section" style="padding-top: 0;">
   <div class="sds-container">
     <span class="sds-label">What's inside</span>
     <div class="sds-gold-rule"></div>
@@ -29,26 +67,29 @@
 
 
 <!-- ─── ONLY AVAILABLE THIS WEEK ─────────────────────────────────── -->
-<div class="sds-block sds-section">
+<div class="sds-block sds-section" style="padding-top: 0;">
   <div class="sds-container">
     <span class="sds-label">Only available this week</span>
     <div class="sds-gold-rule"></div>
     <h2 class="sds-display">Two extras, built for the challenge</h2>
-    <p>Two things that aren't part of the standard Roadmap — built specifically for the people who just went through the challenge.</p>
+    <p>Two things that aren't part of the standard $37 Roadmap — built specifically for the people who just went through the challenge.</p>
     <div class="sds-exclusive">
       <span class="sds-badge">This week only</span>
       <div class="sds-exclusive-item">
         <span class="ico">🎥</span>
         <div>
           <h3>A personal video walkthrough</h3>
-          <p>I'll talk you through your results myself — what I found, what to prioritise first, my actual read in my own words. Not a generic explainer.</p>
+          <p>You'll fill out a form, then I go through your entire storefront myself. I'll tell you exactly what to prioritise, what's got to go, what stays, where your strengths are, and how to plug the weak spots. Not a generic explainer — my actual read, on your actual store, in my own words.</p>
+          <!-- TODO: replace YOUR HOURLY RATE and the derived total below with
+               your real numbers before publishing. -->
+          <p style="margin-top: 10px;"><strong>At my normal rate of $[YOUR HOURLY RATE]/hour</strong>, a session like this would usually cost you a lot more than $97 on its own — here it's part of the bundle.</p>
         </div>
       </div>
       <div class="sds-exclusive-item">
         <span class="ico">🗓️</span>
         <div>
           <h3>The Black Friday Priority List</h3>
-          <p>A bonus, built for exactly where you are right now: what to lock in before the biggest sales weekend of the year.</p>
+          <p>A written, personalised priority checklist — Black Friday-specific, not the Roadmap's general 90-day plan. You did the challenge, you know what you have to do. Now let's get into the nitty-gritty — that's where you'll really win.</p>
         </div>
       </div>
     </div>
@@ -58,6 +99,20 @@
   </div>
 </div>
 <!-- ─── END ONLY AVAILABLE THIS WEEK ─────────────────────────────── -->
+
+
+<!-- ─── NOT JUST AI ──────────────────────────────────────────────── -->
+<div class="sds-block sds-section" style="padding-top: 0;">
+  <div class="sds-container">
+    <span class="sds-label">Not just AI</span>
+    <div class="sds-gold-rule"></div>
+    <div class="sds-testimonial">
+      <blockquote>“Yes, AI helps build the page. But the strategy behind it is me. Every roadmap reflects both the data AI collects and the nuance of two decades of experience.”</blockquote>
+      <cite>— Anchen</cite>
+    </div>
+  </div>
+</div>
+<!-- ─── END NOT JUST AI ──────────────────────────────────────────── -->
 
 
 <!-- ─── NO-BRAINER ───────────────────────────────────────────────── -->

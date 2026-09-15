@@ -29,8 +29,8 @@ var SDS_CONFIG = {
   /* hero band (checkout page) */
   hero: {
     eyebrow: 'This week only — challenge bundle',
-    title: 'The Shopify Conversion Roadmap',
-    subtitle: 'Your next step, now that you know where the leaks are.<br><br>You just spent five days finding what’s costing you sales. Now let’s fix it, together — with a strategist’s eyes on your actual store.',
+    title: 'Your shop, my eyes.',
+    subtitle: 'You’ve just spent five days finding what costs you sales. Now let’s fix it, together.<br><br>You already know you shouldn’t wait. You signed up for the challenge because you know you have to get Black Friday right.',
     meta: [
       'Personal review by Anchen',
       'Video walkthrough included',

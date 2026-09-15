@@ -586,6 +586,49 @@ html { scroll-behavior: smooth; }
 .sds-exclusive-item h3 { font-family: var(--sds-body) !important; font-size: 0.98rem; font-weight: 600 !important; margin-bottom: 4px; }
 .sds-exclusive-item p { font-size: 0.9rem; color: var(--sds-ink-soft); margin: 0; }
 
+/* ─── PRICING MATH (spell out what's bundled into the total) ───── */
+.sds-pricing-math {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+.sds-pm-item {
+  background: var(--sds-cream);
+  border: 1px solid var(--sds-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 140px;
+}
+.sds-pm-item .sds-pm-name {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--sds-ink);
+  margin-bottom: 4px;
+}
+.sds-pm-item .sds-pm-price {
+  display: block;
+  font-family: var(--sds-display);
+  font-size: 1.4rem;
+  color: var(--sds-burgundy);
+}
+.sds-pm-item.sds-pm-total {
+  background: var(--sds-burgundy);
+  border-color: var(--sds-burgundy);
+}
+.sds-pm-item.sds-pm-total .sds-pm-name { color: rgba(232, 228, 211, 0.85); }
+.sds-pm-item.sds-pm-total .sds-pm-price { color: var(--sds-cream); font-size: 1.7rem; }
+.sds-pm-op {
+  font-family: var(--sds-display);
+  font-size: 1.6rem;
+  color: var(--sds-gold);
+  flex-shrink: 0;
+}
+
 /* ─── NO-BRAINER (short emphasis band) ─────────────────────────── */
 .sds-nobrainer {
   background: var(--sds-burgundy);
