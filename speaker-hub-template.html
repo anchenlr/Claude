@@ -328,7 +328,7 @@
             <div class="field-value" id="fldName">–</div>
           </div>
           <div>
-            <div class="field-label">Business / title</div>
+            <div class="field-label">Business</div>
             <div class="field-value" id="fldCompany">–</div>
           </div>
           <div>
@@ -338,6 +338,10 @@
           <div class="full">
             <div class="field-label">Bio</div>
             <div class="field-value" id="fldBio">–</div>
+          </div>
+          <div class="full">
+            <div class="field-label">Presentation title</div>
+            <div class="field-value" id="fldPresTitle">–</div>
           </div>
           <div class="full">
             <div class="field-label">Presentation description</div>
@@ -664,8 +668,7 @@
 
   function renderDetails(data) {
     setText("fldName", data.name);
-    var companyBits = [data.company, data.jobTitle].filter(Boolean).join(" · ");
-    setText("fldCompany", companyBits);
+    setText("fldCompany", data.company);
     if (data.website) {
       var w = document.getElementById("fldWebsite");
       w.innerHTML = '<a href="' + esc(data.website) + '" target="_blank" rel="noopener">' + esc(data.website) + "</a>";
@@ -673,6 +676,8 @@
       setText("fldWebsite", "");
     }
     setText("fldBio", data.bio);
+    var presTitle = data.presentationTitle || data.topic || "";
+    setText("fldPresTitle", presTitle);
     var descEl = document.getElementById("fldPresDesc");
     if (data.presentationDescription) {
       descEl.textContent = data.presentationDescription;
