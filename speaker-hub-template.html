@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Speaker Hub — Page Builder Summit</title>
 <meta name="description" content="Your personal home base for Page Builder Summit — presentation, deadlines, PowerPack, promo and your checklist.">
+<link rel="icon" type="image/png" href="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png">
+<!-- Light-background variant of the logo, for use if a dark section is ever added:
+     https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-5.png -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,8 +27,7 @@
     --text-light: #666666;
     --border: rgba(49,46,97,0.12);
     --radius: 14px;
-    /* Swap this for the real hero photo (data URI or hosted URL) when it's ready. */
-    --hero-image: none;
+    --hero-image: url('https://pagebuildersummit.com/wp-content/uploads/2020/07/Untitled-1.jpg');
   }
   * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -94,17 +96,8 @@
     background: linear-gradient(160deg, rgba(226,240,251,0.82) 0%, rgba(255,255,255,0.55) 55%, rgba(216,90,149,0.18) 100%);
   }
   .hero-inner { position: relative; z-index: 1; }
-  .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
-  .logo-mark {
-    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
-    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; padding: 6px;
-  }
-  .logo-mark span { background: rgba(255,255,255,0.9); border-radius: 2px; }
-  .logo-mark span:nth-child(1) { transform: rotate(6deg); }
-  .logo-mark span:nth-child(4) { transform: rotate(-6deg); background: rgba(255,255,255,0.55); }
-  .logo-text { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.2px; color: var(--navy); }
-  .logo-text span { color: var(--pink); }
+  .logo-row { display: flex; align-items: center; margin-bottom: 32px; }
+  .logo-row img { height: 40px; width: auto; }
 
   .hero h1 { font-size: clamp(28px, 4.4vw, 42px); font-weight: 800; color: var(--navy); margin-bottom: 14px; }
   .hero h1 em { font-style: normal; color: var(--pink); }
@@ -333,8 +326,7 @@
   <div class="hero">
     <div class="wrap hero-inner">
       <div class="logo-row">
-        <div class="logo-mark"><span></span><span></span><span></span><span></span></div>
-        <div class="logo-text">Page Builder <span>Summit</span></div>
+        <img src="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png" alt="Page Builder Summit">
       </div>
       <h1>Hey <em id="heroFirstName">there</em>, you're in!</h1>
       <p class="lead">This is your home base for everything Page Builder Summit: your presentation, submissions, deadlines and promo. Bookmark it, come back whenever you need it.</p>
