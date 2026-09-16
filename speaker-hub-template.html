@@ -886,6 +886,7 @@
 
   function render(data) {
     data.basicInfoReceived = !!(data.bio && data.headshotUrl && data.website);
+    data.contributionInUpsell = !!(data.powerpackDescription && (data.powerpackValue || data.powerpackHasFiles || data.powerpackHasImage));
     var next = computeNext(data);
     renderHero(data, next);
     renderNextAction(data, next);
