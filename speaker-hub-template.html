@@ -134,6 +134,24 @@
     mask-image: linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
   }
+  .section-nav-arrow {
+    position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
+    width: 26px; height: 26px; border-radius: 999px;
+    background: var(--navy); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; line-height: 1;
+    pointer-events: none; box-shadow: 0 2px 6px rgba(49,46,97,0.25);
+    animation: navArrowPulse 1.4s ease-in-out infinite;
+    transition: opacity 0.2s;
+  }
+  .section-nav-arrow.hidden { opacity: 0; }
+  @keyframes navArrowPulse {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(3px); }
+  }
+  @media (min-width: 860px) {
+    .section-nav-arrow { display: none; }
+  }
   .section-nav a {
     flex-shrink: 0;
     display: inline-flex; align-items: center; gap: 6px;
@@ -342,7 +360,7 @@
 
   <!-- ========== SECTION NAV ========== -->
   <nav class="section-nav">
-    <div class="section-nav-inner">
+    <div class="section-nav-inner" id="sectionNavInner">
       <a href="#do-this-next"><span class="nav-icon">➜</span>Next step</a>
       <a href="#your-details"><span class="nav-icon">◐</span>Your details<span class="nav-check" id="navCheckDetails"></span></a>
       <a href="#whats-due"><span class="nav-icon">☐</span>What's due<span class="nav-badge" id="navBadgeDue"></span></a>
@@ -353,6 +371,7 @@
       <a href="#affiliate-promo"><span class="nav-icon">$</span>Affiliate & promo</a>
       <a href="#all-links"><span class="nav-icon">⚭</span>All links</a>
     </div>
+    <div class="section-nav-arrow" id="sectionNavArrow" aria-hidden="true">›</div>
   </nav>
 
   <!-- ========== DO THIS NEXT ========== -->
@@ -723,6 +742,19 @@
       });
     }, { rootMargin: "-100px 0px -70% 0px" });
     sections.forEach(function (s) { observer.observe(s); });
+
+    var inner = document.getElementById("sectionNavInner");
+    var arrow = document.getElementById("sectionNavArrow");
+    if (inner && arrow) {
+      var updateArrow = function () {
+        var scrollable = inner.scrollWidth > inner.clientWidth + 4;
+        var atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 4;
+        arrow.classList.toggle("hidden", !scrollable || atEnd);
+      };
+      updateArrow();
+      inner.addEventListener("scroll", updateArrow);
+      window.addEventListener("resize", updateArrow);
+    }
   }
 
   function renderNavBadges(data) {
@@ -949,10 +981,10 @@
     renderAffiliate(data);
     setLinks(data);
     renderResourceLinks(data);
-    setupSectionNav();
     renderNavBadges(data);
     document.getElementById("loading").style.display = "none";
     document.getElementById("hubContent").style.display = "block";
+    setupSectionNav();
   }
 
   if (!speakerId) {
