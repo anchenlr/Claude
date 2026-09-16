@@ -601,6 +601,33 @@
 (function () {
   "use strict";
 
+  // Builds a downloadable .ics with the fixed summit dates (same for every
+  // speaker), so "Add all dates to my calendar" needs no server or per-request
+  // generation — just a data URI built once at load.
+  function buildCalendarLink() {
+    var events = [
+      { start: "20260930", end: "20261001", summary: "PBS: Speaker confirmation and basic information due" },
+      { start: "20261012", end: "20261013", summary: "PBS: PowerPack contribution information due" },
+      { start: "20261020", end: "20261021", summary: "PBS: Presentations due" },
+      { start: "20261020", end: "20261107", summary: "PBS: Main promotional period" },
+      { start: "20261102", end: "20261107", summary: "Page Builder Summit" }
+    ];
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Page Builder Summit//Speaker Hub//EN"];
+    events.forEach(function (e, i) {
+      lines.push(
+        "BEGIN:VEVENT",
+        "UID:pbs-9-0-" + i + "@pagebuildersummit.com",
+        "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z",
+        "DTSTART;VALUE=DATE:" + e.start,
+        "DTEND;VALUE=DATE:" + e.end,
+        "SUMMARY:" + e.summary,
+        "END:VEVENT"
+      );
+    });
+    lines.push("END:VCALENDAR");
+    return "data:text/calendar;charset=utf8," + encodeURIComponent(lines.join("\r\n"));
+  }
+
   /* =========================================================
      CONFIG — fill in the TODO links below when they're ready.
      Everything marked TODO is a placeholder "#" for now.
@@ -616,7 +643,7 @@
       notContributing: "mailto:anchen@pagebuildersummit.com?subject=Not%20contributing%20to%20PowerPack",
       letUsKnow: "mailto:anchen@pagebuildersummit.com?subject=Presentation%20already%20submitted",
       powerpackGuide: "https://drive.google.com/file/d/1A1Z_1d8xHXkq2UqcP1OTaQ6D-cKd3boW/view?usp=drive_link",
-      addCalendar: "#TODO-calendar-ics-or-link",
+      addCalendar: buildCalendarLink(),
       affiliateAccount: "https://pictureandword.thrivecart.com/page-builder-powerpack/partner/",
       speakerInfoPage: "https://pagebuildersummit.com/speaker-information/",
       speakerCommunity: "https://www.facebook.com/groups/pagebuildersummit"
@@ -675,7 +702,11 @@
         url += (url.indexOf("?") === -1 ? "?" : "&") + "_t=" + encodeURIComponent(data.filloutEditToken);
       }
       if (url) el.setAttribute("href", url);
-      if (url && url.indexOf("mailto:") !== 0) el.setAttribute("target", "_blank");
+      if (key === "addCalendar") {
+        el.setAttribute("download", "page-builder-summit-dates.ics");
+      } else if (url && url.indexOf("mailto:") !== 0) {
+        el.setAttribute("target", "_blank");
+      }
     });
   }
   function setupSectionNav() {
