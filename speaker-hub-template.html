@@ -655,8 +655,8 @@
     SUMMIT_START: "2026-11-02T00:00:00Z",
     LINKS: {
       updateDetails: "https://simplydigitalshops.fillout.com/pagebuilder-speaker-form",
-      submitPresentation: "#TODO-submit-presentation-form",
-      submitPowerpack: "#TODO-submit-powerpack-form",
+      submitPresentation: "https://pagebuildersummit.com/presentation-info-submission/",
+      submitPowerpack: "https://simplydigitalshops.fillout.com/powerpack",
       notContributing: "mailto:anchen@pagebuildersummit.com?subject=Not%20contributing%20to%20PowerPack",
       letUsKnow: "mailto:anchen@pagebuildersummit.com?subject=Presentation%20already%20submitted",
       powerpackGuide: "https://drive.google.com/file/d/1A1Z_1d8xHXkq2UqcP1OTaQ6D-cKd3boW/view?usp=drive_link",
@@ -716,6 +716,9 @@
       // the hub just uses the ready-made link Airtable computes.
       if (key === "updateDetails" && data && data.filloutUpdateLink) {
         url = data.filloutUpdateLink;
+      }
+      if (key === "submitPowerpack" && data && data.filloutPowerpackLink) {
+        url = data.filloutPowerpackLink;
       }
       if (url) el.setAttribute("href", url);
       if (key === "addCalendar") {
