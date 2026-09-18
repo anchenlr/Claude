@@ -208,8 +208,8 @@ to be read in three minutes, live at the license link above.
   --accent: var(--color-brand-primary);
   --accent-deep: var(--color-brand-primary-deep);
   --accent-soft: var(--color-brand-primary-soft);
-  --accent-on-dark: color-mix(in srgb, var(--color-brand-primary) 58%, var(--color-pure-white));
-  --surface-accent-page: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-pure-white));
+  --accent-on-dark: var(--color-brand-primary); /* gold reads fine on near-black as-is — no lightening-toward-white, that's what produced the beige */
+  --surface-accent-page: var(--color-brand-primary);
 
   --divider-on-light: color-mix(in srgb, var(--color-ink) 14%, transparent);
   --divider-on-dark: color-mix(in srgb, var(--color-surface) 18%, transparent);
@@ -234,14 +234,14 @@ to be read in three minutes, live at the license link above.
   --content-max-wide: 1560px;
   --content-max-center: 1150px;
 
-  /* Gradients — built from primitives so they reskin automatically.
-     gradient-dark-deep extended to a 3-stop custom tweak so it matches
-     the live site's own hero gradient, which ends in burgundy — this
-     single-accent schema has no secondary-hue primitive slot for that,
-     so #950D20 (the site's burgundy) is hardcoded here same as gold-only
-     accent schemas do it elsewhere. */
-  --gradient-dark: linear-gradient(135deg, var(--color-ink-raised) 0%, var(--color-ink) 100%);
-  --gradient-dark-deep: linear-gradient(155deg, var(--color-ink) 0%, var(--color-ink-deep) 55%, #950d20 100%);
+  /* Flat fills, not gradients — the actual site never uses a gradient
+     for a section background (only for the one photo-overlay treatment,
+     handled separately below), so these two tokens hold plain colors:
+     the two darks the brand actually uses. Kept the "gradient-*" names
+     since they're wired into a lot of selectors already and the values
+     are still valid for the `background` property either way. */
+  --gradient-dark: var(--color-ink);
+  --gradient-dark-deep: var(--color-ink-deep);
 
   /* Shadows — soft editorial lifts */
   --shadow-card: 0 2px 12px color-mix(in srgb, var(--color-ink) 5%, transparent);
