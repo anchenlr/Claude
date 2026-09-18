@@ -106,11 +106,15 @@ to be read in three minutes, live at the license link above.
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- FONT IMPORT — replaced during reskin along with the primitives block -->
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Self-hosted brand display font — Seriously Nostalgic, confirmed hosted on the
-     offers subdomain, with Bodoni Moda (already loaded above) as the fallback. -->
+<!-- Self-hosted brand display font — Seriously Nostalgic. This deck now lives at
+     the root of challenge.simplydigitalshops.com, so pointing the font at the
+     same site (wp-content/uploads/fonts/) instead of the offers subdomain
+     makes it a same-origin request — sidesteps both the earlier http://
+     mixed-content risk and any cross-origin/hotlink blocking. Bodoni Moda
+     (already loaded above) is still the fallback. -->
 <style>
-  @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-  @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 </style>
 
 <style>
