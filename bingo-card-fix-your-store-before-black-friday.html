@@ -114,15 +114,14 @@ to be read in three minutes, live at the license link above.
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- FONT IMPORT — replaced during reskin along with the primitives block -->
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
-  <!-- Self-hosted brand display font — Seriously Nostalgic, licensed and hosted on the
+  <!-- Self-hosted brand display font — Seriously Nostalgic, confirmed hosted on the
        offers subdomain, with Bodoni Moda (already loaded above) as the safe fallback.
-       Path built from the filenames in the design handoff zip against the same
-       offers.simplydigitalshops.com/assets/ host your logo/favicon live on — I couldn't
-       verify it loads (that domain is blocked from this session), so if it 404s the
-       page just quietly falls back to Bodoni Moda; send the real path if this one's off. -->
+       Note: these URLs are http://, not https:// — if this page is ever served over
+       HTTPS somewhere, browsers will block them as mixed content and it'll silently
+       fall back to Bodoni Moda. Worth moving to an https:// host at some point. -->
   <style>
-    @font-face { font-family: 'Seriously Nostalgic'; src: url('https://offers.simplydigitalshops.com/assets/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-    @font-face { font-family: 'Seriously Nostalgic'; src: url('https://offers.simplydigitalshops.com/assets/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
   </style>
   <style>
   :root {
