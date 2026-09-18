@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Deck Template | Tropicana</title>
+
+<!-- ============================================================
+TEMPLATE MANIFEST — read this before editing anything
+Template: Slide Deck Template
+Style: Tropicana
+Version: 1.3
+CHANGELOG v1.3 (ship sweep 2026-07-18 — serif weight rule +
+  polish, near-zero visual change): explicit fw-regular on every
+  display-serif rule that was inheriting bold and rendering
+  synthetic (the display serif ships 400 only) (the brand
+  lockup em was inheriting 800); two pure-white rgba tints
+  converted to color-mix; maker's-mark weight tokenized.
+CHANGELOG v1.2 (family alignment 2026-07-18 — schema v2 +
+  licensing + grid mechanics, zero visual change): accent roster
+  backfilled to the canonical 17 via the single-accent fallback
+  (schema v2, section 1a); standard LICENSE AND USAGE block added
+  directly below the manifest; 12 fr grid track group(s)
+  wrapped in minmax(0) per GRID MECHANICS.
+CHANGELOG v1.1 (family alignment — canonical schema v1):
+- color-cream / color-cream-deep renamed color-surface / color-surface-2
+  so one reskin palette now moves between every Tropicana template
+  unchanged (values identical; zero visual change).
+- prefers-reduced-motion support added; maker's-mark fallback hex
+  aligned to the Tropicana accent-on-dark.
+Library: Her AI Club design library
+
+RESKIN RULES:
+- A brand reskin edits ONLY: (1) the PRIMITIVES block in :root, and
+  (2) the FONT IMPORT link in the head. Nothing else.
+- Never edit semantic tokens, component tokens, selectors, HTML
+  structure, or JavaScript during a reskin.
+- All alpha effects, dividers, gradients, and dark-surface text are
+  built with color-mix() on the primitives, so they reskin
+  automatically.
+
+STRUCTURE:
+- Sections are marked with ===== SECTION: NAME ===== comment markers.
+- Each section is one slide. Structural changes = whole-section
+  operations only (remove, reorder, duplicate between markers).
+  Never rewrite a section's internals.
+
+IMAGES:
+- Photos are linked by publicly hosted URL, never embedded as files
+  or base64 data (embedded image data bloats and can corrupt the
+  file). See the AI ASSISTANT NOTE at the speaker-photo element for
+  the exact swap procedure.
+
+INTERACTIVITY (do not rename these IDs/classes):
+- #stage — the fixed 1920x1080 letterbox container; JS scales it to fit the viewport
+- #progress — top progress bar; width set by JS
+- #prev / #next — nav buttons
+- #counter — the "1 / 12" slide counter
+- #jump-input — jump-to-slide number input
+- .slide / .active — slide visibility is toggled by JS via the active class
+
+DEPENDENCIES:
+- Fonts only: Instrument Serif + Inter (Google Fonts)
+
+STYLE GUARDRAILS:
+- Fixed 1920x1080 slide stage. Never change the slide-w / slide-h
+  tokens — the deck scales to any viewport via the fitStage script,
+  which replaces media-query responsiveness for this template.
+- Single-accent discipline: one brand color in three strengths
+  (primary / deep / soft). Never introduce a second accent hue.
+  On dark surfaces the accent automatically lightens via the
+  accent-on-dark token (derived from the primary with color-mix),
+  and the accent slide surface uses a lightened surface-accent-page.
+- Display serif is always uppercase with tight negative tracking.
+  Emphasis inside headlines = the em class (italic serif) or the
+  highlight class (accent block behind the words). Not both at once.
+- Rules and borders are hairline (1px). No thick borders, no offset
+  shadows, no element rotations — this style is flat and editorial.
+- Numbered elements use decimal-leading-zero serif numerals in the
+  accent color — the signature Tropicana move.
+
+- Single-accent style: secondary and tertiary slots derive from
+  primary (schema v2, section 1a), declared literal so reskin
+  palettes paste complete.
+
+- THE SERIF WEIGHT RULE: the display serif ships weight 400 only
+  — every rule setting the display face declares fw-regular;
+  heavier serif weights render synthetic and are banned. Emphasis
+  inside serif runs italic (plus accent color), never bold.
+
+BREAKPOINTS: None — scale-to-fit stage (see guardrails)
+============================================================ -->
+<!-- =============================================================
+LICENSE AND USAGE
+(c) 2026 Kinsey Soderberg | Authentic AI(R)
+Distributed by Her AI Club(TM) | heraiclub.co/shop
+Licensed under the Her AI Club Template License | heraiclub.co/license
+Everything you build with this template is yours, free and clear.
+The template file itself is licensed, not sold: use it forever
+under your license tier, and don't redistribute or resell the
+file or the system behind it. Full plain-English terms, written
+to be read in three minutes, live at the license link above.
+============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- FONT IMPORT — replaced during reskin along with the primitives block -->
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Self-hosted brand display font — Seriously Nostalgic, confirmed hosted on the
+     offers subdomain, with Bodoni Moda (already loaded above) as the fallback. -->
+<style>
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('http://offers.simplydigitalshops.com/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+</style>
+
+<style>
+:root {
+  /* ============================================================
+     LAYER 1 — PRIMITIVES
+     The ONLY block a brand reskin edits (plus the font link).
+     ============================================================ */
+
+  /* Color primitives — Fix Your Store Before Black Friday (case-file palette).
+     Kept the template's light/dark slide alternation intact (its component
+     layer needs a genuinely light "ink" role and a genuinely dark one to
+     stay legible) rather than forcing every slide dark: the "dark" slides
+     use the challenge's near-black ink family, and the "light" slides use
+     the challenge's own cream text-color as paper — a dossier/case-file
+     read that's true to both the brand and this template's mechanics. */
+  --color-ink: #140a0c;              /* near-black — text on cream slides + dark-slide gradients */
+  --color-ink-raised: #2a0509;       /* warm dark red — gradient start, matches the site's own hero gradient */
+  --color-ink-deep: #000000;         /* pure black — gradient end for deepest dark */
+  --color-gray-mid: #6b6b6b;         /* muted gray text (on cream slides) */
+  --color-gray-soft: #a3a3a3;        /* subtle gray text (on cream slides) */
+  --color-surface: #eae9e3;          /* main page background — the brand's cream, used as paper here */
+  --color-surface-2: #ddd6c4;        /* deeper layered surface */
+  --color-pure-white: #ffffff;       /* true white — inner cards on cream slides */
+  --color-brand-primary: #c7a35a;    /* gold — the single accent */
+  --color-brand-primary-deep: #8a6a2e;
+  --color-brand-primary-soft: #eee3ce;
+  /* Secondary + tertiary — single-accent fallback (schema v2, section 1a):
+     literal derivations of primary so the 17-color roster stays
+     paste-complete family-wide. Unused by this template's components. */
+  --color-brand-secondary: #eee3ce;
+  --color-brand-secondary-deep: #c7a35a;
+  --color-brand-secondary-soft: #efede6;
+  --color-brand-tertiary: #c7a35a;
+  --color-brand-tertiary-deep: #8a6a2e;
+  --color-brand-tertiary-soft: #eee3ce;
+
+  /* Font families */
+  --font-display: 'Seriously Nostalgic', 'Bodoni Moda', 'Times New Roman', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Font weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* Letter spacing */
+  --tracking-display: -5px;
+  --tracking-heading: -3.5px;
+  --tracking-sub: -1px;
+  --tracking-wide: 2px;
+  --tracking-wider: 2.5px;
+  --tracking-widest: 3px;
+
+  /* Line heights */
+  --leading-display: 0.92;
+  --leading-heading: 1.05;
+  --leading-body: 1.6;
+
+  /* Radius scale — brand corner personality: 10px cards, 6px controls, pill interactive */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  /* Border widths */
+  --border-width-hairline: 1px;
+  --border-width-medium: 2px;
+
+  /* ============================================================
+     LAYER 2 — SEMANTIC TOKENS
+     Never edited during a reskin. References Layer 1 only.
+     ============================================================ */
+
+  --surface-primary: var(--color-surface);
+  --surface-card: var(--color-surface-2);
+  --surface-pure: var(--color-pure-white);
+  --surface-inverse: var(--color-ink);
+  --surface-accent: var(--color-brand-primary);
+  --surface-accent-soft: var(--color-brand-primary-soft);
+
+  --text-primary: var(--color-ink);
+  --text-secondary: color-mix(in srgb, var(--color-ink) 88%, var(--color-surface));
+  --text-muted: var(--color-gray-mid);
+  --text-subtle: var(--color-gray-soft);
+  --text-inverse: var(--color-surface);
+  --text-on-dark-85: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  --text-on-dark-70: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  --text-on-dark-45: color-mix(in srgb, var(--color-surface) 45%, transparent);
+
+  --accent: var(--color-brand-primary);
+  --accent-deep: var(--color-brand-primary-deep);
+  --accent-soft: var(--color-brand-primary-soft);
+  --accent-on-dark: color-mix(in srgb, var(--color-brand-primary) 58%, var(--color-pure-white));
+  --surface-accent-page: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-pure-white));
+
+  --divider-on-light: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  --divider-on-dark: color-mix(in srgb, var(--color-surface) 18%, transparent);
+  --divider-on-accent: color-mix(in srgb, var(--color-ink) 22%, transparent);
+
+  /* ============================================================
+     LAYER 3 — COMPONENT TOKENS
+     Never edited during a reskin. References Layers 1-2.
+     ============================================================ */
+
+  /* Stage dimensions — DO NOT CHANGE (see manifest guardrails) */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+
+  /* Slide padding */
+  --slide-pad-x: 150px;
+  --slide-pad-top: 64px;
+  --slide-pad-bottom: 104px;
+
+  /* Content widths */
+  --content-max: 1250px;
+  --content-max-wide: 1560px;
+  --content-max-center: 1150px;
+
+  /* Gradients — built from primitives so they reskin automatically */
+  --gradient-dark: linear-gradient(135deg, var(--color-ink-raised) 0%, var(--color-ink) 100%);
+  --gradient-dark-deep: linear-gradient(135deg, var(--color-ink) 0%, var(--color-ink-deep) 100%);
+
+  /* Shadows — soft editorial lifts */
+  --shadow-card: 0 2px 12px color-mix(in srgb, var(--color-ink) 5%, transparent);
+  --shadow-card-elevated: 0 8px 32px color-mix(in srgb, var(--color-ink) 10%, transparent);
+
+  /* Global type scale — one place to tune all non-title text sizes */
+  --t-eyebrow: 19px;
+  --t-kicker: 20px;
+  --t-body: 24px;
+  --t-body-lg: 28px;
+  --t-meta: 15px;
+  --t-card-title: 34px;
+  --t-card-body: 19px;
+  --t-list-title: 30px;
+  --t-list-body: 20px;
+  --t-chapter-title: 36px;
+  --t-chapter-desc: 20px;
+  --t-flow-title: 32px;
+  --t-flow-body: 19px;
+  --t-stat-label: 18px;
+  --t-stat-desc: 19px;
+  --t-pill: 14px;
+  --t-footer: 15px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--color-ink-deep);
+}
+
+/* SLIDE STAGE — letterbox container that scales to fit viewport */
+#stage {
+  position: fixed; top: 50%; left: 50%;
+  width: var(--slide-w); height: var(--slide-h);
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  background: var(--surface-primary);
+  overflow: hidden;
+}
+
+/* PROGRESS BAR — single accent, editorial */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0;
+  background: var(--accent);
+  z-index: 1000; transition: width 0.3s ease;
+}
+
+/* SLIDE */
+.slide {
+  position: absolute; top: 0; left: 0;
+  width: var(--slide-w); height: var(--slide-h);
+  display: none;
+  padding: var(--slide-pad-top) var(--slide-pad-x) var(--slide-pad-bottom) var(--slide-pad-x);
+  overflow: hidden;
+}
+.slide.active { display: flex; flex-direction: column; }
+
+/* SLIDE SURFACES */
+.on-cream { background: var(--surface-primary); color: var(--text-primary); }
+.on-card { background: var(--surface-card); color: var(--text-primary); }
+.on-dark { background: var(--gradient-dark); color: var(--text-inverse); }
+.on-dark-deep { background: var(--gradient-dark-deep); color: var(--text-inverse); }
+.on-accent { background: var(--surface-accent-page); color: var(--text-primary); }
+.on-white { background: var(--surface-pure); color: var(--text-primary); }
+
+/* SLIDE CONTENT WRAPPER */
+.slide-content {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  max-width: var(--content-max);
+  width: 100%;
+  margin-left: auto; margin-right: auto;
+}
+.slide-content.wide { max-width: var(--content-max-wide); }
+
+/* EMPHASIS UTILITIES — the two Tropicana moves */
+.em { font-style: italic; }                     /* italic serif emphasis */
+.highlight {                                    /* accent block behind words */
+  background: var(--surface-accent);
+  color: var(--text-inverse);
+  padding: 0.02em 18px 0.08em;
+  display: inline-block;
+  line-height: 1;
+}
+.on-accent .highlight { background: var(--surface-inverse); color: var(--text-inverse); }
+.on-dark .highlight, .on-dark-deep .highlight { background: var(--accent-on-dark); color: var(--color-ink); }
+
+/* TYPOGRAPHY */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 40px;
+}
+.eyebrow::before {
+  content: ""; display: inline-block;
+  width: 32px; height: var(--border-width-hairline);
+  background: currentColor;
+}
+.on-dark .eyebrow, .on-dark-deep .eyebrow { color: var(--text-on-dark-45); }
+.on-accent .eyebrow { color: var(--text-primary); }
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: var(--t-kicker); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 40px;
+}
+.on-dark .kicker, .on-dark-deep .kicker { color: var(--accent-on-dark); }
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 148px;
+  line-height: var(--leading-display); letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 96px;
+  line-height: var(--leading-display); letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 44px;
+  line-height: var(--leading-heading); letter-spacing: var(--tracking-sub);
+  text-transform: uppercase;
+}
+.body {
+  font-family: var(--font-body);
+  font-size: var(--t-body); line-height: var(--leading-body); font-weight: var(--fw-regular);
+  max-width: var(--content-max); margin-bottom: 24px;
+  color: var(--text-secondary);
+}
+.body-lg {
+  font-family: var(--font-body);
+  font-size: var(--t-body-lg); line-height: var(--leading-body); font-weight: var(--fw-medium);
+  letter-spacing: -0.3px;
+  max-width: var(--content-max-center);
+  color: var(--text-secondary);
+}
+.on-dark .body, .on-dark .body-lg,
+.on-dark-deep .body, .on-dark-deep .body-lg { color: var(--text-on-dark-85); }
+
+/* HEADER — hairline editorial chrome, absolutely positioned so
+   slide content vertically centers in the full slide */
+.slide-header {
+  position: absolute;
+  top: var(--slide-pad-top);
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 22px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.on-dark .slide-header, .on-dark-deep .slide-header { border-bottom-color: var(--divider-on-dark); }
+.on-accent .slide-header { border-bottom-color: var(--divider-on-accent); }
+.brand-name {
+  font-family: var(--font-body);
+  color: var(--text-primary); letter-spacing: var(--tracking-wider); font-size: 17px;
+  font-weight: var(--fw-extrabold); text-transform: uppercase;
+}
+.brand-name em { font-weight: var(--fw-regular); /* serif ships 400 only */
+  font-family: var(--font-display); font-style: italic;
+  color: var(--accent); text-transform: none;
+  font-size: 22px; letter-spacing: 0;
+}
+.on-dark .brand-name, .on-dark-deep .brand-name { color: var(--text-inverse); }
+.brand-host {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  color: var(--text-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+}
+.on-dark .brand-host, .on-dark-deep .brand-host { color: var(--text-on-dark-45); }
+.on-accent .brand-host { color: var(--text-primary); }
+.slide-header-absolute {
+  position: absolute;
+  top: var(--slide-pad-top);
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+}
+
+/* FOOTER */
+.slide-footer {
+  position: absolute; bottom: 34px;
+  left: var(--slide-pad-x); right: var(--slide-pad-x);
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  padding-top: 18px; display: flex; justify-content: space-between;
+  font-family: var(--font-body); font-size: var(--t-footer); font-weight: var(--fw-bold);
+  color: var(--text-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+}
+.on-dark .slide-footer, .on-dark-deep .slide-footer {
+  border-top-color: var(--divider-on-dark);
+  color: var(--text-on-dark-45);
+}
+.on-accent .slide-footer { border-top-color: var(--divider-on-accent); color: var(--text-primary); }
+
+/* NAV CONTROLS */
+.nav-controls {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: color-mix(in srgb, var(--color-ink) 94%, transparent);
+  backdrop-filter: blur(8px);
+  padding: 8px 18px;
+  border: var(--border-width-hairline) solid color-mix(in srgb, var(--color-surface) 18%, transparent);
+  z-index: 999; display: flex; align-items: center; gap: 14px;
+  border-radius: var(--radius-pill);
+}
+.nav-controls button {
+  background: transparent; border: none; color: var(--text-inverse);
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  cursor: pointer; padding: 4px 8px;
+}
+.nav-controls button:hover { color: var(--accent-soft); }
+#counter {
+  font-family: var(--font-display); font-style: italic; color: var(--text-inverse);
+  letter-spacing: 1px; font-size: 17px; min-width: 58px; text-align: center;
+}
+.nav-divider {
+  width: 1px; height: 18px;
+  background: color-mix(in srgb, var(--color-surface) 20%, transparent);
+  display: inline-block;
+}
+.jump-label {
+  font-family: var(--font-body); font-size: 10px;
+  font-weight: var(--fw-extrabold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+#jump-input {
+  background: color-mix(in srgb, var(--color-surface) 8%, transparent);
+  border: var(--border-width-hairline) solid color-mix(in srgb, var(--color-surface) 22%, transparent);
+  color: var(--text-inverse);
+  font-family: var(--font-display); font-style: italic;
+  font-size: 16px; letter-spacing: 1px;
+  width: 48px; height: 28px;
+  text-align: center; outline: none;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, background 0.15s;
+}
+#jump-input:focus {
+  border-color: var(--accent-on-dark);
+  background: color-mix(in srgb, var(--color-surface) 12%, transparent);
+}
+#jump-input::placeholder { color: color-mix(in srgb, var(--color-surface) 35%, transparent); }
+
+/* ACCENT TOPLINE — the manifesto square rule */
+.topline {
+  width: 120px; height: 6px;
+  background: var(--surface-accent);
+  margin-bottom: 44px;
+}
+.on-accent .topline { background: var(--surface-inverse); }
+
+/* SPLIT MASTHEAD (title slide) */
+.slide.split { padding: 0; }
+.slide.split.active { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+.split-panel {
+  background: var(--gradient-dark);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 88px 64px;
+}
+.split-brand-mark {
+  font-family: var(--font-display);
+  font-size: 88px; line-height: 0.88;
+  color: var(--accent-on-dark); letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+}
+.split-brand-mark sup {
+  font-size: 0.25em; vertical-align: top; margin-left: 6px;
+  color: var(--text-on-dark-70);
+}
+.split-panel-meta {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.split-panel-meta strong { color: var(--text-on-dark-85); font-weight: var(--fw-extrabold); }
+.split-main {
+  background: var(--surface-primary);
+  display: flex; flex-direction: column;
+  padding: 88px 96px 0 148px;
+  position: relative;
+}
+.split-body { margin: auto 0; }
+.split-title {
+  font-family: var(--font-display);
+  font-size: 116px; line-height: var(--leading-display);
+  letter-spacing: var(--tracking-heading); text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 36px;
+}
+.split-sub {
+  font-family: var(--font-body);
+  font-size: var(--t-body-lg); line-height: var(--leading-body); font-weight: var(--fw-regular);
+  color: var(--text-secondary);
+  max-width: 820px;
+  margin-bottom: 64px;
+}
+.meta-bar {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  padding: 26px 0;
+  margin-bottom: 56px;
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+}
+.meta-bar-item strong { color: var(--text-primary); font-weight: var(--fw-extrabold); display: block; margin-top: 6px; }
+.meta-bar-item:last-child { text-align: right; }
+
+/* CHAPTER LIST (agenda) — hairline rows, leading-zero numerals */
+.chapter-list {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 72px;
+  margin-top: 8px;
+  max-width: var(--content-max-wide);
+}
+.chapter-item {
+  display: flex; gap: 32px; align-items: baseline;
+  padding: 30px 0;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.chapter-item:nth-child(5), .chapter-item:nth-child(6) {
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.chapter-num {
+  font-family: var(--font-display); font-size: 40px;
+  color: var(--accent); min-width: 76px; line-height: 1;
+  letter-spacing: -1px;
+}
+.chapter-content { flex: 1; }
+.chapter-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular); font-size: var(--t-chapter-title);
+  color: var(--text-primary); letter-spacing: var(--tracking-sub);
+  text-transform: uppercase;
+  margin-bottom: 6px; line-height: 1.05;
+}
+.chapter-desc {
+  font-family: var(--font-body); font-size: var(--t-chapter-desc);
+  color: var(--text-muted); line-height: 1.5;
+}
+
+/* CENTERED SLIDES (manifesto, focus, cta) */
+.slide.center-slide.active {
+  justify-content: center; align-items: center; text-align: center;
+}
+.slide.center-slide .topline { margin-left: auto; margin-right: auto; }
+.center-headline {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 120px;
+  line-height: 0.96; letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 40px;
+  max-width: 1450px;
+}
+.on-dark .center-headline, .on-dark-deep .center-headline { color: var(--text-inverse); }
+.center-sub {
+  font-family: var(--font-body); font-size: var(--t-body-lg);
+  line-height: var(--leading-body); color: var(--text-secondary);
+  max-width: var(--content-max-center); text-align: center;
+}
+.on-dark .center-sub, .on-dark-deep .center-sub { color: var(--text-on-dark-70); }
+.focus-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-muted);
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-bottom: 48px;
+}
+.focus-eyebrow::before, .focus-eyebrow::after {
+  content: ""; width: 32px; height: var(--border-width-medium);
+  background: var(--surface-inverse);
+}
+.on-dark .focus-eyebrow, .on-dark-deep .focus-eyebrow { color: var(--text-on-dark-45); }
+.on-dark .focus-eyebrow::before, .on-dark .focus-eyebrow::after,
+.on-dark-deep .focus-eyebrow::before, .on-dark-deep .focus-eyebrow::after { background: var(--accent-on-dark); }
+
+/* NUMBERED COLUMNS (flow) — hairline-divided editorial steps */
+.num-cols {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 16px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.num-col {
+  padding: 40px 40px 12px 0;
+  border-right: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.num-col + .num-col { padding-left: 40px; }
+.num-col:last-child { border-right: none; padding-right: 0; }
+.num-col-num {
+  font-family: var(--font-display); font-size: 64px;
+  color: var(--accent); line-height: 0.9; letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.num-col-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular); font-size: var(--t-flow-title);
+  color: var(--text-primary); letter-spacing: var(--tracking-sub);
+  text-transform: uppercase;
+  line-height: 1.08; margin-bottom: 14px;
+}
+.num-col-body {
+  font-family: var(--font-body); font-size: var(--t-flow-body);
+  color: var(--text-secondary); line-height: 1.55;
+}
+
+/* COMPARISON SPLIT — muted panel vs accent-soft panel */
+.compare-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px; margin-top: 12px;
+}
+.compare-panel {
+  background: var(--surface-pure);
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-md);
+  padding: 48px 52px;
+  box-shadow: var(--shadow-card);
+}
+.compare-panel.compare-after {
+  background: var(--surface-accent-soft);
+  border-color: var(--accent);
+}
+.compare-label {
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 16px; margin-bottom: 28px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.compare-panel.compare-after .compare-label { color: var(--accent-deep); border-bottom-color: color-mix(in srgb, var(--color-brand-primary) 40%, transparent); }
+.compare-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: var(--t-card-title); letter-spacing: var(--tracking-sub);
+  text-transform: uppercase; color: var(--text-primary);
+  line-height: 1.08; margin-bottom: 24px;
+}
+.compare-list { list-style: none; display: flex; flex-direction: column; }
+.compare-list li {
+  font-family: var(--font-body); font-size: var(--t-list-body);
+  color: var(--text-secondary); line-height: 1.5;
+  padding: 16px 0 16px 40px; position: relative;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.compare-list li::before {
+  content: ""; position: absolute; left: 0; top: 27px;
+  width: 22px; height: var(--border-width-hairline);
+  background: var(--accent);
+}
+.compare-panel.compare-after .compare-list li { border-top-color: color-mix(in srgb, var(--color-brand-primary) 30%, transparent); }
+
+/* IDEA CARDS — pure white hairline cards with tier pills */
+.card-grid {
+  display: grid; gap: 28px; margin-top: 20px;
+}
+.card-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.idea-card {
+  background: var(--surface-pure);
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-md);
+  padding: 42px 44px 36px;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-card);
+}
+.idea-card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 16px; margin-bottom: 28px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.tier-pill {
+  font-size: var(--t-pill); font-weight: var(--fw-extrabold);
+  padding: 5px 16px; border-radius: var(--radius-pill);
+  letter-spacing: var(--tracking-wide);
+}
+.tier-pill.tier-a { background: transparent; color: var(--accent); border: var(--border-width-hairline) solid var(--accent); }
+.tier-pill.tier-b { background: var(--accent-soft); color: var(--text-primary); border: var(--border-width-hairline) solid var(--text-primary); }
+.tier-pill.tier-c { background: var(--accent); color: var(--text-inverse); border: var(--border-width-hairline) solid var(--accent); }
+.idea-card-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: var(--t-card-title); letter-spacing: -0.5px;
+  color: var(--accent); line-height: 1.1;
+  margin-bottom: 16px;
+}
+.idea-card-body {
+  font-family: var(--font-body); font-size: var(--t-card-body);
+  line-height: 1.6; color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+.idea-card-footer {
+  margin-top: auto; padding-top: 18px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-bold); letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--text-muted);
+}
+.idea-card-footer strong { color: var(--text-primary); font-weight: var(--fw-extrabold); }
+
+/* STAT ROW — giant serif numbers on the accent slide */
+.stat-row {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 24px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-accent);
+}
+.on-cream .stat-row, .on-card .stat-row { border-top-color: var(--divider-on-light); }
+.stat-item {
+  padding: 52px 48px 12px 0;
+  border-right: var(--border-width-hairline) solid var(--divider-on-accent);
+}
+.on-cream .stat-item, .on-card .stat-item { border-right-color: var(--divider-on-light); }
+.stat-item + .stat-item { padding-left: 48px; }
+.stat-item:last-child { border-right: none; padding-right: 0; }
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 148px; line-height: 0.85; letter-spacing: var(--tracking-display);
+  color: var(--text-inverse);
+  margin-bottom: 28px;
+}
+.on-cream .stat-value, .on-card .stat-value { color: var(--accent); }
+.stat-value small {
+  font-size: 0.42em; letter-spacing: -1px; font-style: italic;
+}
+.stat-label {
+  font-family: var(--font-body); font-size: var(--t-stat-label);
+  font-weight: var(--fw-extrabold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.stat-desc {
+  font-family: var(--font-body); font-size: var(--t-stat-desc);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-ink) 78%, var(--color-brand-primary));
+}
+.on-cream .stat-desc, .on-card .stat-desc { color: var(--text-secondary); }
+
+/* SPOTLIGHT — circle badge + editorial content */
+.spotlight-grid {
+  display: grid; grid-template-columns: 460px minmax(0, 1fr);
+  gap: 96px; align-items: center;
+  margin-top: 8px;
+}
+.spotlight-badge {
+  aspect-ratio: 1;
+  border-radius: var(--radius-circle);
+  background: var(--surface-inverse);
+  color: var(--accent);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 64px;
+}
+.spotlight-badge-label {
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-extrabold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-on-dark-70);
+  margin-bottom: 20px;
+}
+.spotlight-badge-name {
+  font-family: var(--font-display);
+  font-size: 58px; line-height: 0.95; letter-spacing: var(--tracking-sub);
+  text-transform: uppercase;
+  color: var(--accent-on-dark);
+}
+.spotlight-headline {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 72px; line-height: 1; letter-spacing: -2px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+}
+.spotlight-body {
+  font-family: var(--font-body); font-size: var(--t-body);
+  line-height: var(--leading-body); color: var(--text-secondary);
+  max-width: 760px;
+}
+.spotlight-body p + p { margin-top: 16px; }
+
+/* DEEP DIVE — giant numeral + numbered hairline list on dark */
+.deep-grid {
+  display: grid; grid-template-columns: 380px minmax(0, 1fr);
+  gap: 100px; align-items: start;
+  margin-top: 8px;
+}
+.deep-num {
+  font-family: var(--font-display);
+  font-size: 300px; line-height: 0.8; letter-spacing: -14px;
+  color: var(--accent-on-dark);
+}
+.deep-label {
+  display: inline-block; margin-top: 32px;
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-extrabold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-inverse);
+  padding: 10px 18px;
+  background: color-mix(in srgb, var(--color-surface) 12%, transparent);
+}
+.deep-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 76px; line-height: 0.98; letter-spacing: -2.5px;
+  text-transform: uppercase;
+  color: var(--text-inverse);
+  margin-bottom: 40px;
+}
+.deep-list { list-style: none; counter-reset: deep-counter; }
+.deep-list li {
+  padding: 30px 0 30px 84px; position: relative;
+  border-top: var(--border-width-hairline) solid var(--divider-on-dark);
+  counter-increment: deep-counter;
+}
+.deep-list li:last-child { border-bottom: var(--border-width-hairline) solid var(--divider-on-dark); }
+.deep-list li::before {
+  content: counter(deep-counter, decimal-leading-zero);
+  position: absolute; left: 0; top: 32px;
+  font-family: var(--font-display); font-style: italic;
+  font-size: 34px; line-height: 1;
+  color: var(--accent-on-dark);
+}
+.deep-list strong {
+  display: block;
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: var(--t-list-title); letter-spacing: -0.5px;
+  color: var(--text-inverse);
+  margin-bottom: 8px; line-height: 1.1;
+}
+.deep-list li p {
+  font-family: var(--font-body); font-size: var(--t-list-body);
+  line-height: 1.55; color: var(--text-on-dark-70);
+  max-width: 820px;
+}
+
+/* TOOLKIT — 2x2 cards with circle monograms */
+.toolkit-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 26px; margin-top: 20px;
+}
+.toolkit-item {
+  background: var(--surface-pure);
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-md);
+  padding: 38px 42px;
+  display: grid; grid-template-columns: 92px minmax(0, 1fr);
+  gap: 32px; align-items: start;
+  box-shadow: var(--shadow-card);
+}
+.toolkit-visual {
+  width: 92px; height: 92px;
+  border-radius: var(--radius-circle);
+  border: var(--border-width-hairline) solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 34px; color: var(--accent); letter-spacing: -0.5px;
+  flex-shrink: 0;
+  background: transparent;
+}
+.toolkit-item:nth-child(2) .toolkit-visual { background: var(--accent-soft); color: var(--accent-deep); }
+.toolkit-item:nth-child(3) .toolkit-visual { background: var(--surface-inverse); color: var(--accent); border-color: var(--surface-inverse); }
+.toolkit-item:nth-child(4) .toolkit-visual { background: var(--accent); color: var(--text-inverse); }
+.toolkit-meta {
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 12px; margin-bottom: 16px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+  display: flex; justify-content: space-between;
+}
+.toolkit-meta strong { color: var(--text-primary); font-weight: var(--fw-extrabold); }
+.toolkit-name {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: var(--t-card-title); letter-spacing: -0.5px;
+  color: var(--accent); line-height: 1.1;
+  margin-bottom: 10px;
+}
+.toolkit-desc {
+  font-family: var(--font-body); font-size: var(--t-card-body);
+  line-height: 1.55; color: var(--text-secondary);
+}
+
+/* CTA BUTTON — editorial pill */
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 16px;
+  padding: 24px 56px;
+  background: var(--surface-accent);
+  color: var(--text-inverse);
+  font-family: var(--font-body);
+  font-size: 17px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  border: var(--border-width-hairline) solid var(--accent);
+  margin-top: 48px;
+  transition: all 0.2s;
+}
+.cta-btn:hover { background: transparent; color: var(--accent); }
+.on-dark .cta-btn, .on-dark-deep .cta-btn {
+  background: var(--accent-on-dark); color: var(--color-ink); border-color: var(--accent-on-dark);
+}
+.on-dark .cta-btn:hover, .on-dark-deep .cta-btn:hover { background: transparent; color: var(--accent-on-dark); }
+.cta-btn::after { content: "\2192"; font-size: 20px; }
+
+
+/* MEET THE SPEAKER — portrait frame plus editorial bio and fact row */
+.speaker-grid {
+  display: grid; grid-template-columns: 470px minmax(0, 1fr);
+  gap: 96px; align-items: center;
+  margin-top: 8px;
+}
+.speaker-photo {
+  aspect-ratio: 4 / 5;
+  background: var(--gradient-dark);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.speaker-photo.has-photo .speaker-photo-label { display: none; }
+.speaker-photo-label {
+  font-family: var(--font-body);
+  font-size: var(--t-meta); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  padding: 14px 26px;
+  border: var(--border-width-hairline) solid var(--divider-on-dark);
+  border-radius: var(--radius-pill);
+}
+.speaker-name {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 96px; line-height: 0.95; letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+.speaker-role {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 36px;
+}
+.speaker-bio {
+  font-family: var(--font-body); font-size: var(--t-body);
+  line-height: var(--leading-body); color: var(--text-secondary);
+  max-width: 820px;
+  margin-bottom: 44px;
+}
+.speaker-bio p + p { margin-top: 14px; }
+.speaker-facts {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  padding-top: 26px;
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+}
+.speaker-facts strong { color: var(--text-primary); font-weight: var(--fw-extrabold); display: block; margin-top: 8px; }
+
+/* DESIGNED-BY CREDIT — maker's mark (keep at end of stylesheet) */
+p.designed-by { font-size: 12.5px; font-weight: var(--fw-regular); line-height: 1.5; letter-spacing: normal; text-transform: none; color: var(--text-on-dark-45, color-mix(in srgb, var(--color-pure-white) 55%, transparent)); margin: 60px 0 0; padding: 0; text-align: center; }
+p.designed-by::before { content: ""; display: block; width: 44px; margin: 0 auto 14px; border-top: 2px solid var(--divider-on-dark, color-mix(in srgb, var(--color-pure-white) 25%, transparent)); }
+p.designed-by a { font: inherit; color: var(--accent-on-dark, #96aad4); text-decoration: none; background: none; padding: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; display: inline; letter-spacing: normal; text-transform: none; }
+p.designed-by a:hover { text-decoration: underline; background: none; }
+.slide-footer p.designed-by { margin: 0; line-height: inherit; }
+.slide-footer p.designed-by::before { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="stage">
+
+<!-- ===== SECTION: SLIDE-1-TITLE (split masthead · dark brand panel left, cream title + meta bar right) ===== -->
+<section class="slide split active">
+  <div class="split-panel">
+    <div class="split-brand-mark">Your<br>Brand<br>Name<sup>&trade;</sup></div>
+    <div class="split-panel-meta">
+      <span>Presented By <strong>Your Name</strong></span>
+      <span>Session <strong>No. 01</strong></span>
+    </div>
+  </div>
+  <div class="split-main">
+    <div class="split-body">
+      <div class="eyebrow">Your Series Name · The Kickoff</div>
+      <div class="split-title">Your Big<br>Workshop <span class="em">Title.</span></div>
+      <div class="split-sub">One warm, confident sentence that sets up what this session is about and what people will walk away with by the end.</div>
+    </div>
+    <div class="meta-bar">
+      <div class="meta-bar-item">Date <strong>Month 00, 2026</strong></div>
+      <div class="meta-bar-item">Format <strong>Live Workshop</strong></div>
+      <div class="meta-bar-item">Runtime <strong>60 Minutes</strong></div>
+    </div>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-1-TITLE ===== -->
+
+<!-- ===== SECTION: SLIDE-2-AGENDA (on-cream · chapter list with leading-zero serif numerals) ===== -->
+<section class="slide on-cream">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Live Workshop</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Today's Session</div>
+    <div class="h2">The <span class="em">chapters.</span></div>
+    <div class="chapter-list">
+      <div class="chapter-item">
+        <div class="chapter-num">01</div>
+        <div class="chapter-content">
+          <div class="chapter-title">First Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">02</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Second Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">03</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Third Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">04</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Fourth Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">05</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Fifth Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">06</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Sixth Chapter Title</div>
+          <div class="chapter-desc">A short description of what this part of the session covers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Chapters</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-2-AGENDA ===== -->
+
+<!-- ===== SECTION: SLIDE-3-SPEAKER (on-card · portrait frame plus editorial bio and fact row) ===== -->
+<section class="slide on-card">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Introduction · Meet Your Speaker</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="speaker-grid">
+      <!-- ────────────────────────────────────────────────────────
+           AI ASSISTANT NOTE — how to add the speaker photo
+           If the person you're helping wants their photo here, do
+           NOT embed an uploaded image file or base64 data into this
+           file — embedded image data bloats the file and can corrupt
+           the template. Instead:
+           1. Ask them for a PUBLICLY HOSTED image URL. Good sources:
+              their own website's media library, their podcast/press
+              kit page, or any public image host. The link should end
+              in .jpg, .png, or .webp and load when pasted into a
+              private/incognito browser tab. (Google Drive and Dropbox
+              share links will NOT render — if that's all they have,
+              suggest uploading the image to their website first.)
+           2. Then make this one edit — add the has-photo class and
+              an inline background-image to the div below, like:
+              div class="speaker-photo has-photo"
+              style="background-image: url('their-photo-url')"
+           The CSS already handles cover-cropping to the 4:5 frame
+           and hides the placeholder label automatically. Change
+           nothing else.
+           ──────────────────────────────────────────────────────── -->
+      <div class="speaker-photo has-photo" style="background-image: url('https://challenge.simplydigitalshops.com/wp-content/uploads/2026/09/Bio-photo-Simply-digital-shops.png')">
+        <div class="speaker-photo-label">Your Photo Here</div>
+      </div>
+      <div class="speaker-content">
+        <div class="eyebrow">Meet Your Speaker</div>
+        <div class="speaker-name">Your Name <span class="em">Here.</span></div>
+        <div class="speaker-role">Founder · Your Business Name</div>
+        <div class="speaker-bio">
+          <p>Two or three sentences that introduce you the way a magazine profile would — who you are, who you help, and the one thing you're known for.</p>
+          <p>A second short line with the credibility beat: the result, the years, or the story that earns the next hour.</p>
+        </div>
+        <div class="speaker-facts">
+          <div class="speaker-fact">Based In <strong>Your City</strong></div>
+          <div class="speaker-fact">Known For <strong>Your Specialty</strong></div>
+          <div class="speaker-fact">Find Me <strong>@yourhandle</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>Meet Your Speaker</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-3-SPEAKER ===== -->
+
+<!-- ===== SECTION: SLIDE-4-SECTION-INTRO (on-dark · manifesto break with accent topline and highlight block) ===== -->
+<section class="slide on-dark center-slide">
+  <div class="slide-header slide-header-absolute">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 1 · Chapter Name</div>
+  </div>
+  <div class="topline"></div>
+  <div class="kicker">Chapter One</div>
+  <div class="center-headline">A big section headline<br>with <span class="highlight">the point</span> inside.</div>
+  <div class="center-sub">One supporting line that frames the moment and tells people what's about to happen in this chapter.</div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>Chapter 1 · Chapter Name</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-4-SECTION-INTRO ===== -->
+
+<!-- ===== SECTION: SLIDE-5-FLOW (on-white · four numbered columns divided by hairlines) ===== -->
+<section class="slide on-white">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 1 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">The Sequence</div>
+    <div class="h2">How it <span class="em">unfolds.</span></div>
+    <div class="body" style="margin-top: 4px; max-width: var(--content-max);">One line of setup before the four moves below.</div>
+    <div class="num-cols" style="margin-top: 40px;">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title">Step One</div>
+        <div class="num-col-body">A short beat describing this move and why it comes first.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title">Step Two</div>
+        <div class="num-col-body">A short beat describing this move and what it builds on.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title">Step Three</div>
+        <div class="num-col-body">A short beat describing this move and where it turns.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">04</div>
+        <div class="num-col-title">The Result</div>
+        <div class="num-col-body">Where the sequence lands, stated plainly.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Sequence</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-5-FLOW ===== -->
+
+<!-- ===== SECTION: SLIDE-6-COMPARISON (on-card · before panel vs accent-soft after panel) ===== -->
+<section class="slide on-card">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 1 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">The Shift</div>
+    <div class="h2">Old way, <span class="em">new way.</span></div>
+    <div class="compare-grid">
+      <div class="compare-panel">
+        <div class="compare-label"><span>Before</span><span>The Old Way</span></div>
+        <div class="compare-title">What it used to look like</div>
+        <ul class="compare-list">
+          <li>First point about the old approach</li>
+          <li>Second point about the old approach</li>
+          <li>Third point, where the pain shows up</li>
+        </ul>
+      </div>
+      <div class="compare-panel compare-after">
+        <div class="compare-label"><span>After</span><span>The New Way</span></div>
+        <div class="compare-title">What it looks like now</div>
+        <ul class="compare-list">
+          <li>First point about the new approach</li>
+          <li>Second point about the new approach</li>
+          <li>Third point, where the win shows up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Comparison</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-6-COMPARISON ===== -->
+
+<!-- ===== SECTION: SLIDE-7-CARD-GRID (on-cream · three white idea cards with tier pills) ===== -->
+<section class="slide on-cream">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 2 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Three Options</div>
+    <div class="h2">Pick your <span class="em">path.</span></div>
+    <div class="card-grid card-grid-3">
+      <div class="idea-card">
+        <div class="idea-card-header"><span>Option 01</span><span class="tier-pill tier-a">Starter</span></div>
+        <div class="idea-card-title">First option name</div>
+        <div class="idea-card-body">Two or three sentences of supporting detail. Enough to explain the idea, short enough to scan from the back row.</div>
+        <div class="idea-card-footer">Best For <strong>A Short Descriptor</strong></div>
+      </div>
+      <div class="idea-card">
+        <div class="idea-card-header"><span>Option 02</span><span class="tier-pill tier-b">Middle</span></div>
+        <div class="idea-card-title">Second option name</div>
+        <div class="idea-card-body">Two or three sentences of supporting detail. Enough to explain the idea, short enough to scan from the back row.</div>
+        <div class="idea-card-footer">Best For <strong>A Short Descriptor</strong></div>
+      </div>
+      <div class="idea-card">
+        <div class="idea-card-header"><span>Option 03</span><span class="tier-pill tier-c">Deluxe</span></div>
+        <div class="idea-card-title">Third option name</div>
+        <div class="idea-card-body">Two or three sentences of supporting detail. Enough to explain the idea, short enough to scan from the back row.</div>
+        <div class="idea-card-footer">Best For <strong>A Short Descriptor</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Options</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-7-CARD-GRID ===== -->
+
+<!-- ===== SECTION: SLIDE-8-STATS (on-accent · three giant serif stats on the blue slide) ===== -->
+<section class="slide on-accent">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 2 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">The Numbers</div>
+    <div class="h2">Proof, in <span class="em">three figures.</span></div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-value">87<small>%</small></div>
+        <div class="stat-label">First Stat Label</div>
+        <div class="stat-desc">One line explaining what this number means and why it matters here.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">4.9</div>
+        <div class="stat-label">Second Stat Label</div>
+        <div class="stat-desc">One line explaining what this number means and why it matters here.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">12<small>x</small></div>
+        <div class="stat-label">Third Stat Label</div>
+        <div class="stat-desc">One line explaining what this number means and why it matters here.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Numbers</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-8-STATS ===== -->
+
+<!-- ===== SECTION: SLIDE-9-FOCUS (on-cream · centered statement with dash-flanked eyebrow and highlight) ===== -->
+<section class="slide on-cream center-slide">
+  <div class="slide-header slide-header-absolute">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 2 · The Point</div>
+  </div>
+  <div class="focus-eyebrow">The Whole Point</div>
+  <div class="center-headline">The one idea to<br><span class="highlight">take with you.</span></div>
+  <div class="center-sub">A calm supporting sentence underneath, restating the promise in plain words.</div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Point</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-9-FOCUS ===== -->
+
+<!-- ===== SECTION: SLIDE-10-SPOTLIGHT (on-white · circle badge plus editorial feature content) ===== -->
+<section class="slide on-white">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 3 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="spotlight-grid">
+      <div class="spotlight-badge">
+        <div class="spotlight-badge-label">The Feature</div>
+        <div class="spotlight-badge-name">Spotlight Name Here</div>
+      </div>
+      <div class="spotlight-content">
+        <div class="eyebrow">In Focus</div>
+        <div class="spotlight-headline">A featured idea, person, or <span class="em">example.</span></div>
+        <div class="spotlight-body">
+          <p>Two or three sentences introducing whatever sits in the circle — a case study, a framework, a guest, a signature concept. This layout gives one thing the whole room.</p>
+          <p>A second short paragraph with the supporting detail, the result, or the story beat that makes this worth its own slide.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Spotlight</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-10-SPOTLIGHT ===== -->
+
+<!-- ===== SECTION: SLIDE-11-DEEP-DIVE (on-dark-deep · giant numeral plus numbered hairline list) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 3 · Chapter Name</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="deep-grid">
+      <div class="deep-meta">
+        <div class="deep-num">03</div>
+        <div class="deep-label">The Deep Dive</div>
+      </div>
+      <div class="deep-content">
+        <div class="deep-title">Inside the third <span class="em">move.</span></div>
+        <ul class="deep-list">
+          <li>
+            <strong>First detail worth naming</strong>
+            <p>One or two lines expanding on this piece — what it is and what to do with it.</p>
+          </li>
+          <li>
+            <strong>Second detail worth naming</strong>
+            <p>One or two lines expanding on this piece — what it is and what to do with it.</p>
+          </li>
+          <li>
+            <strong>Third detail worth naming</strong>
+            <p>One or two lines expanding on this piece — what it is and what to do with it.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Deep Dive</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-11-DEEP-DIVE ===== -->
+
+<!-- ===== SECTION: SLIDE-12-TOOLKIT (on-cream · 2x2 toolkit cards with circle monograms) ===== -->
+<section class="slide on-cream">
+  <div class="slide-header">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 3 · Wrap-Up</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Everything In One Place</div>
+    <div class="h2">Your <span class="em">toolkit.</span></div>
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <div class="toolkit-visual">01</div>
+        <div class="toolkit-content">
+          <div class="toolkit-meta"><span>Resource</span><strong>Link</strong></div>
+          <div class="toolkit-name">First resource name</div>
+          <div class="toolkit-desc">One line on what this is and when to reach for it.</div>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-visual">02</div>
+        <div class="toolkit-content">
+          <div class="toolkit-meta"><span>Resource</span><strong>Link</strong></div>
+          <div class="toolkit-name">Second resource name</div>
+          <div class="toolkit-desc">One line on what this is and when to reach for it.</div>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-visual">03</div>
+        <div class="toolkit-content">
+          <div class="toolkit-meta"><span>Resource</span><strong>Link</strong></div>
+          <div class="toolkit-name">Third resource name</div>
+          <div class="toolkit-desc">One line on what this is and when to reach for it.</div>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-visual">04</div>
+        <div class="toolkit-content">
+          <div class="toolkit-meta"><span>Resource</span><strong>Link</strong></div>
+          <div class="toolkit-name">Fourth resource name</div>
+          <div class="toolkit-desc">One line on what this is and when to reach for it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <span>The Toolkit</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-12-TOOLKIT ===== -->
+
+<!-- ===== SECTION: SLIDE-13-CLOSING (on-dark · CTA send-off with pill button and designed-by credit) ===== -->
+<!-- Background photo matches the "Final CTA" treatment on the live registration
+     page: same image, same gradient overlay, so the deck's closing beat feels
+     like the same moment as the site's own conversion push. -->
+<section class="slide on-dark center-slide" style="background-image: linear-gradient(165deg, rgba(0,0,0,.86) 0%, rgba(12,6,7,.66) 48%, rgba(0,0,0,.88) 100%), url('https://challenge.simplydigitalshops.com/wp-content/uploads/2026/09/1.jpg'); background-size: cover; background-position: center center;">
+  <div class="slide-header slide-header-absolute">
+    <div class="brand-name">Your <em>Brand</em> Name</div>
+    <div class="brand-host">Chapter 3 · Send-Off</div>
+  </div>
+  <div class="kicker">One Last Thing</div>
+  <div class="center-headline">Your closing line,<br><span class="highlight">said plainly.</span></div>
+  <div class="center-sub">The final send-off sentence — the one action you want people to take before this tab closes.</div>
+  <a class="cta-btn" href="#">Your Call To Action</a>
+  <div class="slide-footer">
+    <span>yourwebsite.com</span>
+    <!-- ── Designed-by credit ──
+         A small thank-you to the designers. You're welcome to
+         keep it (it makes you look connected 💜) or remove this
+         block if you'd rather not include it. -->
+    <p class="designed-by">Deck designed by <a href="https://heraiclub.co/shop" target="_blank" rel="noreferrer">Her AI Club&trade;</a></p>
+    <span>Send-Off</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-13-CLOSING ===== -->
+
+</div><!-- close of the stage container -->
+
+<!-- Nav controls live OUTSIDE the stage -->
+<div class="nav-controls">
+  <button id="prev">← Prev</button>
+  <span id="counter">1 / 13</span>
+  <button id="next">Next →</button>
+  <span class="nav-divider"></span>
+  <span class="jump-label">Jump to</span>
+  <input type="text" id="jump-input" inputmode="numeric" pattern="[0-9]*" placeholder="#" />
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+const stage = document.getElementById('stage');
+const SLIDE_W = 1920;
+const SLIDE_H = 1080;
+
+function fitStage() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const scale = Math.min(vw / SLIDE_W, vh / SLIDE_H);
+  stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(n, total - 1));
+  slides[current].classList.add('active');
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+}
+
+document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+
+const jumpInput = document.getElementById('jump-input');
+jumpInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = parseInt(jumpInput.value, 10);
+    if (!isNaN(val) && val >= 1 && val <= total) { goTo(val - 1); }
+    jumpInput.value = '';
+    jumpInput.blur();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (document.activeElement === jumpInput) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+});
+
+document.getElementById('progress').style.width = (1 / total * 100) + '%';
+document.getElementById('counter').textContent = '1 / ' + total;
+</script>
+
+</body>
+</html>
