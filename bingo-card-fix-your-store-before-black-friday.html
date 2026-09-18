@@ -147,6 +147,14 @@ to be read in three minutes, live at the license link above.
     --color-brand-tertiary-deep: #000000;  /* deepest neutral (roster backfill) */
     --color-brand-tertiary-soft: #140708;  /* near-black gradient partner */
 
+    /* Extra primitives — the live site's own design tokens use two accent
+       colors this template's stock roster has no slot for: a dedicated red
+       for emphasis words in headings (kept separate from the gold action
+       color), and plum for text set on top of gold fills. Added here per
+       the reskin rule for a missing primitive. */
+    --color-accent-red: #b01226;    /* heading <em> emphasis — matches --ds-color-red on the live site */
+    --color-accent-plum: #5b002b;   /* text on gold fills — matches --ds-color-plum / the button text color sitewide */
+
     /* Alpha primitives — ink and white at fixed opacities (glass + borders) */
     --color-ink-a90: color-mix(in srgb, var(--color-ink) 25%, transparent);  /* hairline card border tint */
     --color-ink-a40: color-mix(in srgb, var(--color-ink) 22%, transparent);
@@ -217,8 +225,8 @@ to be read in three minutes, live at the license link above.
     --state-bingo: var(--color-brand-primary);
     --state-bingo-soft: color-mix(in srgb, var(--color-brand-primary) 78%, var(--color-pure-white));
     --state-bingo-edge: var(--color-brand-primary-deep);
-    --state-bingo-text: var(--text-inverse);
-    --accent-text: var(--state-bingo);            /* text accents match the bingo color */
+    --state-bingo-text: var(--color-accent-plum); /* plum on gold, matching the site's button text everywhere else */
+    --accent-text: var(--color-accent-red);       /* heading emphasis is red on this site, not gold — gold is reserved for labels/buttons */
 
     /* ---------- 3. COMPONENT TOKENS (never edited during a reskin) ---------- */
 
@@ -363,6 +371,7 @@ to be read in three minutes, live at the license link above.
   .tracker-divider { border: none; border-top: var(--border-width-thick) dotted var(--border-subtle); margin: 0; }
   .tracker-fineprint { font-size: 13px; font-style: italic; line-height: 1.55; color: var(--text-muted); text-align: center; margin: -12px 0 0; }
   .tracker-item { display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+  .tracker-item + .tracker-item { margin-top: 14px; }
   .tracker-check { width: 26px; height: 26px; flex-shrink: 0; border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--radius-sm); display: grid; place-items: center; background: var(--surface-page); }
   .tracker-item.done .tracker-check { background: var(--state-free); }
   .tracker-check svg { width: 15px; height: 15px; stroke: var(--border-strong); stroke-width: 3; fill: none; display: none; }
@@ -372,7 +381,7 @@ to be read in three minutes, live at the license link above.
 
   .pill-btn { border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 13px 19px; font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .08em; text-transform: uppercase; display: inline-flex; gap: 9px; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; color: var(--text-primary); transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
   .pill-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-btn-hover); }
-  .pill-btn.pop { background: var(--state-free); }
+  .pill-btn.pop { background: var(--state-bingo); color: var(--state-bingo-text); border-color: var(--state-bingo-edge); }
   .pill-btn.solid { background: var(--border-strong); color: var(--text-inverse); }
   .pill-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
   .tracker-claim { margin-top: 2px; justify-content: center; }
@@ -389,7 +398,7 @@ to be read in three minutes, live at the license link above.
 
   footer { text-align: center; padding: clamp(42px, 6vw, 70px) 0 20px; }
   .footer-mark { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(36px, 5vw, 60px); line-height: .9; letter-spacing: -0.04em; }
-  .footer-eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); margin: 12px 0 6px; }
+  .footer-eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .16em; text-transform: uppercase; color: var(--state-bingo); margin: 12px 0 6px; }
   footer p { color: var(--text-secondary); font-size: 15px; margin-top: 12px; }
   footer a { color: var(--accent-text); text-decoration: none; }
 
@@ -441,7 +450,7 @@ to be read in three minutes, live at the license link above.
             <p class="tracker-how" id="trackerHow"></p>
           </div>
           <div id="trackerItems"></div>
-          <div class="tracker-claim-wrap hidden" id="claimWrap">
+          <div class="tracker-claim-wrap" id="claimWrap">
             <hr class="tracker-divider" />
             <a class="pill-btn pop tracker-claim" id="claimBtn" href="#" target="_blank" rel="noreferrer">
               Claim your prize
@@ -532,25 +541,25 @@ to be read in three minutes, live at the license link above.
       ],
 
       // ── Prizes & milestones ──
-      // 'lines' milestones unlock at N completed bingos.
-      // 'full' unlocks when all 25 squares are marked.
+      // Daily prizes, not bingo-count milestones — a winner is drawn
+      // each day from whoever's posted in the community. Fill in the
+      // five real prizes; the list renders as-is, nothing to unlock.
       trackerTape: 'bingo tracker',
-      trackerNote: 'Every bingo wins a prize. Going for the full card?<br />There’s an extra special prize waiting.',
-      trackerHow: 'Got a bingo? Screenshot your card and post it to claim your prize.',
-      milestones: [
-        { label: 'Bingo',        threshold: 1, type: 'lines', locked: 'Any full row, column, or diagonal.' },
-        { label: 'Double Bingo', threshold: 2, type: 'lines', locked: 'Two complete lines. Big flex.' },
-        { label: 'Full Card',    threshold: 0, type: 'full',  locked: 'All 25 squares. Legend behavior.' },
+      trackerNote: 'Post your card in the Community and you’re in the running.<br />New prize every day of the challenge.',
+      trackerHow: 'Screenshot your card any time during the week and post it — the more you’ve filled in, the better.',
+      dailyPrizes: [
+        { day: 'Day 1', prize: '[Prize — tell me and I’ll fill this in]' },
+        { day: 'Day 2', prize: '[Prize]' },
+        { day: 'Day 3', prize: '[Prize]' },
+        { day: 'Day 4', prize: '[Prize]' },
+        { day: 'Day 5', prize: '[Prize]' },
       ],
-      milestoneDone: 'Done — go claim it.',
 
-      // Where the claim button sends winners — your community post,
-      // a form, an email link, wherever prizes get claimed.
+      // Where the button sends people — the Challenge Facebook
+      // Community, since that's where screenshots get posted.
       claimLink: 'https://your-link-here.com',
-      claimLabel: 'Claim your prize',
-      claimLabelRepeat: 'Claim your prize (again)',
-      claimLabelFullCard: 'Claim your final prize',
-      claimFineprint: 'Simply post a screenshot of your bingo card.',
+      claimLabel: 'Post in the Community',
+      claimFineprint: 'Screenshot your bingo card and post it in the Challenge Facebook Community.',
 
       // ── Host card (the "brought to you by" panel) ──
       // Set showHostCard to false to hide the whole panel.
@@ -692,7 +701,6 @@ to be read in three minutes, live at the license link above.
       const completedLines = BINGO_LINES.filter((line) => line.every(isMarked));
       const bingoLineSquares = new Set(completedLines.flat());
       const markedCount = squares.filter((_, i) => isMarked(i)).length;
-      const fullCard = markedCount === squares.length;
 
       // Squares
       Array.from(grid.children).forEach((btn, index) => {
@@ -709,33 +717,6 @@ to be read in three minutes, live at the license link above.
       progressEl.textContent = markedCount + '/' + squares.length + ' marked · '
         + (completedLines.length === 1 ? '1 bingo' : completedLines.length + ' bingos');
 
-      // Tracker milestones
-      trackerItemsEl.innerHTML = '';
-      SETTINGS.milestones.forEach((m) => {
-        const done = m.type === 'full' ? fullCard : completedLines.length >= m.threshold;
-        const item = document.createElement('div');
-        item.className = 'tracker-item' + (done ? ' done' : '');
-        item.innerHTML =
-          '<div class="tracker-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'
-          + '<div><div class="tracker-label">' + m.label + '</div>'
-          + '<div class="tracker-sub">' + (done ? SETTINGS.milestoneDone : m.locked) + '</div></div>';
-        trackerItemsEl.appendChild(item);
-      });
-
-      // Claim CTA
-      if (completedLines.length > 0) {
-        claimWrap.classList.remove('hidden');
-        const label = fullCard
-          ? SETTINGS.claimLabelFullCard
-          : completedLines.length >= 2
-            ? SETTINGS.claimLabelRepeat
-            : SETTINGS.claimLabel;
-        claimBtn.childNodes[0].nodeValue = label + ' ';
-        claimBtn.href = SETTINGS.claimLink;
-      } else {
-        claimWrap.classList.add('hidden');
-      }
-
       // Confetti on a NEW bingo (not on first paint)
       if (prevBingoCount !== null && completedLines.length > prevBingoCount) {
         fireConfetti();
@@ -743,7 +724,25 @@ to be read in three minutes, live at the license link above.
       prevBingoCount = completedLines.length;
     }
 
+    // Static "Prizes up for grabs" list — daily prizes, not gated by
+    // bingo progress. Winners are drawn from whoever posts a screenshot
+    // in the Facebook Community each day, so this list never toggles.
+    function buildPrizes() {
+      trackerItemsEl.innerHTML = '';
+      SETTINGS.dailyPrizes.forEach((p) => {
+        const item = document.createElement('div');
+        item.className = 'tracker-item';
+        item.innerHTML =
+          '<div><div class="tracker-label">' + p.day + '</div>'
+          + '<div class="tracker-sub">' + p.prize + '</div></div>';
+        trackerItemsEl.appendChild(item);
+      });
+      claimBtn.childNodes[0].nodeValue = SETTINGS.claimLabel + ' ';
+      claimBtn.href = SETTINGS.claimLink;
+    }
+
     buildGrid();
+    buildPrizes();
     render();
   </script>
 </body>
