@@ -972,7 +972,7 @@
   function render(data) {
     data.basicInfoReceived = !!(data.bio && data.headshotUrl && data.website);
     data.contributionInUpsell = !!(data.powerpackDescription && (data.powerpackValue || data.powerpackHasFiles || data.powerpackHasImage));
-    data.commissionPct = data.contributionInUpsell ? 50 : 40;
+    data.commissionPct = data.verifiedPowerpack ? 50 : 40;
     var next = computeNext(data);
     renderHero(data, next);
     renderNextAction(data, next);
