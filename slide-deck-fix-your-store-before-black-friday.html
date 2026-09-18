@@ -320,6 +320,7 @@ html, body {
 
 /* EMPHASIS UTILITIES — the two Tropicana moves */
 .em { font-style: italic; color: var(--color-accent-red); }  /* italic serif emphasis — red, matching .bb-heading em on the live site */
+.on-burgundy .em { color: var(--color-brand-primary); }  /* red blends into the burgundy fill, so emphasis switches to gold here, same as the live site's burgundy section */
 .highlight {                                    /* accent block behind words */
   background: var(--surface-accent);
   color: var(--text-inverse);
@@ -1194,8 +1195,11 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 </section>
 <!-- ===== END SECTION: SLIDE-3-SPEAKER ===== -->
 
-<!-- ===== SECTION: SLIDE-4-SECTION-INTRO (on-dark · manifesto break with accent topline and highlight block) ===== -->
-<section class="slide on-dark center-slide">
+<!-- ===== SECTION: SLIDE-4-SECTION-INTRO (on-dark, flat burgundy · manifesto break with accent topline and highlight block) ===== -->
+<!-- One of two burgundy "moment" slides — matches the flat #950D20 fill
+     the live site uses for its "Why this method" section (never a
+     gradient, always a flat full-bleed color). -->
+<section class="slide on-dark center-slide on-burgundy" style="background: #950d20;">
   <div class="slide-header slide-header-absolute">
     <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 1 · Chapter Name</div>
@@ -1325,8 +1329,8 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 </section>
 <!-- ===== END SECTION: SLIDE-7-CARD-GRID ===== -->
 
-<!-- ===== SECTION: SLIDE-8-STATS (on-dark-deep · three giant serif stats, flat burgundy since gold never fills a section) ===== -->
-<section class="slide on-dark-deep">
+<!-- ===== SECTION: SLIDE-8-STATS (on-dark-deep, flat burgundy · three giant serif stats) ===== -->
+<section class="slide on-dark-deep on-burgundy" style="background: #950d20;">
   <div class="slide-header">
     <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 2 · Chapter Name</div>
