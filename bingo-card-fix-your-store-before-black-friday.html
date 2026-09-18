@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<!-- ============================================================
+TEMPLATE MANIFEST — read this before editing anything
+Template: The Bingo Card — Tropicana
+Style: Tropicana boutique editorial (cream + French blue + blue-black ink, Instrument Serif with italic emphasis)
+Version: 1.1
+CHANGELOG v1.1 (family alignment 2026-07-19 — the bingo card
+  missed the 07-18 sweep; now aligned): canonical schema v2
+  renames (cream/peach/white/dark/gray -> surface/surface-2/
+  pure-white/ink/gray-mid; values identical), the banned thin
+  border token -> hairline, gray-600 primitive replaced by
+  the canonical text-secondary recipe, primary-light replaced by a
+  derived color-mix tint, roster backfilled to 17 colors, all 15
+  rgba tints -> color-mix derivations (whites, ink tints, and
+  shadows now derive from the roster), maker's-mark fallback off
+  the legacy coral, the bingo grid onto GRID MECHANICS, license
+  block added, style guardrails added. Near-zero visual change;
+  JS untouched.
+Library: Her AI Club design library
+
+RESKIN RULES:
+- A brand reskin edits ONLY: (1) the PRIMITIVES block in :root, and
+  (2) the FONT IMPORT <link> in <head>. Nothing else.
+- Never edit semantic tokens, component tokens, selectors, HTML
+  structure, or JavaScript during a reskin.
+- All copy, squares, prizes, and links are edited in the SETTINGS
+  block at the top of the <script> — content, not reskin.
+
+STRUCTURE:
+- Sections are wrapped in comment markers: SECTION: NAME at the top,
+  END SECTION: NAME at the bottom.
+- Structural changes = whole-section operations only (remove, reorder,
+  duplicate between markers). Never rewrite a section's internals.
+
+INTERACTIVITY (do not rename these IDs/classes):
+- IDs: cardTitle, cardIntro, bingoGrid, bingoProgress, trackerTape,
+  trackerNote, trackerHow, trackerItems, claimWrap, claimBtn,
+  claimFineprint, hostCard, hostTape, hostTitle, hostDesc, hostLink,
+  hostLinkLabel, footerMark, footerEyebrow
+- Classes set by JS: bingo-square (+ free / marked / bingoed),
+  tracker-item (+ done), hidden
+- The game requires exactly 24 SETTINGS.squares; FREE is injected at
+  grid index 12. storageKey must stay unique per card.
+
+DEPENDENCIES:
+- Fonts only: Instrument Serif, Inter, DM Mono (one Google Fonts link)
+
+STYLE GUARDRAILS:
+- The maker's mark (p.designed-by) stays in delivered files unless the
+  owner explicitly asks to remove it. Always ™, never ®.
+- Confetti auto-reads the theme tokens; it reskins itself.
+
+STYLE GUARDRAILS (Tropicana):
+- THE SERIF WEIGHT RULE: Instrument Serif ships weight 400 only —
+  every rule setting the display face declares fw-regular; heavier
+  weights render synthetic and are banned. Emphasis inside serif
+  runs italic (plus accent color), never bold.
+- Single-accent style: secondary and tertiary slots derive from
+  primary (schema v2, section 1a); this widget's secondary slots
+  carry real values (marked squares, tape) that match those
+  derivations.
+- GRID MECHANICS: equal-column and ratio grids use minmax(0, Nfr),
+  never bare fr; tracks with an explicit minimum comply as-is;
+  never nest minmax.
+- --font-mono (DM Mono) is this widget's sanctioned accent slot —
+  the numerals, tape labels, and buttons are part of its DNA.
+
+BREAKPOINTS: 920px, 640px (verified at 1024 / 768 / 480)
+============================================================ -->
+<!-- =============================================================
+LICENSE AND USAGE
+(c) 2026 Kinsey Soderberg | Authentic AI(R)
+Distributed by Her AI Club(TM) | heraiclub.co/shop
+Licensed under the Her AI Club Template License | heraiclub.co/license
+Everything you build with this template is yours, free and clear.
+The template file itself is licensed, not sold: use it forever
+under your license tier, and don't redistribute or resell the
+file or the system behind it. Full plain-English terms, written
+to be read in three minutes, live at the license link above.
+============================================================= -->
+<!--
+  ════════════════════════════════════════════════════════════
+  BINGO CARD — TROPICANA (single style)
+  © 2026 Her AI Club™ · heraiclub.co
+
+  A boutique editorial bingo card in the Tropicana design
+  family: flat cream page, pure-white cards with hairline
+  borders, blue-black ink, a single French-blue accent with
+  italic serif emphasis, and soft ink shadows. One look,
+  no style picker.
+
+  Players tap squares to mark them, bingos are detected
+  automatically (confetti included), a prize tracker shows
+  milestones, and marks save on each player's device. Open in
+  any browser. No build tools, no dependencies, no accounts.
+
+  HOW TO CUSTOMIZE
+  1. Everything customizable lives in the SETTINGS block at the
+     top of the <script> near the bottom of this file — copy,
+     all 24 squares, prizes, links.
+  2. Colors live in :root at the top of the <style> block —
+     each variable is labeled.
+
+  Tip: paste this whole file into Claude along with your event
+  details and ask it to fill in the squares and copy for you.
+  ════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- FONT IMPORT — replaced during reskin along with the primitives block -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+  <style>
+  :root {
+    /* ============================================================
+       DESIGN TOKENS — edit these to reskin the template.
+       Organized in 3 layers:
+         1. PRIMITIVES — raw values (colors, font families, sizes)
+         2. SEMANTIC TOKENS — meaning-based (surface, text, accent)
+         3. COMPONENT TOKENS — specific to UI elements
+       ============================================================ */
+
+    /* ---------- 1. PRIMITIVES ---------- */
+
+    /* Color primitives — Fix Your Store Before Black Friday (case-file dark palette) */
+    --color-surface: #0c0b0b;              /* page background (near-black ground) */
+    --color-surface-2: #140506;              /* host card (deeper layered near-black) */
+    --color-pure-white: #140a0c;              /* card surface — dark card fill, not literal white */
+    --color-ink: #eae9e3;               /* ink — warm cream text + borders (inverted for dark ground) */
+    --color-ink-raised: #ebeae4;        /* lighter cream — gradient tops (roster backfill) */
+    --color-ink-deep: #c9c8c3;          /* dimmer cream — gradient bottoms (roster backfill) */
+    --color-gray-mid: #a7a6a2;           /* muted text, fine print */
+    --color-gray-soft: #706f6c;          /* subtle text (roster backfill) */
+
+    /* Brand colors — swap these when reskinning */
+    --color-brand-primary: #c7a35a;        /* gold — the single accent, bingoed squares */
+    --color-brand-primary-deep: #8a6a2e;   /* hover/emphasis (gold-deep) */
+    --color-brand-secondary: #5f4a2d;      /* muted bronze — marked squares */
+    --color-brand-secondary-soft: #3e311f; /* deeper bronze — gradient partner, tape */
+    --color-brand-primary-soft: #5f4a2d;   /* roster backfill — single-accent derivation */
+    --color-brand-secondary-deep: #c7a35a; /* roster backfill (schema v2, section 1a) */
+    --color-brand-tertiary: #140506;       /* near-black neutral — FREE square, pill, buttons */
+    --color-brand-tertiary-deep: #000000;  /* deepest neutral (roster backfill) */
+    --color-brand-tertiary-soft: #140708;  /* near-black gradient partner */
+
+    /* Alpha primitives — ink and white at fixed opacities (glass + borders) */
+    --color-ink-a90: color-mix(in srgb, var(--color-ink) 25%, transparent);  /* hairline card border tint */
+    --color-ink-a40: color-mix(in srgb, var(--color-ink) 22%, transparent);
+    --color-ink-a25: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    --color-pure-white-a85: color-mix(in srgb, var(--color-pure-white) 85%, transparent);
+    --color-pure-white-a75: color-mix(in srgb, var(--color-pure-white) 75%, transparent);
+    --color-pure-white-a45: color-mix(in srgb, var(--color-pure-white) 45%, transparent);
+    --color-pure-white-a40: color-mix(in srgb, var(--color-pure-white) 40%, transparent);
+
+    /* Font families */
+    --font-display: "Bodoni Moda", Georgia, serif;  /* sanctioned fallback for the licensed Seriously Nostalgic face — see delivery notes */
+    --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Display treatment */
+    --display-case: none;       /* set to uppercase for all-caps display fonts */
+    --font-accent: "Bodoni Moda", Georgia, serif;  /* accent words in titles */
+    --accent-style: italic;     /* accent-word style (italic or normal) */
+    --accent-size: 1em;         /* accent-word size relative to the title */
+    --accent-case: none;
+
+    /* Personality — tilt + glow (set all to 0 for a straight, flat layout) */
+    --tilt-a: 0deg;             /* editorial — straight */
+    --tilt-b: 0deg;
+    --tilt-tape: 0deg;
+    --wonk: 0;                  /* hover scales without wiggling */
+    --blob-opacity: 0;          /* clean editorial — no glow */
+
+    /* Font weights */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+
+    /* Radius scale — brand corner personality: 10px cards/panels, 6px controls, pill interactive */
+    --radius-xs: 5px;      /* squares on mobile */
+    --radius-sm: 6px;      /* tracker checkboxes */
+    --radius-md: 8px;      /* bingo squares */
+    --radius-lg: 10px;     /* tracker + host panels */
+    --radius-xl: 10px;     /* the bingo card */
+    --radius-pill: 999px;
+
+    /* Border widths */
+    --border-width-hairline: 1px;
+    --border-width-medium: 1.5px;
+    --border-width-thick: 1px;   /* hairline aesthetic */
+
+    /* ---------- 2. SEMANTIC TOKENS (never edited during a reskin) ---------- */
+
+    --surface-page: var(--color-surface);
+    --surface-card: var(--color-pure-white);              /* pure white card on cream */
+    --surface-panel: var(--color-pure-white);             /* prize tracker */
+    --surface-host: var(--color-surface-2);              /* host card */
+    --text-primary: var(--color-ink);
+    --text-secondary: color-mix(in srgb, var(--color-ink) 88%, var(--color-surface));
+    --text-muted: var(--color-gray-mid);
+    --text-inverse: var(--color-pure-white);
+    --border-strong: var(--color-ink);
+    --border-card: var(--color-ink-a90);
+    --border-square: var(--color-ink-a40);
+    --border-subtle: var(--color-ink-a25);
+
+    /* Square states — which brand color plays which role */
+    --state-free: var(--color-brand-tertiary);
+    --state-free-soft: var(--color-brand-tertiary-soft);
+    --state-marked: var(--color-brand-secondary);
+    --state-marked-soft: var(--color-brand-secondary-soft);
+    --state-bingo: var(--color-brand-primary);
+    --state-bingo-soft: color-mix(in srgb, var(--color-brand-primary) 78%, var(--color-pure-white));
+    --state-bingo-edge: var(--color-brand-primary-deep);
+    --state-bingo-text: var(--text-inverse);
+    --accent-text: var(--state-bingo);            /* text accents match the bingo color */
+
+    /* ---------- 3. COMPONENT TOKENS (never edited during a reskin) ---------- */
+
+    --page-scene: var(--surface-page);     /* flat cream */
+    --glass-card: none;                    /* editorial — flat, not glassy */
+    --glass-square: none;
+    --square-bg: var(--color-pure-white);       /* clean white squares */
+    --square-sheen: linear-gradient(135deg, var(--color-pure-white-a40) 0%, transparent 50%);
+    --shadow-card: 0 8px 32px color-mix(in srgb, var(--color-ink) 10%, transparent);
+    --shadow-panel: 0 2px 12px color-mix(in srgb, var(--color-ink) 5%, transparent);
+    --shadow-square: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 60%, transparent), 0 1px 2px color-mix(in srgb, var(--color-ink) 4%, transparent);
+    --shadow-square-hover: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 80%, transparent), 0 8px 24px color-mix(in srgb, var(--color-ink) 18%, transparent);
+    --shadow-square-marked: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 50%, transparent), 0 4px 12px color-mix(in srgb, var(--color-brand-secondary) 50%, transparent);
+    --shadow-square-bingo: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 30%, transparent), 0 4px 12px color-mix(in srgb, var(--color-brand-primary) 30%, transparent);
+    --shadow-btn-hover: 4px 5px 0 color-mix(in srgb, var(--color-ink) 14%, transparent);
+    --btn-radius: var(--radius-pill);
+    --card-radius: var(--radius-xl);
+    --panel-radius: var(--radius-lg);
+    --square-radius: var(--radius-md);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--page-scene);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    padding: clamp(18px, 4vw, 48px);
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sun-blob { position: fixed; width: 260px; height: 260px; border-radius: 50%; filter: blur(42px); opacity: var(--blob-opacity); pointer-events: none; z-index: 0; }
+  .sun-blob.one { background: var(--state-free); top: -80px; left: -70px; }
+  .sun-blob.two { background: var(--state-bingo-soft); bottom: -90px; right: -60px; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+
+  /* ─── Bingo zone ─── */
+  .bingo-zone { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 30px; align-items: start; }
+
+  /* ─── Bingo card — glass morphic ─── */
+  .bingo-card {
+    background: var(--surface-card);
+    backdrop-filter: var(--glass-card);
+    -webkit-backdrop-filter: var(--glass-card);
+    border: var(--border-width-thick) solid var(--border-card);
+    border-radius: var(--card-radius);
+    padding: 32px clamp(32px, 4.5vw, 56px);
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease;
+  }
+  .bingo-card:hover { transform: translateY(-4px) rotate(calc(-0.5deg * var(--wonk))); }
+  .bingo-title { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(44px, 5.4vw, 68px); line-height: .96; color: var(--text-primary); text-align: center; margin-bottom: 16px; letter-spacing: -0.03em; }
+  .bingo-title em, .host-title em, .footer-mark em { color: var(--accent-text); font-family: var(--font-accent); font-style: var(--accent-style); font-size: var(--accent-size); text-transform: var(--accent-case); font-weight: inherit; }
+  .bingo-intro { text-align: center; color: var(--text-secondary); font-size: 15.5px; line-height: 1.6; max-width: 480px; margin: 0 auto 28px; }
+  .bingo-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; flex-grow: 1; }
+  .bingo-square {
+    aspect-ratio: 1;
+    border: var(--border-width-hairline) solid var(--border-square);
+    border-radius: var(--square-radius);
+    padding: 6px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    color: var(--text-primary);
+    line-height: 1.2;
+    background: var(--square-bg);
+    backdrop-filter: var(--glass-square);
+    -webkit-backdrop-filter: var(--glass-square);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+    transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-square);
+    position: relative;
+    overflow: hidden;
+  }
+  .bingo-square::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--square-sheen);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .bingo-square:hover {
+    transform: scale(1.12) rotate(calc(-2deg * var(--wonk)));
+    border-color: var(--border-strong);
+    background: var(--color-pure-white-a85);
+    box-shadow: var(--shadow-square-hover);
+    z-index: 2;
+  }
+  .bingo-square:hover::before { opacity: 1; }
+  .bingo-square.free {
+    background: linear-gradient(135deg, var(--state-free) 0%, var(--state-free-soft) 100%);
+    font-family: var(--font-display);
+    font-style: var(--accent-style);
+    font-size: 19px;
+    font-weight: var(--fw-regular);
+    border-color: var(--border-strong);
+    cursor: default;
+  }
+  .bingo-square.free:hover { transform: scale(1.15) rotate(calc(2deg * var(--wonk))); }
+  .bingo-square.marked {
+    background: linear-gradient(135deg, var(--state-marked) 0%, var(--state-marked-soft) 100%);
+    color: var(--text-primary);
+    border-color: var(--state-marked);
+    box-shadow: var(--shadow-square-marked);
+  }
+  .bingo-square.marked:hover { transform: scale(1.15) rotate(calc(3deg * var(--wonk))); }
+  .bingo-square.bingoed {
+    background: linear-gradient(135deg, var(--state-bingo) 0%, var(--state-bingo-soft) 100%);
+    color: var(--state-bingo-text);
+    border-color: var(--state-bingo-edge);
+    box-shadow: var(--shadow-square-bingo);
+  }
+  .bingo-square.bingoed:hover { transform: scale(1.15) rotate(calc(-3deg * var(--wonk))); }
+
+  .bingo-progress { margin-top: 26px; align-self: center; background: var(--state-free); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 9px 16px; font-family: var(--font-mono); font-size: 11px; font-weight: var(--fw-bold); letter-spacing: .1em; text-transform: uppercase; color: var(--text-primary); }
+
+  /* ─── Right column: tracker + host card ─── */
+  .side-stack { display: flex; flex-direction: column; gap: 26px; margin-top: 44px; }
+
+  /* ─── Tracker aside ─── */
+  .bingo-tracker { position: relative; background: var(--surface-panel); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--panel-radius); padding: 36px 26px 28px; transform: rotate(var(--tilt-a)); box-shadow: var(--shadow-panel); display: flex; flex-direction: column; gap: 26px; text-align: center; }
+  .tape { position: absolute; top: -18px; left: 26px; background: var(--state-marked-soft); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 8px 16px; font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .13em; text-transform: uppercase; transform: rotate(var(--tilt-tape)); }
+  .tracker-intro { border-bottom: var(--border-width-medium) dashed var(--border-subtle); padding: 10px 0 18px; display: flex; flex-direction: column; gap: 10px; }
+  .tracker-note { font-size: 17.5px; line-height: 1.55; color: var(--text-primary); font-weight: var(--fw-semibold); margin: 0 0 8px; }
+  .tracker-how { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0; }
+  .tracker-divider { border: none; border-top: var(--border-width-thick) dotted var(--border-subtle); margin: 0; }
+  .tracker-fineprint { font-size: 13px; font-style: italic; line-height: 1.55; color: var(--text-muted); text-align: center; margin: -12px 0 0; }
+  .tracker-item { display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+  .tracker-check { width: 26px; height: 26px; flex-shrink: 0; border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--radius-sm); display: grid; place-items: center; background: var(--surface-page); }
+  .tracker-item.done .tracker-check { background: var(--state-free); }
+  .tracker-check svg { width: 15px; height: 15px; stroke: var(--border-strong); stroke-width: 3; fill: none; display: none; }
+  .tracker-item.done .tracker-check svg { display: block; }
+  .tracker-label { font-weight: var(--fw-bold); font-size: 17px; color: var(--text-primary); }
+  .tracker-sub { font-size: 15px; line-height: 1.55; color: var(--text-secondary); margin-top: 4px; }
+
+  .pill-btn { border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 13px 19px; font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .08em; text-transform: uppercase; display: inline-flex; gap: 9px; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; color: var(--text-primary); transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+  .pill-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-btn-hover); }
+  .pill-btn.pop { background: var(--state-free); }
+  .pill-btn.solid { background: var(--border-strong); color: var(--text-inverse); }
+  .pill-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+  .tracker-claim { margin-top: 2px; justify-content: center; }
+  .tracker-claim-wrap { display: flex; flex-direction: column; gap: 18px; }
+  .tracker-claim-wrap.hidden { display: none; }
+
+  /* ─── Host card ─── */
+  .host-card { position: relative; background: var(--surface-host); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--panel-radius); padding: 34px 26px 30px; transform: rotate(var(--tilt-b)); box-shadow: var(--shadow-panel); text-align: center; }
+  .host-card.hidden { display: none; }
+  .host-card .tape { background: var(--state-free); }
+  .host-title { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(30px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; color: var(--text-primary); margin: 6px 0 14px; }
+  .host-desc { font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 22px; }
+  .host-link { width: 100%; }
+
+  footer { text-align: center; padding: clamp(42px, 6vw, 70px) 0 20px; }
+  .footer-mark { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(36px, 5vw, 60px); line-height: .9; letter-spacing: -0.04em; }
+  .footer-eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); margin: 12px 0 6px; }
+  footer p { color: var(--text-secondary); font-size: 15px; margin-top: 12px; }
+  footer a { color: var(--accent-text); text-decoration: none; }
+
+  @keyframes bingo-confetti-fall { to { transform: translateY(105vh) rotate(720deg); opacity: .9; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  @media (max-width: 920px) {
+    .bingo-zone { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 16px; }
+    .bingo-card { border: none; box-shadow: none; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; padding: 8px 0 0; }
+    .bingo-grid { gap: 5px; }
+    .bingo-square { font-size: 8.5px; padding: 4px 3px; border-radius: var(--radius-xs); }
+    .bingo-square.free { font-size: 11px; }
+  }
+
+  /* ─── Maker's mark (end of stylesheet — order matters for overrides) ─── */
+  p.designed-by { font-size: 12.5px; font-weight: var(--fw-regular); line-height: 1.5; letter-spacing: normal; text-transform: none; color: var(--text-muted, #757575); margin: 26px 0 0; padding: 0; text-align: center; }
+  p.designed-by::before { content: ""; display: block; width: 44px; margin: 0 auto 14px; border-top: 2px solid var(--border-subtle, color-mix(in srgb, var(--color-ink) 25%, transparent)); }
+  p.designed-by a { font: inherit; color: var(--accent-text, #4a6db5); text-decoration: none; background: none; padding: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; display: inline; }
+  p.designed-by a:hover { text-decoration: underline; background: none; }
+  </style>
+</head>
+<body>
+  <div class="sun-blob one"></div>
+  <div class="sun-blob two"></div>
+
+  <div class="wrap">
+    <div class="bingo-zone">
+      <!-- ===== SECTION: BINGO CARD (the game board) ===== -->
+      <div class="bingo-card">
+        <div class="bingo-title" id="cardTitle"></div>
+        <p class="bingo-intro" id="cardIntro"></p>
+        <div class="bingo-grid" id="bingoGrid"></div>
+        <div class="bingo-progress" id="bingoProgress">0/25 marked · 0 bingos</div>
+      </div>
+      <!-- ===== END SECTION: BINGO CARD ===== -->
+
+      <div class="side-stack">
+        <!-- ===== SECTION: PRIZE TRACKER ===== -->
+        <aside class="bingo-tracker">
+          <div class="tape" id="trackerTape"></div>
+          <div class="tracker-intro">
+            <p class="tracker-note" id="trackerNote"></p>
+            <p class="tracker-how" id="trackerHow"></p>
+          </div>
+          <div id="trackerItems"></div>
+          <div class="tracker-claim-wrap hidden" id="claimWrap">
+            <hr class="tracker-divider" />
+            <a class="pill-btn pop tracker-claim" id="claimBtn" href="#" target="_blank" rel="noreferrer">
+              Claim your prize
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <p class="tracker-fineprint" id="claimFineprint"></p>
+          </div>
+        </aside>
+        <!-- ===== END SECTION: PRIZE TRACKER ===== -->
+
+        <!-- ===== SECTION: HOST CARD (hidden via showHostCard: false) ===== -->
+        <aside class="host-card" id="hostCard">
+          <div class="tape" id="hostTape"></div>
+          <div class="host-title" id="hostTitle"></div>
+          <p class="host-desc" id="hostDesc"></p>
+          <a class="pill-btn solid host-link" id="hostLink" href="#" target="_blank" rel="noreferrer">
+            <span id="hostLinkLabel"></span>
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </aside>
+        <!-- ===== END SECTION: HOST CARD ===== -->
+      </div>
+    </div>
+
+    <!-- ===== SECTION: FOOTER (event mark + maker's mark) ===== -->
+    <footer>
+      <div class="footer-mark" id="footerMark"></div>
+      <p class="footer-eyebrow" id="footerEyebrow"></p>
+
+      <!-- ── Designed-by credit ──
+           A small thank-you to the designers. You're welcome to
+           keep it (it makes you look connected 💜) or remove this
+           block if you'd rather not include it. -->
+      <p class="designed-by">Bingo card designed by <a href="https://heraiclub.co/shop" target="_blank" rel="noreferrer">Her AI Club&trade;</a></p>
+    </footer>
+    <!-- ===== END SECTION: FOOTER ===== -->
+  </div>
+
+  <script nonce="MzU3MzA3MTY5NywzOTU1NDg5NTU3">
+    // ════════════════════════════════════════════════════════════
+    // SETTINGS — everything you'd want to change lives right here
+    // ─────────────────────────────────────────────────────────────
+    const SETTINGS = {
+
+      // ── The card itself ──
+      // Line 1 of the title, then the accent line (shown in
+      // gold italic). Keep both short — they stack.
+      titleLine1: 'Fix Your Store',
+      titleAccent: 'Bingo Card',
+
+      // The how-to-play line under the title.
+      intro: 'Tap a square the moment you complete it during the challenge (5–9 October). Fill a row, column, or diagonal for a bingo — your marks save right here on your device.',
+
+      // Label on the center square. Since registering already
+      // earns the first square in the launch email, this plays
+      // on that instead of the classic "FREE".
+      freeSquareLabel: 'You registered',
+
+      // ── The 24 squares ──
+      // Drafted from the Email 2 (Bingo) copy and the 5-day
+      // Simplify → Beautify → Amplify structure on the
+      // registration page — swap in / edit freely.
+      squares: [
+        'Completed your Homepage Scorecard',
+        'Found your biggest leak',
+        'Simplified one homepage section',
+        'Cleaned up your navigation',
+        'Fixed your above-the-fold copy',
+        'Improved a trust signal',
+        'Added a review or testimonial',
+        'Chose your Black Friday boosters',
+        'Built a Black Friday bundle',
+        'Set up urgency on your store',
+        'Captured an email on-site',
+        'Wrote your personal action plan',
+        'Showed up for the Friday workshop',
+        'Shared a win from the week',
+        'Asked a question in the group',
+        'Answered someone else\'s question',
+        'Introduced yourself in the community',
+        'Took a before screenshot',
+        'Took an after screenshot',
+        'Reviewed a competitor\'s store',
+        'Simplified a product page',
+        'Tightened a headline',
+        'Removed a homepage distraction',
+        'Finished the challenge',
+      ],
+
+      // ── Prizes & milestones ──
+      // 'lines' milestones unlock at N completed bingos.
+      // 'full' unlocks when all 25 squares are marked.
+      trackerTape: 'bingo tracker',
+      trackerNote: 'Every bingo wins a prize. Going for the full card?<br />There’s an extra special prize waiting.',
+      trackerHow: 'Got a bingo? Screenshot your card and post it to claim your prize.',
+      milestones: [
+        { label: 'Bingo',        threshold: 1, type: 'lines', locked: 'Any full row, column, or diagonal.' },
+        { label: 'Double Bingo', threshold: 2, type: 'lines', locked: 'Two complete lines. Big flex.' },
+        { label: 'Full Card',    threshold: 0, type: 'full',  locked: 'All 25 squares. Legend behavior.' },
+      ],
+      milestoneDone: 'Done — go claim it.',
+
+      // Where the claim button sends winners — your community post,
+      // a form, an email link, wherever prizes get claimed.
+      claimLink: 'https://your-link-here.com',
+      claimLabel: 'Claim your prize',
+      claimLabelRepeat: 'Claim your prize (again)',
+      claimLabelFullCard: 'Claim your final prize',
+      claimFineprint: 'Simply post a screenshot of your bingo card.',
+
+      // ── Host card (the "brought to you by" panel) ──
+      // Set showHostCard to false to hide the whole panel.
+      showHostCard: true,
+      hostTape: 'hosted by',
+      hostTitleLine1: 'Simply Digital',           // plain part of the name
+      hostTitleAccent: 'Shops',         // gold italic part
+      hostDesc: 'I’m Anchen, and I help Shopify store owners simplify, beautify, and amplify their stores — one focused challenge at a time. Come say hi.',
+      hostLink: 'https://your-link-here.com',
+      hostLinkLabel: 'simplydigitalshops.com',
+
+      // ── Footer ──
+      footerMarkLine1: 'Black Friday',     // plain part
+      footerMarkAccent: 'Bingo',        // gold italic part
+      footerEyebrow: 'A Simply Digital Shops Challenge',
+
+      // ── Under the hood ──
+      // A unique key so marks from different bingo cards on the
+      // same device don't overwrite each other. Change it any time
+      // you want everyone to start fresh.
+      storageKey: 'sds-fix-your-store-bf-bingo-marks',
+
+      // Confetti colors for new bingos. Set explicitly here rather
+      // than auto-reading the theme tokens, since two of this dark
+      // theme's state tokens are near-black and would be invisible
+      // as confetti — this set stays legible against the dark page.
+      confettiColors: ['#C7A35A', '#EAE9E3', '#950D20', '#8A6A2E', '#B01226'],
+    };
+    // ═══════════════ end of SETTINGS — the rest just works ═══════
+
+    // ── Fill in all the copy from SETTINGS ──
+    function setText(id, value) { document.getElementById(id).textContent = value; }
+    function setHTML(id, value) { document.getElementById(id).innerHTML = value; }
+
+    document.title = SETTINGS.titleLine1 + ' ' + SETTINGS.titleAccent;
+    setHTML('cardTitle', SETTINGS.titleLine1 + '<br /><em>' + SETTINGS.titleAccent + '</em>');
+    setText('cardIntro', SETTINGS.intro);
+    setText('trackerTape', SETTINGS.trackerTape);
+    setHTML('trackerNote', SETTINGS.trackerNote);
+    setText('trackerHow', SETTINGS.trackerHow);
+    setText('claimFineprint', SETTINGS.claimFineprint);
+    setHTML('footerMark', SETTINGS.footerMarkLine1 + ' <em>' + SETTINGS.footerMarkAccent + '</em>');
+    setText('footerEyebrow', SETTINGS.footerEyebrow);
+
+    if (SETTINGS.showHostCard) {
+      setText('hostTape', SETTINGS.hostTape);
+      setHTML('hostTitle', SETTINGS.hostTitleLine1 + ' <em>' + SETTINGS.hostTitleAccent + '</em>');
+      setText('hostDesc', SETTINGS.hostDesc);
+      setText('hostLinkLabel', SETTINGS.hostLinkLabel);
+      document.getElementById('hostLink').href = SETTINGS.hostLink;
+    } else {
+      document.getElementById('hostCard').classList.add('hidden');
+    }
+
+    // ── Board setup: 24 squares + FREE injected at center ──
+    const padded = [...SETTINGS.squares, ...Array(24).fill('Mark a tiny win')].slice(0, 24);
+    const FREE_INDEX = 12;
+    const squares = [...padded.slice(0, 12), SETTINGS.freeSquareLabel, ...padded.slice(12, 24)];
+
+    // Winning lines: 5 rows, 5 cols, 2 diagonals.
+    const BINGO_LINES = (() => {
+      const lines = [];
+      for (let r = 0; r < 5; r++) lines.push([0, 1, 2, 3, 4].map((c) => r * 5 + c));
+      for (let c = 0; c < 5; c++) lines.push([0, 1, 2, 3, 4].map((r) => r * 5 + c));
+      lines.push([0, 6, 12, 18, 24]);
+      lines.push([4, 8, 12, 16, 20]);
+      return lines;
+    })();
+
+    // Load saved marks (graceful if storage is blocked).
+    let marks = {};
+    try {
+      const saved = localStorage.getItem(SETTINGS.storageKey);
+      if (saved) marks = JSON.parse(saved) || {};
+    } catch (e) { marks = {}; }
+
+    function save() {
+      try { localStorage.setItem(SETTINGS.storageKey, JSON.stringify(marks)); } catch (e) {}
+    }
+
+    const isMarked = (i) => i === FREE_INDEX || Boolean(marks[i]);
+
+    let prevBingoCount = null;
+
+    // Dependency-free confetti pop.
+    function fireConfetti() {
+      // Read the live theme tokens so confetti always matches a reskin.
+      const cs = getComputedStyle(document.body);
+      const themed = ['--state-bingo', '--state-free', '--state-marked', '--state-bingo-soft', '--state-free-soft']
+        .map((v) => cs.getPropertyValue(v).trim()).filter(Boolean);
+      const colors = SETTINGS.confettiColors || (themed.length === 5 ? themed : ['#999', '#bbb', '#ddd', '#aaa', '#ccc']);
+      const container = document.createElement('div');
+      container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
+      document.body.appendChild(container);
+      for (let i = 0; i < 70; i++) {
+        const piece = document.createElement('div');
+        const size = 6 + Math.random() * 8;
+        piece.style.cssText = [
+          'position:absolute', 'top:-20px',
+          'left:' + (Math.random() * 100) + '%',
+          'width:' + size + 'px', 'height:' + (size * 0.6) + 'px',
+          'background:' + colors[i % colors.length],
+          'border-radius:2px',
+          'transform:rotate(' + (Math.random() * 360) + 'deg)',
+          'animation:bingo-confetti-fall ' + (1.8 + Math.random() * 1.4) + 's ease-in ' + (Math.random() * 0.4) + 's forwards',
+        ].join(';');
+        container.appendChild(piece);
+      }
+      setTimeout(() => container.remove(), 3800);
+    }
+
+    const grid = document.getElementById('bingoGrid');
+    const progressEl = document.getElementById('bingoProgress');
+    const trackerItemsEl = document.getElementById('trackerItems');
+    const claimWrap = document.getElementById('claimWrap');
+    const claimBtn = document.getElementById('claimBtn');
+
+    function buildGrid() {
+      grid.innerHTML = '';
+      squares.forEach((square, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'bingo-square';
+        btn.dataset.index = index;
+        const span = document.createElement('span');
+        span.textContent = square;
+        btn.appendChild(span);
+        if (index !== FREE_INDEX) {
+          btn.addEventListener('click', () => {
+            marks[index] = !marks[index];
+            save();
+            render();
+          });
+        }
+        grid.appendChild(btn);
+      });
+    }
+
+    function render() {
+      const completedLines = BINGO_LINES.filter((line) => line.every(isMarked));
+      const bingoLineSquares = new Set(completedLines.flat());
+      const markedCount = squares.filter((_, i) => isMarked(i)).length;
+      const fullCard = markedCount === squares.length;
+
+      // Squares
+      Array.from(grid.children).forEach((btn, index) => {
+        const isFree = index === FREE_INDEX;
+        const marked = isFree || marks[index];
+        const inBingo = bingoLineSquares.has(index);
+        btn.className = 'bingo-square'
+          + (isFree ? ' free' : '')
+          + (marked && !isFree ? ' marked' : '')
+          + (inBingo && !isFree ? ' bingoed' : '');
+      });
+
+      // Progress pill
+      progressEl.textContent = markedCount + '/' + squares.length + ' marked · '
+        + (completedLines.length === 1 ? '1 bingo' : completedLines.length + ' bingos');
+
+      // Tracker milestones
+      trackerItemsEl.innerHTML = '';
+      SETTINGS.milestones.forEach((m) => {
+        const done = m.type === 'full' ? fullCard : completedLines.length >= m.threshold;
+        const item = document.createElement('div');
+        item.className = 'tracker-item' + (done ? ' done' : '');
+        item.innerHTML =
+          '<div class="tracker-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'
+          + '<div><div class="tracker-label">' + m.label + '</div>'
+          + '<div class="tracker-sub">' + (done ? SETTINGS.milestoneDone : m.locked) + '</div></div>';
+        trackerItemsEl.appendChild(item);
+      });
+
+      // Claim CTA
+      if (completedLines.length > 0) {
+        claimWrap.classList.remove('hidden');
+        const label = fullCard
+          ? SETTINGS.claimLabelFullCard
+          : completedLines.length >= 2
+            ? SETTINGS.claimLabelRepeat
+            : SETTINGS.claimLabel;
+        claimBtn.childNodes[0].nodeValue = label + ' ';
+        claimBtn.href = SETTINGS.claimLink;
+      } else {
+        claimWrap.classList.add('hidden');
+      }
+
+      // Confetti on a NEW bingo (not on first paint)
+      if (prevBingoCount !== null && completedLines.length > prevBingoCount) {
+        fireConfetti();
+      }
+      prevBingoCount = completedLines.length;
+    }
+
+    buildGrid();
+    render();
+  </script>
+</body>
+</html>
