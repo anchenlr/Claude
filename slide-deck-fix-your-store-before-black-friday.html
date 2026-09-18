@@ -678,7 +678,7 @@ html, body {
   border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
   display: flex; justify-content: space-between; align-items: center;
 }
-.compare-panel.compare-after .compare-label { color: var(--accent-deep); border-bottom-color: color-mix(in srgb, var(--color-brand-primary) 40%, transparent); }
+.compare-panel.compare-after .compare-label { color: var(--accent-on-dark); border-bottom-color: color-mix(in srgb, var(--color-brand-primary) 40%, transparent); }
 .compare-title {
   font-family: var(--font-display); font-weight: var(--fw-regular);
   font-size: var(--t-card-title); letter-spacing: var(--tracking-sub);
@@ -688,9 +688,9 @@ html, body {
 .compare-list { list-style: none; display: flex; flex-direction: column; }
 .compare-list li {
   font-family: var(--font-body); font-size: var(--t-list-body);
-  color: var(--text-secondary); line-height: 1.5;
+  color: var(--text-on-dark-70); line-height: 1.5;
   padding: 16px 0 16px 40px; position: relative;
-  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  border-top: var(--border-width-hairline) solid var(--divider-on-dark);
 }
 .compare-list li::before {
   content: ""; position: absolute; left: 0; top: 27px;
@@ -901,7 +901,7 @@ html, body {
   background: transparent;
 }
 .toolkit-item:nth-child(2) .toolkit-visual { background: var(--accent-soft); color: var(--accent-deep); }
-.toolkit-item:nth-child(3) .toolkit-visual { background: var(--surface-inverse); color: var(--accent); border-color: var(--surface-inverse); }
+.toolkit-item:nth-child(3) .toolkit-visual { background: #950d20; color: var(--text-inverse); border-color: #950d20; } /* was surface-inverse (ink), which is the same near-black as the card behind it and disappeared entirely */
 .toolkit-item:nth-child(4) .toolkit-visual { background: var(--accent); color: var(--text-inverse); }
 .toolkit-meta {
   font-family: var(--font-body); font-size: var(--t-meta);
@@ -1082,7 +1082,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-2-AGENDA (on-dark-deep · chapter list with leading-zero serif numerals) ===== -->
 <section class="slide on-dark-deep">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Live Workshop</div>
   </div>
   <div class="slide-content wide">
@@ -1143,7 +1143,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-3-SPEAKER (on-card · portrait frame plus editorial bio and fact row) ===== -->
 <section class="slide on-card">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Introduction · Meet Your Speaker</div>
   </div>
   <div class="slide-content wide">
@@ -1201,7 +1201,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
      gradient, always a flat full-bleed color). -->
 <section class="slide on-dark center-slide on-burgundy" style="background: #950d20;">
   <div class="slide-header slide-header-absolute">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 1 · Chapter Name</div>
   </div>
   <div class="topline"></div>
@@ -1218,7 +1218,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-5-FLOW (on-dark · four numbered columns divided by hairlines) ===== -->
 <section class="slide on-dark">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 1 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1258,7 +1258,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-6-COMPARISON (on-dark-deep · before panel vs accent-soft after panel) ===== -->
 <section class="slide on-dark-deep">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 1 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1295,7 +1295,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-7-CARD-GRID (on-dark · three dark idea cards with tier pills) ===== -->
 <section class="slide on-dark">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 2 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1332,7 +1332,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-8-STATS (on-dark-deep, flat burgundy · three giant serif stats) ===== -->
 <section class="slide on-dark-deep on-burgundy" style="background: #950d20;">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 2 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1366,7 +1366,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-9-FOCUS (on-dark · centered statement with dash-flanked eyebrow and highlight) ===== -->
 <section class="slide on-dark center-slide">
   <div class="slide-header slide-header-absolute">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 2 · The Point</div>
   </div>
   <div class="focus-eyebrow">The Whole Point</div>
@@ -1382,7 +1382,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-10-SPOTLIGHT (on-dark-deep · circle badge plus editorial feature content) ===== -->
 <section class="slide on-dark-deep">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 3 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1411,7 +1411,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-11-DEEP-DIVE (on-dark-deep · giant numeral plus numbered hairline list) ===== -->
 <section class="slide on-dark-deep">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 3 · Chapter Name</div>
   </div>
   <div class="slide-content wide">
@@ -1449,7 +1449,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
 <!-- ===== SECTION: SLIDE-12-TOOLKIT (on-dark · 2x2 toolkit cards with circle monograms) ===== -->
 <section class="slide on-dark">
   <div class="slide-header">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 3 · Wrap-Up</div>
   </div>
   <div class="slide-content wide">
@@ -1503,7 +1503,7 @@ p.designed-by a:hover { text-decoration: underline; background: none; }
      like the same moment as the site's own conversion push. -->
 <section class="slide on-dark center-slide" style="background-image: linear-gradient(165deg, rgba(0,0,0,.86) 0%, rgba(12,6,7,.66) 48%, rgba(0,0,0,.88) 100%), url('https://challenge.simplydigitalshops.com/wp-content/uploads/2026/09/1.jpg'); background-size: cover; background-position: center center;">
   <div class="slide-header slide-header-absolute">
-    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
     <div class="brand-host">Chapter 3 · Send-Off</div>
   </div>
   <div class="kicker">One Last Thing</div>
