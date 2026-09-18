@@ -114,6 +114,16 @@ to be read in three minutes, live at the license link above.
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- FONT IMPORT — replaced during reskin along with the primitives block -->
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+  <!-- Self-hosted brand display font — Seriously Nostalgic, licensed and hosted on the
+       offers subdomain, with Bodoni Moda (already loaded above) as the safe fallback.
+       Path built from the filenames in the design handoff zip against the same
+       offers.simplydigitalshops.com/assets/ host your logo/favicon live on — I couldn't
+       verify it loads (that domain is blocked from this session), so if it 404s the
+       page just quietly falls back to Bodoni Moda; send the real path if this one's off. -->
+  <style>
+    @font-face { font-family: 'Seriously Nostalgic'; src: url('https://offers.simplydigitalshops.com/assets/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Seriously Nostalgic'; src: url('https://offers.simplydigitalshops.com/assets/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+  </style>
   <style>
   :root {
     /* ============================================================
@@ -165,13 +175,13 @@ to be read in three minutes, live at the license link above.
     --color-pure-white-a40: color-mix(in srgb, var(--color-pure-white) 40%, transparent);
 
     /* Font families */
-    --font-display: "Bodoni Moda", Georgia, serif;  /* sanctioned fallback for the licensed Seriously Nostalgic face — see delivery notes */
+    --font-display: "Seriously Nostalgic", "Bodoni Moda", Georgia, serif;
     --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
     /* Display treatment */
     --display-case: none;       /* set to uppercase for all-caps display fonts */
-    --font-accent: "Bodoni Moda", Georgia, serif;  /* accent words in titles */
+    --font-accent: "Seriously Nostalgic", "Bodoni Moda", Georgia, serif;  /* accent words in titles */
     --accent-style: italic;     /* accent-word style (italic or normal) */
     --accent-size: 1em;         /* accent-word size relative to the title */
     --accent-case: none;
@@ -393,6 +403,7 @@ to be read in three minutes, live at the license link above.
   .host-card.hidden { display: none; }
   .host-card .tape { background: var(--state-free); }
   .host-title { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(30px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; color: var(--text-primary); margin: 6px 0 14px; }
+  .host-logo { display: block; height: auto; width: auto; max-width: 200px; max-height: 56px; margin: 6px auto 14px; }
   .host-desc { font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 22px; }
   .host-link { width: 100%; }
 
@@ -510,54 +521,52 @@ to be read in three minutes, live at the license link above.
       freeSquareLabel: 'You registered',
 
       // ── The 24 squares ──
-      // Drafted from the Email 2 (Bingo) copy and the 5-day
-      // Simplify → Beautify → Amplify structure on the
-      // registration page — swap in / edit freely.
+      // A mix of the specific actions named in the Email 2 (Bingo)
+      // copy and general, repeatable ones (trainings, community
+      // posts) so a bingo is genuinely gettable on day one.
       squares: [
         'Completed your Homepage Scorecard',
-        'Found your biggest leak',
         'Simplified one homepage section',
-        'Cleaned up your navigation',
-        'Fixed your above-the-fold copy',
         'Improved a trust signal',
-        'Added a review or testimonial',
         'Chose your Black Friday boosters',
-        'Built a Black Friday bundle',
-        'Set up urgency on your store',
-        'Captured an email on-site',
         'Wrote your personal action plan',
         'Showed up for the Friday workshop',
         'Shared a win from the week',
+        'Watched a daily training',
+        'Posted your homework in the community',
+        'Introduced yourself in the community',
         'Asked a question in the group',
         'Answered someone else\'s question',
-        'Introduced yourself in the community',
-        'Took a before screenshot',
-        'Took an after screenshot',
-        'Reviewed a competitor\'s store',
-        'Simplified a product page',
-        'Tightened a headline',
-        'Removed a homepage distraction',
+        'Took notes during a training',
+        'Showed up live',
+        'Watched a replay you missed',
+        'Cheered on another store owner',
+        'Told a friend about the challenge',
+        'Celebrated a small win out loud',
+        'Tried something new on your store',
+        'Did the thing you\'d been avoiding',
+        'Came back after missing a day',
+        'Set one tiny goal for the day',
+        'Took a real break',
         'Finished the challenge',
       ],
 
-      // ── Prizes & milestones ──
+      // ── Prizes ──
       // Daily prizes, not bingo-count milestones — a winner is drawn
-      // each day from whoever's posted in the community. Fill in the
-      // five real prizes; the list renders as-is, nothing to unlock.
+      // each day from whoever's posted in the community. Grouped so
+      // repeat prizes only show once.
       trackerTape: 'bingo tracker',
       trackerNote: 'Post your card in the Community and you’re in the running.<br />New prize every day of the challenge.',
       trackerHow: 'Screenshot your card any time during the week and post it — the more you’ve filled in, the better.',
       dailyPrizes: [
-        { day: 'Day 1', prize: '[Prize — tell me and I’ll fill this in]' },
-        { day: 'Day 2', prize: '[Prize]' },
-        { day: 'Day 3', prize: '[Prize]' },
-        { day: 'Day 4', prize: '[Prize]' },
-        { day: 'Day 5', prize: '[Prize]' },
+        { day: 'Day 1', prize: 'The Full Case File (our VIP upgrade)' },
+        { day: 'Days 2–3', prize: 'Your choice of Shopify Custom Section Booster' },
+        { day: 'Days 4–5', prize: 'The Shop Conversion Roadmap' },
       ],
 
       // Where the button sends people — the Challenge Facebook
       // Community, since that's where screenshots get posted.
-      claimLink: 'https://your-link-here.com',
+      claimLink: 'https://facebook.com/groups/pagebuildersummit',
       claimLabel: 'Post in the Community',
       claimFineprint: 'Screenshot your bingo card and post it in the Challenge Facebook Community.',
 
@@ -565,8 +574,12 @@ to be read in three minutes, live at the license link above.
       // Set showHostCard to false to hide the whole panel.
       showHostCard: true,
       hostTape: 'hosted by',
-      hostTitleLine1: 'Simply Digital',           // plain part of the name
-      hostTitleAccent: 'Shops',         // gold italic part
+      // Real logo asset (from your Airtable Design Database — the gold
+      // mark, since it sits on a dark card here). Set to '' to fall back
+      // to the plain-text "hostTitleLine1 + hostTitleAccent" lockup.
+      hostLogo: 'https://offers.simplydigitalshops.com/assets/SDS_logo_gold.svg',
+      hostTitleLine1: 'Simply Digital',           // plain part of the name — used only if hostLogo is empty
+      hostTitleAccent: 'Shops',         // gold italic part — used only if hostLogo is empty
       hostDesc: 'I’m Anchen, and I help Shopify store owners simplify, beautify, and amplify their stores — one focused challenge at a time. Come say hi.',
       hostLink: 'https://your-link-here.com',
       hostLinkLabel: 'simplydigitalshops.com',
@@ -606,7 +619,15 @@ to be read in three minutes, live at the license link above.
 
     if (SETTINGS.showHostCard) {
       setText('hostTape', SETTINGS.hostTape);
-      setHTML('hostTitle', SETTINGS.hostTitleLine1 + ' <em>' + SETTINGS.hostTitleAccent + '</em>');
+      if (SETTINGS.hostLogo) {
+        setHTML('hostTitle', '<img class="host-logo" id="hostLogoImg" src="' + SETTINGS.hostLogo + '" alt="' + SETTINGS.hostTitleLine1 + ' ' + SETTINGS.hostTitleAccent + '" />');
+        // Falls back to the text lockup if the hosted logo URL ever 404s.
+        document.getElementById('hostLogoImg').addEventListener('error', function () {
+          setHTML('hostTitle', SETTINGS.hostTitleLine1 + ' <em>' + SETTINGS.hostTitleAccent + '</em>');
+        }, { once: true });
+      } else {
+        setHTML('hostTitle', SETTINGS.hostTitleLine1 + ' <em>' + SETTINGS.hostTitleAccent + '</em>');
+      }
       setText('hostDesc', SETTINGS.hostDesc);
       setText('hostLinkLabel', SETTINGS.hostLinkLabel);
       document.getElementById('hostLink').href = SETTINGS.hostLink;
