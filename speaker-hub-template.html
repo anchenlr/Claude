@@ -859,8 +859,18 @@
     var cfg = map[next.key];
     titleEl.textContent = cfg.title;
     descEl.textContent = cfg.desc;
-    btnEl.href = CONFIG.LINKS[cfg.link] || "#";
-    if ((CONFIG.LINKS[cfg.link] || "").indexOf("mailto:") !== 0) btnEl.setAttribute("target", "_blank");
+    var url = CONFIG.LINKS[cfg.link] || "#";
+    // Same per-record resume link as the rest of the hub (see setLinks) —
+    // without this the button always opens a blank Fillout form instead of
+    // resuming what they've already submitted.
+    if (cfg.link === "updateDetails" && data && data.filloutUpdateLink) {
+      url = data.filloutUpdateLink;
+    }
+    if (cfg.link === "submitPowerpack" && data && data.filloutPowerpackLink) {
+      url = data.filloutPowerpackLink;
+    }
+    btnEl.href = url;
+    if (url.indexOf("mailto:") !== 0) btnEl.setAttribute("target", "_blank");
   }
 
   function renderDetails(data) {
