@@ -900,7 +900,7 @@
 
   function renderStatuses(data) {
     pill("pillBasicInfo", "Received", "Action needed", !!data.basicInfoReceived);
-    pill("pillPowerpack", "Received", "Not yet decided", !!data.contributionInUpsell);
+    pill("pillPowerpack", "Received", "Not yet completed", !!data.contributionInUpsell);
     pill("pillPresentation", "Received", "Action needed", !!(data.presentationReceived && data.videoUploaded));
   }
 
