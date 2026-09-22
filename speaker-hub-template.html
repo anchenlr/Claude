@@ -666,7 +666,7 @@
 
   var MILESTONES = [
     { key: "basicInfo",    date: "2026-09-30", label: "Speaker details due",  done: function (d) { return !!d.basicInfoReceived; } },
-    { key: "powerpack",    date: "2026-10-12", label: "PowerPack info due",   done: function (d) { return !!d.contributionInUpsell; } },
+    { key: "powerpack",    date: "2026-10-12", label: "PowerPack info due",   done: function (d) { return !!(d.contributionInUpsell || d.powerpackDeclined); } },
     { key: "presentation", date: "2026-10-20", label: "Presentation due",     done: function (d) { return !!(d.presentationReceived && d.videoUploaded); } }
   ];
 
@@ -900,7 +900,7 @@
 
   function renderStatuses(data) {
     pill("pillBasicInfo", "Received", "Action needed", !!data.basicInfoReceived);
-    pill("pillPowerpack", "Received", "Not yet completed", !!data.contributionInUpsell);
+    pill("pillPowerpack", data.powerpackDeclined ? "Not contributing" : "Received", "Not yet completed", !!(data.contributionInUpsell || data.powerpackDeclined));
     pill("pillPresentation", "Received", "Action needed", !!(data.presentationReceived && data.videoUploaded));
   }
 
