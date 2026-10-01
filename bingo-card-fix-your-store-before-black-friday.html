@@ -521,8 +521,8 @@ to be read in three minutes, live at the license link above.
 
       // ── The 24 squares ──
       // A mix of the specific actions named in the Email 2 (Bingo)
-      // copy and general, repeatable ones (trainings, community
-      // posts) so a bingo is genuinely gettable on day one.
+      // copy and general, repeatable ones (trainings, daily
+      // homework emails) so a bingo is genuinely gettable on day one.
       squares: [
         'Completed your Homepage Scorecard',
         'Simplified one homepage section',
@@ -532,41 +532,41 @@ to be read in three minutes, live at the license link above.
         'Watched the Friday workshop',
         'Shared a win from the week',
         'Watched a daily training',
-        'Posted your homework in the community',
-        'Introduced yourself in the community',
-        'Asked a question in the group',
-        'Answered someone else\'s question',
+        'Emailed me your Day 1 homework',
+        'Emailed me your Day 2 homework',
+        'Emailed me a question',
+        'Celebrated your own progress',
         'Took notes during a training',
-        'Cheered on another store owner',
+        'Emailed me your Day 3 homework',
         'Told a friend about the challenge',
         'Watched a daily training',
-        'Posted your homework in the community',
+        'Emailed me your Day 4 homework',
         'Tried something new on your store',
         'Did the thing you\'d been avoiding',
         'Came back after missing a day',
         'Set one tiny goal for the day',
-        'Left a comment on someone\'s post',
+        'Emailed me your Day 5 homework',
         'Finished the challenge',
       ],
 
       // ── Prizes ──
-      // Daily prizes, not bingo-count milestones — a winner is drawn
-      // each day from whoever's posted in the community. Grouped so
-      // repeat prizes only show once.
+      // Daily prizes, not bingo-count milestones. A winner is drawn
+      // each day from whoever's emailed in. Grouped so repeat prizes
+      // only show once.
       trackerTape: 'bingo tracker',
-      trackerNote: 'Post your card in the Community and you’re in the running.<br />New prize every day of the challenge.',
-      trackerHow: 'Screenshot your card any time during the week and post it — the more you’ve filled in, the better.',
+      trackerNote: 'Email me your card and you’re in the running.<br />New prize every day of the challenge.',
+      trackerHow: 'Screenshot your card any time during the week and email it to me. The more you’ve filled in, the better.',
       dailyPrizes: [
         { day: 'Day 1', prize: 'The Full Case File (our VIP upgrade)' },
         { day: 'Days 2–3', prize: 'Your choice of Shopify Custom Section Booster' },
         { day: 'Days 4–5', prize: 'The Shop Conversion Roadmap' },
       ],
 
-      // Where the button sends people — the Challenge Facebook
-      // Community, since that's where screenshots get posted.
-      claimLink: 'https://www.facebook.com/groups/fixyourstore',
-      claimLabel: 'Post in the Community',
-      claimFineprint: 'Screenshot your bingo card and post it in the Challenge Facebook Community.',
+      // Where the button sends people: straight to your inbox, since
+      // that's where screenshots get sent now (no Facebook Community).
+      claimLink: 'mailto:anchen@simplydigitalshops.com?subject=My%20Bingo%20Card%20-%20Fix%20Your%20Store&body=Attach%20a%20screenshot%20of%20your%20card%20below!',
+      claimLabel: 'Email Me Your Card',
+      claimFineprint: 'Screenshot your bingo card and email it to me to be entered.',
 
       // ── Host card (the "brought to you by" panel) ──
       // Set showHostCard to false to hide the whole panel.
@@ -743,9 +743,9 @@ to be read in three minutes, live at the license link above.
       prevBingoCount = completedLines.length;
     }
 
-    // Static "Prizes up for grabs" list — daily prizes, not gated by
-    // bingo progress. Winners are drawn from whoever posts a screenshot
-    // in the Facebook Community each day, so this list never toggles.
+    // Static "Prizes up for grabs" list: daily prizes, not gated by
+    // bingo progress. Winners are drawn from whoever emails in a
+    // screenshot each day, so this list never toggles.
     function buildPrizes() {
       trackerItemsEl.innerHTML = '';
       SETTINGS.dailyPrizes.forEach((p) => {
