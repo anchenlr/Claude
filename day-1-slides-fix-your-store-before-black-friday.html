@@ -6,14 +6,14 @@
 <title>Day 1 · Find The Leaks | Fix Your Store Before Black Friday</title>
 
 <!-- ============================================================
-DAY 1 SLIDES — "Find The Leaks"
+DAY 1 SLIDES: "Find The Leaks"
 Fix Your Store Before Black Friday · Simply Digital Shops
 
 This is a focused 4-slide companion deck built from the Day-1
 facilitator handoff, using the exact same Tropicana-based brand
 system (primitives, semantic tokens, component tokens) already
 established and fixed in slide-deck-fix-your-store-before-black-
-friday.html. The CSS below is copied verbatim from that file —
+friday.html. The CSS below is copied verbatim from that file:
 same darks, same gold/red accents, same fonts, same guardrails
 (no light backgrounds, no all-caps display headings, single-accent
 discipline). One addition: a small .pull-quote component for the
@@ -21,7 +21,7 @@ fill-in-the-blank line on slide 4, styled to match the existing
 hairline-border / serif-italic / single-accent conventions.
 
 Facilitator "Transition:" notes from the handoff are kept as HTML
-comments near the relevant slide — not on-screen content.
+comments near the relevant slide, not on-screen content.
 ============================================================ -->
 <!-- =============================================================
 LICENSE AND USAGE
@@ -38,7 +38,7 @@ to be read in three minutes, live at the license link above.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Self-hosted brand display font — Seriously Nostalgic. Same-origin
+<!-- Self-hosted brand display font: Seriously Nostalgic. Same-origin
      hosting on challenge.simplydigitalshops.com, matching the main deck. -->
 <style>
   @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
@@ -48,7 +48,7 @@ to be read in three minutes, live at the license link above.
 <style>
 :root {
   /* ============================================================
-     LAYER 1 — PRIMITIVES (identical to the main deck — same brand)
+     LAYER 1: PRIMITIVES (identical to the main deck, same brand)
      ============================================================ */
   --color-ink: #140a0c;
   --color-ink-raised: #2a0509;
@@ -99,7 +99,7 @@ to be read in three minutes, live at the license link above.
   --border-width-medium: 2px;
 
   /* ============================================================
-     LAYER 2 — SEMANTIC TOKENS
+     LAYER 2: SEMANTIC TOKENS
      ============================================================ */
   --surface-primary: var(--color-surface);
   --surface-card: var(--color-surface-2);
@@ -128,7 +128,7 @@ to be read in three minutes, live at the license link above.
   --divider-on-accent: color-mix(in srgb, var(--color-ink) 22%, transparent);
 
   /* ============================================================
-     LAYER 3 — COMPONENT TOKENS
+     LAYER 3: COMPONENT TOKENS
      ============================================================ */
   --slide-w: 1920px;
   --slide-h: 1080px;
@@ -532,10 +532,10 @@ html, body {
 .on-dark .cta-btn:hover, .on-dark-deep .cta-btn:hover { background: transparent; color: var(--accent-on-dark); }
 .cta-btn::after { content: "\2192"; font-size: 20px; }
 
-/* PULL-QUOTE — new for this deck: the fill-in-the-blank takeaway line on
+/* PULL-QUOTE (new for this deck): the fill-in-the-blank takeaway line on
    slide 4. Built to the same guardrails as everything above (hairline
-   rule, serif italic emphasis, single gold accent, no shadow/rotation) —
-   there's no dedicated quote component in the base template, so this is
+   rule, serif italic emphasis, single gold accent, no shadow/rotation).
+   There's no dedicated quote component in the base template, so this is
    a minimal, consistent addition rather than a reused one. */
 .pull-quote {
   margin-top: 56px;
@@ -565,7 +565,7 @@ html, body {
 }
 .on-dark .pull-quote p, .on-dark-deep .pull-quote p { color: var(--text-inverse); }
 
-/* MEET THE HOST — portrait frame plus editorial bio and fact row (copied
+/* MEET THE HOST: portrait frame plus editorial bio and fact row (copied
    verbatim from the main deck's speaker component so the About Me slide
    matches it exactly). */
 .speaker-grid {
@@ -666,7 +666,7 @@ html, body {
   <div class="slide-content wide">
     <div class="speaker-grid">
       <!-- ────────────────────────────────────────────────────────
-           AI ASSISTANT NOTE — swap this for a differently-cropped
+           AI ASSISTANT NOTE: swap this for a differently-cropped
            photo the same way: a publicly hosted URL ending in .jpg/
            .png/.webp, dropped straight into the background-image
            below. Never embed uploaded image data directly.
@@ -679,7 +679,7 @@ html, body {
         <div class="speaker-name">Anchen <span class="em">Here.</span></div>
         <div class="speaker-role">Founder · Simply Digital Shops</div>
         <div class="speaker-bio">
-          <p>I help Shopify store owners simplify, beautify, and amplify their sites — so the traffic they already have actually converts.</p>
+          <p>I help Shopify store owners simplify, beautify, and amplify their sites, so the traffic they already have actually converts.</p>
           <p>This challenge is the same method I use with my own clients, just compressed into five days you can run yourself.</p>
         </div>
         <div class="speaker-facts">
@@ -698,7 +698,7 @@ html, body {
 <!-- ===== END SECTION: SLIDE-2-ABOUT-ME ===== -->
 
 <!-- ===== SECTION: SLIDE-3-WHY-AN-ORDER (on-dark · centered statement, sets up the framework) ===== -->
-<!-- [Stay on camera.] Full talking point for this beat — spoken, not
+<!-- [Stay on camera.] Full talking point for this beat, spoken, not
      shown on screen:
 
      "When you decide to get your store ready for Black Friday, it's
@@ -716,7 +716,7 @@ html, body {
      That's why I use the framework we'll work through during this
      challenge."
 
-     The slide itself only carries the distilled headline — the full
+     The slide itself only carries the distilled headline; the full
      story is carried live on camera, not read off the screen. -->
 <section class="slide on-dark center-slide">
   <div class="slide-header slide-header-absolute">
@@ -725,7 +725,7 @@ html, body {
   </div>
   <div class="focus-eyebrow">Why We Need An Order</div>
   <div class="center-headline">More ideas won't fix your store.<br><span class="highlight">Order will.</span></div>
-  <div class="center-sub">25 browser tabs and a long to-do list aren't a plan — that's why we use a framework to decide what deserves attention first.</div>
+  <div class="center-sub">25 browser tabs and a long to-do list aren't a plan. That's why we use a framework to decide what deserves attention first.</div>
   <div class="slide-footer">
     <span>simplydigitalshops.com</span>
     <span>Why We Need An Order</span>
@@ -775,7 +775,7 @@ html, body {
   </div>
   <div class="focus-eyebrow">Scorecard Setup</div>
   <div class="center-headline">Score first. <span class="highlight">Fix later.</span></div>
-  <div class="center-sub">10 questions · Score out of 20 — look at your homepage through a new visitor&rsquo;s eyes.</div>
+  <div class="center-sub">10 questions · Score out of 20. Look at your homepage through a new visitor&rsquo;s eyes.</div>
   <!-- Transition: Switch to the real scorecard here. Explain and score
        Q1–Q10 live on screen share; no separate question slides in this
        deck. Return to slide 4 after the scorecard. -->
@@ -817,8 +817,8 @@ html, body {
       <p>The biggest opportunity I spotted today was <span class="em">______.</span>&rdquo;</p>
     </div>
     <!-- CTA note: channel intentionally left open. Say it live while
-         recording — "post it in the Facebook group" or "email it to
-         me" — whichever is getting traction. Once decided, point this
+         recording, "post it in the Facebook group" or "email it to
+         me", whichever is getting traction. Once decided, point this
          href at the group (https://www.facebook.com/groups/fixyourstore)
          or swap in a mailto: link, and update the label to match. -->
     <a class="cta-btn" style="align-self: flex-start;" href="#">Share Your Takeaway</a>
