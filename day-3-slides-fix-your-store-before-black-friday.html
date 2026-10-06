@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 3 · Beautify | Fix Your Store Before Black Friday</title>
+
+<!-- ============================================================
+DAY 3 SLIDES: "Beautify"
+Fix Your Store Before Black Friday · Simply Digital Shops
+
+A 13-slide companion deck built from the Day 3 slide-content
+handoff, using the exact same Tropicana-based brand system
+(primitives, semantic tokens, component tokens) already
+established in the main deck and the Day 1/Day 2 decks: same
+darks, same gold/red accents, same fonts, same guardrails (no
+light backgrounds, no all-caps display headings, single-accent
+discipline).
+
+Reuses every component already built for Day 2 (before/after
+panels, a data table, a mini framework strip, callouts, a two-
+column split, a meta line, a "tomorrow" preview card) and adds two
+new ones for this deck's photo/mobile content: an image-placeholder
+photo card and a simple phone-mockup split. Same guardrails
+throughout (hairline rules, single gold accent, no shadows/rotation).
+============================================================ -->
+<!-- =============================================================
+LICENSE AND USAGE
+(c) 2026 Kinsey Soderberg | Authentic AI(R)
+Distributed by Her AI Club(TM) | heraiclub.co/shop
+Licensed under the Her AI Club Template License | heraiclub.co/license
+Everything you build with this template is yours, free and clear.
+The template file itself is licensed, not sold: use it forever
+under your license tier, and don't redistribute or resell the
+file or the system behind it. Full plain-English terms, written
+to be read in three minutes, live at the license link above.
+============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Self-hosted brand display font: Seriously Nostalgic. Same-origin
+     hosting on challenge.simplydigitalshops.com, matching the other decks. -->
+<style>
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+</style>
+
+<style>
+:root {
+  /* ============================================================
+     LAYER 1: PRIMITIVES (identical to the main deck and Day 1, same brand)
+     ============================================================ */
+  --color-ink: #140a0c;
+  --color-ink-raised: #2a0509;
+  --color-ink-deep: #000000;
+  --color-gray-mid: #a7a6a2;
+  --color-gray-soft: #706f6c;
+  --color-surface: #eae9e3;
+  --color-surface-2: #000000;
+  --color-pure-white: #ffffff;
+  --color-brand-primary: #c7a35a;
+  --color-brand-primary-deep: #8a6a2e;
+  --color-brand-primary-soft: #5f4a2d;
+  --color-brand-secondary: #5f4a2d;
+  --color-brand-secondary-deep: #c7a35a;
+  --color-brand-secondary-soft: #3e311f;
+  --color-brand-tertiary: #c7a35a;
+  --color-brand-tertiary-deep: #8a6a2e;
+  --color-brand-tertiary-soft: #5f4a2d;
+  --color-accent-red: #b01226;
+
+  --font-display: 'Seriously Nostalgic', 'Bodoni Moda', 'Times New Roman', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  --tracking-display: -5px;
+  --tracking-heading: -3.5px;
+  --tracking-sub: -1px;
+  --tracking-wide: 2px;
+  --tracking-wider: 2.5px;
+  --tracking-widest: 3px;
+
+  --leading-display: 0.92;
+  --leading-heading: 1.05;
+  --leading-body: 1.6;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  --border-width-hairline: 1px;
+  --border-width-medium: 2px;
+
+  /* ============================================================
+     LAYER 2: SEMANTIC TOKENS
+     ============================================================ */
+  --surface-primary: var(--color-surface);
+  --surface-card: var(--color-surface-2);
+  --surface-pure: var(--color-surface-2);
+  --surface-inverse: var(--color-ink);
+  --surface-accent: var(--color-brand-primary);
+  --surface-accent-soft: var(--color-brand-primary-soft);
+
+  --text-primary: var(--color-ink);
+  --text-secondary: color-mix(in srgb, var(--color-ink) 88%, var(--color-surface));
+  --text-muted: var(--color-gray-mid);
+  --text-subtle: var(--color-gray-soft);
+  --text-inverse: var(--color-surface);
+  --text-on-dark-85: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  --text-on-dark-70: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  --text-on-dark-45: color-mix(in srgb, var(--color-surface) 45%, transparent);
+
+  --accent: var(--color-brand-primary);
+  --accent-deep: var(--color-brand-primary-deep);
+  --accent-soft: var(--color-brand-primary-soft);
+  --accent-on-dark: var(--color-brand-primary);
+  --surface-accent-page: var(--color-brand-primary);
+
+  --divider-on-light: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  --divider-on-dark: color-mix(in srgb, var(--color-surface) 18%, transparent);
+  --divider-on-accent: color-mix(in srgb, var(--color-ink) 22%, transparent);
+
+  /* ============================================================
+     LAYER 3: COMPONENT TOKENS
+     ============================================================ */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+
+  --slide-pad-x: 150px;
+  --slide-pad-top: 64px;
+  --slide-pad-bottom: 104px;
+
+  --content-max: 1250px;
+  --content-max-wide: 1560px;
+  --content-max-center: 1150px;
+
+  --gradient-dark: var(--color-ink);
+  --gradient-dark-deep: var(--color-ink-deep);
+
+  --shadow-card: 0 2px 12px color-mix(in srgb, var(--color-ink) 5%, transparent);
+  --shadow-card-elevated: 0 8px 32px color-mix(in srgb, var(--color-ink) 10%, transparent);
+
+  --t-eyebrow: 19px;
+  --t-kicker: 20px;
+  --t-body: 24px;
+  --t-body-lg: 28px;
+  --t-meta: 15px;
+  --t-card-title: 34px;
+  --t-card-body: 19px;
+  --t-list-title: 30px;
+  --t-list-body: 20px;
+  --t-chapter-title: 36px;
+  --t-chapter-desc: 20px;
+  --t-flow-title: 32px;
+  --t-flow-body: 19px;
+  --t-stat-label: 18px;
+  --t-stat-desc: 19px;
+  --t-pill: 14px;
+  --t-footer: 15px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--color-ink-deep);
+}
+
+#stage {
+  position: fixed; top: 50%; left: 50%;
+  width: var(--slide-w); height: var(--slide-h);
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  background: var(--surface-primary);
+  overflow: hidden;
+}
+
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0;
+  background: var(--accent);
+  z-index: 1000; transition: width 0.3s ease;
+}
+
+.slide {
+  position: absolute; top: 0; left: 0;
+  width: var(--slide-w); height: var(--slide-h);
+  display: none;
+  padding: var(--slide-pad-top) var(--slide-pad-x) var(--slide-pad-bottom) var(--slide-pad-x);
+  overflow: hidden;
+}
+.slide.active { display: flex; flex-direction: column; }
+
+.on-cream { background: var(--surface-primary); color: var(--text-primary); }
+.on-card { background: var(--surface-card); color: var(--text-primary); }
+.on-dark { background: var(--gradient-dark); color: var(--text-inverse); }
+.on-dark-deep { background: var(--gradient-dark-deep); color: var(--text-inverse); }
+.on-accent { background: var(--surface-accent-page); color: var(--text-primary); }
+.on-white { background: var(--surface-pure); color: var(--text-primary); }
+
+.slide-content {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  max-width: var(--content-max);
+  width: 100%;
+  margin-left: auto; margin-right: auto;
+}
+.slide-content.wide { max-width: var(--content-max-wide); }
+
+.em { font-style: italic; letter-spacing: 0.02em; color: var(--color-accent-red); }
+.on-burgundy .em { color: var(--color-brand-primary); }
+.highlight {
+  background: var(--surface-accent);
+  color: var(--text-inverse);
+  padding: 0.02em 18px 0.08em;
+  display: inline-block;
+  line-height: 1;
+}
+.on-accent .highlight { background: var(--surface-inverse); color: var(--text-inverse); }
+.on-dark .highlight, .on-dark-deep .highlight { background: var(--accent-on-dark); color: var(--color-ink); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 36px;
+}
+.eyebrow::before {
+  content: ""; display: inline-block;
+  width: 32px; height: var(--border-width-hairline);
+  background: currentColor;
+}
+.on-dark .eyebrow, .on-dark-deep .eyebrow { color: var(--text-on-dark-45); }
+.on-accent .eyebrow { color: var(--text-primary); }
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: var(--t-kicker); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 40px;
+}
+.on-dark .kicker, .on-dark-deep .kicker { color: var(--accent-on-dark); }
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 148px;
+  line-height: var(--leading-display); letter-spacing: var(--tracking-display);
+  margin-bottom: 36px;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 84px;
+  line-height: var(--leading-display); letter-spacing: var(--tracking-heading);
+  margin-bottom: 24px;
+}
+.h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-size: 40px;
+  line-height: var(--leading-heading); letter-spacing: var(--tracking-sub);
+}
+.body {
+  font-family: var(--font-body);
+  font-size: var(--t-body); line-height: var(--leading-body); font-weight: var(--fw-regular);
+  max-width: var(--content-max); margin-bottom: 24px;
+  color: var(--text-secondary);
+}
+.body-lg {
+  font-family: var(--font-body);
+  font-size: var(--t-body-lg); line-height: var(--leading-body); font-weight: var(--fw-medium);
+  letter-spacing: -0.3px;
+  max-width: var(--content-max-center);
+  color: var(--text-secondary);
+}
+.on-dark .body, .on-dark .body-lg,
+.on-dark-deep .body, .on-dark-deep .body-lg { color: var(--text-on-dark-85); }
+
+.slide-header {
+  position: absolute;
+  top: var(--slide-pad-top);
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 22px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.on-dark .slide-header, .on-dark-deep .slide-header { border-bottom-color: var(--divider-on-dark); }
+.on-accent .slide-header { border-bottom-color: var(--divider-on-accent); }
+.brand-name {
+  font-family: var(--font-body);
+  color: var(--text-primary); letter-spacing: var(--tracking-wider); font-size: 17px;
+  font-weight: var(--fw-extrabold); text-transform: uppercase;
+}
+.brand-name em { font-weight: var(--fw-regular);
+  font-family: var(--font-display); font-style: italic;
+  color: var(--accent); text-transform: none;
+  font-size: 22px; letter-spacing: 0;
+}
+.on-dark .brand-name, .on-dark-deep .brand-name { color: var(--text-inverse); }
+.brand-logo { height: 24px; width: auto; display: block; }
+.brand-host {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  color: var(--text-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+}
+.on-dark .brand-host, .on-dark-deep .brand-host, .on-card .brand-host { color: var(--text-on-dark-45); }
+.slide-header-absolute {
+  position: absolute;
+  top: var(--slide-pad-top);
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+}
+
+.slide-footer {
+  position: absolute; bottom: 34px;
+  left: var(--slide-pad-x); right: var(--slide-pad-x);
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  padding-top: 18px; display: flex; justify-content: space-between;
+  font-family: var(--font-body); font-size: var(--t-footer); font-weight: var(--fw-bold);
+  color: var(--text-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  gap: 40px;
+}
+.slide-footer span:last-child { text-align: right; }
+.on-dark .slide-footer, .on-dark-deep .slide-footer {
+  border-top-color: var(--divider-on-dark);
+  color: var(--text-on-dark-45);
+}
+.on-accent .slide-footer { border-top-color: var(--divider-on-accent); color: var(--text-primary); }
+
+.nav-controls {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: color-mix(in srgb, var(--color-ink) 94%, transparent);
+  backdrop-filter: blur(8px);
+  padding: 8px 18px;
+  border: var(--border-width-hairline) solid color-mix(in srgb, var(--color-surface) 18%, transparent);
+  z-index: 999; display: flex; align-items: center; gap: 14px;
+  border-radius: var(--radius-pill);
+}
+.nav-controls button {
+  background: transparent; border: none; color: var(--text-inverse);
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  cursor: pointer; padding: 4px 8px;
+}
+.nav-controls button:hover { color: var(--accent-soft); }
+#counter {
+  font-family: var(--font-display); font-style: italic; color: var(--text-inverse);
+  letter-spacing: 1px; font-size: 17px; min-width: 58px; text-align: center;
+}
+.nav-divider {
+  width: 1px; height: 18px;
+  background: color-mix(in srgb, var(--color-surface) 20%, transparent);
+  display: inline-block;
+}
+.jump-label {
+  font-family: var(--font-body); font-size: 10px;
+  font-weight: var(--fw-extrabold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+#jump-input {
+  background: color-mix(in srgb, var(--color-surface) 8%, transparent);
+  border: var(--border-width-hairline) solid color-mix(in srgb, var(--color-surface) 22%, transparent);
+  color: var(--text-inverse);
+  font-family: var(--font-display); font-style: italic;
+  font-size: 16px; letter-spacing: 1px;
+  width: 48px; height: 28px;
+  text-align: center; outline: none;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, background 0.15s;
+}
+#jump-input:focus {
+  border-color: var(--accent-on-dark);
+  background: color-mix(in srgb, var(--color-surface) 12%, transparent);
+}
+#jump-input::placeholder { color: color-mix(in srgb, var(--color-surface) 35%, transparent); }
+
+.topline {
+  width: 120px; height: 6px;
+  background: var(--surface-accent);
+  margin-bottom: 44px;
+}
+.on-accent .topline { background: var(--surface-inverse); }
+
+.slide.split { padding: 0; }
+.slide.split.active { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+.split-panel {
+  background: var(--gradient-dark);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 88px 64px;
+}
+.split-brand-mark {
+  font-family: var(--font-display);
+  font-size: 88px; line-height: 0.88;
+  color: var(--accent-on-dark); letter-spacing: var(--tracking-heading);
+}
+.split-brand-mark sup {
+  font-size: 0.25em; vertical-align: top; margin-left: 6px;
+  color: var(--text-on-dark-70);
+}
+.split-panel-meta {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.split-panel-meta strong { color: var(--text-on-dark-85); font-weight: var(--fw-extrabold); }
+.split-main {
+  background: var(--gradient-dark-deep);
+  display: flex; flex-direction: column;
+  padding: 88px 96px 0 148px;
+  position: relative;
+}
+.split-body { margin: auto 0; }
+.eyebrow.on-dark-cover { color: var(--text-on-dark-45); }
+.eyebrow.on-dark-cover::before { background: currentColor; }
+.split-title {
+  font-family: var(--font-display);
+  font-size: 116px; line-height: var(--leading-display);
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-inverse);
+  margin-bottom: 36px;
+}
+.split-sub {
+  font-family: var(--font-body);
+  font-size: var(--t-body-lg); line-height: var(--leading-body); font-weight: var(--fw-regular);
+  color: var(--text-on-dark-70);
+  max-width: 820px;
+  margin-bottom: 64px;
+}
+.meta-bar {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--border-width-hairline) solid var(--divider-on-dark);
+  padding: 26px 0;
+  margin-bottom: 56px;
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+}
+.meta-bar-item strong { color: var(--text-inverse); font-weight: var(--fw-extrabold); display: block; margin-top: 6px; }
+.meta-bar-item:last-child { text-align: right; }
+
+.slide.center-slide.active {
+  justify-content: center; align-items: center; text-align: center;
+}
+.slide.center-slide .topline { margin-left: auto; margin-right: auto; }
+.center-headline {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 120px;
+  line-height: 0.96; letter-spacing: var(--tracking-heading);
+  color: var(--text-primary);
+  margin-bottom: 40px;
+  max-width: 1450px;
+}
+.on-dark .center-headline, .on-dark-deep .center-headline { color: var(--text-inverse); }
+.center-sub {
+  font-family: var(--font-body); font-size: var(--t-body-lg);
+  line-height: var(--leading-body); color: var(--text-secondary);
+  max-width: var(--content-max-center); text-align: center;
+}
+.on-dark .center-sub, .on-dark-deep .center-sub { color: var(--text-on-dark-70); }
+.focus-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-muted);
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-bottom: 48px;
+}
+.focus-eyebrow::before, .focus-eyebrow::after {
+  content: ""; width: 32px; height: var(--border-width-medium);
+  background: var(--surface-inverse);
+}
+.on-dark .focus-eyebrow, .on-dark-deep .focus-eyebrow { color: var(--text-on-dark-45); }
+.on-dark .focus-eyebrow::before, .on-dark .focus-eyebrow::after,
+.on-dark-deep .focus-eyebrow::before, .on-dark-deep .focus-eyebrow::after { background: var(--accent-on-dark); }
+
+.num-cols {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 16px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.num-col {
+  padding: 32px 36px 12px 0;
+  border-right: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.num-col + .num-col { padding-left: 36px; }
+.num-col:last-child { border-right: none; padding-right: 0; }
+.num-col-num {
+  font-family: var(--font-display); font-size: 52px;
+  color: var(--accent); line-height: 0.9; letter-spacing: -2px;
+  margin-bottom: 18px;
+}
+.num-col-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular); font-size: 26px;
+  color: var(--text-primary); letter-spacing: var(--tracking-sub);
+  line-height: 1.15; margin-bottom: 12px;
+}
+.num-col-body {
+  font-family: var(--font-body); font-size: 17px;
+  color: var(--text-secondary); line-height: 1.5;
+}
+.on-dark .num-col-title, .on-dark-deep .num-col-title, .on-card .num-col-title { color: var(--text-inverse); }
+.on-dark .num-col-body, .on-dark-deep .num-col-body, .on-card .num-col-body { color: var(--text-on-dark-70); }
+.on-dark .num-cols, .on-dark-deep .num-cols, .on-card .num-cols { border-top-color: var(--divider-on-dark); }
+.on-dark .num-col, .on-dark-deep .num-col, .on-card .num-col { border-right-color: var(--divider-on-dark); }
+
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 16px;
+  padding: 22px 48px;
+  background: var(--surface-accent);
+  color: var(--text-inverse);
+  font-family: var(--font-body);
+  font-size: 16px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  border: var(--border-width-hairline) solid var(--accent);
+  margin-top: 36px;
+  transition: all 0.2s;
+}
+.cta-btn:hover { background: transparent; color: var(--accent); }
+.on-dark .cta-btn, .on-dark-deep .cta-btn {
+  background: var(--accent-on-dark); color: var(--color-ink); border-color: var(--accent-on-dark);
+}
+.on-dark .cta-btn:hover, .on-dark-deep .cta-btn:hover { background: transparent; color: var(--accent-on-dark); }
+.cta-btn::after { content: "\2192"; font-size: 20px; }
+
+/* PULL-QUOTE (carried over from the Day 1 deck): fill-in-the-blank /
+   closing-thought lines. Hairline rule, serif italic, single gold accent. */
+.pull-quote {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.on-dark .pull-quote, .on-dark-deep .pull-quote { border-top-color: var(--divider-on-dark); }
+.pull-quote-mark {
+  font-family: var(--font-display);
+  font-size: 60px;
+  line-height: 0.6;
+  color: var(--accent-on-dark);
+  flex-shrink: 0;
+}
+.pull-quote p {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.3;
+  letter-spacing: var(--tracking-sub);
+  color: var(--text-primary);
+  max-width: 1250px;
+}
+.on-dark .pull-quote p, .on-dark-deep .pull-quote p { color: var(--text-inverse); }
+
+/* ============================================================
+   DAY 2 ADDITIONS: new components for this deck's richer content.
+   Same guardrails throughout: hairline rules, single gold accent,
+   no gradients, no shadows, no rotation. Kept minimal and reused
+   across slides rather than one-off per slide.
+   ============================================================ */
+
+/* MINI FRAMEWORK STRIP: the Simplify / Beautify / Amplify pill row
+   with the current day's stage highlighted gold. */
+.mini-framework {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 8px;
+}
+.mini-framework-step {
+  font-family: var(--font-body); font-size: 13px; font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 9px 18px;
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-pill);
+}
+.on-dark .mini-framework-step, .on-dark-deep .mini-framework-step { color: var(--text-on-dark-45); border-color: var(--divider-on-dark); }
+.mini-framework-step.active { color: var(--color-ink); background: var(--accent-on-dark); border-color: var(--accent-on-dark); }
+.mini-framework-arrow { font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--text-muted); }
+.on-dark .mini-framework-arrow, .on-dark-deep .mini-framework-arrow { color: var(--text-on-dark-45); }
+
+/* DATA TABLE: simple hairline-divided rows, no cell borders or fills. */
+.data-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.data-table th {
+  text-align: left;
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 32px 16px 0;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.on-dark .data-table th, .on-dark-deep .data-table th { color: var(--text-on-dark-45); border-bottom-color: var(--divider-on-dark); }
+.data-table td {
+  font-family: var(--font-body); font-size: 18px; line-height: 1.5;
+  color: var(--text-secondary);
+  padding: 22px 32px 22px 0;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+  vertical-align: top;
+}
+.on-dark .data-table td, .on-dark-deep .data-table td { color: var(--text-on-dark-85); border-bottom-color: var(--divider-on-dark); }
+.data-table td:first-child { color: var(--text-primary); font-weight: var(--fw-semibold); width: 42%; }
+.on-dark .data-table td:first-child, .on-dark-deep .data-table td:first-child { color: var(--text-inverse); }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* COMPARE PANELS (before/after): a subset of the main deck's compare-grid
+   component, carried over since it's the exact fit for this deck's
+   repeated before/after beats. */
+.compare-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px; margin-top: 16px;
+}
+.compare-panel {
+  background: var(--surface-pure);
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-md);
+  padding: 36px 40px;
+}
+.compare-panel.compare-after { background: var(--surface-accent-soft); border-color: var(--accent); }
+.compare-label {
+  font-family: var(--font-body); font-size: var(--t-meta);
+  font-weight: var(--fw-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 14px; margin-bottom: 20px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.compare-panel.compare-after .compare-label { color: var(--accent-on-dark); border-bottom-color: color-mix(in srgb, var(--color-brand-primary) 40%, transparent); }
+.compare-value {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 28px; line-height: 1.25; letter-spacing: var(--tracking-sub);
+  color: var(--text-inverse);
+}
+.compare-panel.compare-after .compare-value { color: var(--accent-on-dark); }
+.compare-meta {
+  font-family: var(--font-body); font-size: 15px;
+  line-height: 1.5; color: var(--text-on-dark-70);
+  margin-top: 14px;
+}
+
+/* CALLOUT: a quoted example, a flag, or a small aside. Left accent bar
+   instead of a filled box, matching the hairline/flat guardrail. */
+.callout {
+  margin-top: 24px;
+  padding: 18px 26px;
+  border-left: var(--border-width-medium) solid var(--accent);
+  font-family: var(--font-body); font-size: 18px;
+  line-height: 1.55; color: var(--text-secondary);
+}
+.on-dark .callout, .on-dark-deep .callout { color: var(--text-on-dark-70); border-left-color: var(--accent-on-dark); }
+.callout strong { color: var(--text-primary); font-weight: var(--fw-bold); }
+.on-dark .callout strong, .on-dark-deep .callout strong { color: var(--text-inverse); }
+.callout em { font-family: var(--font-display); font-style: italic; color: inherit; }
+
+/* TWO-COL: a simple hairline-divided split for paired lists. */
+.two-col {
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 56px; margin-top: 20px;
+  padding-top: 20px;
+  border-top: var(--border-width-hairline) solid var(--divider-on-light);
+}
+.on-dark .two-col, .on-dark-deep .two-col { border-top-color: var(--divider-on-dark); }
+.two-col-col + .two-col-col { padding-left: 56px; border-left: var(--border-width-hairline) solid var(--divider-on-light); }
+.on-dark .two-col-col + .two-col-col, .on-dark-deep .two-col-col + .two-col-col { border-left-color: var(--divider-on-dark); }
+.two-col-label {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--accent-on-dark);
+  margin-bottom: 16px;
+}
+.two-col-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.two-col-list li { font-family: var(--font-body); font-size: 18px; line-height: 1.5; color: var(--text-on-dark-85); }
+.two-col-list li strong { color: var(--text-inverse); font-weight: var(--fw-semibold); }
+
+/* META LINE: a small muted uppercase note, reused for the many short
+   asides in this deck's content ("where to find clues," "mobile check,"
+   "keep visible," and similar one-line footnotes). */
+.meta-line {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+.on-dark .meta-line, .on-dark-deep .meta-line { color: var(--text-on-dark-45); }
+.meta-line strong { color: var(--text-primary); font-weight: var(--fw-extrabold); }
+.on-dark .meta-line strong, .on-dark-deep .meta-line strong { color: var(--text-inverse); }
+
+/* DAY PREVIEW: the "tomorrow" teaser card on the closing slide. */
+.day-preview {
+  margin-top: 24px;
+  padding: 22px 28px;
+  border-left: var(--border-width-medium) solid var(--accent-on-dark);
+}
+.day-preview-eyebrow {
+  font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  margin-bottom: 8px;
+}
+.day-preview-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular); font-size: 40px;
+  color: var(--accent-on-dark); margin-bottom: 8px; line-height: 1;
+}
+.day-preview-line {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.5;
+  color: var(--text-on-dark-70);
+}
+
+/* ============================================================
+   DAY 3 ADDITIONS: two more components, same guardrails as
+   everything above (hairline rules, single gold accent, no
+   shadows/gradients/rotation).
+   ============================================================ */
+
+/* PHOTO CARD: image-placeholder card for the photo-job gallery. */
+.photo-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px; margin-top: 8px;
+}
+.photo-card {
+  border: var(--border-width-hairline) solid var(--divider-on-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.on-dark .photo-card, .on-dark-deep .photo-card { border-color: var(--divider-on-dark); }
+.photo-card-placeholder {
+  aspect-ratio: 16 / 10;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+}
+.on-dark .photo-card-placeholder, .on-dark-deep .photo-card-placeholder { border-bottom-color: var(--divider-on-dark); }
+.photo-card-body { padding: 20px 22px 24px; }
+.photo-card-title {
+  font-family: var(--font-display); font-weight: var(--fw-regular); font-size: 23px;
+  color: var(--text-inverse); margin-bottom: 8px; line-height: 1.1;
+}
+.photo-card-desc {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  color: var(--text-on-dark-70);
+}
+
+/* PHONE SPLIT: a simple phone-mockup frame beside a checklist. */
+.phone-split {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr);
+  gap: 72px; align-items: center;
+  margin-top: 8px;
+}
+.phone-mock {
+  width: 230px; aspect-ratio: 9 / 18.5;
+  border: var(--border-width-medium) solid var(--divider-on-dark);
+  border-radius: 28px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+}
+.phone-mock-label {
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+}
+.phone-checklist { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+.phone-checklist li {
+  font-family: var(--font-body); font-size: 19px; line-height: 1.5;
+  color: var(--text-on-dark-85);
+  padding-left: 36px; position: relative;
+}
+.phone-checklist li::before {
+  content: ""; position: absolute; left: 0; top: 6px;
+  width: 20px; height: 20px;
+  border: var(--border-width-hairline) solid var(--accent-on-dark);
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="stage">
+
+<!-- ===== SECTION: SLIDE-01-TITLE (split masthead · title slide) ===== -->
+<section class="slide split active">
+  <div class="split-panel">
+    <div class="split-brand-mark">Simply<br>Digital<br>Shops</div>
+    <div class="split-panel-meta">
+      <span>Challenge <strong>Day 3 of 5</strong></span>
+      <span>Focus <strong>Beautify</strong></span>
+    </div>
+  </div>
+  <div class="split-main">
+    <div class="split-body">
+      <div class="eyebrow on-dark-cover">Day 3 · Fix Your Store Before Black Friday</div>
+      <div class="split-title">Beautify.</div>
+      <div class="split-sub">Earn their trust.</div>
+    </div>
+    <div class="meta-bar">
+      <div class="meta-bar-item">Presented By <strong>Anchen le Roux</strong></div>
+      <div class="meta-bar-item">Series <strong>Simply Digital Shops</strong></div>
+      <div class="meta-bar-item">Format <strong>Live Walkthrough</strong></div>
+    </div>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-01-TITLE ===== -->
+
+<!-- ===== SECTION: SLIDE-02-CONFIDENCE (on-dark-deep · mindset + 3 doubts + framework strip) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">The Mindset</div>
+    <div class="h2">Simplify made it clear.<br>Beautify makes it <span class="em">convincing.</span></div>
+    <div class="mini-framework" style="margin-top: 4px; margin-bottom: 32px;">
+      <span class="mini-framework-step">Simplify</span>
+      <span class="mini-framework-arrow">&rarr;</span>
+      <span class="mini-framework-step active">Beautify</span>
+      <span class="mini-framework-arrow">&rarr;</span>
+      <span class="mini-framework-step">Amplify</span>
+    </div>
+    <div class="num-cols" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title" style="font-style: italic;">&ldquo;What does it really look like?&rdquo;</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title" style="font-style: italic;">&ldquo;Is the quality right for me?&rdquo;</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title" style="font-style: italic;">&ldquo;Can I trust this business?&rdquo;</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Scorecard Qs 3, 4, 5, 6, 9, 10</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-02-CONFIDENCE ===== -->
+
+<!-- ===== SECTION: SLIDE-03-ONE-QUESTION (on-dark · pick a page + chip row) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Pick Your Focus</div>
+    <div class="h2">One page. One <span class="em">question.</span></div>
+    <div class="meta-line" style="margin-top: 0;">Pick A Page</div>
+    <div class="num-cols" style="grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 12px;">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title">A product people land on</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title">A collection with mismatched images</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title">A homepage section that scored low on trust</div>
+      </div>
+    </div>
+    <div class="meta-line">Pick A Question</div>
+    <div class="mini-framework" style="margin-top: 14px;">
+      <span class="mini-framework-step">Can I see the texture?</span>
+      <span class="mini-framework-step">What&rsquo;s in the set?</span>
+      <span class="mini-framework-step">Where&rsquo;s delivery info?</span>
+      <span class="mini-framework-step">Who&rsquo;s behind this?</span>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Write Both At The Top Of Your Worksheet</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-03-ONE-QUESTION ===== -->
+
+<!-- ===== SECTION: SLIDE-04-PHOTO-JOB (on-dark-deep · 3 photo-placeholder cards) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Product Photography</div>
+    <div class="h2">Every photo has a <span class="em">job.</span></div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-body">
+          <div class="photo-card-title">The Whole Product</div>
+          <div class="photo-card-desc">What am I buying?</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-body">
+          <div class="photo-card-title">The Detail</div>
+          <div class="photo-card-desc">What does it look and feel like?</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-body">
+          <div class="photo-card-title">The Context</div>
+          <div class="photo-card-desc">How would I use it?</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-line"><strong>Small fixes for today:</strong> Move a clearer photo earlier &middot; Fix a crop that hides the product &middot; Swap one blurry image</div>
+    <div class="body" style="font-size: 18px; margin-top: 14px; margin-bottom: 0;">Keep colours and materials honest. Check the collection thumbnail too.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Product Photography</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-04-PHOTO-JOB ===== -->
+
+<!-- ===== SECTION: SLIDE-05-ONE-STORE (on-dark · 3 checks + callout) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Brand Cohesion</div>
+    <div class="h2">Make it feel like <span class="em">one store.</span></div>
+    <div class="num-cols" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title">Headings follow a pattern</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title">Buttons that do the same job look related</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title">Image crops work together</div>
+      </div>
+    </div>
+    <div class="callout">Watch the add-ons: review widgets, banners and extra sections often bring their own fonts, colours and spacing.</div>
+    <div class="body" style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">Different is fine. It just needs to feel intentional.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Brand Cohesion</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-05-ONE-STORE ===== -->
+
+<!-- ===== SECTION: SLIDE-06-SAME-FACTS (on-dark-deep · before/after) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Clearer Layout</div>
+    <div class="h2">Same facts, easier to <span class="em">find.</span></div>
+    <div class="compare-grid">
+      <div class="compare-panel">
+        <div class="compare-label">Before</div>
+        <div class="compare-value" style="font-size: 21px;">&ldquo;The fabric is 100% linen. The set includes one duvet cover and two pillowcases. Choose your size before adding the set to your cart.&rdquo;</div>
+        <div class="compare-meta">Where would you look to check what&rsquo;s included?</div>
+      </div>
+      <div class="compare-panel compare-after">
+        <div class="compare-label">After</div>
+        <div class="compare-value" style="font-size: 19px; line-height: 1.6;">
+          <strong>Fabric:</strong> 100% linen<br>
+          <strong>In the set:</strong> One duvet cover and two pillowcases<br>
+          <strong>Choose your size:</strong> Choose your size before adding the set to your cart.
+        </div>
+      </div>
+    </div>
+    <div class="body" style="font-size: 18px; margin-top: 24px; margin-bottom: 0;">No badge, no photo, no app. Just existing info, easier to use.</div>
+    <div class="meta-line" style="font-style: italic; text-transform: none; letter-spacing: normal; font-weight: var(--fw-regular);">Illustrative product details.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Clearer Layout</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-06-SAME-FACTS ===== -->
+
+<!-- ===== SECTION: SLIDE-07-MOBILE (on-dark · phone mockup + checklist) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Mobile Check</div>
+    <div class="h2">Readable on a real <span class="em">phone.</span></div>
+    <div class="phone-split">
+      <div class="phone-mock"><div class="phone-mock-label">Your Store</div></div>
+      <ul class="phone-checklist">
+        <li>Comfortable size and contrast</li>
+        <li>Essential details as real text, not inside an image</li>
+        <li>Body copy left-aligned, not long centred paragraphs</li>
+        <li>Nothing covering the buying controls</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Contrast Checker On Your Cheat Sheet</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-07-MOBILE ===== -->
+
+<!-- ===== SECTION: SLIDE-08-PROOF (on-dark-deep · two-col: have reviews / no reviews yet) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Social Proof</div>
+    <div class="h2">Real proof, in the right <span class="em">place.</span></div>
+    <div class="two-col" style="border-top: none; padding-top: 0; margin-top: 8px;">
+      <div class="two-col-col">
+        <div class="two-col-label">Have Reviews</div>
+        <ul class="two-col-list">
+          <li>Genuine, meaning kept intact</li>
+          <li>Product feedback on the right product</li>
+          <li>Summary or link easy to find</li>
+        </ul>
+      </div>
+      <div class="two-col-col">
+        <div class="two-col-label">No Reviews Yet</div>
+        <ul class="two-col-list">
+          <li>Show the product properly</li>
+          <li>Explain who&rsquo;s behind the business</li>
+          <li>Make contact, delivery and returns easy to find</li>
+          <li>Share your real process</li>
+        </ul>
+      </div>
+    </div>
+    <div class="h3" style="margin-top: 28px; color: var(--text-inverse);">Never fill an empty review area with made-up praise.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Social Proof</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-08-PROOF ===== -->
+
+<!-- ===== SECTION: SLIDE-09-WHOS-BEHIND (on-dark · 4-item trust list) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">About You</div>
+    <div class="h2">Who&rsquo;s behind the <span class="em">store?</span></div>
+    <div class="num-cols">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title">A specific story</div>
+        <div class="num-col-body">What you make, choose or check.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title">Relevant experience</div>
+        <div class="num-col-body">Or a clear process.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title">Genuine certifications</div>
+        <div class="num-col-body">Or press, with what they apply to.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">04</div>
+        <div class="num-col-title">Easy contact</div>
+        <div class="num-col-body">An easy way to contact you.</div>
+      </div>
+    </div>
+    <div class="body" style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">A short intro beats a row of logos.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>About You</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-09-WHOS-BEHIND ===== -->
+
+<!-- ===== SECTION: SLIDE-10-REASSURANCE (on-dark-deep · data table) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Match The Doubt</div>
+    <div class="h2">Put reassurance where the <span class="em">question is.</span></div>
+    <table class="data-table">
+      <thead>
+        <tr><th>If they&rsquo;re unsure about&hellip;</th><th>Show them&hellip;</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Size</td><td>A clear route to measurements.</td></tr>
+        <tr><td>Delivery</td><td>Useful delivery information.</td></tr>
+        <tr><td>Material</td><td>A close-up and accurate facts.</td></tr>
+        <tr><td>The business</td><td>Real people and contact details.</td></tr>
+      </tbody>
+    </table>
+    <div class="h3" style="margin-top: 32px; color: var(--text-inverse);">Only use policies and facts that actually apply.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Match The Doubt</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-10-REASSURANCE ===== -->
+
+<!-- ===== SECTION: SLIDE-11-ONE-CHANGE (on-dark · 4 steps + safe-edit callout) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">See It In Action</div>
+    <div class="h2">One change in <span class="em">practice.</span></div>
+    <div class="num-cols">
+      <div class="num-col">
+        <div class="num-col-num">01</div>
+        <div class="num-col-title">Take a before screenshot</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">02</div>
+        <div class="num-col-title">Group the facts</div>
+        <div class="num-col-body">Under &ldquo;In the set.&rdquo;</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">03</div>
+        <div class="num-col-title">Preview and check</div>
+        <div class="num-col-body">On your phone.</div>
+      </div>
+      <div class="num-col">
+        <div class="num-col-num">04</div>
+        <div class="num-col-title">Record the change and date</div>
+      </div>
+    </div>
+    <div class="callout"><strong>Safe-Edit:</strong> Work in a duplicate theme &middot; Keep your original wording (a theme copy doesn&rsquo;t copy product content) &middot; Check which products share the template</div>
+    <div class="body" style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">Existing theme sections are enough today. Need a new section or app? Friday list.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Safe-Edit Steps On Your Cheat Sheet</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-11-ONE-CHANGE ===== -->
+
+<!-- ===== SECTION: SLIDE-12-YOUR-TURN (on-dark-deep · time bar + mobile check + status) ===== -->
+<section class="slide on-dark-deep">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Your Turn</div>
+    <div class="h2">Your <span class="em">turn.</span></div>
+    <div class="body-lg" style="margin-bottom: 0;">5 min review &middot; 10 to 20 min change &middot; 5 min check.</div>
+    <div class="meta-line"><strong>Mobile check:</strong> Crop and thumbnail &middot; Headings at normal size &middot; Tap what you touched &middot; Reassurance not covering buying controls &middot; Check another product if the template is shared</div>
+    <div class="callout">Live or preview? Mark it on your worksheet.</div>
+    <div class="body" style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">Bigger ideas go in your Friday space. One change is the assignment.</div>
+  </div>
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Checklist On Your Worksheet</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-12-YOUR-TURN ===== -->
+
+<!-- ===== SECTION: SLIDE-13-SHARE-TOMORROW (on-dark · share prompt + tomorrow preview) ===== -->
+<section class="slide on-dark">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Day 3 · Beautify</div>
+  </div>
+  <div class="slide-content wide">
+    <div class="eyebrow">Wrap Up</div>
+    <div class="h2">Share what you <span class="em">improved</span> with me.</div>
+    <div class="pull-quote" style="margin-top: 8px;">
+      <div class="pull-quote-mark">&ldquo;</div>
+      <p>I noticed <span class="em">______.</span> I improved <span class="em">______</span> so my customer can feel confident about <span class="em">______.</span></p>
+    </div>
+    <div class="body" style="font-size: 17px; font-style: italic; margin-top: -4px; margin-bottom: 0; color: var(--text-on-dark-45);">Example: I grouped the set contents under a clear heading so my customer can feel confident about what arrives in the parcel.</div>
+    <!-- Anchen: confirm the actual entry mechanism for the prize before
+         presenting (the handoff left "add how to win" as a placeholder) -->
+    <div class="callout">Don&rsquo;t forget to mark off your bingo squares. Today&rsquo;s bingo prize: a Section Booster for your store.</div>
+    <div class="day-preview">
+      <div class="day-preview-eyebrow">Tomorrow &middot; Day 4</div>
+      <div class="day-preview-title">Amplify</div>
+      <div class="day-preview-line">Offers, bundles and ways to encourage purchases before Black Friday.</div>
+    </div>
+    <a class="cta-btn" style="align-self: flex-start;" href="mailto:anchen@simplydigitalshops.com?subject=My%20Day%203%20Improvement&body=Attach%20your%20before%2Fafter%20screenshot%20below!">Email Me What You Improved</a>
+  </div>
+  <!-- Closing line (spoken, not shown on screen - slide is already full):
+       "Clear and trustworthy first. Tomorrow, we turn up the volume." -->
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Wrap Up</span>
+  </div>
+</section>
+<!-- ===== END SECTION: SLIDE-13-SHARE-TOMORROW ===== -->
+
+</div><!-- close of the stage container -->
+
+<!-- Nav controls live OUTSIDE the stage -->
+<div class="nav-controls">
+  <button id="prev">← Prev</button>
+  <span id="counter">1 / 13</span>
+  <button id="next">Next →</button>
+  <span class="nav-divider"></span>
+  <span class="jump-label">Jump to</span>
+  <input type="text" id="jump-input" inputmode="numeric" pattern="[0-9]*" placeholder="#" />
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+const stage = document.getElementById('stage');
+const SLIDE_W = 1920;
+const SLIDE_H = 1080;
+
+function fitStage() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const scale = Math.min(vw / SLIDE_W, vh / SLIDE_H);
+  stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(n, total - 1));
+  slides[current].classList.add('active');
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+}
+
+document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+
+const jumpInput = document.getElementById('jump-input');
+jumpInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = parseInt(jumpInput.value, 10);
+    if (!isNaN(val) && val >= 1 && val <= total) { goTo(val - 1); }
+    jumpInput.value = '';
+    jumpInput.blur();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (document.activeElement === jumpInput) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+});
+
+document.getElementById('progress').style.width = (1 / total * 100) + '%';
+document.getElementById('counter').textContent = '1 / ' + total;
+</script>
+
+</body>
+</html>
