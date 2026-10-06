@@ -79,9 +79,9 @@ to be read in three minutes, live at the license link above.
   --fw-bold: 700;
   --fw-extrabold: 800;
 
-  --tracking-display: -5px;
-  --tracking-heading: -3.5px;
-  --tracking-sub: -1px;
+  --tracking-display: 0.03em;
+  --tracking-heading: 0.03em;
+  --tracking-sub: 0.03em;
   --tracking-wide: 2px;
   --tracking-wider: 2.5px;
   --tracking-widest: 3px;
@@ -213,7 +213,7 @@ html, body {
 }
 .slide-content.wide { max-width: var(--content-max-wide); }
 
-.em { font-style: italic; letter-spacing: 0.02em; color: var(--color-accent-red); }
+.em { font-style: italic; letter-spacing: 0.03em; color: var(--color-accent-red); }
 .on-burgundy .em { color: var(--color-brand-primary); }
 .highlight {
   background: var(--surface-accent);
@@ -497,7 +497,7 @@ html, body {
 .num-col:last-child { border-right: none; padding-right: 0; }
 .num-col-num {
   font-family: var(--font-display); font-size: 52px;
-  color: var(--accent); line-height: 0.9; letter-spacing: -2px;
+  color: var(--accent); line-height: 0.9; letter-spacing: 0.03em;
   margin-bottom: 18px;
 }
 .num-col-title {
@@ -736,12 +736,20 @@ html, body {
 .photo-card-placeholder {
   aspect-ratio: 16 / 10;
   border-bottom: var(--border-width-hairline) solid var(--divider-on-light);
+  background-size: cover;
+  background-position: center;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-extrabold);
-  letter-spacing: var(--tracking-wider); text-transform: uppercase;
-  color: var(--text-on-dark-45);
 }
+.photo-card-placeholder.has-photo .photo-card-placeholder-label { display: none; }
 .on-dark .photo-card-placeholder, .on-dark-deep .photo-card-placeholder { border-bottom-color: var(--divider-on-dark); }
+.photo-card-placeholder-label {
+  font-family: var(--font-body); font-size: 13px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-70);
+  padding: 12px 22px;
+  border: var(--border-width-hairline) solid var(--divider-on-dark);
+  border-radius: var(--radius-pill);
+}
 .photo-card-body { padding: 20px 22px 24px; }
 .photo-card-title {
   font-family: var(--font-display); font-weight: var(--fw-regular); font-size: 23px;
@@ -762,13 +770,21 @@ html, body {
   width: 230px; aspect-ratio: 9 / 18.5;
   border: var(--border-width-medium) solid var(--divider-on-dark);
   border-radius: 28px;
+  background-size: cover;
+  background-position: center;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto;
+  overflow: hidden;
 }
+.phone-mock.has-photo .phone-mock-label { display: none; }
 .phone-mock-label {
   font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-extrabold);
   letter-spacing: var(--tracking-wider); text-transform: uppercase;
-  color: var(--text-on-dark-45);
+  color: var(--text-on-dark-70);
+  text-align: center;
+  padding: 12px 18px;
+  border: var(--border-width-hairline) solid var(--divider-on-dark);
+  border-radius: var(--radius-pill);
 }
 .phone-checklist { list-style: none; display: flex; flex-direction: column; gap: 20px; }
 .phone-checklist li {
@@ -904,23 +920,35 @@ html, body {
   <div class="slide-content wide">
     <div class="eyebrow">Product Photography</div>
     <div class="h2">Every photo has a <span class="em">job.</span></div>
+    <!-- ────────────────────────────────────────────────────────
+         AI ASSISTANT NOTE — these 3 cards need real photos:
+         1. The Whole Product — a clean full-product shot
+         2. The Detail — a close-up on texture/material
+         3. The Context — a lifestyle/in-use shot
+         To add one, give each .photo-card-placeholder a publicly
+         hosted image URL and the has-photo class, e.g.:
+           div class="photo-card-placeholder has-photo"
+           style="background-image: url('photo-url-here')"
+         Never embed uploaded image data directly — see the About
+         Me slide in Day 1 for the same pattern.
+         ──────────────────────────────────────────────────────── -->
     <div class="photo-grid">
       <div class="photo-card">
-        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-placeholder"><span class="photo-card-placeholder-label">Add Photo</span></div>
         <div class="photo-card-body">
           <div class="photo-card-title">The Whole Product</div>
           <div class="photo-card-desc">What am I buying?</div>
         </div>
       </div>
       <div class="photo-card">
-        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-placeholder"><span class="photo-card-placeholder-label">Add Photo</span></div>
         <div class="photo-card-body">
           <div class="photo-card-title">The Detail</div>
           <div class="photo-card-desc">What does it look and feel like?</div>
         </div>
       </div>
       <div class="photo-card">
-        <div class="photo-card-placeholder">Photo</div>
+        <div class="photo-card-placeholder"><span class="photo-card-placeholder-label">Add Photo</span></div>
         <div class="photo-card-body">
           <div class="photo-card-title">The Context</div>
           <div class="photo-card-desc">How would I use it?</div>
@@ -1013,8 +1041,16 @@ html, body {
   <div class="slide-content wide">
     <div class="eyebrow">Mobile Check</div>
     <div class="h2">Readable on a real <span class="em">phone.</span></div>
+    <!-- ────────────────────────────────────────────────────────
+         AI ASSISTANT NOTE — this needs a real screenshot: your
+         store on mobile, ideally a product page (that's what the
+         checklist beside it is about). To add one, give .phone-mock
+         a publicly hosted image URL and the has-photo class, e.g.:
+           div class="phone-mock has-photo"
+           style="background-image: url('screenshot-url-here')"
+         ──────────────────────────────────────────────────────── -->
     <div class="phone-split">
-      <div class="phone-mock"><div class="phone-mock-label">Your Store</div></div>
+      <div class="phone-mock"><div class="phone-mock-label">Add Mobile<br>Screenshot</div></div>
       <ul class="phone-checklist">
         <li>Comfortable size and contrast</li>
         <li>Essential details as real text, not inside an image</li>
