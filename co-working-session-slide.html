@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-Working Session | Simply Digital Shops</title>
+
+<!-- ============================================================
+CO-WORKING SESSION SLIDE
+Simply Digital Shops
+
+A single-slide companion screen for live co-working sessions, built
+on the exact same Tropicana-based brand system (primitives, semantic
+tokens, component tokens) as the Fix Your Store Before Black Friday
+challenge decks: same darks, same gold/red accents, same fonts, same
+guardrails (no light backgrounds, no all-caps display headings,
+single-accent discipline).
+
+Headline + focus question, then a 50-minute countdown using the same
+TIMER WIDGET component from the Day 5 deck: armed (not running) on
+load, started manually by clicking the widget or pressing T, so it
+never counts down before the host says "go."
+============================================================ -->
+<!-- =============================================================
+LICENSE AND USAGE
+(c) 2026 Kinsey Soderberg | Authentic AI(R)
+Distributed by Her AI Club(TM) | heraiclub.co/shop
+Licensed under the Her AI Club Template License | heraiclub.co/license
+Everything you build with this template is yours, free and clear.
+The template file itself is licensed, not sold: use it forever
+under your license tier, and don't redistribute or resell the
+file or the system behind it. Full plain-English terms, written
+to be read in three minutes, live at the license link above.
+============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Self-hosted brand display font: Seriously Nostalgic. Same-origin
+     hosting on challenge.simplydigitalshops.com, matching the other decks. -->
+<style>
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgic-regular-webfont.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Seriously Nostalgic'; src: url('https://challenge.simplydigitalshops.com/wp-content/uploads/fonts/seriouslynostalgicital-reg-webfont.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+</style>
+
+<style>
+:root {
+  /* ============================================================
+     LAYER 1: PRIMITIVES (identical to the challenge decks, same brand)
+     ============================================================ */
+  --color-ink: #140a0c;
+  --color-ink-deep: #000000;
+  --color-surface: #eae9e3;
+  --color-brand-primary: #c7a35a;
+  --color-accent-red: #b01226;
+
+  --font-display: 'Seriously Nostalgic', 'Bodoni Moda', 'Times New Roman', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  --tracking-heading: 0.03em;
+  --tracking-wider: 2.5px;
+  --tracking-widest: 3px;
+
+  --leading-display: 0.92;
+  --leading-body: 1.6;
+
+  --radius-lg: 10px;
+  --border-width-hairline: 1px;
+  --border-width-medium: 2px;
+
+  /* ============================================================
+     LAYER 2: SEMANTIC TOKENS
+     ============================================================ */
+  --gradient-dark: var(--color-ink);
+  --text-inverse: var(--color-surface);
+  --text-on-dark-85: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  --text-on-dark-70: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  --text-on-dark-45: color-mix(in srgb, var(--color-surface) 45%, transparent);
+  --accent-on-dark: var(--color-brand-primary);
+  --divider-on-dark: color-mix(in srgb, var(--color-surface) 18%, transparent);
+
+  /* ============================================================
+     LAYER 3: COMPONENT TOKENS
+     ============================================================ */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+  --slide-pad-x: 150px;
+  --slide-pad-top: 64px;
+  --slide-pad-bottom: 104px;
+  --t-eyebrow: 19px;
+  --t-body-lg: 28px;
+  --t-meta: 15px;
+  --t-footer: 15px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--color-ink-deep);
+}
+
+#stage {
+  position: fixed; top: 50%; left: 50%;
+  width: var(--slide-w); height: var(--slide-h);
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  background: var(--gradient-dark);
+  color: var(--text-inverse);
+  overflow: hidden;
+  padding: var(--slide-pad-top) var(--slide-pad-x) var(--slide-pad-bottom) var(--slide-pad-x);
+  display: flex; flex-direction: column;
+}
+
+.slide-header {
+  position: absolute;
+  top: var(--slide-pad-top);
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 22px;
+  border-bottom: var(--border-width-hairline) solid var(--divider-on-dark);
+}
+.brand-name { font-family: var(--font-body); letter-spacing: var(--tracking-wider); font-size: 17px; font-weight: var(--fw-extrabold); text-transform: uppercase; color: var(--text-inverse); }
+.brand-logo { height: 24px; width: auto; display: block; }
+.brand-host { font-family: var(--font-body); font-size: var(--t-meta); font-weight: var(--fw-bold); color: var(--text-on-dark-45); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+
+.slide-footer {
+  position: absolute; bottom: 34px;
+  left: var(--slide-pad-x); right: var(--slide-pad-x);
+  border-top: var(--border-width-hairline) solid var(--divider-on-dark);
+  padding-top: 18px; display: flex; justify-content: space-between;
+  font-family: var(--font-body); font-size: var(--t-footer); font-weight: var(--fw-bold);
+  color: var(--text-on-dark-45); letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  gap: 40px;
+}
+.slide-footer span:last-child { text-align: right; }
+
+.slide-content {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+}
+
+.focus-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-eyebrow); font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-bottom: 48px;
+}
+.focus-eyebrow::before, .focus-eyebrow::after {
+  content: ""; width: 32px; height: var(--border-width-medium);
+  background: var(--accent-on-dark);
+}
+
+.center-headline {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 148px;
+  line-height: var(--leading-display); letter-spacing: var(--tracking-heading);
+  color: var(--text-inverse);
+  margin-bottom: 36px;
+}
+
+.session-question {
+  font-family: var(--font-body); font-size: var(--t-body-lg); font-weight: var(--fw-medium);
+  line-height: var(--leading-body);
+  color: var(--text-on-dark-85);
+  max-width: 1000px;
+  margin-bottom: 56px;
+}
+
+/* ============================================================
+   TIMER WIDGET: armed (not running) on load; the host starts it
+   herself (click the widget, or press T) once everyone's settled,
+   so it never counts down before she says "go."
+   ============================================================ */
+.timer-widget {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 10px;
+  margin: 4px 0 8px;
+  padding: 28px 64px;
+  border: var(--border-width-medium) solid var(--accent-on-dark);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.timer-widget:hover { background: color-mix(in srgb, var(--color-brand-primary) 8%, transparent); }
+.timer-display {
+  font-family: var(--font-display); font-weight: var(--fw-regular);
+  font-size: 96px; line-height: 1; letter-spacing: var(--tracking-heading);
+  color: var(--accent-on-dark);
+}
+.timer-hint {
+  font-family: var(--font-body); font-size: 13px; font-weight: var(--fw-extrabold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+}
+.timer-widget.is-running { background: color-mix(in srgb, var(--color-brand-primary) 12%, transparent); }
+.timer-widget.is-paused { border-color: var(--text-on-dark-45); }
+.timer-widget.is-paused .timer-display { color: var(--text-on-dark-70); }
+.timer-widget.is-finished {
+  border-color: var(--color-accent-red);
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+.timer-widget.is-finished .timer-display,
+.timer-widget.is-finished .timer-hint { color: var(--color-accent-red); }
+.timer-widget.is-finished .timer-display { font-size: 56px; }
+@keyframes timer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div class="slide-header">
+    <div class="brand-name"><img src="https://offers.simplydigitalshops.com/assets/sds%20light%20logo.png" alt="Simply Digital Shops" class="brand-logo"></div>
+    <div class="brand-host">Co-Working Session</div>
+  </div>
+
+  <div class="slide-content">
+    <div class="focus-eyebrow">Co-Working Session</div>
+    <div class="center-headline">Co-Working.</div>
+    <div class="session-question">What are you focusing on in this session?</div>
+    <div class="timer-widget" data-seconds="3000" tabindex="0" role="button" aria-label="Start 50 minute timer">
+      <div class="timer-display">50:00</div>
+      <div class="timer-hint">Click or press T to start</div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>simplydigitalshops.com</span>
+    <span>Co-Working Session &middot; 50:00</span>
+  </div>
+</div>
+
+<script>
+const stage = document.getElementById('stage');
+const SLIDE_W = 1920;
+const SLIDE_H = 1080;
+
+function fitStage() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const scale = Math.min(vw / SLIDE_W, vh / SLIDE_H);
+  stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+/* TIMER WIDGET: armed on load, started manually (click or the T key)
+   so the host can talk before the countdown begins. */
+const timers = new Map();
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+function resetTimerDisplay(widget) {
+  const t = timers.get(widget);
+  clearInterval(t.intervalId);
+  t.intervalId = null;
+  t.remaining = t.seconds;
+  t.state = 'armed';
+  widget.classList.remove('is-running', 'is-paused', 'is-finished');
+  widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
+  widget.querySelector('.timer-hint').textContent = 'Click or press T to start';
+}
+
+function toggleTimer(widget) {
+  const t = timers.get(widget);
+  if (t.state === 'running') {
+    clearInterval(t.intervalId);
+    t.intervalId = null;
+    t.state = 'paused';
+    widget.classList.remove('is-running');
+    widget.classList.add('is-paused');
+    widget.querySelector('.timer-hint').textContent = 'Paused · click or press T to resume';
+  } else if (t.state === 'finished') {
+    resetTimerDisplay(widget);
+  } else {
+    t.state = 'running';
+    widget.classList.remove('is-paused', 'is-finished');
+    widget.classList.add('is-running');
+    widget.querySelector('.timer-hint').textContent = 'Running · click or press T to pause';
+    t.intervalId = setInterval(() => {
+      t.remaining--;
+      if (t.remaining <= 0) {
+        clearInterval(t.intervalId);
+        t.intervalId = null;
+        t.state = 'finished';
+        widget.classList.remove('is-running');
+        widget.classList.add('is-finished');
+        widget.querySelector('.timer-display').textContent = "Time's up";
+        widget.querySelector('.timer-hint').textContent = 'Click or press T to reset';
+      } else {
+        widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
+      }
+    }, 1000);
+  }
+}
+
+document.querySelectorAll('.timer-widget').forEach(widget => {
+  const seconds = parseInt(widget.dataset.seconds, 10);
+  timers.set(widget, { seconds, remaining: seconds, intervalId: null, state: 'armed' });
+  widget.addEventListener('click', () => toggleTimer(widget));
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 't' || e.key === 'T') {
+    const widget = document.querySelector('.timer-widget');
+    if (widget) { e.preventDefault(); toggleTimer(widget); }
+  }
+});
+</script>
+
+</body>
+</html>
