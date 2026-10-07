@@ -213,18 +213,10 @@ html, body {
 .timer-widget.is-finished .timer-display { font-size: 56px; }
 @keyframes timer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 
-.pip-button {
-  background: transparent; border: none; cursor: pointer;
-  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold);
-  letter-spacing: var(--tracking-wider); text-transform: uppercase;
-  color: var(--text-on-dark-45);
-  padding: 6px 10px;
-}
-.pip-button:hover { color: var(--accent-on-dark); }
-.pip-note {
+.keepalive-note {
   font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-medium);
   color: var(--text-on-dark-45);
-  max-width: 460px; margin-top: 4px;
+  max-width: 460px; margin-top: 18px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -248,8 +240,7 @@ html, body {
       <div class="timer-display">50:00</div>
       <div class="timer-hint">Click or press T to start</div>
     </div>
-    <button class="pip-button" id="pip-toggle" type="button">Pop out timer ⤢</button>
-    <div class="pip-note">Keeps counting in real time while you work in other windows &mdash; share that floating window instead of this one. (Chrome or Edge only.)</div>
+    <div class="keepalive-note">Once started, this page plays a silent tone to stay accurate while you work in other windows &mdash; share this whole window as normal.</div>
   </div>
 
   <div class="slide-footer">
@@ -305,6 +296,7 @@ function renderTimer(widget) {
     t.state = 'finished';
     clearInterval(t.intervalId);
     t.intervalId = null;
+    stopKeepAliveAudio();
     widget.classList.remove('is-running');
     widget.classList.add('is-finished');
     widget.querySelector('.timer-display').textContent = "Time's up";
@@ -321,6 +313,7 @@ function resetTimerDisplay(widget) {
   t.remaining = t.seconds;
   t.endTime = null;
   t.state = 'armed';
+  stopKeepAliveAudio();
   widget.classList.remove('is-running', 'is-paused', 'is-finished');
   widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
   widget.querySelector('.timer-hint').textContent = 'Click or press T to start';
@@ -333,6 +326,7 @@ function toggleTimer(widget) {
     clearInterval(t.intervalId);
     t.intervalId = null;
     t.state = 'paused';
+    stopKeepAliveAudio();
     widget.classList.remove('is-running');
     widget.classList.add('is-paused');
     widget.querySelector('.timer-hint').textContent = 'Paused · click or press T to resume';
@@ -341,6 +335,7 @@ function toggleTimer(widget) {
   } else {
     t.endTime = Date.now() + t.remaining * 1000;
     t.state = 'running';
+    startKeepAliveAudio();
     widget.classList.remove('is-paused', 'is-finished');
     widget.classList.add('is-running');
     widget.querySelector('.timer-hint').textContent = 'Running · click or press T to pause';
@@ -369,60 +364,51 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-/* POP-OUT TIMER (Picture-in-Picture): a background/unfocused window's
-   rendering can still be throttled by the browser even with the fix
-   above, so the on-screen digits can sit frozen until you switch back.
-   A Document Picture-in-Picture window is explicitly exempt from that
-   throttling -- it's designed to stay visibly alive while you work in
-   other windows -- so popping the timer out into one is the real fix
-   for sharing it on a call while working elsewhere. Moves the actual
-   timer widget element into the PiP window (not a clone), so its
-   click handler and ticking state keep working unchanged. */
-const pipButton = document.getElementById('pip-toggle');
-const timerHome = document.querySelector('.slide-content');
-const timerWidget = document.querySelector('.timer-widget');
-let pipWindow = null;
+/* AUDIO KEEP-ALIVE: browsers exempt a tab/window that's actively
+   playing audio from the background/occlusion throttling that causes
+   setInterval ticks to be dropped (the same exemption that lets music
+   or video keep playing normally in a window you've switched away
+   from). Playing a continuous, effectively inaudible tone for as long
+   as the timer is running keeps this window out of that throttled
+   state, so the whole branded slide -- not just the timer -- keeps
+   rendering live while shared in a call, even while you're working in
+   another window. Started on the same click that starts the timer, so
+   it reuses that click as the user gesture browsers require before
+   audio can play. Not a 100% guarantee on every browser version, which
+   is why the timestamp-based countdown above is the real safety net:
+   whatever happens, the instant this window is looked at again it
+   shows the correct time, never a stale one. */
+let audioCtx = null;
+let keepAliveGain = null;
+let keepAliveOsc = null;
 
-async function copyStylesInto(targetDoc) {
-  for (const styleSheet of document.styleSheets) {
-    try {
-      const cssText = [...styleSheet.cssRules].map(rule => rule.cssText).join('\n');
-      const style = targetDoc.createElement('style');
-      style.textContent = cssText;
-      targetDoc.head.appendChild(style);
-    } catch (e) {
-      const link = targetDoc.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = styleSheet.href;
-      targetDoc.head.appendChild(link);
-    }
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    keepAliveGain = audioCtx.createGain();
+    keepAliveGain.gain.value = 0.0008;
+    keepAliveGain.connect(audioCtx.destination);
   }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 
-async function openPip() {
-  if (!('documentPictureInPicture' in window)) {
-    alert('Pop-out timers need Chrome or Edge. In the meantime, keep at least a sliver of this window visible on screen (not fully covered) so the browser keeps it updating.');
-    return;
-  }
-  pipWindow = await documentPictureInPicture.requestWindow({ width: 420, height: 280 });
-  await copyStylesInto(pipWindow.document);
-  pipWindow.document.body.style.margin = '0';
-  pipWindow.document.body.style.background = 'var(--gradient-dark)';
-  pipWindow.document.body.style.display = 'flex';
-  pipWindow.document.body.style.alignItems = 'center';
-  pipWindow.document.body.style.justifyContent = 'center';
-  pipWindow.document.body.appendChild(timerWidget);
-  pipButton.textContent = 'Bring timer back';
-  pipWindow.addEventListener('pagehide', () => {
-    timerHome.insertBefore(timerWidget, pipButton);
-    pipButton.textContent = 'Pop out timer ⤢';
-    pipWindow = null;
-  });
+function startKeepAliveAudio() {
+  try {
+    ensureAudioCtx();
+    keepAliveOsc = audioCtx.createOscillator();
+    keepAliveOsc.frequency.value = 20;
+    keepAliveOsc.connect(keepAliveGain);
+    keepAliveOsc.start();
+  } catch (e) { /* Web Audio unsupported -- timer still runs, just without this safeguard */ }
 }
 
-pipButton.addEventListener('click', () => {
-  if (pipWindow) { pipWindow.close(); } else { openPip(); }
-});
+function stopKeepAliveAudio() {
+  if (keepAliveOsc) {
+    try { keepAliveOsc.stop(); } catch (e) {}
+    keepAliveOsc.disconnect();
+    keepAliveOsc = null;
+  }
+}
 </script>
 
 </body>
