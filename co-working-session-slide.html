@@ -213,6 +213,20 @@ html, body {
 .timer-widget.is-finished .timer-display { font-size: 56px; }
 @keyframes timer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 
+.pip-button {
+  background: transparent; border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider); text-transform: uppercase;
+  color: var(--text-on-dark-45);
+  padding: 6px 10px;
+}
+.pip-button:hover { color: var(--accent-on-dark); }
+.pip-note {
+  font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-medium);
+  color: var(--text-on-dark-45);
+  max-width: 460px; margin-top: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
@@ -234,6 +248,8 @@ html, body {
       <div class="timer-display">50:00</div>
       <div class="timer-hint">Click or press T to start</div>
     </div>
+    <button class="pip-button" id="pip-toggle" type="button">Pop out timer ⤢</button>
+    <div class="pip-note">Keeps counting in real time while you work in other windows &mdash; share that floating window instead of this one. (Chrome or Edge only.)</div>
   </div>
 
   <div class="slide-footer">
@@ -257,7 +273,17 @@ window.addEventListener('resize', fitStage);
 fitStage();
 
 /* TIMER WIDGET: armed on load, started manually (click or the T key)
-   so the host can talk before the countdown begins. */
+   so the host can talk before the countdown begins.
+
+   Counts down from a fixed wall-clock END TIME (Date.now() + seconds),
+   not by decrementing once per tick. Background/unfocused browser
+   windows get their setInterval ticks throttled or dropped entirely
+   by the browser (to save power), so a tick-counting timer drifts
+   badly -- e.g. 20 real minutes can show as only 8. Computing the
+   remaining time from the clock on every tick means that however few
+   ticks actually fire, the display is always correct the instant it
+   does run, with no drift to make up. A visibilitychange listener
+   forces an immediate redraw the moment the window is looked at again. */
 const timers = new Map();
 
 function formatTime(s) {
@@ -266,11 +292,34 @@ function formatTime(s) {
   return m + ':' + String(sec).padStart(2, '0');
 }
 
+function currentRemaining(t) {
+  if (t.state !== 'running') return t.remaining;
+  return Math.max(0, Math.ceil((t.endTime - Date.now()) / 1000));
+}
+
+function renderTimer(widget) {
+  const t = timers.get(widget);
+  const remaining = currentRemaining(t);
+  if (t.state === 'running' && remaining <= 0) {
+    t.remaining = 0;
+    t.state = 'finished';
+    clearInterval(t.intervalId);
+    t.intervalId = null;
+    widget.classList.remove('is-running');
+    widget.classList.add('is-finished');
+    widget.querySelector('.timer-display').textContent = "Time's up";
+    widget.querySelector('.timer-hint').textContent = 'Click or press T to reset';
+    return;
+  }
+  widget.querySelector('.timer-display').textContent = formatTime(remaining);
+}
+
 function resetTimerDisplay(widget) {
   const t = timers.get(widget);
   clearInterval(t.intervalId);
   t.intervalId = null;
   t.remaining = t.seconds;
+  t.endTime = null;
   t.state = 'armed';
   widget.classList.remove('is-running', 'is-paused', 'is-finished');
   widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
@@ -280,6 +329,7 @@ function resetTimerDisplay(widget) {
 function toggleTimer(widget) {
   const t = timers.get(widget);
   if (t.state === 'running') {
+    t.remaining = currentRemaining(t);
     clearInterval(t.intervalId);
     t.intervalId = null;
     t.state = 'paused';
@@ -289,30 +339,18 @@ function toggleTimer(widget) {
   } else if (t.state === 'finished') {
     resetTimerDisplay(widget);
   } else {
+    t.endTime = Date.now() + t.remaining * 1000;
     t.state = 'running';
     widget.classList.remove('is-paused', 'is-finished');
     widget.classList.add('is-running');
     widget.querySelector('.timer-hint').textContent = 'Running · click or press T to pause';
-    t.intervalId = setInterval(() => {
-      t.remaining--;
-      if (t.remaining <= 0) {
-        clearInterval(t.intervalId);
-        t.intervalId = null;
-        t.state = 'finished';
-        widget.classList.remove('is-running');
-        widget.classList.add('is-finished');
-        widget.querySelector('.timer-display').textContent = "Time's up";
-        widget.querySelector('.timer-hint').textContent = 'Click or press T to reset';
-      } else {
-        widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
-      }
-    }, 1000);
+    t.intervalId = setInterval(() => renderTimer(widget), 1000);
   }
 }
 
 document.querySelectorAll('.timer-widget').forEach(widget => {
   const seconds = parseInt(widget.dataset.seconds, 10);
-  timers.set(widget, { seconds, remaining: seconds, intervalId: null, state: 'armed' });
+  timers.set(widget, { seconds, remaining: seconds, endTime: null, intervalId: null, state: 'armed' });
   widget.addEventListener('click', () => toggleTimer(widget));
 });
 
@@ -321,6 +359,69 @@ document.addEventListener('keydown', e => {
     const widget = document.querySelector('.timer-widget');
     if (widget) { e.preventDefault(); toggleTimer(widget); }
   }
+});
+
+/* Force an immediate, correct redraw the moment the window becomes
+   visible again, so there's never a stale frame waiting on the next tick. */
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    document.querySelectorAll('.timer-widget').forEach(renderTimer);
+  }
+});
+
+/* POP-OUT TIMER (Picture-in-Picture): a background/unfocused window's
+   rendering can still be throttled by the browser even with the fix
+   above, so the on-screen digits can sit frozen until you switch back.
+   A Document Picture-in-Picture window is explicitly exempt from that
+   throttling -- it's designed to stay visibly alive while you work in
+   other windows -- so popping the timer out into one is the real fix
+   for sharing it on a call while working elsewhere. Moves the actual
+   timer widget element into the PiP window (not a clone), so its
+   click handler and ticking state keep working unchanged. */
+const pipButton = document.getElementById('pip-toggle');
+const timerHome = document.querySelector('.slide-content');
+const timerWidget = document.querySelector('.timer-widget');
+let pipWindow = null;
+
+async function copyStylesInto(targetDoc) {
+  for (const styleSheet of document.styleSheets) {
+    try {
+      const cssText = [...styleSheet.cssRules].map(rule => rule.cssText).join('\n');
+      const style = targetDoc.createElement('style');
+      style.textContent = cssText;
+      targetDoc.head.appendChild(style);
+    } catch (e) {
+      const link = targetDoc.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = styleSheet.href;
+      targetDoc.head.appendChild(link);
+    }
+  }
+}
+
+async function openPip() {
+  if (!('documentPictureInPicture' in window)) {
+    alert('Pop-out timers need Chrome or Edge. In the meantime, keep at least a sliver of this window visible on screen (not fully covered) so the browser keeps it updating.');
+    return;
+  }
+  pipWindow = await documentPictureInPicture.requestWindow({ width: 420, height: 280 });
+  await copyStylesInto(pipWindow.document);
+  pipWindow.document.body.style.margin = '0';
+  pipWindow.document.body.style.background = 'var(--gradient-dark)';
+  pipWindow.document.body.style.display = 'flex';
+  pipWindow.document.body.style.alignItems = 'center';
+  pipWindow.document.body.style.justifyContent = 'center';
+  pipWindow.document.body.appendChild(timerWidget);
+  pipButton.textContent = 'Bring timer back';
+  pipWindow.addEventListener('pagehide', () => {
+    timerHome.insertBefore(timerWidget, pipButton);
+    pipButton.textContent = 'Pop out timer ⤢';
+    pipWindow = null;
+  });
+}
+
+pipButton.addEventListener('click', () => {
+  if (pipWindow) { pipWindow.close(); } else { openPip(); }
 });
 </script>
 
