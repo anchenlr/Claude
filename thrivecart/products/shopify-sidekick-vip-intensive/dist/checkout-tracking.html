@@ -625,13 +625,14 @@ html { scroll-behavior: smooth; }
 }
 .sds-vs-bonus {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 12px;
   padding-left: 24px;
   border-left: 1px solid var(--sds-border);
   font-size: 0.95rem;
   color: var(--sds-ink-soft);
 }
+.sds-vs-bonus-item { display: flex; align-items: flex-start; gap: 10px; }
 .sds-vs-bonus .ico { font-size: 1.3rem; flex-shrink: 0; }
 .sds-vs-bonus strong { color: var(--sds-ink); }
 @media (max-width: 560px) {
