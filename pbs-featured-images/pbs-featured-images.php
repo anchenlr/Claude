@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       PBS Featured Images for MCP
  * Description:       Adds MCP abilities so Claude can find posts and media, and set featured images one by one or in bulk by matching image file names. Requires the MCP Adapter plugin and WordPress 6.9+.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -44,7 +44,12 @@ add_action( 'wp_abilities_api_init', function () {
 					),
 					'category'  => array(
 						'type'        => 'string',
-						'description' => 'Optional category name, slug or ID to filter by, e.g. 9.0.',
+						'description' => 'Optional term name, slug or ID to filter by, e.g. PBS 9.0 or pbs-9-0.',
+						'default'     => '',
+					),
+					'taxonomy'  => array(
+						'type'        => 'string',
+						'description' => 'Taxonomy the term belongs to, e.g. category or speaker_categories. Leave empty to search every taxonomy of the post type.',
 						'default'     => '',
 					),
 					'limit'     => array(
@@ -55,14 +60,15 @@ add_action( 'wp_abilities_api_init', function () {
 				),
 			),
 			'execute_callback'    => function ( $input ) {
-				$category = pbs_resolve_category( $input['category'] ?? '' );
+				$post_type = sanitize_key( $input['post_type'] ?? 'post' );
+				$category  = pbs_resolve_category( $input['category'] ?? '', $input['taxonomy'] ?? '', $post_type );
 				if ( is_wp_error( $category ) ) {
 					return $category;
 				}
 				$query = new WP_Query(
 					array(
-						'cat'            => $category ? $category->term_id : 0,
-						'post_type'      => sanitize_key( $input['post_type'] ?? 'post' ),
+						'tax_query'      => pbs_term_tax_query( $category ),
+						'post_type'      => $post_type,
 						'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
 						's'              => sanitize_text_field( $input['search'] ?? '' ),
 						'posts_per_page' => max( 1, min( 50, (int) ( $input['limit'] ?? 10 ) ) ),
@@ -259,14 +265,19 @@ add_action( 'wp_abilities_api_init', function () {
 		'pbs/bulk-featured-images-by-name',
 		array(
 			'label'               => 'Bulk Set Featured Images by Name',
-			'description'         => 'For every post in a category, find the media library image whose file name (or title) matches the post\'s name, and set it as the featured image. The name comes from a custom field (e.g. Speaker Name) and falls back to the post title with a trailing year like "-2026" removed. Runs as a preview by default (dry_run = true): review the matches, then run again with dry_run = false to apply.',
+			'description'         => 'For every post in a category or custom taxonomy term (e.g. speaker posts in speaker_categories), find the media library image whose file name (or title) matches the post\'s name, and set it as the featured image. The name comes from a custom field (e.g. Speaker Name) and falls back to the post title with a trailing year like "-2026" removed. Runs as a preview by default (dry_run = true): review the matches, then run again with dry_run = false to apply.',
 			'category'            => 'pbs-content',
 			'input_schema'        => array(
 				'type'       => 'object',
 				'properties' => array(
 					'category'  => array(
 						'type'        => 'string',
-						'description' => 'Category name, slug or ID, e.g. 9.0.',
+						'description' => 'Term name, slug or ID, e.g. PBS 9.0 or pbs-9-0.',
+					),
+					'taxonomy'  => array(
+						'type'        => 'string',
+						'description' => 'Taxonomy the term belongs to, e.g. speaker_categories. Leave empty to search every taxonomy of the post type.',
+						'default'     => '',
 					),
 					'meta_key'  => array(
 						'type'        => 'string',
@@ -275,7 +286,7 @@ add_action( 'wp_abilities_api_init', function () {
 					),
 					'post_type' => array(
 						'type'        => 'string',
-						'description' => 'Post type, usually post.',
+						'description' => 'Post type, e.g. post or speaker.',
 						'default'     => 'post',
 					),
 					'overwrite' => array(
@@ -292,7 +303,8 @@ add_action( 'wp_abilities_api_init', function () {
 				'required'   => array( 'category' ),
 			),
 			'execute_callback'    => function ( $input ) {
-				$category = pbs_resolve_category( $input['category'] ?? '' );
+				$post_type = sanitize_key( $input['post_type'] ?? 'post' );
+				$category  = pbs_resolve_category( $input['category'] ?? '', $input['taxonomy'] ?? '', $post_type );
 				if ( is_wp_error( $category ) ) {
 					return $category;
 				}
@@ -306,8 +318,8 @@ add_action( 'wp_abilities_api_init', function () {
 
 				$post_ids = get_posts(
 					array(
-						'cat'            => $category->term_id,
-						'post_type'      => sanitize_key( $input['post_type'] ?? 'post' ),
+						'tax_query'      => pbs_term_tax_query( $category ),
+						'post_type'      => $post_type,
 						'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
 						'posts_per_page' => -1,
 						'fields'         => 'ids',
@@ -316,7 +328,7 @@ add_action( 'wp_abilities_api_init', function () {
 
 				$media   = pbs_media_name_index();
 				$results = array(
-					'category'   => $category->name . ' (ID ' . $category->term_id . ')',
+					'category'   => $category->name . ' (' . $category->taxonomy . ', ID ' . $category->term_id . ')',
 					'dry_run'    => $dry_run,
 					'total'      => count( $post_ids ),
 					'updated'    => array(),
@@ -400,26 +412,64 @@ add_action( 'wp_abilities_api_init', function () {
 } );
 
 /**
- * Resolve a category from a name, slug or numeric ID. Returns null when empty.
+ * Resolve a term from a name, slug or numeric ID. Returns null when empty.
  *
- * @param string|int $value Category name, slug or ID.
+ * Looks in $taxonomy when given, otherwise in every taxonomy registered for
+ * $post_type (so a speaker term in speaker_categories is found automatically).
+ *
+ * @param string|int $value     Term name, slug or ID.
+ * @param string     $taxonomy  Optional taxonomy.
+ * @param string     $post_type Post type whose taxonomies to search.
  * @return WP_Term|WP_Error|null
  */
-function pbs_resolve_category( $value ) {
+function pbs_resolve_category( $value, $taxonomy = '', $post_type = 'post' ) {
 	$value = trim( (string) $value );
 	if ( '' === $value ) {
 		return null;
 	}
 
-	$term = ctype_digit( $value ) ? get_term( (int) $value, 'category' ) : null;
-	if ( ! $term || is_wp_error( $term ) ) {
-		$term = get_term_by( 'name', $value, 'category' );
-	}
-	if ( ! $term ) {
-		$term = get_term_by( 'slug', sanitize_title( $value ), 'category' );
+	$taxonomy   = sanitize_key( (string) $taxonomy );
+	$taxonomies = $taxonomy ? array( $taxonomy ) : get_object_taxonomies( $post_type ? $post_type : 'post' );
+	if ( $taxonomy && ! taxonomy_exists( $taxonomy ) ) {
+		return new WP_Error( 'pbs_taxonomy_not_found', sprintf( 'No taxonomy called "%s".', $taxonomy ) );
 	}
 
-	return $term ? $term : new WP_Error( 'pbs_category_not_found', sprintf( 'No category found matching "%s".', $value ) );
+	foreach ( $taxonomies as $tax ) {
+		$term = ctype_digit( $value ) ? get_term( (int) $value, $tax ) : null;
+		if ( ! $term || is_wp_error( $term ) ) {
+			$term = get_term_by( 'name', $value, $tax );
+		}
+		if ( ! $term ) {
+			$term = get_term_by( 'slug', sanitize_title( $value ), $tax );
+		}
+		if ( $term ) {
+			return $term;
+		}
+	}
+
+	return new WP_Error(
+		'pbs_category_not_found',
+		sprintf( 'No term matching "%s" in: %s.', $value, implode( ', ', $taxonomies ) )
+	);
+}
+
+/**
+ * Build a tax_query for a resolved term (or none).
+ *
+ * @param WP_Term|null $term Term to filter by.
+ * @return array
+ */
+function pbs_term_tax_query( $term ) {
+	if ( ! $term ) {
+		return array();
+	}
+	return array(
+		array(
+			'taxonomy' => $term->taxonomy,
+			'field'    => 'term_id',
+			'terms'    => $term->term_id,
+		),
+	);
 }
 
 /**
