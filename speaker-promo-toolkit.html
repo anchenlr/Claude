@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaker Promo Toolkit — Page Builder Summit</title>
+<meta name="description" content="Ready-to-edit emails, social posts and graphics to help speakers promote Page Builder Summit 9.0.">
+<link rel="icon" type="image/png" href="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D85A95;
+    --pink-dark: #CC4E89;
+    --blue: #25AAE1;
+    --blue-dark: #199ED5;
+    --navy: #312E61;
+    --teal: #75B8A1;
+    --teal-dark: #5FA088;
+    --light-blue: #E2F0FB;
+    --white: #FFFFFF;
+    --off-white: #FBFCFE;
+    --text: #333333;
+    --text-light: #666666;
+    --border: rgba(49,46,97,0.12);
+    --radius: 14px;
+  }
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--navy); line-height: 1.15; }
+  a { color: var(--blue); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    background: var(--teal);
+    color: rgba(255,255,255,0.92);
+    padding: 10px 0;
+    font-size: 13px;
+    text-align: center;
+  }
+  .topbar strong { color: var(--white); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background-color: var(--light-blue);
+    background-image: linear-gradient(135deg, #fbeaf3 0%, #ffffff 55%, #f3f8fc 100%);
+    color: var(--navy);
+    padding: 56px 0 48px;
+  }
+  .logo-row { display: flex; align-items: center; margin-bottom: 32px; }
+  .logo-row img { height: 40px; width: auto; }
+  .hero h1 { font-size: clamp(28px, 4.4vw, 42px); font-weight: 800; color: var(--navy); margin-bottom: 14px; }
+  .hero h1 em { font-style: normal; color: var(--pink); }
+  .hero p.lead { font-size: 17px; color: var(--text); max-width: 600px; margin-bottom: 28px; }
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat-pill {
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(49,46,97,0.14);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: var(--navy);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .stat-pill strong { font-family: 'Montserrat', sans-serif; font-size: 16px; color: var(--navy); }
+  .stat-pill.accent { background: var(--pink); border-color: var(--pink); color: var(--white); }
+  .stat-pill.accent strong { color: var(--white); }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 48px 0; scroll-margin-top: 56px; }
+  section.alt { background: var(--light-blue); }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 2px; background: var(--pink); border-radius: 2px; }
+  h2.section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 8px; }
+  .section-sub { color: var(--text-light); max-width: 640px; margin-bottom: 28px; font-size: 15px; }
+
+  /* ---------- Section nav ---------- */
+  .section-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 0 rgba(49,46,97,0.03);
+  }
+  .section-nav-inner {
+    display: flex; gap: 8px; overflow-x: auto;
+    max-width: 980px; margin: 0 auto; padding: 10px 16px;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
+  }
+  .section-nav-arrow {
+    position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
+    height: 26px; border-radius: 999px; padding: 0 12px;
+    background: var(--navy); color: var(--white);
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    font-size: 12px; font-weight: 700; line-height: 1; white-space: nowrap;
+    pointer-events: none; box-shadow: 0 2px 6px rgba(49,46,97,0.25);
+    animation: navArrowPulse 1.4s ease-in-out infinite;
+    transition: opacity 0.2s;
+  }
+  .section-nav-arrow.hidden { opacity: 0; }
+  @keyframes navArrowPulse {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(4px); }
+  }
+  .section-nav a {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    background: var(--off-white); border: 1px solid var(--border);
+    text-decoration: none; white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .section-nav a:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .section-nav a.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 14px 26px; border-radius: 999px; text-decoration: none;
+    white-space: nowrap; border: none; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--pink); color: var(--white); }
+  .btn-primary:hover { box-shadow: 0 8px 20px rgba(216,90,149,0.35); }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--navy); }
+  .btn-sm { padding: 9px 16px; font-size: 11px; }
+
+  /* ---------- Guidance-style cards ---------- */
+  .guide-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; }
+  .guide-card + .guide-card { margin-top: 18px; }
+  .guide-card p { margin-bottom: 14px; }
+  .guide-card p:last-child { margin-bottom: 0; }
+  .tip-list { list-style: none; margin: 14px 0; }
+  .tip-list li { display: flex; gap: 12px; padding: 8px 0; font-size: 14px; color: var(--text); }
+  .tip-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+  .callout {
+    border-left: 4px solid var(--pink); background: var(--light-blue);
+    padding: 14px 20px; border-radius: 0 10px 10px 0; margin-top: 18px; font-size: 14px; color: var(--text);
+  }
+  .callout strong { color: var(--navy); }
+
+  /* ---------- Facts grid ---------- */
+  .facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 18px; }
+  .fact { background: var(--light-blue); border-radius: 10px; padding: 14px 16px; }
+  .fact b { display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--navy); margin-bottom: 4px; }
+  .fact span { font-size: 14px; color: var(--text); }
+
+  /* ---------- Table ---------- */
+  .table-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--pink); background: var(--off-white); }
+  tr:last-child td { border-bottom: none; }
+  .table-scroll { overflow-x: auto; }
+
+  /* ---------- Copyable blocks ---------- */
+  .copyable { position: relative; border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 14px; background: var(--off-white); }
+  .copyable:last-child { margin-bottom: 0; }
+  .copyable .lab { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .copyable .lab span { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-light); }
+  .copyable .ct { font-size: 14px; color: var(--text); overflow-wrap: anywhere; }
+  .copyable .ct p { margin: 0 0 12px 0; }
+  .copyable .ct p:last-child { margin-bottom: 0; }
+  .copyable .ct ul, .copyable .ct ol { margin: 0 0 12px 22px; }
+  .ph { background: rgba(216,90,149,0.14); color: var(--pink-dark); border-radius: 4px; padding: 0 4px; font-weight: 600; }
+  button.copy-btn {
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.5px;
+    background: var(--navy); color: #fff; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; flex-shrink: 0;
+  }
+  button.copy-btn.done { background: var(--teal); }
+
+  /* ---------- Post cards ---------- */
+  .post-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 18px; }
+  .post-card:last-child { margin-bottom: 0; }
+  .post-card h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--navy); margin-bottom: 14px; }
+
+  /* ---------- Details / lineup ---------- */
+  details.lineup { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 24px; }
+  details.lineup summary { cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--navy); padding: 14px 0; }
+  details.lineup .table-scroll { padding-bottom: 18px; }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--white); border-top: 1px solid var(--border); color: var(--text); padding: 40px 0; text-align: center; font-size: 14px; }
+  footer a { color: var(--pink-dark); font-weight: 700; }
+  footer .fine { font-size: 12px; color: var(--text-light); margin-top: 10px; }
+
+  @media (max-width: 640px) {
+    section { padding: 36px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><strong>Page Builder Summit 9.0</strong> &nbsp;·&nbsp; Speaker Promo Toolkit &nbsp;·&nbsp; For speakers' use only</div>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="wrap">
+    <div class="logo-row">
+      <img src="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png" alt="Page Builder Summit">
+    </div>
+    <h1>Help us <em>spread the word</em></h1>
+    <p class="lead">Ready-to-edit emails, social posts and graphics to help you promote your presentation. Copy, add your voice, drop in your affiliate link and send. The more your audience hears about it, the more people join us, and the more affiliate income you earn.</p>
+    <div class="hero-stats">
+      <div class="stat-pill accent">Promo window: <strong>20 Oct&nbsp;&ndash;&nbsp;6 Nov</strong></div>
+      <div class="stat-pill">Commission: <strong>40&ndash;50%</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION NAV ========== -->
+<nav class="section-nav">
+  <div class="section-nav-inner" id="sectionNavInner">
+    <a href="#start">Read me first</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#e1">Email 1</a>
+    <a href="#e2">Email 2</a>
+    <a href="#e3">Email 3</a>
+    <a href="#e4">Email 4</a>
+    <a href="#ps">Weekly P.S.</a>
+    <a href="#social">Social posts</a>
+    <a href="#graphics">Graphics</a>
+    <a href="#lineup">Lineup</a>
+  </div>
+  <div class="section-nav-arrow" id="sectionNavArrow" aria-hidden="true">Swipe 👉</div>
+</nav>
+
+<!-- ========== START HERE ========== -->
+<section class="alt" id="start">
+  <div class="wrap">
+    <div class="eyebrow">Start here</div>
+    <h2 class="section-title">Read me first</h2>
+    <p class="section-sub">Thank you for being part of Page Builder Summit. The more your audience hears about it, the more people join us, and the more affiliate income you earn.</p>
+    <div class="guide-card">
+      <p>We have a promotion window from <strong>20 October to 6 November 2026</strong>. Everything below is a starting point. You know your audience best, so take what suits you and make it sound like you.</p>
+      <ul class="tip-list">
+        <li><span><strong>Make it yours.</strong> Add your usual greeting and sign-off, and rewrite anything that doesn't sound like you.</span></li>
+        <li><span><strong>Update the highlighted bits.</strong> Anything in <span class="ph">[pink brackets]</span> needs your details.</span></li>
+        <li><span><strong>Swap in your affiliate link.</strong> Replace every <span class="ph">[YOUR AFFILIATE LINK]</span> with your own link so your sales are tracked. Haven't set up your affiliate account yet? Check your Speaker Hub.</span></li>
+        <li><span><strong>Use what you need.</strong> Four emails, two P.S. options and five social posts are included. Send all of them or just a few.</span></li>
+      </ul>
+      <p style="font-style:italic; color:var(--text-light); font-size:13px;">These templates are for speakers promoting Page Builder Summit and may not be shared or distributed.</p>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact"><b>Dates</b><span>2 to 6 November 2026, five days</span></div>
+      <div class="fact"><b>Format</b><span>Online. Mostly pre-recorded presentations, each followed by a 15 minute live Q&amp;A 45 minutes after release</span></div>
+      <div class="fact"><b>Cost</b><span>Free to register</span></div>
+      <div class="fact"><b>Theme</b><span>What's Working Now</span></div>
+      <div class="fact"><b>Who it's for</b><span>Web designers, developers, freelancers and agencies on any platform</span></div>
+      <div class="fact"><b>Free viewing</b><span>Each presentation is available for 48 hours after release</span></div>
+      <div class="fact"><b>Community</b><span>Private summit Facebook group, open as soon as people register</span></div>
+      <div class="fact"><b>Upgrade</b><span>Page Builder PowerPack: lifetime access, workbook and speaker resources</span></div>
+      <div class="fact"><b>Your commission</b><span>40% as a speaker, 50% if you contribute a qualifying premium resource</span></div>
+    </div>
+
+    <div class="callout"><strong>Good to know:</strong> Page Builder Summit grew out of the WordPress page builder community and now welcomes everyone building websites, including WordPress, Shopify, Squarespace, HighLevel, custom code and AI tools. Don't promise sessions on Webflow or Wix Studio, as we have none this year, and Framer isn't confirmed yet. Keep WordPress in your messaging if that's your audience. It's still very much part of the summit.</div>
+  </div>
+</section>
+
+<!-- ========== SCHEDULE ========== -->
+<section id="schedule">
+  <div class="wrap">
+    <div class="eyebrow">Timing</div>
+    <h2 class="section-title">Suggested sending schedule</h2>
+    <p class="section-sub">Adjust to suit your list and your own calendar.</p>
+    <div class="table-card table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Send</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Announcement</td><td>20 to 22 October</td></tr>
+          <tr><td>2</td><td>Reminder and PowerPack mention</td><td>26 to 28 October</td></tr>
+          <tr><td>3</td><td>Starting Monday</td><td>30 October to 1 November</td></tr>
+          <tr><td>4</td><td>My presentation</td><td>Morning your presentation is released</td></tr>
+          <tr><td>P.S.</td><td>Weekly email P.S.</td><td>Any regular email from 20 October</td></tr>
+          <tr><td>Social</td><td>Five posts</td><td>See the social section for suggested days</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EMAIL 1 ========== -->
+<section class="alt" id="e1">
+  <div class="wrap">
+    <div class="eyebrow">Email 1</div>
+    <h2 class="section-title">Announcement</h2>
+    <p class="section-sub">Send 20 to 22 October. Reminder: swap in your affiliate link and update anything highlighted.</p>
+    <div class="guide-card">
+      <div class="copyable"><div class="lab"><span>Subject line option 1</span><button class="copy-btn">Copy</button></div><div class="ct">Get your free ticket to Page Builder Summit 9.0!</div></div>
+      <div class="copyable"><div class="lab"><span>Subject line option 2</span><button class="copy-btn">Copy</button></div><div class="ct">Free 5-day summit: what's working now for web designers and developers</div></div>
+      <div class="copyable"><div class="lab"><span>Email body</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>Hey <span class="ph">[Name]</span>,</p>
+<p><span class="ph">[HIT ON YOUR AUDIENCE'S BIGGEST PAIN POINT. Example: New tools, AI and changing client expectations can make keeping up feel like a full-time job.]</span></p>
+<p>That's why I'm excited to tell you about Page Builder Summit 9.0. The theme this year is "What's Working Now", and it's a little different from most online events. You won't get another list of things you should be learning. You'll hear from people who build websites and run web businesses every day, sharing what they've changed, what's saving them time and what is still getting results.</p>
+<p>For five days, 2 to 6 November 2026, my friend Anchen le Roux is bringing you 28 presentations from 30 web designers, developers, strategists and agency owners working across WordPress, Shopify, Squarespace, HighLevel, AI tools and more. You'll hear about everything from <span class="ph">[2-3 POPULAR OR RELEVANT TOPICS FROM THE LINEUP]</span>, and plenty more.</p>
+<p>I'm speaking too! My presentation is <span class="ph">[YOUR PRESENTATION TITLE]</span>, where I'll <span class="ph">[ONE LINE ON WHAT PEOPLE WILL TAKE AWAY]</span>.</p>
+<p>You'll also hear from:</p>
+<ul><li><span class="ph">[Speaker your audience will recognise]</span></li><li><span class="ph">[Speaker 2]</span></li><li><span class="ph">[Speaker 3]</span></li><li>And a whole lot more!</li></ul>
+<p>The best part? It's completely free.</p>
+<p>There's more I'd love to tell you, but I'll let you check out the details for yourself.</p>
+<p>Get your free ticket to Page Builder Summit 9.0: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+<p><span class="ph">[Your name]</span></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EMAIL 2 ========== -->
+<section id="e2">
+  <div class="wrap">
+    <div class="eyebrow">Email 2</div>
+    <h2 class="section-title">Reminder and PowerPack mention</h2>
+    <p class="section-sub">Send 26 to 28 October. Remove the PowerPack paragraph if you'd rather keep this one free-ticket only.</p>
+    <div class="guide-card">
+      <div class="copyable"><div class="lab"><span>Subject line option 1</span><button class="copy-btn">Copy</button></div><div class="ct">Have you grabbed your free ticket yet?</div></div>
+      <div class="copyable"><div class="lab"><span>Subject line option 2</span><button class="copy-btn">Copy</button></div><div class="ct">Don't miss your free ticket to Page Builder Summit 9.0</div></div>
+      <div class="copyable"><div class="lab"><span>Email body</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>Hey <span class="ph">[Name]</span>,</p>
+<p>Last week I told you about Page Builder Summit 9.0, which kicks off on 2 November. As more of the sessions come together, it keeps getting better, and I don't want you to miss it.</p>
+<p>It's five days of practical ideas on what's working now for people who build websites and run web businesses. No pressure to learn every new tool. Just honest conversations and ideas you can use.</p>
+<p>You'll hear from me on <span class="ph">[PRESENTATION DATE]</span> about <span class="ph">[PRESENTATION TOPIC]</span>. You'll also hear from some of my friends, including:</p>
+<ul><li><span class="ph">[Speaker your audience will recognise]</span></li><li><span class="ph">[Speaker 2]</span></li><li><span class="ph">[Speaker 3]</span></li><li>And a whole lot more!</li></ul>
+<p>Registration is free, and every presentation is available to watch for 48 hours after it's released. Grab your free ticket here: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+<p>Once you've registered, you can also join the private summit Facebook group to meet the speakers and other web professionals and keep the conversations going.</p>
+<p>If you'd like more time with everything, you can also upgrade to the Page Builder PowerPack for lifetime access to the presentations, the companion workbook and extra speaker resources. You'll see the option once you've registered. <span class="ph">[OPTIONAL: Include a line about your own PowerPack bonus.]</span></p>
+<p>I can't wait to see you there and hear your favourite takeaways.</p>
+<p>Get your free ticket: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+<p><span class="ph">[Your name]</span></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EMAIL 3 ========== -->
+<section class="alt" id="e3">
+  <div class="wrap">
+    <div class="eyebrow">Email 3</div>
+    <h2 class="section-title">Starting Monday</h2>
+    <p class="section-sub">Send 30 October to 1 November. Short and sweet.</p>
+    <div class="guide-card">
+      <div class="copyable"><div class="lab"><span>Subject line option 1</span><button class="copy-btn">Copy</button></div><div class="ct">The free 5-day summit for web professionals starts Monday!</div></div>
+      <div class="copyable"><div class="lab"><span>Subject line option 2</span><button class="copy-btn">Copy</button></div><div class="ct">Last chance to get your free Page Builder Summit ticket</div></div>
+      <div class="copyable"><div class="lab"><span>Email body</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>Hey <span class="ph">[Name]</span>,</p>
+<p>I'm sure you've heard me mention it by now, so I'll keep this one short. Page Builder Summit 9.0 kicks off on Monday, 2 November!</p>
+<p>This free, five-day online event brings together 30 speakers across 28 sessions, all sharing what's actually working for them right now, from building better websites and using AI practically to finding clients and running a stronger web business.</p>
+<p>You'll hear from me on <span class="ph">[PRESENTATION DATE]</span> about <span class="ph">[PRESENTATION TOPIC]</span>, along with experts like <span class="ph">[Speaker 1, Speaker 2 and Speaker 3]</span>.</p>
+<p>Each presentation is free to watch for 48 hours after it's released. If you'd like to keep them, the Page Builder PowerPack gives you lifetime access along with the companion workbook and speaker bonuses.</p>
+<p>And once you've registered, come and join the summit Facebook group. It's a great place to ask questions and connect with other attendees and speakers.</p>
+<p>Questions about the summit? Hit reply and let me know. I'd love to help.</p>
+<p>Get your free ticket: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+<p><span class="ph">[Your name]</span></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EMAIL 4 ========== -->
+<section id="e4">
+  <div class="wrap">
+    <div class="eyebrow">Email 4</div>
+    <h2 class="section-title">My presentation</h2>
+    <p class="section-sub">Send the morning your presentation is released. Remove the Q&amp;A line if you won't be joining the live Q&amp;A.</p>
+    <div class="guide-card">
+      <div class="copyable"><div class="lab"><span>Subject line option 1</span><button class="copy-btn">Copy</button></div><div class="ct">Join me today to learn about <span class="ph">[presentation topic]</span></div></div>
+      <div class="copyable"><div class="lab"><span>Subject line option 2</span><button class="copy-btn">Copy</button></div><div class="ct">My Page Builder Summit presentation is out today (plus a live Q&amp;A)</div></div>
+      <div class="copyable"><div class="lab"><span>Subject line option 3</span><button class="copy-btn">Copy</button></div><div class="ct">Watch <span class="ph">[presentation title]</span> (free for 48 hours)</div></div>
+      <div class="copyable"><div class="lab"><span>Email body</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>Hey <span class="ph">[Name]</span>,</p>
+<p>Just popping in to let you know my presentation is released today at Page Builder Summit 9.0 (<span class="ph">[RELEASE TIME]</span>). I'm talking all about <span class="ph">[PRESENTATION TOPIC]</span>.</p>
+<p>I'll also be there for a 15 minute live Q&amp;A 45 minutes after it goes out, so bring your questions. <span class="ph">[ADD HOW TO JOIN THE Q&amp;A]</span></p>
+<p>Here's what I'll cover:</p>
+<ol><li><span class="ph">[Talking point 1]</span></li><li><span class="ph">[Talking point 2]</span></li><li><span class="ph">[Talking point 3]</span></li></ol>
+<p><span class="ph">[REMOVE IF YOU'RE NOT PROVIDING ONE: I also created a worksheet so you can follow along.]</span></p>
+<p>My goal is to <span class="ph">[GOAL OF YOUR PRESENTATION]</span>.</p>
+<p>If you haven't registered yet, you can get your free ticket here: <span class="ph">[YOUR AFFILIATE LINK]</span>. My presentation is free to watch for 48 hours, and there are plenty of other great ones to check out too.</p>
+<p>See you inside!</p>
+<p><span class="ph">[Your name]</span></p>
+<p>P.S. Seeing this too late? The Page Builder PowerPack gives you lifetime access to every replay, plus the workbook and speaker resources: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WEEKLY P.S. ========== -->
+<section class="alt" id="ps">
+  <div class="wrap">
+    <div class="eyebrow">Quick option</div>
+    <h2 class="section-title">Weekly email P.S.</h2>
+    <p class="section-sub">Prefer not to send a dedicated email? Add one of these to the bottom of your regular emails.</p>
+    <div class="guide-card">
+      <div class="copyable"><div class="lab"><span>P.S. option 1</span><button class="copy-btn">Copy</button></div><div class="ct"><p>P.S. I'm speaking at Page Builder Summit 9.0 on <span class="ph">[DATE]</span> about <span class="ph">[TOPIC]</span>. You're invited! It's free, and you can get all the details and your ticket here: <span class="ph">[YOUR AFFILIATE LINK]</span></p></div></div>
+      <div class="copyable"><div class="lab"><span>P.S. option 2</span><button class="copy-btn">Copy</button></div><div class="ct"><p>P.S. Page Builder Summit 9.0 is coming up on 2 to 6 November. It's five days of practical ideas on what's working now for web designers, developers and agencies. I'll be speaking on <span class="ph">[DATE]</span> about <span class="ph">[TOPIC]</span>. Grab your free ticket here: <span class="ph">[YOUR AFFILIATE LINK]</span></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SOCIAL POSTS ========== -->
+<section id="social">
+  <div class="wrap">
+    <div class="eyebrow">Social media</div>
+    <h2 class="section-title">Five posts for your feed</h2>
+    <p class="section-sub">Written to work on LinkedIn, Facebook and Instagram. On Instagram, swap the link for "link in bio". Suggested days are a guide only.</p>
+
+    <div class="post-card">
+      <h3>Post 1: Announcement · around 20 October</h3>
+      <div class="copyable"><div class="lab"><span>Caption</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>Page Builder Summit is back for its 9th edition, and I'm speaking!</p>
+<p>This year's theme is "What's Working Now". Five days of practical ideas from web designers, developers and agency owners about building better websites, working smarter and growing a stronger web business.</p>
+<p>📅 2 to 6 November 2026<br>💻 Online<br>🎟️ Completely free</p>
+<p>My session is <span class="ph">[PRESENTATION TITLE]</span>.</p>
+<p>Grab your free ticket: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+
+    <div class="post-card">
+      <h3>Post 2: My topic · around 24 October</h3>
+      <div class="copyable"><div class="lab"><span>Caption</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p><span class="ph">[OPEN WITH A QUESTION OR PAIN POINT YOUR AUDIENCE RELATES TO.]</span></p>
+<p>That's exactly what I'm covering at Page Builder Summit 9.0 in my session, <span class="ph">[PRESENTATION TITLE]</span>.</p>
+<p>You'll walk away with:<br>✅ <span class="ph">[Takeaway 1]</span><br>✅ <span class="ph">[Takeaway 2]</span><br>✅ <span class="ph">[Takeaway 3]</span></p>
+<p>It's free to attend, 2 to 6 November.<br>👉 <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+
+    <div class="post-card">
+      <h3>Post 3: You don't have to change everything · around 27 October</h3>
+      <div class="copyable"><div class="lab"><span>Caption</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>There's always a new AI tool, a new platform or a new way to find clients. It's easy to feel like you're falling behind.</p>
+<p>Page Builder Summit 9.0 is a free five-day event where web professionals share what's actually working for them right now. Some of it is new. A lot of it is simply what still works.</p>
+<p>I'll be sharing <span class="ph">[ONE LINE ABOUT YOUR TALK]</span>.</p>
+<p>📅 2 to 6 November 2026<br>👉 <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+
+    <div class="post-card">
+      <h3>Post 4: One week to go · around 26 to 28 October</h3>
+      <div class="copyable"><div class="lab"><span>Caption</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>One week until Page Builder Summit 9.0!</p>
+<p>Five days of practical sessions on building better websites, using AI sensibly, finding clients and running a stronger web business. 28 sessions from 30 speakers, all free to watch for 48 hours after release.</p>
+<p>Register and you can join the private summit Facebook group too, so you can chat with speakers and fellow attendees.</p>
+<p>I'm on <span class="ph">[DAY]</span> talking about <span class="ph">[TOPIC]</span>.</p>
+<p>Get your free ticket: <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+
+    <div class="post-card">
+      <h3>Post 5: My session is out · day of your presentation</h3>
+      <div class="copyable"><div class="lab"><span>Caption</span><button class="copy-btn">Copy</button></div><div class="ct">
+<p>My Page Builder Summit session is out today!</p>
+<p><span class="ph">[PRESENTATION TITLE]</span>: <span class="ph">[ONE LINE ON WHAT PEOPLE WILL LEARN]</span>.</p>
+<p>It's free to watch for 48 hours when you register. I'm also hosting a live Q&amp;A 45 minutes after release, so come with your questions.</p>
+<p>👉 <span class="ph">[YOUR AFFILIATE LINK]</span></p>
+      </div></div>
+    </div>
+
+    <div class="post-card">
+      <h3>Short versions · for stories, X and quick posts</h3>
+      <div class="copyable"><div class="lab"><span>Short 1</span><button class="copy-btn">Copy</button></div><div class="ct"><p>I'm speaking at Page Builder Summit 9.0! Five days of practical ideas on what's working now for web professionals. Free, 2 to 6 November. 👉 <span class="ph">[YOUR AFFILIATE LINK]</span></p></div></div>
+      <div class="copyable"><div class="lab"><span>Short 2</span><button class="copy-btn">Copy</button></div><div class="ct"><p>Catch my session, <span class="ph">[TITLE]</span>, at Page Builder Summit on <span class="ph">[DATE]</span>. Free to attend. 👉 <span class="ph">[YOUR AFFILIATE LINK]</span></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GRAPHICS ========== -->
+<section class="alt" id="graphics">
+  <div class="wrap">
+    <div class="eyebrow">Graphics</div>
+    <h2 class="section-title">Images to pair with your posts</h2>
+    <p class="section-sub">Ready-made graphics for promoting your presentation. Download what you need and pair it with the emails and posts above.</p>
+    <div class="guide-card">
+      <p><strong style="color:var(--navy);">Page Builder Summit 9.0 graphics folder</strong></p>
+      <p>Everything lives in one shared Google Drive folder, so you always grab the latest versions.</p>
+      <a href="https://drive.google.com/drive/folders/1TmuVplPmXxaZ5CiTS-552UCVkYDk77IX" target="_blank" rel="noopener" class="btn btn-primary">Open the graphics folder &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LINEUP ========== -->
+<section id="lineup">
+  <div class="wrap">
+    <div class="eyebrow">Reference</div>
+    <h2 class="section-title">Lineup so you can name-drop</h2>
+    <p class="section-sub">Pick two or three speakers your audience will recognise for the "you'll also hear from" lines. Confirm against the summit site before you send, as the lineup may still change.</p>
+    <details class="lineup">
+      <summary>Show the speakers and sessions</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Speaker</th><th>Session</th></tr></thead>
+          <tbody>
+            <tr><td>Maestro Stevens</td><td>AI Is AIR For Creators</td></tr>
+            <tr><td>Michelle Bourbonniere, PhD</td><td>AI Words (Kinda) Matter</td></tr>
+            <tr><td>Mike Killen</td><td>My marketing agency makes more profit since I stopped doing this</td></tr>
+            <tr><td>Nicole Kepic</td><td>When the Copy Isn't Ready: How to Keep Bad Copy (or No Copy) From Derailing Your Website Project</td></tr>
+            <tr><td>Patrick Posner</td><td>Rethinking WordPress Maintenance: A Better Way to Run Content-Focused Sites</td></tr>
+            <tr><td>Alexia Lynn</td><td>From Web Designer to Creative Director: How to Build a Team That Carries Your Creative Vision</td></tr>
+            <tr><td>Rache De Luna</td><td>Build Bold Website Features with AI on the Platforms You Already Use</td></tr>
+            <tr><td>Alicia St Rose</td><td>Accessibility Gems Hidden inside GenerateBlocks for WordPress</td></tr>
+            <tr><td>Britta Just</td><td>The gift that keeps on giving: How an online advent calendar builds your list and your relationships</td></tr>
+            <tr><td>Chantal Edouard-Betsy</td><td>Same Standards, Any Builder: How I Get AI to Build Real WordPress and HighLevel Sites</td></tr>
+            <tr><td>Dyllon Boynton</td><td>Connecting AI Agents to WordPress: What MCP Unlocks for Page Builders</td></tr>
+            <tr><td>Endre Solem</td><td>How Etch can make offering both WordPress and non WordPress solutions easy without the hassle of a new tool</td></tr>
+            <tr><td>Cami MacNamara</td><td>Everyday AI Habits for Web Designers</td></tr>
+            <tr><td>Eric Dingler</td><td>Don't Replace Your Team With AI. Use AI to Finally Build One.</td></tr>
+            <tr><td>Josh Hall</td><td>Maintenance Plans that Make Big Money</td></tr>
+            <tr><td>Katelyn Dekle</td><td>How I Manage Clients Without Losing My Mind</td></tr>
+            <tr><td>Kinsey Soderberg</td><td>Live Build: A Client Onboarding Hub in One Session with Claude</td></tr>
+            <tr><td>Lisa Williams</td><td>Inside My Notion HQ: The Mixtape Behind My Whole Business</td></tr>
+            <tr><td>Sam Sarsten</td><td>Use AI to Prepare SEO Strategy Videos That Turn Prospects into Clients</td></tr>
+            <tr><td>Shannon Mattern</td><td>Marketing and Getting Clients: What's Working Now</td></tr>
+            <tr><td>Tim Strifler</td><td>The Three AI Workflows That Supercharge Human Web Designers</td></tr>
+            <tr><td>Whitney Zimmermann</td><td>The One Week Web Design Method: How to Deliver Premium $5K to $10K Websites in Five Focused Days</td></tr>
+            <tr><td>Robby McCullough</td><td>Pixel-Perfect Prompting: Vocabulary and Techniques to Make Your Agent a Better Designer</td></tr>
+            <tr><td>Sarah Masci</td><td>Stop Wasting Hours on Custom Proposals! Do This Instead.</td></tr>
+            <tr><td>Chloe and Hana</td><td>Pretty doesn't sell on Shopify: What's converting right now</td></tr>
+            <tr><td>Haley Brown and Sarah Linklater</td><td>Live Q&amp;A The Invisible Work: Managing the Mental Load of Business and Life</td></tr>
+            <tr><td>Kevin Geary</td><td>85% of the Sites We Build Don't Need WordPress Anymore</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Questions? Email <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a></p>
+    <p class="fine">Page Builder Summit 9.0 &middot; What's Working Now &middot; 2 to 6 November 2026. For speakers' use only. Please don't distribute.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('button.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var box = btn.closest('.copyable');
+      var el = box.querySelector('.ct');
+      var text = el.innerText.trim();
+      function ok() {
+        btn.textContent = 'Copied';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1800);
+      }
+      function fallback() {
+        var r = document.createRange();
+        r.selectNodeContents(el);
+        var s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        btn.textContent = 'Selected, press copy';
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(ok, fallback);
+        } else {
+          fallback();
+        }
+      } catch (e) {
+        fallback();
+      }
+    });
+  });
+
+  // Section-nav swipe indicator (same behavior as the Speaker Hub)
+  var inner = document.getElementById('sectionNavInner');
+  var arrow = document.getElementById('sectionNavArrow');
+  if (inner && arrow) {
+    var updateArrow = function () {
+      var scrollable = inner.scrollWidth > inner.clientWidth + 4;
+      var atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 4;
+      arrow.classList.toggle('hidden', !scrollable || atEnd);
+    };
+    updateArrow();
+    inner.addEventListener('scroll', updateArrow);
+    window.addEventListener('resize', updateArrow);
+  }
+
+  // Active state on section nav as you scroll
+  (function () {
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.section-nav a'));
+    var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+    if (!('IntersectionObserver' in window) || !sections.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = '#' + entry.target.id;
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === id); });
+      });
+    }, { rootMargin: '-100px 0px -70% 0px' });
+    sections.forEach(function (s) { observer.observe(s); });
+  })();
+</script>
+
+</body>
+</html>
