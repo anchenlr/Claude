@@ -284,6 +284,27 @@
   .timeline-what { font-size: 15px; color: var(--navy); font-weight: 600; }
   .timeline-actions { margin-top: 20px; }
 
+  /* ---------- Live Q&A ---------- */
+  .qa-schedule { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+  .qa-schedule-head, .qa-time-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+    padding: 16px 22px; align-items: center;
+  }
+  .qa-schedule-head {
+    background: var(--off-white); border-bottom: 1px solid var(--border);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--text-light);
+  }
+  .qa-time-row { border-bottom: 1px solid var(--border); }
+  .qa-time-row:last-child { border-bottom: none; }
+  .qa-time-row.is-local { background: rgba(216,90,149,0.05); }
+  .qa-time-zone { font-weight: 700; color: var(--navy); font-size: 14px; }
+  .qa-time-value { font-size: 14px; color: var(--text); }
+  .qa-confirm-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .qa-confirmed-badge {
+    display: none; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px;
+    background: rgba(117,184,161,0.16); color: var(--teal-dark); font-weight: 700; font-size: 13px;
+  }
+
   /* ---------- Guidance ---------- */
   .guide-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; }
   .guide-card + .guide-card { margin-top: 18px; }
@@ -321,6 +342,9 @@
     .timeline-row { grid-template-columns: 1fr; gap: 4px; }
     .task-side { align-items: flex-start; }
     section { padding: 36px 0; }
+    .qa-schedule-head { display: none; }
+    .qa-time-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 18px; }
+    .qa-time-value::before { content: attr(data-label) ": "; color: var(--text-light); font-weight: 700; }
   }
 </style>
 </head>
@@ -363,6 +387,7 @@
       <a href="#whats-due"><span class="nav-icon">☐</span>What's due<span class="nav-badge" id="navBadgeDue"></span></a>
       <a href="#your-checklist"><span class="nav-icon">✓</span>Checklist<span class="nav-badge" id="navBadgeChecklist"></span></a>
       <a href="#timeline-section"><span class="nav-icon">▤</span>Timeline</a>
+      <a href="#live-qa" id="navLinkQA"><span class="nav-icon">◷</span>Live Q&A<span class="nav-check" id="navCheckQA"></span></a>
       <a href="#presentation-guidance"><span class="nav-icon">▶</span>Presentation</a>
       <a href="#powerpack-guidance"><span class="nav-icon">◆</span>PowerPack</a>
       <a href="#affiliate-promo"><span class="nav-icon">$</span>Affiliate & promo</a>
@@ -490,8 +515,28 @@
     </div>
   </section>
 
+  <!-- ========== LIVE Q&A ========== -->
+  <section class="alt" id="live-qa" style="display:none;">
+    <div class="wrap">
+      <div class="eyebrow">Live Q&A</div>
+      <h2 class="section-title">Your presentation & live Q&A schedule</h2>
+      <p class="section-sub">45 minutes after your presentation releases, we'll go live for your Q&A — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.</p>
+      <div class="qa-schedule">
+        <div class="qa-schedule-head">
+          <div>Time zone</div><div>Presentation releases</div><div>Live Q&A</div>
+        </div>
+        <div id="qaTimesWrap"></div>
+      </div>
+      <div class="qa-confirm-row">
+        <button type="button" id="qaConfirmBtn" class="btn btn-primary">This time works for me →</button>
+        <span class="qa-confirmed-badge" id="qaConfirmedBadge">✓ You've confirmed this time</span>
+        <a href="#" data-link="qaTimeConflict" class="btn btn-outline">This doesn't work for me →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== PRESENTATION GUIDANCE ========== -->
-  <section class="alt" id="presentation-guidance">
+  <section id="presentation-guidance">
     <div class="wrap">
       <div class="eyebrow">Presentation guidance</div>
       <h2 class="section-title">This year's theme: What's Working Now</h2>
@@ -522,7 +567,7 @@
   </section>
 
   <!-- ========== POWERPACK GUIDANCE ========== -->
-  <section id="powerpack-guidance">
+  <section class="alt" id="powerpack-guidance">
     <div class="wrap">
       <div class="eyebrow">PowerPack guidance</div>
       <h2 class="section-title">The Page Builder PowerPack</h2>
@@ -548,7 +593,7 @@
   </section>
 
   <!-- ========== AFFILIATE & PROMO ========== -->
-  <section class="alt" id="affiliate-promo">
+  <section id="affiliate-promo">
     <div class="wrap">
       <div class="eyebrow">Affiliate & promo</div>
       <h2 class="section-title">Spread the word, earn commission</h2>
@@ -570,7 +615,7 @@
   </section>
 
   <!-- ========== ALL LINKS ========== -->
-  <section id="all-links">
+  <section class="alt" id="all-links">
     <div class="wrap">
       <div class="eyebrow">All your links</div>
       <h2 class="section-title">Everything in one place</h2>
@@ -656,6 +701,7 @@
       submitPowerpack: "https://simplydigitalshops.fillout.com/powerpack",
       notContributing: "mailto:anchen@pagebuildersummit.com?subject=Not%20contributing%20to%20PowerPack",
       letUsKnow: "mailto:anchen@pagebuildersummit.com?subject=Presentation%20already%20submitted",
+      qaTimeConflict: "mailto:anchen@pagebuildersummit.com?subject=My%20live%20Q%26A%20time%20doesn't%20work%20for%20me&body=Hi%20Anchen%2C%0A%0AMy%20scheduled%20presentation%2FQ%26A%20time%20doesn't%20work%20for%20me.%20Here's%20what%20would%20work%20better%3A%0A%0A",
       powerpackGuide: "https://drive.google.com/file/d/1A1Z_1d8xHXkq2UqcP1OTaQ6D-cKd3boW/view?usp=drive_link",
       addCalendar: buildCalendarLink(),
       affiliateAccount: "https://pictureandword.thrivecart.com/page-builder-powerpack/partner/",
@@ -688,6 +734,38 @@
     { field: "Hub - Show up in chat",             respKey: "chkChatSlot",        label: "Show up for my live Q&A, discussions or community conversations during my slot" },
     { field: "Hub - Check out other speakers",    respKey: "chkOtherSessions",   label: "Check out other speakers' sessions" }
   ];
+
+  var QA_FIELD = "Hub - Confirmed Live Q&A Time";
+  var QA_ZONES = ["Pacific/Auckland", "America/Los_Angeles", "America/New_York"];
+  var QA_ZONE_LABELS = {
+    "Pacific/Auckland": "New Zealand",
+    "America/Los_Angeles": "US Pacific",
+    "America/New_York": "US Eastern"
+  };
+
+  function getLocalTimeZone() {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    } catch (e) {
+      return "UTC";
+    }
+  }
+
+  function zoneLabel(tz) {
+    if (QA_ZONE_LABELS[tz]) return QA_ZONE_LABELS[tz];
+    return tz.split("/").pop().replace(/_/g, " ");
+  }
+
+  function fmtZoneTime(date, tz) {
+    try {
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: tz, weekday: "short", month: "short", day: "numeric",
+        hour: "numeric", minute: "2-digit", hour12: true
+      }).format(date);
+    } catch (e) {
+      return date.toUTCString();
+    }
+  }
 
   function qs(name) {
     var m = new URLSearchParams(window.location.search);
@@ -976,6 +1054,59 @@
     });
   }
 
+  function renderLiveQA(data) {
+    var section = document.getElementById("live-qa");
+    var navLink = document.getElementById("navLinkQA");
+    if (!data.timeSlotUTC) {
+      if (section) section.style.display = "none";
+      if (navLink) navLink.style.display = "none";
+      return;
+    }
+    if (section) section.style.display = "";
+    if (navLink) navLink.style.display = "";
+
+    var releaseDate = new Date(data.timeSlotUTC);
+    var qaDate = new Date(releaseDate.getTime() + 45 * 60000);
+    var localTz = getLocalTimeZone();
+    var zones = [localTz].concat(QA_ZONES);
+    var seen = {};
+
+    var wrap = document.getElementById("qaTimesWrap");
+    wrap.innerHTML = "";
+    zones.forEach(function (tz) {
+      if (seen[tz]) return;
+      seen[tz] = true;
+      var label = (tz === localTz) ? "Your time (" + zoneLabel(tz) + ")" : zoneLabel(tz);
+      var row = document.createElement("div");
+      row.className = "qa-time-row" + (tz === localTz ? " is-local" : "");
+      row.innerHTML =
+        '<div class="qa-time-zone">' + esc(label) + "</div>" +
+        '<div class="qa-time-value" data-label="Presentation">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>" +
+        '<div class="qa-time-value" data-label="Live Q&A">' + esc(fmtZoneTime(qaDate, tz)) + "</div>";
+      wrap.appendChild(row);
+    });
+
+    var btn = document.getElementById("qaConfirmBtn");
+    var badge = document.getElementById("qaConfirmedBadge");
+    var navCheck = document.getElementById("navCheckQA");
+    if (navCheck) navCheck.textContent = data.chkQAConfirmed ? "✓" : "";
+    if (data.chkQAConfirmed) {
+      btn.style.display = "none";
+      badge.style.display = "inline-flex";
+    } else {
+      btn.style.display = "inline-flex";
+      badge.style.display = "none";
+      btn.addEventListener("click", function handler() {
+        btn.removeEventListener("click", handler);
+        btn.disabled = true;
+        updateChecklist(QA_FIELD, true);
+        btn.style.display = "none";
+        badge.style.display = "inline-flex";
+        if (navCheck) navCheck.textContent = "✓";
+      });
+    }
+  }
+
   function render(data) {
     data.basicInfoReceived = !!(data.bio && data.headshotUrl && data.website);
     data.contributionInUpsell = !!(data.powerpackDescription && (data.powerpackValue || data.powerpackHasFiles || data.powerpackHasImage));
@@ -987,6 +1118,7 @@
     renderStatuses(data);
     renderChecklist(data);
     renderTimeline(data);
+    renderLiveQA(data);
     renderAffiliate(data);
     setLinks(data);
     renderResourceLinks(data);
