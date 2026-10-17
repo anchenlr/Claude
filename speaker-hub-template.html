@@ -291,6 +291,8 @@
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
     padding: 16px 22px; align-items: center;
   }
+  .qa-schedule.single-session .qa-schedule-head,
+  .qa-schedule.single-session .qa-time-row { grid-template-columns: 1fr 1fr; }
   .qa-schedule-head {
     background: var(--off-white); border-bottom: 1px solid var(--border);
     font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--text-light);
@@ -388,7 +390,7 @@
       <a href="#whats-due"><span class="nav-icon">☐</span>What's due<span class="nav-badge" id="navBadgeDue"></span></a>
       <a href="#your-checklist"><span class="nav-icon">✓</span>Checklist<span class="nav-badge" id="navBadgeChecklist"></span></a>
       <a href="#timeline-section"><span class="nav-icon">▤</span>Timeline</a>
-      <a href="#live-qa" id="navLinkQA"><span class="nav-icon">◷</span>Live Q&A<span class="nav-check" id="navCheckQA"></span></a>
+      <a href="#live-qa" id="navLinkQA"><span class="nav-icon">◷</span><span id="navLabelQA">Live Q&A</span><span class="nav-check" id="navCheckQA"></span></a>
       <a href="#presentation-guidance"><span class="nav-icon">▶</span>Presentation</a>
       <a href="#powerpack-guidance"><span class="nav-icon">◆</span>PowerPack</a>
       <a href="#affiliate-promo"><span class="nav-icon">$</span>Affiliate & promo</a>
@@ -512,11 +514,11 @@
   <!-- ========== LIVE Q&A ========== -->
   <section class="alt" id="live-qa" style="display:none;">
     <div class="wrap">
-      <div class="eyebrow">Live Q&A</div>
-      <h2 class="section-title">Your presentation & live Q&A schedule</h2>
-      <p class="section-sub">45 minutes after your presentation releases, we'll go live for your Q&A — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.</p>
-      <div class="qa-schedule">
-        <div class="qa-schedule-head">
+      <div class="eyebrow" id="qaEyebrow">Live Q&A</div>
+      <h2 class="section-title" id="qaSectionTitle">Your presentation & live Q&A schedule</h2>
+      <p class="section-sub" id="qaSectionSub">45 minutes after your presentation releases, we'll go live for your Q&A — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.</p>
+      <div class="qa-schedule" id="qaSchedule">
+        <div class="qa-schedule-head" id="qaScheduleHead">
           <div>Time zone</div><div>Presentation releases</div><div>Live Q&A</div>
         </div>
         <div id="qaTimesWrap"></div>
@@ -918,9 +920,10 @@
       });
     }
     if (data.timeSlotUTC && !data.chkQAConfirmed) {
+      var qaNoun = data.singleLiveSession ? "live session" : "live Q&A";
       actions.push({
-        key: "qaConfirm", date: null, label: "Confirm your live Q&A time",
-        title: "Confirm your live Q&A time works for you",
+        key: "qaConfirm", date: null, label: "Confirm your " + qaNoun + " time",
+        title: "Confirm your " + qaNoun + " time works for you",
         desc: "It only takes a click — we're locking in the schedule now and people are already asking.",
         link: "#live-qa", isAnchor: true
       });
@@ -1096,11 +1099,36 @@
     if (section) section.style.display = "";
     if (navLink) navLink.style.display = "";
 
+    var isSingle = !!data.singleLiveSession;
     var releaseDate = new Date(data.timeSlotUTC);
     var qaDate = new Date(releaseDate.getTime() + 45 * 60000);
     var localTz = getLocalTimeZone();
     var zones = [localTz].concat(QA_ZONES);
     var seen = {};
+
+    var scheduleEl = document.getElementById("qaSchedule");
+    if (scheduleEl) scheduleEl.classList.toggle("single-session", isSingle);
+    var headEl = document.getElementById("qaScheduleHead");
+    if (headEl) {
+      headEl.innerHTML = isSingle
+        ? "<div>Time zone</div><div>Your live session</div>"
+        : "<div>Time zone</div><div>Presentation releases</div><div>Live Q&A</div>";
+    }
+    var eyebrowEl = document.getElementById("qaEyebrow");
+    var titleEl = document.getElementById("qaSectionTitle");
+    var subEl = document.getElementById("qaSectionSub");
+    var navLabelEl = document.getElementById("navLabelQA");
+    if (isSingle) {
+      if (eyebrowEl) eyebrowEl.textContent = "Live session";
+      if (titleEl) titleEl.textContent = "Your live session";
+      if (subEl) subEl.textContent = "This is a live session rather than a pre-recorded release — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.";
+      if (navLabelEl) navLabelEl.textContent = "Live session";
+    } else {
+      if (eyebrowEl) eyebrowEl.textContent = "Live Q&A";
+      if (titleEl) titleEl.textContent = "Your presentation & live Q&A schedule";
+      if (subEl) subEl.textContent = "45 minutes after your presentation releases, we'll go live for your Q&A — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.";
+      if (navLabelEl) navLabelEl.textContent = "Live Q&A";
+    }
 
     var wrap = document.getElementById("qaTimesWrap");
     wrap.innerHTML = "";
@@ -1110,10 +1138,16 @@
       var label = (tz === localTz) ? "Your time (" + zoneLabel(tz) + ")" : zoneLabel(tz);
       var row = document.createElement("div");
       row.className = "qa-time-row" + (tz === localTz ? " is-local" : "");
-      row.innerHTML =
-        '<div class="qa-time-zone">' + esc(label) + "</div>" +
-        '<div class="qa-time-value" data-label="Presentation">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>" +
-        '<div class="qa-time-value" data-label="Live Q&A">' + esc(fmtZoneTime(qaDate, tz)) + "</div>";
+      if (isSingle) {
+        row.innerHTML =
+          '<div class="qa-time-zone">' + esc(label) + "</div>" +
+          '<div class="qa-time-value" data-label="Your live session">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>";
+      } else {
+        row.innerHTML =
+          '<div class="qa-time-zone">' + esc(label) + "</div>" +
+          '<div class="qa-time-value" data-label="Presentation">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>" +
+          '<div class="qa-time-value" data-label="Live Q&A">' + esc(fmtZoneTime(qaDate, tz)) + "</div>";
+      }
       wrap.appendChild(row);
     });
 
