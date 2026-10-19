@@ -1209,10 +1209,17 @@
     } catch (e) {
       return;
     }
-    if (!target || target.offsetParent === null) return;
-    requestAnimationFrame(function () {
-      target.scrollIntoView();
-    });
+    if (!target) return;
+    var attempt = function () {
+      if (target.offsetParent !== null) target.scrollIntoView();
+    };
+    // One attempt as soon as layout settles, plus a follow-up shortly after —
+    // on a cold load the headshot image (added dynamically, so it isn't part
+    // of the page's own load event) finishes downloading after the first
+    // attempt and pushes everything below it down the page, throwing off the
+    // scroll position. A cached/second load has no such shift.
+    requestAnimationFrame(attempt);
+    setTimeout(attempt, 400);
   }
 
   if (!speakerId) {
