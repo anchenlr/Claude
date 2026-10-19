@@ -18,12 +18,29 @@ var C = (typeof SDS_CONFIG !== 'undefined') ? SDS_CONFIG : {};
 var page = C.page || 'checkout';
 var brand = (C.footer && C.footer.brand) || '';
 
-/* ── hard deadline: once the offer closes, redirect the checkout ──
-   Only active when the product config sets `deadline` + `deadlineRedirect`
-   (other products are unaffected). Success page is never redirected. */
-if (page === 'checkout' && C.deadline && C.deadlineRedirect) {
-  var __dl = new Date(C.deadline).getTime();
-  if (isFinite(__dl) && Date.now() > __dl) {
+/* ── deadline: once the offer closes, redirect the checkout ───────
+   Two modes, both requiring `deadlineRedirect` (other products with
+   neither are unaffected; success page is never redirected):
+     • C.deadline (absolute ISO date) — same calendar deadline for everyone.
+     • C.deadlineHours (rolling, evergreen) — each visitor gets their own
+       window starting from their first visit, stored in localStorage
+       (keyed per-page so multiple products don't collide) with an
+       in-memory fallback if storage is unavailable (private browsing). */
+if (page === 'checkout' && C.deadlineRedirect) {
+  var __dl = null;
+  if (C.deadline) {
+    __dl = new Date(C.deadline).getTime();
+  } else if (C.deadlineHours) {
+    var __fvKey = 'sds_fv_' + location.pathname;
+    var __fv = null;
+    try { __fv = localStorage.getItem(__fvKey); } catch (e) {}
+    if (!__fv) {
+      __fv = String(Date.now());
+      try { localStorage.setItem(__fvKey, __fv); } catch (e) {}
+    }
+    __dl = parseInt(__fv, 10) + C.deadlineHours * 3600000;
+  }
+  if (isFinite(__dl) && __dl !== null && Date.now() > __dl) {
     window.location.replace(C.deadlineRedirect);
     return;
   }

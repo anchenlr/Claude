@@ -20,15 +20,16 @@ var SDS_CONFIG = {
   /* Paid $97 — address fields left visible. */
   hideAddress: false,
 
-  /* HARD DEADLINE — 16 Oct 11:59pm Pacific (PDT, UTC-7 in October).
-     Once passed, the checkout redirects to the standard Roadmap page
-     (which sells the Roadmap without the challenge bonus). */
-  deadline: '2026-10-16T23:59:00-07:00',
+  /* EVERGREEN ROLLING DEADLINE — each visitor gets their own 72-hour
+     window from first visit (stored in their browser). Once it passes,
+     the checkout redirects to the standard Roadmap page (which sells
+     the Roadmap without the challenge bonus). */
+  deadlineHours: 72,
   deadlineRedirect: 'https://simplydigitaldesign.thrivecart.com/shopify-conversion-roadmap/',
 
   /* hero band (checkout page) */
   hero: {
-    eyebrow: 'This week only — challenge bundle',
+    eyebrow: '72-hour challenge bonus',
     title: 'Your shop, my eyes.',
     subtitle: 'You’ve just spent five days finding what costs you sales. Now let’s fix it, together.<br><br>You already know you shouldn’t wait. You signed up for the challenge because you know you have to get Black Friday right.',
     meta: [
