@@ -1193,6 +1193,26 @@
     document.getElementById("loading").style.display = "none";
     document.getElementById("hubContent").style.display = "block";
     setupSectionNav();
+    scrollToHash();
+  }
+
+  function scrollToHash() {
+    // The browser attempts to jump to the URL's #anchor on initial load,
+    // but at that point #hubContent (and possibly the target section
+    // itself) is still display:none while data is fetching, so the
+    // native scroll silently fails. Retry manually once everything is
+    // actually visible and laid out.
+    if (!window.location.hash) return;
+    var target;
+    try {
+      target = document.querySelector(window.location.hash);
+    } catch (e) {
+      return;
+    }
+    if (!target || target.offsetParent === null) return;
+    requestAnimationFrame(function () {
+      target.scrollIntoView();
+    });
   }
 
   if (!speakerId) {
