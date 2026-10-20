@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       PBS Featured Images for MCP
- * Description:       Adds MCP abilities so Claude can find posts and media, and set featured images one by one or in bulk by matching image file names. Requires the MCP Adapter plugin and WordPress 6.9+.
- * Version:           1.2.0
+ * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name) and bulk-assign terms. Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
+ * Version:           1.3.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -19,6 +19,17 @@ add_action( 'wp_abilities_api_categories_init', function () {
 		)
 	);
 } );
+
+// Show speaker_categories like normal categories: admin list column, Quick/Bulk Edit checkboxes and the block editor panel.
+add_filter( 'register_taxonomy_args', function ( $args, $taxonomy ) {
+	if ( 'speaker_categories' === $taxonomy ) {
+		$args['show_ui']            = true;
+		$args['show_admin_column']  = true;
+		$args['show_in_quick_edit'] = true;
+		$args['show_in_rest']       = true;
+	}
+	return $args;
+}, 99, 2 );
 
 add_action( 'wp_abilities_api_init', function () {
 
@@ -409,6 +420,182 @@ add_action( 'wp_abilities_api_init', function () {
 			),
 		)
 	);
+
+	// 5. Bulk-assign taxonomy terms (e.g. speaker categories) to posts.
+	wp_register_ability(
+		'pbs/assign-terms',
+		array(
+			'label'               => 'Assign Terms to Posts',
+			'description'         => 'Add, replace or remove taxonomy terms (e.g. speaker_categories like PBS 9.0) on a list of posts. Pick posts by post_ids, or by search keyword and/or an existing term via from_term. Runs as a preview by default (dry_run = true): review, then run again with dry_run = false.',
+			'category'            => 'pbs-content',
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'taxonomy'  => array(
+						'type'        => 'string',
+						'description' => 'Taxonomy to change, e.g. speaker_categories or category.',
+					),
+					'terms'     => array(
+						'type'        => 'array',
+						'items'       => array( 'type' => 'string' ),
+						'description' => 'Term names, slugs or IDs to apply, e.g. ["pbs-9-0"]. Terms must already exist.',
+					),
+					'mode'      => array(
+						'type'        => 'string',
+						'enum'        => array( 'add', 'replace', 'remove' ),
+						'description' => 'add = keep existing terms and add these; replace = set exactly these; remove = take these off.',
+						'default'     => 'add',
+					),
+					'post_type' => array(
+						'type'        => 'string',
+						'description' => 'Post type, e.g. speaker or post.',
+						'default'     => 'post',
+					),
+					'post_ids'  => array(
+						'type'        => 'array',
+						'items'       => array( 'type' => 'integer' ),
+						'description' => 'Exact post IDs to change. If given, search and from_term are ignored.',
+						'default'     => array(),
+					),
+					'search'    => array(
+						'type'        => 'string',
+						'description' => 'Keyword to select posts by title/content, e.g. -2026.',
+						'default'     => '',
+					),
+					'from_term' => array(
+						'type'        => 'string',
+						'description' => 'Only posts that already have this term (in the same taxonomy), e.g. pbs-8-0.',
+						'default'     => '',
+					),
+					'dry_run'   => array(
+						'type'        => 'boolean',
+						'description' => 'Preview only, change nothing. Default true.',
+						'default'     => true,
+					),
+				),
+				'required'   => array( 'taxonomy', 'terms' ),
+			),
+			'execute_callback'    => function ( $input ) {
+				$taxonomy  = sanitize_key( $input['taxonomy'] ?? '' );
+				$post_type = sanitize_key( $input['post_type'] ?? 'post' );
+				$mode      = in_array( $input['mode'] ?? 'add', array( 'add', 'replace', 'remove' ), true ) ? $input['mode'] : 'add';
+				$dry_run   = ! isset( $input['dry_run'] ) || (bool) $input['dry_run'];
+
+				if ( ! taxonomy_exists( $taxonomy ) ) {
+					return new WP_Error( 'pbs_taxonomy_not_found', sprintf( 'No taxonomy called "%s".', $taxonomy ) );
+				}
+
+				$term_ids = array();
+				foreach ( (array) ( $input['terms'] ?? array() ) as $value ) {
+					$term = pbs_resolve_category( $value, $taxonomy );
+					if ( is_wp_error( $term ) || ! $term ) {
+						return is_wp_error( $term ) ? $term : new WP_Error( 'pbs_no_terms', 'Provide at least one term.' );
+					}
+					$term_ids[] = (int) $term->term_id;
+				}
+				if ( ! $term_ids ) {
+					return new WP_Error( 'pbs_no_terms', 'Provide at least one term.' );
+				}
+
+				$post_ids = array_filter( array_map( 'intval', (array) ( $input['post_ids'] ?? array() ) ) );
+				if ( ! $post_ids ) {
+					$from_term = pbs_resolve_category( $input['from_term'] ?? '', $taxonomy );
+					if ( is_wp_error( $from_term ) ) {
+						return $from_term;
+					}
+					$search = sanitize_text_field( $input['search'] ?? '' );
+					if ( ! $from_term && '' === $search ) {
+						return new WP_Error( 'pbs_no_selection', 'Choose posts with post_ids, search or from_term.' );
+					}
+					$post_ids = get_posts(
+						array(
+							'post_type'      => $post_type,
+							'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
+							's'              => $search,
+							'tax_query'      => pbs_term_tax_query( $from_term ),
+							'posts_per_page' => -1,
+							'fields'         => 'ids',
+						)
+					);
+				}
+
+				$changed = array();
+				$skipped = array();
+				foreach ( $post_ids as $post_id ) {
+					$post = get_post( $post_id );
+					if ( ! $post || ! is_object_in_taxonomy( $post->post_type, $taxonomy ) ) {
+						$skipped[] = array( 'post_id' => $post_id, 'reason' => 'Post not found or does not use this taxonomy' );
+						continue;
+					}
+					if ( ! current_user_can( 'edit_post', $post_id ) ) {
+						$skipped[] = array( 'post_id' => $post_id, 'reason' => 'No permission to edit this post' );
+						continue;
+					}
+
+					$before = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
+					$before = is_wp_error( $before ) ? array() : array_map( 'intval', $before );
+					if ( 'replace' === $mode ) {
+						$after = $term_ids;
+					} elseif ( 'remove' === $mode ) {
+						$after = array_values( array_diff( $before, $term_ids ) );
+					} else {
+						$after = array_values( array_unique( array_merge( $before, $term_ids ) ) );
+					}
+
+					$row = array(
+						'post_id' => $post_id,
+						'title'   => get_the_title( $post_id ),
+						'before'  => pbs_term_names( $before, $taxonomy ),
+						'after'   => pbs_term_names( $after, $taxonomy ),
+					);
+
+					sort( $before );
+					$sorted_after = $after;
+					sort( $sorted_after );
+					if ( $before === $sorted_after ) {
+						$row['reason'] = 'No change needed';
+						$skipped[]     = $row;
+						continue;
+					}
+
+					if ( ! $dry_run ) {
+						$result = wp_set_object_terms( $post_id, $after, $taxonomy );
+						if ( is_wp_error( $result ) ) {
+							$row['reason'] = $result->get_error_message();
+							$skipped[]     = $row;
+							continue;
+						}
+					}
+					$changed[] = $row;
+				}
+
+				return array(
+					'dry_run' => $dry_run,
+					'summary' => sprintf(
+						'%s%d posts %s, %d skipped.',
+						$dry_run ? 'PREVIEW: ' : '',
+						count( $changed ),
+						$dry_run ? 'would change' : 'changed',
+						count( $skipped )
+					),
+					'changed' => $changed,
+					'skipped' => $skipped,
+				);
+			},
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'meta'                => array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'annotations'  => array(
+					'readOnlyHint'    => false,
+					'destructiveHint' => false,
+					'idempotentHint'  => true,
+				),
+			),
+		)
+	);
 } );
 
 /**
@@ -531,4 +718,20 @@ function pbs_media_name_index() {
 	}
 
 	return $index + $fallback;
+}
+
+/**
+ * Turn term IDs into readable names.
+ *
+ * @param int[]  $ids      Term IDs.
+ * @param string $taxonomy Taxonomy.
+ * @return string[]
+ */
+function pbs_term_names( $ids, $taxonomy ) {
+	$names = array();
+	foreach ( $ids as $id ) {
+		$term    = get_term( $id, $taxonomy );
+		$names[] = ( $term && ! is_wp_error( $term ) ) ? $term->name : (string) $id;
+	}
+	return $names;
 }
