@@ -523,7 +523,7 @@
         </div>
         <div id="qaTimesWrap"></div>
       </div>
-      <div class="qa-confirm-row">
+      <div class="qa-confirm-row" id="qaConfirmRow">
         <button type="button" id="qaConfirmBtn" class="btn btn-primary">This time works for me →</button>
         <span class="qa-confirmed-badge" id="qaConfirmedBadge">✓ You've confirmed this time</span>
         <a href="#" data-link="qaTimeConflict" class="btn btn-outline">This doesn't work for me →</a>
@@ -919,7 +919,7 @@
         link: "submitPresentation"
       });
     }
-    if (data.timeSlotUTC && !data.chkQAConfirmed) {
+    if (data.timeSlotUTC && !data.chkQAConfirmed && !data.noLiveQA) {
       var qaNoun = data.singleLiveSession ? "live session" : "live Q&A";
       actions.push({
         key: "qaConfirm", date: null, label: "Confirm your " + qaNoun + " time",
@@ -1099,7 +1099,9 @@
     if (section) section.style.display = "";
     if (navLink) navLink.style.display = "";
 
-    var isSingle = !!data.singleLiveSession;
+    var noQA = !!data.noLiveQA;
+    var isSingle = !noQA && !!data.singleLiveSession;
+    var oneColumn = isSingle || noQA;
     var releaseDate = new Date(data.timeSlotUTC);
     var qaDate = new Date(releaseDate.getTime() + 45 * 60000);
     var localTz = getLocalTimeZone();
@@ -1107,18 +1109,25 @@
     var seen = {};
 
     var scheduleEl = document.getElementById("qaSchedule");
-    if (scheduleEl) scheduleEl.classList.toggle("single-session", isSingle);
+    if (scheduleEl) scheduleEl.classList.toggle("single-session", oneColumn);
     var headEl = document.getElementById("qaScheduleHead");
     if (headEl) {
-      headEl.innerHTML = isSingle
-        ? "<div>Time zone</div><div>Your live session</div>"
-        : "<div>Time zone</div><div>Presentation releases</div><div>Live Q&A</div>";
+      headEl.innerHTML = noQA
+        ? "<div>Time zone</div><div>Your presentation</div>"
+        : (isSingle
+          ? "<div>Time zone</div><div>Your live session</div>"
+          : "<div>Time zone</div><div>Presentation releases</div><div>Live Q&A</div>");
     }
     var eyebrowEl = document.getElementById("qaEyebrow");
     var titleEl = document.getElementById("qaSectionTitle");
     var subEl = document.getElementById("qaSectionSub");
     var navLabelEl = document.getElementById("navLabelQA");
-    if (isSingle) {
+    if (noQA) {
+      if (eyebrowEl) eyebrowEl.textContent = "Your presentation";
+      if (titleEl) titleEl.textContent = "Your presentation release time";
+      if (subEl) subEl.textContent = "You're not doing a live Q&A for this one — here's when your presentation releases, shown in your own time zone, plus New Zealand, US Pacific and US Eastern.";
+      if (navLabelEl) navLabelEl.textContent = "Your presentation";
+    } else if (isSingle) {
       if (eyebrowEl) eyebrowEl.textContent = "Live session";
       if (titleEl) titleEl.textContent = "Your live session";
       if (subEl) subEl.textContent = "This is a live session rather than a pre-recorded release — shown below in your own time zone, plus New Zealand, US Pacific and US Eastern.";
@@ -1138,10 +1147,10 @@
       var label = (tz === localTz) ? "Your time (" + zoneLabel(tz) + ")" : zoneLabel(tz);
       var row = document.createElement("div");
       row.className = "qa-time-row" + (tz === localTz ? " is-local" : "");
-      if (isSingle) {
+      if (oneColumn) {
         row.innerHTML =
           '<div class="qa-time-zone">' + esc(label) + "</div>" +
-          '<div class="qa-time-value" data-label="Your live session">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>";
+          '<div class="qa-time-value" data-label="' + esc(noQA ? "Your presentation" : "Your live session") + '">' + esc(fmtZoneTime(releaseDate, tz)) + "</div>";
       } else {
         row.innerHTML =
           '<div class="qa-time-zone">' + esc(label) + "</div>" +
@@ -1150,6 +1159,13 @@
       }
       wrap.appendChild(row);
     });
+
+    var confirmRow = document.getElementById("qaConfirmRow");
+    if (noQA) {
+      if (confirmRow) confirmRow.style.display = "none";
+      return;
+    }
+    if (confirmRow) confirmRow.style.display = "";
 
     var btn = document.getElementById("qaConfirmBtn");
     var badge = document.getElementById("qaConfirmedBadge");
