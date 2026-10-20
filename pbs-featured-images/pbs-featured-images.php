@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       PBS Featured Images for MCP
- * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name) and bulk-assign terms. Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
- * Version:           1.3.0
+ * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name), bulk-assign terms and apply a speaker schedule (day + time). Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
+ * Version:           1.4.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -580,6 +580,253 @@ add_action( 'wp_abilities_api_init', function () {
 					),
 					'changed' => $changed,
 					'skipped' => $skipped,
+				);
+			},
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'meta'                => array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'annotations'  => array(
+					'readOnlyHint'    => false,
+					'destructiveHint' => false,
+					'idempotentHint'  => true,
+				),
+			),
+		)
+	);
+
+	// 6. Apply a speaker schedule: set each speaker's Day term and scheduled_time field.
+	wp_register_ability(
+		'pbs/apply-schedule',
+		array(
+			'label'               => 'Apply Speaker Schedule',
+			'description'         => 'Apply a schedule to speaker posts. For each row (speaker, day, time) it finds the speaker post by name (Speaker Name field or title without the trailing year) or post ID, sets the Day term (removing any other Day term) and saves the time as text in the scheduled_time field. Use only_term (e.g. pbs-9-0) so speakers from previous years are not matched. Runs as a preview by default (dry_run = true): review, then run again with dry_run = false.',
+			'category'            => 'pbs-content',
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'schedule'   => array(
+						'type'        => 'array',
+						'description' => 'One row per speaker.',
+						'items'       => array(
+							'type'       => 'object',
+							'properties' => array(
+								'speaker' => array(
+									'type'        => 'string',
+									'description' => 'Speaker name (e.g. Tim Strifler) or post ID.',
+								),
+								'day'     => array(
+									'type'        => 'string',
+									'description' => 'Day term name, slug or ID (e.g. Day 1). Leave empty to leave the day unchanged.',
+									'default'     => '',
+								),
+								'time'    => array(
+									'type'        => 'string',
+									'description' => 'Scheduled time, saved exactly as given (e.g. 10:00am EST). Leave empty to leave it unchanged.',
+									'default'     => '',
+								),
+							),
+							'required'   => array( 'speaker' ),
+						),
+					),
+					'only_term'  => array(
+						'type'        => 'string',
+						'description' => 'Only match speakers that have this term, e.g. pbs-9-0. Strongly recommended.',
+						'default'     => '',
+					),
+					'taxonomy'   => array(
+						'type'        => 'string',
+						'description' => 'Taxonomy holding the Day terms (and only_term).',
+						'default'     => 'speaker_categories',
+					),
+					'day_prefix' => array(
+						'type'        => 'string',
+						'description' => 'Other terms on the speaker whose name starts with this are treated as days and removed when a new day is set. Empty = never remove.',
+						'default'     => 'Day',
+					),
+					'time_field' => array(
+						'type'        => 'string',
+						'description' => 'Custom field name for the time.',
+						'default'     => 'scheduled_time',
+					),
+					'name_field' => array(
+						'type'        => 'string',
+						'description' => 'Custom field holding the speaker name.',
+						'default'     => 'speaker_name',
+					),
+					'post_type'  => array(
+						'type'        => 'string',
+						'description' => 'Post type of speakers.',
+						'default'     => 'speaker',
+					),
+					'dry_run'    => array(
+						'type'        => 'boolean',
+						'description' => 'Preview only, change nothing. Default true.',
+						'default'     => true,
+					),
+				),
+				'required'   => array( 'schedule' ),
+			),
+			'execute_callback'    => function ( $input ) {
+				$taxonomy   = sanitize_key( $input['taxonomy'] ?? 'speaker_categories' );
+				$post_type  = sanitize_key( $input['post_type'] ?? 'speaker' );
+				$day_prefix = trim( (string) ( $input['day_prefix'] ?? 'Day' ) );
+				$time_field = sanitize_key( $input['time_field'] ?? 'scheduled_time' );
+				$name_field = sanitize_key( $input['name_field'] ?? 'speaker_name' );
+				$dry_run    = ! isset( $input['dry_run'] ) || (bool) $input['dry_run'];
+
+				if ( ! taxonomy_exists( $taxonomy ) ) {
+					return new WP_Error( 'pbs_taxonomy_not_found', sprintf( 'No taxonomy called "%s".', $taxonomy ) );
+				}
+				$only_term = pbs_resolve_category( $input['only_term'] ?? '', $taxonomy );
+				if ( is_wp_error( $only_term ) ) {
+					return $only_term;
+				}
+
+				// Index candidate speakers by normalised name.
+				$candidates = get_posts(
+					array(
+						'post_type'      => $post_type,
+						'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
+						'tax_query'      => pbs_term_tax_query( $only_term ),
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+					)
+				);
+				$by_name = array();
+				foreach ( $candidates as $id ) {
+					$keys = array(
+						pbs_normalize_name( (string) get_post_meta( $id, $name_field, true ) ),
+						pbs_normalize_name( pbs_strip_year( get_the_title( $id ) ) ),
+					);
+					foreach ( array_unique( array_filter( $keys ) ) as $key ) {
+						$by_name[ $key ][] = $id;
+					}
+				}
+
+				$changed   = array();
+				$unchanged = array();
+				$problems  = array();
+				$day_cache = array();
+
+				foreach ( (array) ( $input['schedule'] ?? array() ) as $row ) {
+					$speaker = trim( (string) ( $row['speaker'] ?? '' ) );
+					$day     = trim( (string) ( $row['day'] ?? '' ) );
+					$time    = sanitize_text_field( (string) ( $row['time'] ?? '' ) );
+
+					// Find the speaker post.
+					if ( ctype_digit( $speaker ) ) {
+						$matches = in_array( (int) $speaker, $candidates, true ) ? array( (int) $speaker ) : array();
+					} else {
+						$matches = array_values( array_unique( $by_name[ pbs_normalize_name( $speaker ) ] ?? array() ) );
+					}
+					if ( 1 !== count( $matches ) ) {
+						$problems[] = array(
+							'speaker' => $speaker,
+							'reason'  => $matches
+								? 'More than one speaker matches (post IDs ' . implode( ', ', $matches ) . '). Use only_term or the post ID.'
+								: 'No speaker found with this name' . ( $only_term ? ' in ' . $only_term->name : '' ) . '.',
+						);
+						continue;
+					}
+					$post_id = $matches[0];
+
+					if ( ! current_user_can( 'edit_post', $post_id ) ) {
+						$problems[] = array( 'speaker' => $speaker, 'reason' => 'No permission to edit this post.' );
+						continue;
+					}
+
+					// Resolve the day term.
+					$day_term = null;
+					if ( '' !== $day ) {
+						if ( ! isset( $day_cache[ $day ] ) ) {
+							$day_cache[ $day ] = pbs_resolve_category( $day, $taxonomy );
+						}
+						$day_term = $day_cache[ $day ];
+						if ( is_wp_error( $day_term ) ) {
+							$problems[] = array( 'speaker' => $speaker, 'reason' => $day_term->get_error_message() );
+							continue;
+						}
+					}
+
+					$before_ids = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
+					$before_ids = is_wp_error( $before_ids ) ? array() : array_map( 'intval', $before_ids );
+					$after_ids  = $before_ids;
+					if ( $day_term ) {
+						if ( '' !== $day_prefix ) {
+							$after_ids = array_values(
+								array_filter(
+									$after_ids,
+									function ( $id ) use ( $taxonomy, $day_prefix, $day_term ) {
+										$term = get_term( $id, $taxonomy );
+										return $id === (int) $day_term->term_id
+											|| ! $term || is_wp_error( $term )
+											|| 0 !== stripos( $term->name, $day_prefix );
+									}
+								)
+							);
+						}
+						if ( ! in_array( (int) $day_term->term_id, $after_ids, true ) ) {
+							$after_ids[] = (int) $day_term->term_id;
+						}
+					}
+
+					$time_before = (string) get_post_meta( $post_id, $time_field, true );
+					$time_after  = '' !== $time ? $time : $time_before;
+
+					$sorted_before = $before_ids;
+					$sorted_after  = $after_ids;
+					sort( $sorted_before );
+					sort( $sorted_after );
+
+					$result = array(
+						'post_id'     => $post_id,
+						'title'       => get_the_title( $post_id ),
+						'day_before'  => pbs_term_names( $before_ids, $taxonomy ),
+						'day_after'   => pbs_term_names( $after_ids, $taxonomy ),
+						'time_before' => $time_before,
+						'time_after'  => $time_after,
+					);
+
+					if ( $sorted_before === $sorted_after && $time_before === $time_after ) {
+						$unchanged[] = $result;
+						continue;
+					}
+
+					if ( ! $dry_run ) {
+						if ( $sorted_before !== $sorted_after ) {
+							$set = wp_set_object_terms( $post_id, $after_ids, $taxonomy );
+							if ( is_wp_error( $set ) ) {
+								$problems[] = array( 'speaker' => $speaker, 'reason' => $set->get_error_message() );
+								continue;
+							}
+						}
+						if ( $time_before !== $time_after ) {
+							if ( function_exists( 'update_field' ) ) {
+								update_field( $time_field, $time_after, $post_id );
+							} else {
+								update_post_meta( $post_id, $time_field, $time_after );
+							}
+						}
+					}
+					$changed[] = $result;
+				}
+
+				return array(
+					'dry_run'  => $dry_run,
+					'summary'  => sprintf(
+						'%s%d speakers %s, %d already up to date, %d problems.',
+						$dry_run ? 'PREVIEW: ' : '',
+						count( $changed ),
+						$dry_run ? 'would be updated' : 'updated',
+						count( $unchanged ),
+						count( $problems )
+					),
+					'speakers'  => $changed,
+					'unchanged' => $unchanged,
+					'problems'  => $problems,
 				);
 			},
 			'permission_callback' => function () {
