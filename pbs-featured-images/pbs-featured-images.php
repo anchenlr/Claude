@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       PBS Featured Images for MCP
- * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name), bulk-assign terms and apply a speaker schedule (day + time). Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
- * Version:           1.4.0
+ * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name), bulk-assign terms, apply a speaker schedule (day + time) and create new speaker posts. Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
+ * Version:           1.5.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -839,6 +839,289 @@ add_action( 'wp_abilities_api_init', function () {
 					'readOnlyHint'    => false,
 					'destructiveHint' => false,
 					'idempotentHint'  => true,
+				),
+			),
+		)
+	);
+
+	// 7. Create new speaker posts (title, bio, custom fields, categories, featured image).
+	wp_register_ability(
+		'pbs/create-speakers',
+		array(
+			'label'               => 'Create Speakers',
+			'description'         => 'Create new speaker posts. Each speaker gets the title "<name><title_suffix>" (e.g. "Tim Strifler-2026"), an optional bio as the post content, custom fields (speaker_name is filled automatically), speaker categories, and a featured image matched by file name from the media library. Speakers that already exist (same name within only_term, or same title) are skipped. Posts are created as drafts by default. Runs as a preview by default (dry_run = true): review, then run again with dry_run = false.',
+			'category'            => 'pbs-content',
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'speakers'       => array(
+						'type'        => 'array',
+						'description' => 'One item per new speaker.',
+						'items'       => array(
+							'type'       => 'object',
+							'properties' => array(
+								'name'   => array(
+									'type'        => 'string',
+									'description' => 'Speaker name, e.g. Tim Strifler.',
+								),
+								'bio'    => array(
+									'type'        => 'string',
+									'description' => 'Optional bio / post content (plain text or simple HTML).',
+									'default'     => '',
+								),
+								'fields' => array(
+									'type'                 => 'object',
+									'description'          => 'Optional custom fields as field_name: value, e.g. {"scheduled_time": "10:00am EST", "talk_title": "..."}.',
+									'additionalProperties' => array( 'type' => 'string' ),
+									'default'              => array(),
+								),
+								'terms'  => array(
+									'type'        => 'array',
+									'items'       => array( 'type' => 'string' ),
+									'description' => 'Extra terms for this speaker only, e.g. ["Day 1"].',
+									'default'     => array(),
+								),
+							),
+							'required'   => array( 'name' ),
+						),
+					),
+					'terms'          => array(
+						'type'        => 'array',
+						'items'       => array( 'type' => 'string' ),
+						'description' => 'Terms for every new speaker, e.g. ["pbs-9-0"].',
+						'default'     => array(),
+					),
+					'only_term'      => array(
+						'type'        => 'string',
+						'description' => 'Duplicate check: a speaker counts as existing if a post with the same name has this term (e.g. pbs-9-0). Empty = check all speakers.',
+						'default'     => '',
+					),
+					'title_suffix'   => array(
+						'type'        => 'string',
+						'description' => 'Added to the name to make the post title.',
+						'default'     => '-2026',
+					),
+					'status'         => array(
+						'type'        => 'string',
+						'enum'        => array( 'draft', 'publish', 'pending', 'private' ),
+						'description' => 'Post status for new speakers.',
+						'default'     => 'draft',
+					),
+					'featured_image' => array(
+						'type'        => 'boolean',
+						'description' => 'Set the featured image to the media library image whose file name matches the speaker name.',
+						'default'     => true,
+					),
+					'taxonomy'       => array(
+						'type'        => 'string',
+						'description' => 'Taxonomy for terms.',
+						'default'     => 'speaker_categories',
+					),
+					'name_field'     => array(
+						'type'        => 'string',
+						'description' => 'Custom field to store the speaker name in.',
+						'default'     => 'speaker_name',
+					),
+					'post_type'      => array(
+						'type'        => 'string',
+						'description' => 'Post type of speakers.',
+						'default'     => 'speaker',
+					),
+					'dry_run'        => array(
+						'type'        => 'boolean',
+						'description' => 'Preview only, change nothing. Default true.',
+						'default'     => true,
+					),
+				),
+				'required'   => array( 'speakers' ),
+			),
+			'execute_callback'    => function ( $input ) {
+				$taxonomy   = sanitize_key( $input['taxonomy'] ?? 'speaker_categories' );
+				$post_type  = sanitize_key( $input['post_type'] ?? 'speaker' );
+				$name_field = sanitize_key( $input['name_field'] ?? 'speaker_name' );
+				$suffix     = sanitize_text_field( (string) ( $input['title_suffix'] ?? '-2026' ) );
+				$status     = in_array( $input['status'] ?? 'draft', array( 'draft', 'publish', 'pending', 'private' ), true ) ? $input['status'] : 'draft';
+				$with_image = ! isset( $input['featured_image'] ) || (bool) $input['featured_image'];
+				$dry_run    = ! isset( $input['dry_run'] ) || (bool) $input['dry_run'];
+
+				if ( ! post_type_exists( $post_type ) ) {
+					return new WP_Error( 'pbs_post_type_not_found', sprintf( 'No post type called "%s".', $post_type ) );
+				}
+				$post_type_object = get_post_type_object( $post_type );
+				if ( ! current_user_can( $post_type_object->cap->create_posts ) ) {
+					return new WP_Error( 'pbs_forbidden', 'You are not allowed to create these posts.' );
+				}
+				if ( 'publish' === $status && ! current_user_can( $post_type_object->cap->publish_posts ) ) {
+					return new WP_Error( 'pbs_forbidden', 'You are not allowed to publish these posts.' );
+				}
+
+				$has_taxonomy = taxonomy_exists( $taxonomy );
+				$only_term    = $has_taxonomy ? pbs_resolve_category( $input['only_term'] ?? '', $taxonomy ) : null;
+				if ( is_wp_error( $only_term ) ) {
+					return $only_term;
+				}
+
+				// Resolve terms once; stop early if any are missing so nothing half-applies.
+				$term_cache   = array();
+				$resolve_term = function ( $value ) use ( $taxonomy, $has_taxonomy, &$term_cache ) {
+					if ( ! $has_taxonomy ) {
+						return new WP_Error( 'pbs_taxonomy_not_found', sprintf( 'No taxonomy called "%s".', $taxonomy ) );
+					}
+					if ( ! isset( $term_cache[ $value ] ) ) {
+						$term_cache[ $value ] = pbs_resolve_category( $value, $taxonomy );
+					}
+					return $term_cache[ $value ];
+				};
+				$common_terms = array();
+				foreach ( (array) ( $input['terms'] ?? array() ) as $value ) {
+					$term = $resolve_term( (string) $value );
+					if ( is_wp_error( $term ) ) {
+						return $term;
+					}
+					if ( $term ) {
+						$common_terms[] = (int) $term->term_id;
+					}
+				}
+
+				// Existing speakers, for the duplicate check.
+				$existing_ids = get_posts(
+					array(
+						'post_type'      => $post_type,
+						'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
+						'tax_query'      => pbs_term_tax_query( $only_term ),
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+					)
+				);
+				$existing = array();
+				foreach ( $existing_ids as $id ) {
+					$existing[ pbs_normalize_name( (string) get_post_meta( $id, $name_field, true ) ) ] = $id;
+					$existing[ pbs_normalize_name( pbs_strip_year( get_the_title( $id ) ) ) ]         = $id;
+				}
+				unset( $existing[''] );
+
+				$media    = $with_image ? pbs_media_name_index() : array();
+				$created  = array();
+				$skipped  = array();
+				$problems = array();
+
+				foreach ( (array) ( $input['speakers'] ?? array() ) as $row ) {
+					$name = sanitize_text_field( (string) ( $row['name'] ?? '' ) );
+					if ( '' === $name ) {
+						$problems[] = array( 'speaker' => '', 'reason' => 'Missing name.' );
+						continue;
+					}
+					$key   = pbs_normalize_name( $name );
+					$title = $name . $suffix;
+
+					if ( isset( $existing[ $key ] ) ) {
+						$skipped[] = array(
+							'speaker' => $name,
+							'reason'  => 'Already exists',
+							'post_id' => $existing[ $key ],
+							'title'   => get_the_title( $existing[ $key ] ),
+						);
+						continue;
+					}
+
+					$term_ids = $common_terms;
+					$bad_term = null;
+					foreach ( (array) ( $row['terms'] ?? array() ) as $value ) {
+						$term = $resolve_term( (string) $value );
+						if ( is_wp_error( $term ) ) {
+							$bad_term = $term;
+							break;
+						}
+						if ( $term ) {
+							$term_ids[] = (int) $term->term_id;
+						}
+					}
+					if ( $bad_term ) {
+						$problems[] = array( 'speaker' => $name, 'reason' => $bad_term->get_error_message() );
+						continue;
+					}
+					$term_ids = array_values( array_unique( $term_ids ) );
+
+					$fields = array( $name_field => $name );
+					foreach ( (array) ( $row['fields'] ?? array() ) as $field => $value ) {
+						$field = sanitize_key( (string) $field );
+						if ( $field ) {
+							$fields[ $field ] = sanitize_text_field( (string) $value );
+						}
+					}
+
+					$image_id = $with_image && isset( $media[ $key ] ) ? $media[ $key ] : 0;
+
+					$result = array(
+						'speaker'        => $name,
+						'title'          => $title,
+						'status'         => $status,
+						'terms'          => $has_taxonomy ? pbs_term_names( $term_ids, $taxonomy ) : array(),
+						'fields'         => $fields,
+						'featured_image' => $image_id ? wp_basename( (string) get_attached_file( $image_id ) ) : ( $with_image ? 'No matching image found' : 'Not requested' ),
+					);
+
+					if ( ! $dry_run ) {
+						$post_id = wp_insert_post(
+							array(
+								'post_type'    => $post_type,
+								'post_status'  => $status,
+								'post_title'   => $title,
+								'post_content' => wp_kses_post( (string) ( $row['bio'] ?? '' ) ),
+							),
+							true
+						);
+						if ( is_wp_error( $post_id ) ) {
+							$problems[] = array( 'speaker' => $name, 'reason' => $post_id->get_error_message() );
+							continue;
+						}
+						if ( $term_ids ) {
+							wp_set_object_terms( $post_id, $term_ids, $taxonomy );
+						}
+						foreach ( $fields as $field => $value ) {
+							if ( function_exists( 'update_field' ) ) {
+								update_field( $field, $value, $post_id );
+							} else {
+								update_post_meta( $post_id, $field, $value );
+							}
+						}
+						if ( $image_id ) {
+							set_post_thumbnail( $post_id, $image_id );
+						}
+						$result['post_id']   = $post_id;
+						$result['edit_link'] = get_edit_post_link( $post_id, 'raw' );
+					}
+
+					// Guard against the same name twice in one request.
+					$existing[ $key ] = $result['post_id'] ?? 0;
+					$created[]        = $result;
+				}
+
+				return array(
+					'dry_run'  => $dry_run,
+					'summary'  => sprintf(
+						'%s%d speakers %s, %d already existed, %d problems.',
+						$dry_run ? 'PREVIEW: ' : '',
+						count( $created ),
+						$dry_run ? 'would be created' : 'created',
+						count( $skipped ),
+						count( $problems )
+					),
+					'created'  => $created,
+					'skipped'  => $skipped,
+					'problems' => $problems,
+				);
+			},
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'meta'                => array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'annotations'  => array(
+					'readOnlyHint'    => false,
+					'destructiveHint' => false,
+					'idempotentHint'  => false,
 				),
 			),
 		)
