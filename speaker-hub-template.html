@@ -329,6 +329,21 @@
   .link-row code { flex: 1; font-size: 13px; color: var(--navy); word-break: break-all; min-width: 180px; }
   .commission-line { font-size: 14px; color: var(--text); margin-bottom: 20px; }
   .commission-line strong { color: var(--pink-dark); font-size: 16px; }
+
+  /* ---------- Promo resource cards ---------- */
+  .promo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 8px; }
+  .promo-card {
+    background: var(--off-white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .promo-card .promo-kicker {
+    font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--pink);
+  }
+  .promo-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .promo-card p { font-size: 13px; line-height: 1.5; color: var(--text-light); flex: 1; margin: 0; }
+  .promo-card .btn { align-self: flex-start; }
+  .promo-card.featured { background: var(--light-blue); border-color: rgba(37,170,225,0.3); }
   .aff-note { font-size: 13px; color: var(--text-light); margin-bottom: 20px; }
   .aff-note a { color: var(--blue); }
 
@@ -607,11 +622,37 @@
         </div>
         <div class="commission-line">Your commission: <strong id="commissionRate">40%</strong></div>
         <p class="aff-note">We ask every speaker for at least one email and two social posts during the promotional period (20 October – 6 November 2026). Always use your own affiliate link, and disclose it when sharing. Can't find your link? Check your ThriveCart affiliate email.</p>
-        <div class="task-actions">
-          <a href="#" data-resource="emailSwipeLink" class="btn btn-white btn-sm">Email swipe copy →</a>
-          <a href="#" data-resource="socialSwipeLink" class="btn btn-white btn-sm">Social swipe copy →</a>
-          <a href="#" data-resource="promoDocLink" class="btn btn-white btn-sm">Promo toolkit (Google Doc) →</a>
-          <a href="#" data-resource="speakerGraphicsLink" class="btn btn-white btn-sm">Speaker graphics →</a>
+        <div class="promo-grid">
+          <div class="promo-card featured">
+            <div class="promo-kicker">Everything in one place</div>
+            <h4>Full promo toolkit</h4>
+            <p>Every email, social post, P.S. option and the speaker lineup reference, all on one page.</p>
+            <a href="#" data-resource="promoPageLink" class="btn btn-primary btn-sm">Open the toolkit →</a>
+          </div>
+          <div class="promo-card">
+            <div class="promo-kicker">Email</div>
+            <h4>Swipe copy</h4>
+            <p>Four ready-to-edit emails with subject line options, plus two quick P.S. versions.</p>
+            <a href="#" data-resource="emailSwipeLink" class="btn btn-white btn-sm">Open →</a>
+          </div>
+          <div class="promo-card">
+            <div class="promo-kicker">Social</div>
+            <h4>Swipe copy</h4>
+            <p>Five ready-to-post captions for LinkedIn, Facebook and Instagram, plus two short versions.</p>
+            <a href="#" data-resource="socialSwipeLink" class="btn btn-white btn-sm">Open →</a>
+          </div>
+          <div class="promo-card">
+            <div class="promo-kicker">Doc</div>
+            <h4>Promo toolkit (Google Doc)</h4>
+            <p>The same swipe copy in an editable doc, if that's easier for you to work from.</p>
+            <a href="#" data-resource="promoDocLink" class="btn btn-white btn-sm">Open →</a>
+          </div>
+          <div class="promo-card">
+            <div class="promo-kicker">Graphics</div>
+            <h4>Speaker graphics</h4>
+            <p>Ready-made images to pair with your emails and posts.</p>
+            <a href="#" data-resource="speakerGraphicsLink" class="btn btn-white btn-sm">Open →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1200,6 +1241,9 @@
     data.basicInfoReceived = !!(data.bio && data.headshotUrl && data.website);
     data.contributionInUpsell = !!(data.powerpackDescription && (data.powerpackValue || data.powerpackHasFiles || data.powerpackHasImage));
     data.commissionPct = data.verifiedPowerpack ? 50 : 40;
+    // The full toolkit page is the same page emailSwipeLink anchors into —
+    // just without the #anchor, so it needs no separate Hub Settings field.
+    data.promoPageLink = data.emailSwipeLink ? data.emailSwipeLink.split("#")[0] : "";
     var actions = computeNextActions(data);
     renderHero(data, actions);
     renderNextActions(data, actions);
