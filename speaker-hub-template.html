@@ -653,6 +653,12 @@
             <p>Ready-made images to pair with your emails and posts.</p>
             <a href="#" data-resource="speakerGraphicsLink" class="btn btn-white btn-sm">Open →</a>
           </div>
+          <div class="promo-card">
+            <div class="promo-kicker">Branding</div>
+            <h4>PBS branding folder</h4>
+            <p>Logos, colours and other brand assets if you want to put together your own graphics.</p>
+            <a href="#" data-link="brandingFolder" target="_blank" class="btn btn-white btn-sm">Open →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -750,7 +756,8 @@
       addCalendar: buildCalendarLink(),
       affiliateAccount: "https://pictureandword.thrivecart.com/page-builder-powerpack/partner/",
       speakerInfoPage: "https://pagebuildersummit.com/speaker-information/",
-      speakerCommunity: "https://www.facebook.com/groups/pagebuildersummit"
+      speakerCommunity: "https://www.facebook.com/groups/pagebuildersummit",
+      brandingFolder: "https://drive.google.com/drive/folders/1b_R4w20Q4kivQh0AjhkOl547VU7L7HJX?usp=sharing"
     }
   };
 
@@ -992,10 +999,19 @@
       var label = a.label + (actions.length > 1 ? " +" + (actions.length - 1) + " more" : "");
       setText("nextDeadlineLabel", label);
       setText("nextDeadlineDate", a.date ? fmtDate(a.date) : "ASAP");
+    } else if (inPromoPeriod()) {
+      setText("nextDeadlineLabel", "Spread the word");
+      setText("nextDeadlineDate", "📣");
     } else {
       setText("nextDeadlineLabel", "All caught up");
       setText("nextDeadlineDate", "🎉");
     }
+  }
+
+  // Main promotional period: 20 Oct – 6 Nov 2026. Once everything else is
+  // done, this is what "Do this next" should point speakers toward.
+  function inPromoPeriod() {
+    return new Date() >= new Date("2026-10-20T00:00:00Z");
   }
 
   function renderNextActions(data, actions) {
@@ -1004,9 +1020,16 @@
     if (!actions.length) {
       var empty = document.createElement("div");
       empty.className = "next-card";
-      empty.innerHTML =
-        '<div><div class="label">Do this next</div><h3>You\'re all caught up</h3>' +
-        '<p>Nothing urgent right now — check back as deadlines approach.</p></div>';
+      if (inPromoPeriod()) {
+        empty.innerHTML =
+          '<div><div class="label">Do this next</div><h3>Time to spread the word</h3>' +
+          '<p>Everything else is sorted — promotion is the main thing now. Your affiliate link and swipe copy are ready whenever you are.</p></div>' +
+          '<a href="#affiliate-promo" class="btn btn-white">Open your promo materials →</a>';
+      } else {
+        empty.innerHTML =
+          '<div><div class="label">Do this next</div><h3>You\'re all caught up</h3>' +
+          '<p>Nothing urgent right now — check back as deadlines approach.</p></div>';
+      }
       wrap.appendChild(empty);
       return;
     }
