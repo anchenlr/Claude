@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<!-- ============================================================
+TEMPLATE MANIFEST — read this before editing anything
+Template: The Bingo Card — Tropicana
+Reskinned for: Page Builder Summit 9.0 (pink / teal / navy / light-blue,
+  Montserrat + Open Sans, matching the Speaker Hub design system)
+Base template (c) 2026 Kinsey Soderberg | Authentic AI(R), distributed
+  by Her AI Club(TM). Only the PRIMITIVES block and FONT IMPORT were
+  edited per the template's own reskin rules — component tokens,
+  selectors, HTML structure and JS are untouched. Content (squares,
+  copy, prizes, links) lives in the SETTINGS block near the bottom.
+
+This file also wraps the widget in extra page sections (How It Works,
+Square Descriptions, Prizes/FAQ) matching the old
+pagebuildersummit.com/bingo-25/ page, styled to match the Speaker
+Hub's own component system (eyebrow/section-title, guide-card,
+collapsible details) for a consistent look across the site.
+============================================================ -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Builder Summit Bingo</title>
+  <link rel="icon" type="image/png" href="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- FONT IMPORT — reskinned to the PBS brand fonts (Montserrat + Open Sans) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+  :root {
+    /* ============================================================
+       DESIGN TOKENS — edit these to reskin the template.
+       ============================================================ */
+
+    /* ---------- 1. PRIMITIVES (reskinned to Page Builder Summit) ---------- */
+
+    --color-surface: #fbfcfe;              /* page background (PBS off-white) */
+    --color-surface-2: #e2f0fb;              /* host card (PBS light-blue) */
+    --color-pure-white: #ffffff;
+    --color-ink: #312e61;               /* PBS navy */
+    --color-ink-raised: #3f3b7a;
+    --color-ink-deep: #211f45;
+    --color-gray-mid: #666666;
+    --color-gray-soft: #999999;
+
+    --color-brand-primary: #d85a95;        /* PBS pink — bingoed squares */
+    --color-brand-primary-deep: #cc4e89;
+    --color-brand-secondary: #75b8a1;      /* PBS teal — marked squares */
+    --color-brand-secondary-soft: #dceee7;
+    --color-brand-primary-soft: #f3d3e3;
+    --color-brand-secondary-deep: #5fa088;
+    --color-brand-tertiary: #e2f0fb;       /* PBS light-blue — FREE square, pill, buttons */
+    --color-brand-tertiary-deep: #25aae1;
+    --color-brand-tertiary-soft: #f3f8fc;
+
+    --color-ink-a90: color-mix(in srgb, var(--color-ink) 25%, transparent);
+    --color-ink-a40: color-mix(in srgb, var(--color-ink) 22%, transparent);
+    --color-ink-a25: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    --color-pure-white-a85: color-mix(in srgb, var(--color-pure-white) 85%, transparent);
+    --color-pure-white-a75: color-mix(in srgb, var(--color-pure-white) 75%, transparent);
+    --color-pure-white-a45: color-mix(in srgb, var(--color-pure-white) 45%, transparent);
+    --color-pure-white-a40: color-mix(in srgb, var(--color-pure-white) 40%, transparent);
+
+    --font-display: "Montserrat", Arial, sans-serif;
+    --font-body: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Montserrat", Arial, sans-serif;
+
+    --display-case: none;
+    --font-accent: "Montserrat", Arial, sans-serif;
+    --accent-style: normal;     /* PBS accent words are colored, not italic */
+    --accent-size: 1em;
+    --accent-case: none;
+
+    --tilt-a: 0deg;
+    --tilt-b: 0deg;
+    --tilt-tape: 0deg;
+    --wonk: 0;
+    --blob-opacity: 0;
+
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+
+    --radius-xs: 7px;
+    --radius-sm: 6px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    --border-width-hairline: 1px;
+    --border-width-medium: 1.5px;
+    --border-width-thick: 1px;
+
+    /* ---------- 2. SEMANTIC TOKENS (never edited during a reskin) ---------- */
+
+    --surface-page: var(--color-surface);
+    --surface-card: var(--color-pure-white);
+    --surface-panel: var(--color-pure-white);
+    --surface-host: var(--color-surface-2);
+    --text-primary: var(--color-ink);
+    --text-secondary: color-mix(in srgb, var(--color-ink) 88%, var(--color-surface));
+    --text-muted: var(--color-gray-mid);
+    --text-inverse: var(--color-pure-white);
+    --border-strong: var(--color-ink);
+    --border-card: var(--color-ink-a90);
+    --border-square: var(--color-ink-a40);
+    --border-subtle: var(--color-ink-a25);
+
+    --state-free: var(--color-brand-tertiary);
+    --state-free-soft: var(--color-brand-tertiary-soft);
+    --state-marked: var(--color-brand-secondary);
+    --state-marked-soft: var(--color-brand-secondary-soft);
+    --state-bingo: var(--color-brand-primary);
+    --state-bingo-soft: color-mix(in srgb, var(--color-brand-primary) 78%, var(--color-pure-white));
+    --state-bingo-edge: var(--color-brand-primary-deep);
+    --state-bingo-text: var(--text-inverse);
+    --accent-text: var(--state-bingo);
+
+    /* ---------- 3. COMPONENT TOKENS (never edited during a reskin) ---------- */
+
+    --page-scene: var(--surface-page);
+    --glass-card: none;
+    --glass-square: none;
+    --square-bg: var(--color-pure-white);
+    --square-sheen: linear-gradient(135deg, var(--color-pure-white-a40) 0%, transparent 50%);
+    --shadow-card: 0 8px 32px color-mix(in srgb, var(--color-ink) 10%, transparent);
+    --shadow-panel: 0 2px 12px color-mix(in srgb, var(--color-ink) 5%, transparent);
+    --shadow-square: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 60%, transparent), 0 1px 2px color-mix(in srgb, var(--color-ink) 4%, transparent);
+    --shadow-square-hover: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 80%, transparent), 0 8px 24px color-mix(in srgb, var(--color-ink) 18%, transparent);
+    --shadow-square-marked: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 50%, transparent), 0 4px 12px color-mix(in srgb, var(--color-brand-secondary) 50%, transparent);
+    --shadow-square-bingo: inset 0 1px 0 color-mix(in srgb, var(--color-pure-white) 30%, transparent), 0 4px 12px color-mix(in srgb, var(--color-brand-primary) 30%, transparent);
+    --shadow-btn-hover: 4px 5px 0 color-mix(in srgb, var(--color-ink) 14%, transparent);
+    --btn-radius: var(--radius-pill);
+    --card-radius: var(--radius-xl);
+    --panel-radius: var(--radius-lg);
+    --square-radius: var(--radius-md);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--page-scene);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     PAGE WRAPPER SECTIONS (How It Works / Descriptions / FAQ)
+     Styled to match the Speaker Hub's own component system —
+     not part of the Tropicana template itself.
+     ─────────────────────────────────────────────────────────── */
+  .pbs-topbar { background: var(--color-brand-secondary); color: rgba(255,255,255,0.92); padding: 10px 0; font-size: 13px; text-align: center; font-family: var(--font-display); font-weight: 700; }
+  .pbs-wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .pbs-hero { background: var(--color-surface-2); padding: 48px 0 40px; text-align: center; }
+  .pbs-hero h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); font-weight: 800; color: var(--text-primary); margin: 0 0 10px; }
+  .pbs-hero p { font-size: 17px; color: var(--text-secondary); margin: 0; }
+  .pbs-section { padding: 48px 0; }
+  .pbs-section.alt { background: var(--color-surface-2); }
+  .pbs-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-brand-primary); margin-bottom: 10px; font-family: var(--font-display); }
+  .pbs-section-title { font-family: var(--font-display); font-size: clamp(22px, 3vw, 28px); font-weight: 800; color: var(--text-primary); margin-bottom: 8px; }
+  .pbs-section-sub { color: var(--text-secondary); max-width: 640px; margin-bottom: 24px; font-size: 15px; }
+  .pbs-guide-card { background: var(--color-pure-white); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 28px; }
+  .pbs-guide-card + .pbs-guide-card { margin-top: 16px; }
+  .pbs-guide-card p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.6; }
+  .pbs-guide-card p:last-child { margin-bottom: 0; }
+  .pbs-guide-card a { color: var(--color-brand-tertiary-deep); font-weight: 700; text-decoration: none; }
+  .pbs-guide-card a:hover { text-decoration: underline; }
+  details.pbs-accordion { background: var(--color-pure-white); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 4px 22px; margin-bottom: 10px; }
+  details.pbs-accordion summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; color: var(--text-primary); padding: 16px 0; list-style: none; }
+  details.pbs-accordion summary::-webkit-details-marker { display: none; }
+  details.pbs-accordion summary::after { content: '+'; float: right; color: var(--color-brand-primary); font-weight: 800; }
+  details.pbs-accordion[open] summary::after { content: '−'; }
+  details.pbs-accordion .pbs-accordion-body { padding: 0 0 20px; font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); }
+  details.pbs-accordion .pbs-accordion-body p { margin: 0 0 12px; }
+  details.pbs-accordion .pbs-accordion-body p:last-child { margin-bottom: 0; }
+  .pbs-prize-day { margin-bottom: 18px; }
+  .pbs-prize-day h4 { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--color-brand-primary); text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 8px; }
+  .pbs-prize-day ul { margin: 0; padding-left: 18px; }
+  .pbs-prize-day li { font-size: 14.5px; line-height: 1.6; margin-bottom: 4px; }
+  .pbs-note { font-size: 13.5px; font-style: italic; color: var(--text-muted); margin-top: 16px; }
+
+  /* ───────────────────────────────────────────────────────────
+     TROPICANA BINGO WIDGET (component internals untouched)
+     ─────────────────────────────────────────────────────────── */
+
+  .sun-blob { position: fixed; width: 260px; height: 260px; border-radius: 50%; filter: blur(42px); opacity: var(--blob-opacity); pointer-events: none; z-index: 0; }
+  .sun-blob.one { background: var(--state-free); top: -80px; left: -70px; }
+  .sun-blob.two { background: var(--state-bingo-soft); bottom: -90px; right: -60px; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: clamp(18px, 4vw, 48px); position: relative; z-index: 1; }
+
+  .bingo-zone { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 30px; align-items: start; }
+
+  .bingo-card {
+    background: var(--surface-card);
+    backdrop-filter: var(--glass-card);
+    -webkit-backdrop-filter: var(--glass-card);
+    border: var(--border-width-thick) solid var(--border-card);
+    border-radius: var(--card-radius);
+    padding: 32px clamp(32px, 4.5vw, 56px);
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease;
+  }
+  .bingo-card:hover { transform: translateY(-4px) rotate(calc(-0.5deg * var(--wonk))); }
+  .bingo-title { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(38px, 5vw, 56px); line-height: 1.02; color: var(--text-primary); text-align: center; margin-bottom: 16px; letter-spacing: -0.02em; }
+  .bingo-title em, .host-title em, .footer-mark em { color: var(--accent-text); font-family: var(--font-accent); font-style: var(--accent-style); font-size: var(--accent-size); text-transform: var(--accent-case); font-weight: inherit; }
+  .bingo-intro { text-align: center; color: var(--text-secondary); font-size: 15.5px; line-height: 1.6; max-width: 480px; margin: 0 auto 28px; }
+  .bingo-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; flex-grow: 1; }
+  .bingo-square {
+    aspect-ratio: 1;
+    border: var(--border-width-hairline) solid var(--border-square);
+    border-radius: var(--square-radius);
+    padding: 6px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    color: var(--text-primary);
+    line-height: 1.2;
+    background: var(--square-bg);
+    backdrop-filter: var(--glass-square);
+    -webkit-backdrop-filter: var(--glass-square);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+    transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-square);
+    position: relative;
+    overflow: hidden;
+  }
+  .bingo-square::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--square-sheen);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .bingo-square:hover {
+    transform: scale(1.12) rotate(calc(-2deg * var(--wonk)));
+    border-color: var(--border-strong);
+    background: var(--color-pure-white-a85);
+    box-shadow: var(--shadow-square-hover);
+    z-index: 2;
+  }
+  .bingo-square:hover::before { opacity: 1; }
+  .bingo-square.free {
+    background: linear-gradient(135deg, var(--state-free) 0%, var(--state-free-soft) 100%);
+    font-family: var(--font-display);
+    font-style: var(--accent-style);
+    font-size: 15px;
+    font-weight: var(--fw-bold);
+    border-color: var(--border-strong);
+    cursor: default;
+  }
+  .bingo-square.free:hover { transform: scale(1.15) rotate(calc(2deg * var(--wonk))); }
+  .bingo-square.marked {
+    background: linear-gradient(135deg, var(--state-marked) 0%, var(--state-marked-soft) 100%);
+    color: var(--text-primary);
+    border-color: var(--state-marked);
+    box-shadow: var(--shadow-square-marked);
+  }
+  .bingo-square.marked:hover { transform: scale(1.15) rotate(calc(3deg * var(--wonk))); }
+  .bingo-square.bingoed {
+    background: linear-gradient(135deg, var(--state-bingo) 0%, var(--state-bingo-soft) 100%);
+    color: var(--state-bingo-text);
+    border-color: var(--state-bingo-edge);
+    box-shadow: var(--shadow-square-bingo);
+  }
+  .bingo-square.bingoed:hover { transform: scale(1.15) rotate(calc(-3deg * var(--wonk))); }
+
+  .bingo-progress { margin-top: 26px; align-self: center; background: var(--state-free); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 9px 16px; font-family: var(--font-mono); font-size: 11px; font-weight: var(--fw-bold); letter-spacing: .1em; text-transform: uppercase; color: var(--text-primary); }
+
+  .side-stack { display: flex; flex-direction: column; gap: 26px; margin-top: 44px; }
+
+  .bingo-tracker { position: relative; background: var(--surface-panel); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--panel-radius); padding: 36px 26px 28px; transform: rotate(var(--tilt-a)); box-shadow: var(--shadow-panel); display: flex; flex-direction: column; gap: 26px; text-align: center; }
+  .tape { position: absolute; top: -18px; left: 26px; background: var(--state-marked-soft); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 8px 16px; font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .13em; text-transform: uppercase; transform: rotate(var(--tilt-tape)); }
+  .tracker-intro { border-bottom: var(--border-width-medium) dashed var(--border-subtle); padding: 10px 0 18px; display: flex; flex-direction: column; gap: 10px; }
+  .tracker-note { font-size: 17.5px; line-height: 1.55; color: var(--text-primary); font-weight: var(--fw-semibold); margin: 0 0 8px; }
+  .tracker-how { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0; }
+  .tracker-divider { border: none; border-top: var(--border-width-thick) dotted var(--border-subtle); margin: 0; }
+  .tracker-fineprint { font-size: 13px; font-style: italic; line-height: 1.55; color: var(--text-muted); text-align: center; margin: -12px 0 0; }
+  .tracker-item { display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+  .tracker-check { width: 26px; height: 26px; flex-shrink: 0; border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--radius-sm); display: grid; place-items: center; background: var(--surface-page); }
+  .tracker-item.done .tracker-check { background: var(--state-free); }
+  .tracker-check svg { width: 15px; height: 15px; stroke: var(--border-strong); stroke-width: 3; fill: none; display: none; }
+  .tracker-item.done .tracker-check svg { display: block; }
+  .tracker-label { font-weight: var(--fw-bold); font-size: 17px; color: var(--text-primary); }
+  .tracker-sub { font-size: 15px; line-height: 1.55; color: var(--text-secondary); margin-top: 4px; }
+
+  .pill-btn { border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--btn-radius); padding: 13px 19px; font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .08em; text-transform: uppercase; display: inline-flex; gap: 9px; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; color: var(--text-primary); transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+  .pill-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-btn-hover); }
+  .pill-btn.pop { background: var(--state-free); }
+  .pill-btn.solid { background: var(--border-strong); color: var(--text-inverse); }
+  .pill-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+  .tracker-claim { margin-top: 2px; justify-content: center; }
+  .tracker-claim-wrap { display: flex; flex-direction: column; gap: 18px; }
+  .tracker-claim-wrap.hidden { display: none; }
+
+  .host-card { position: relative; background: var(--surface-host); border: var(--border-width-thick) solid var(--border-strong); border-radius: var(--panel-radius); padding: 34px 26px 30px; transform: rotate(var(--tilt-b)); box-shadow: var(--shadow-panel); text-align: center; }
+  .host-card.hidden { display: none; }
+  .host-card .tape { background: var(--state-free); }
+  .host-title { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(30px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; color: var(--text-primary); margin: 6px 0 14px; }
+  .host-desc { font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 22px; }
+  .host-link { width: 100%; }
+
+  footer.widget-footer { text-align: center; padding: clamp(42px, 6vw, 70px) 0 20px; }
+  .footer-mark { font-family: var(--font-display); text-transform: var(--display-case); font-size: clamp(30px, 4.2vw, 48px); line-height: .95; letter-spacing: -0.02em; }
+  .footer-eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: var(--fw-bold); letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); margin: 12px 0 6px; }
+
+  @keyframes bingo-confetti-fall { to { transform: translateY(105vh) rotate(720deg); opacity: .9; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  @media (max-width: 920px) {
+    .bingo-zone { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 16px; }
+    .bingo-card { border: none; box-shadow: none; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; padding: 8px 0 0; }
+    .bingo-grid { gap: 5px; }
+    .bingo-square { font-size: 8.5px; padding: 4px 3px; border-radius: var(--radius-xs); }
+    .bingo-square.free { font-size: 10px; }
+  }
+
+  /* ─── Maker's mark (end of stylesheet — order matters for overrides) ─── */
+  p.designed-by { font-size: 12.5px; font-weight: var(--fw-regular); line-height: 1.5; letter-spacing: normal; text-transform: none; color: var(--text-muted, #757575); margin: 26px 0 0; padding: 0; text-align: center; }
+  p.designed-by::before { content: ""; display: block; width: 44px; margin: 0 auto 14px; border-top: 2px solid var(--border-subtle, color-mix(in srgb, var(--color-ink) 25%, transparent)); }
+  p.designed-by a { font: inherit; color: var(--accent-text, #d85a95); text-decoration: none; background: none; padding: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; display: inline; }
+  p.designed-by a:hover { text-decoration: underline; background: none; }
+  </style>
+</head>
+<body>
+
+  <div class="pbs-topbar"><strong>Page Builder Summit 9.0</strong> &nbsp;&middot;&nbsp; 2&ndash;6 November 2026</div>
+
+  <div class="pbs-hero">
+    <div class="pbs-wrap">
+      <h1>Bingo</h1>
+      <p>Let's have some fun!</p>
+    </div>
+  </div>
+
+  <!-- ===== SECTION: HOW IT WORKS (page wrapper, not part of the widget) ===== -->
+  <section class="pbs-section">
+    <div class="pbs-wrap">
+      <div class="pbs-eyebrow">How it works</div>
+      <h2 class="pbs-section-title">Play along all week</h2>
+      <div class="pbs-guide-card">
+        <p>Throughout the summit, use your bingo card below to keep track of how you engage with the event. Tap a square the moment you earn it, your marks save right here on your device.</p>
+        <p>Each day of the summit, we'll post in the <a href="https://www.facebook.com/groups/pagebuildersummit" target="_blank" rel="noopener">Facebook group</a> with that day's prize options. Get a bingo (or the full card) and post a screenshot of your card as a comment under that day's post to be entered in the draw. We'll randomly choose a winner for each prize.</p>
+        <p>See what's up for grabs in the prizes section below.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: BINGO WIDGET (Tropicana template, structure/JS untouched) ===== -->
+  <div class="sun-blob one"></div>
+  <div class="sun-blob two"></div>
+
+  <div class="wrap">
+    <div class="bingo-zone">
+      <!-- ===== SECTION: BINGO CARD (the game board) ===== -->
+      <div class="bingo-card">
+        <div class="bingo-title" id="cardTitle"></div>
+        <p class="bingo-intro" id="cardIntro"></p>
+        <div class="bingo-grid" id="bingoGrid"></div>
+        <div class="bingo-progress" id="bingoProgress">0/25 marked · 0 bingos</div>
+      </div>
+      <!-- ===== END SECTION: BINGO CARD ===== -->
+
+      <div class="side-stack">
+        <!-- ===== SECTION: PRIZE TRACKER ===== -->
+        <aside class="bingo-tracker">
+          <div class="tape" id="trackerTape"></div>
+          <div class="tracker-intro">
+            <p class="tracker-note" id="trackerNote"></p>
+            <p class="tracker-how" id="trackerHow"></p>
+          </div>
+          <div id="trackerItems"></div>
+          <div class="tracker-claim-wrap hidden" id="claimWrap">
+            <hr class="tracker-divider" />
+            <a class="pill-btn pop tracker-claim" id="claimBtn" href="#" target="_blank" rel="noreferrer">
+              Claim your prize
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <p class="tracker-fineprint" id="claimFineprint"></p>
+          </div>
+        </aside>
+        <!-- ===== END SECTION: PRIZE TRACKER ===== -->
+
+        <!-- ===== SECTION: HOST CARD (hidden via showHostCard: false) ===== -->
+        <aside class="host-card hidden" id="hostCard">
+          <div class="tape" id="hostTape"></div>
+          <div class="host-title" id="hostTitle"></div>
+          <p class="host-desc" id="hostDesc"></p>
+          <a class="pill-btn solid host-link" id="hostLink" href="#" target="_blank" rel="noreferrer">
+            <span id="hostLinkLabel"></span>
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </aside>
+        <!-- ===== END SECTION: HOST CARD ===== -->
+      </div>
+    </div>
+
+    <!-- ===== SECTION: FOOTER (event mark + maker's mark) ===== -->
+    <footer class="widget-footer">
+      <div class="footer-mark" id="footerMark"></div>
+      <p class="footer-eyebrow" id="footerEyebrow"></p>
+      <p class="designed-by">Bingo card designed by <a href="https://heraiclub.co/shop" target="_blank" rel="noreferrer">Her AI Club&trade;</a></p>
+    </footer>
+    <!-- ===== END SECTION: FOOTER ===== -->
+  </div>
+  <!-- ===== END SECTION: BINGO WIDGET ===== -->
+
+  <!-- ===== SECTION: SQUARE DESCRIPTIONS (page wrapper) ===== -->
+  <section class="pbs-section alt">
+    <div class="pbs-wrap">
+      <div class="pbs-eyebrow">Not sure what a square means?</div>
+      <h2 class="pbs-section-title">Square descriptions</h2>
+      <p class="pbs-section-sub">A quick explainer for each type of square on the card.</p>
+
+      <details class="pbs-accordion">
+        <summary>Live Q&amp;A squares</summary>
+        <div class="pbs-accordion-body">
+          <p><strong>Ask a question in the live Q&amp;A</strong> — join a speaker's 15-minute live Q&amp;A (45 minutes after their presentation releases) and ask a question live.</p>
+          <p><strong>Attend / watch a live Q&amp;A</strong> — show up for a live Q&amp;A, or catch the replay if you couldn't make it live. This appears several times, mark one off for each Q&amp;A you attend or watch.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Presentations</summary>
+        <div class="pbs-accordion-body">
+          <p><strong>Watch a presentation during the 48 hours</strong> — attend any presentation during its scheduled 48-hour live window. This appears a few times, mark one off for each presentation you watch.</p>
+          <p><strong>Share your biggest takeaway from a presentation</strong> — share your biggest takeaway in the Facebook group, tag the speaker so they can see it!</p>
+          <p><strong>Implement a presentation's action steps</strong> — put one presentation's action steps into practice.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Community &amp; sharing</summary>
+        <div class="pbs-accordion-body">
+          <p><strong>Join the Facebook group</strong> and <strong>introduce yourself</strong> — join the summit's <a href="https://www.facebook.com/groups/pagebuildersummit" target="_blank" rel="noopener">Facebook group</a> and say hi, either in your own post or a comment on the pinned welcome video.</p>
+          <p><strong>Share about the summit on IG or IG stories</strong> — tag @simplydigitaldesign. Your profile must be public for verification.</p>
+          <p><strong>Share the biggest way the summit has transformed your business</strong> — once presentations have begun, share this in the Facebook group.</p>
+          <p><strong>Fill out the feedback survey</strong> — on the final day, we'll share a feedback form. Fill it out to mark off this spot (include your name or email for verification).</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Summit milestones</summary>
+        <div class="pbs-accordion-body">
+          <p><strong>Register for the Summit</strong> — you've probably already done this, which is why it's the free center spot!</p>
+          <p><strong>Attend the Kickoff Call live</strong> — Monday, 2 November, live in the Facebook group.</p>
+          <p><strong>Attend the Closing Call live</strong> — Friday, 6 November, live in the Facebook group.</p>
+          <p><strong>Attend a PowerPack networking session</strong> — PowerPack members get access to five networking sessions (non-members get one). Attend one to mark off this spot.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>PowerPack &amp; tools</summary>
+        <div class="pbs-accordion-body">
+          <p><strong>Purchase Page Builder PowerPack</strong> — grab lifetime access to all the presentations and bonus resources.</p>
+          <p><strong>Share your favourite Power Pack resource</strong> — found a bonus you love? Jump in the Facebook group and tell us about it and your plan for putting it into action.</p>
+          <p><strong>Generate your personal attendee dashboard</strong> — this tool is still in progress, more details coming soon!</p>
+          <p><strong>Check out the full schedule</strong> and <strong>Check out the Meet the Speakers page</strong> — have a look and plan which sessions you want to catch live.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+  <!-- ===== END SECTION: SQUARE DESCRIPTIONS ===== -->
+
+  <!-- ===== SECTION: PRIZES & FAQ (page wrapper) ===== -->
+  <section class="pbs-section">
+    <div class="pbs-wrap">
+      <div class="pbs-eyebrow">FAQ</div>
+      <h2 class="pbs-section-title">Prizes &amp; questions</h2>
+
+      <details class="pbs-accordion" open>
+        <summary>What's the prizes?</summary>
+        <div class="pbs-accordion-body">
+          <p>Speaker-contributed prizes, spread across the week (more may be added as speakers confirm theirs):</p>
+          <div class="pbs-prize-day">
+            <h4>Monday</h4>
+            <ul>
+              <li>60-Minute Marketing Strategy Call with Shannon Mattern ($500 value)</li>
+              <li>The Course Hub Build Kit — Kinsey Soderberg ($597)</li>
+            </ul>
+          </div>
+          <div class="pbs-prize-day">
+            <h4>Tuesday</h4>
+            <ul>
+              <li>Hire to Grow by Eric Dingler, winner's choice of format ($9.99)</li>
+              <li>The One Week Website Starter Pack — Whitney Zimmermann ($297)</li>
+            </ul>
+          </div>
+          <div class="pbs-prize-day">
+            <h4>Wednesday</h4>
+            <ul>
+              <li>Private 1-Hour Call with Sam Sarsten ($250)</li>
+              <li>Rose Sales Page Template — Chantal Edouard-Betsy ($147)</li>
+            </ul>
+          </div>
+          <div class="pbs-prize-day">
+            <h4>Thursday</h4>
+            <ul>
+              <li>1:1 Online Advent Calendar Strategy Session — Britta Just ($150)</li>
+              <li>Signed copies of Sell Futures, Not Features and Five Figure Funnels — Mike Killen</li>
+            </ul>
+          </div>
+          <div class="pbs-prize-day">
+            <h4>Friday</h4>
+            <ul>
+              <li>1-Hour WordPress Consultancy with Jakson ($95)</li>
+            </ul>
+          </div>
+          <p class="pbs-note">Plus our own summit prizes each day, details coming soon.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Where do I post when I have Bingo?</summary>
+        <div class="pbs-accordion-body">
+          <p>Once the summit begins, we'll have a daily thread in the Facebook group where you can post a screenshot of your card to win that day's prizes.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>How long do I have to post in the Bingo thread each day?</summary>
+        <div class="pbs-accordion-body">
+          <p>You'll have a minimum of 24 hours to post your bingo card in each day's thread.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Do I have to have the Page Builder PowerPack to win?</summary>
+        <div class="pbs-accordion-body">
+          <p>No, you can get bingo without having the PowerPack, it will, however, give you more opportunities.</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>Can I win multiple times?</summary>
+        <div class="pbs-accordion-body">
+          <p>You can only win once, so be sure to enter for the prizes you want to win most!</p>
+        </div>
+      </details>
+
+      <details class="pbs-accordion">
+        <summary>I still have questions!</summary>
+        <div class="pbs-accordion-body">
+          <p>No problem! You can reach out to us at <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a> and we'll be in touch soon.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+  <!-- ===== END SECTION: PRIZES & FAQ ===== -->
+
+  <footer style="background:var(--color-pure-white); border-top:1px solid var(--border-subtle); padding:32px 0; text-align:center;">
+    <p style="font-size:14px; color:var(--text-secondary);">Questions? Email <a href="mailto:anchen@pagebuildersummit.com" style="color:var(--color-brand-primary); font-weight:700; text-decoration:none;">anchen@pagebuildersummit.com</a></p>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Page Builder Summit 9.0</p>
+  </footer>
+
+  <script nonce="MzU3MzA3MTY5NywzOTU1NDg5NTU3">
+    // ════════════════════════════════════════════════════════════
+    // SETTINGS — everything you'd want to change lives right here
+    // ─────────────────────────────────────────────────────────────
+    const SETTINGS = {
+
+      // ── The card itself ──
+      titleLine1: 'Page Builder Summit',
+      titleAccent: 'Bingo',
+
+      intro: 'Tap a square the moment you earn it throughout the summit. Get a bingo (or the full card!) and post a screenshot in the Facebook group under that day\'s bingo post to be entered in the prize draw. Your marks save right here on this device.',
+
+      freeSquareLabel: 'Register for the Summit',
+
+      // ── The 24 squares ──
+      squares: [
+        'Share your biggest takeaway from a presentation',
+        'Ask a question in the live Q&A',
+        'Purchase Page Builder PowerPack',
+        'Join the Facebook group',
+        'Watch a live Q&A',
+        'Fill out feedback survey after the summit',
+        'Implement a presentation\'s action steps',
+        'Watch a presentation during the 48 hours',
+        'Share your biggest takeaway from a presentation',
+        'Attend the live Q&A',
+        'Share your favorite Power Pack resource',
+        'Generate your personal attendee dashboard',
+        'Check out the full schedule and plan your sessions',
+        'Attend the Kickoff Call live',
+        'Attend the Closing Call live',
+        'Watch a presentation during the 48 hours',
+        'Introduce yourself in the Facebook group',
+        'Attend the live Q&A',
+        'Ask a question in the live Q&A',
+        'Check out the Meet the Speakers page',
+        'Share the biggest way the summit has transformed your business',
+        'Share about the summit on IG stories (tag @simplydigitaldesign)',
+        'Ask a question in the live Q&A',
+        'Attend a PowerPack networking session',
+      ],
+
+      // ── Prizes & milestones ──
+      trackerTape: 'bingo tracker',
+      trackerNote: 'Every bingo is an entry into that day\'s prize draw.<br />Going for the full card? Extra special prize.',
+      milestones: [
+        { label: 'Bingo',        threshold: 1, type: 'lines', locked: 'Any full row, column, or diagonal.' },
+        { label: 'Double Bingo', threshold: 2, type: 'lines', locked: 'Two complete lines, impressive!' },
+        { label: 'Full Card',    threshold: 0, type: 'full',  locked: 'All 25 squares. Legend status.' },
+      ],
+      milestoneDone: 'Done! Go claim it.',
+      trackerHow: 'Got one? Screenshot your card and post it as a comment under that day\'s bingo post in the Facebook group.',
+
+      claimLink: 'https://www.facebook.com/groups/pagebuildersummit',
+      claimLabel: 'Post your bingo in the Facebook group',
+      claimLabelRepeat: 'Post your bingo in the Facebook group (again)',
+      claimLabelFullCard: 'Post your full card in the Facebook group',
+      claimFineprint: 'Comment with a screenshot of your bingo line under that day\'s bingo post in the Facebook group.',
+
+      // ── Host card (hidden for this page) ──
+      showHostCard: false,
+      hostTape: '',
+      hostTitleLine1: '',
+      hostTitleAccent: '',
+      hostDesc: '',
+      hostLink: '',
+      hostLinkLabel: '',
+
+      // ── Footer ──
+      footerMarkLine1: 'Page Builder',
+      footerMarkAccent: 'Summit',
+      footerEyebrow: 'Page Builder Summit 9.0',
+
+      // ── Under the hood ──
+      storageKey: 'pbs9-bingo-marks',
+      confettiColors: null,
+    };
+    // ═══════════════ end of SETTINGS — the rest just works ═══════
+
+    function setText(id, value) { document.getElementById(id).textContent = value; }
+    function setHTML(id, value) { document.getElementById(id).innerHTML = value; }
+
+    setHTML('cardTitle', SETTINGS.titleLine1 + '<br /><em>' + SETTINGS.titleAccent + '</em>');
+    setText('cardIntro', SETTINGS.intro);
+    setText('trackerTape', SETTINGS.trackerTape);
+    setHTML('trackerNote', SETTINGS.trackerNote);
+    setText('trackerHow', SETTINGS.trackerHow);
+    setText('claimFineprint', SETTINGS.claimFineprint);
+    setHTML('footerMark', SETTINGS.footerMarkLine1 + ' <em>' + SETTINGS.footerMarkAccent + '</em>');
+    setText('footerEyebrow', SETTINGS.footerEyebrow);
+
+    if (SETTINGS.showHostCard) {
+      setText('hostTape', SETTINGS.hostTape);
+      setHTML('hostTitle', SETTINGS.hostTitleLine1 + ' <em>' + SETTINGS.hostTitleAccent + '</em>');
+      setText('hostDesc', SETTINGS.hostDesc);
+      setText('hostLinkLabel', SETTINGS.hostLinkLabel);
+      document.getElementById('hostLink').href = SETTINGS.hostLink;
+    } else {
+      document.getElementById('hostCard').classList.add('hidden');
+    }
+
+    const padded = [...SETTINGS.squares, ...Array(24).fill('Mark a tiny win')].slice(0, 24);
+    const FREE_INDEX = 12;
+    const squares = [...padded.slice(0, 12), SETTINGS.freeSquareLabel, ...padded.slice(12, 24)];
+
+    const BINGO_LINES = (() => {
+      const lines = [];
+      for (let r = 0; r < 5; r++) lines.push([0, 1, 2, 3, 4].map((c) => r * 5 + c));
+      for (let c = 0; c < 5; c++) lines.push([0, 1, 2, 3, 4].map((r) => r * 5 + c));
+      lines.push([0, 6, 12, 18, 24]);
+      lines.push([4, 8, 12, 16, 20]);
+      return lines;
+    })();
+
+    let marks = {};
+    try {
+      const saved = localStorage.getItem(SETTINGS.storageKey);
+      if (saved) marks = JSON.parse(saved) || {};
+    } catch (e) { marks = {}; }
+
+    function save() {
+      try { localStorage.setItem(SETTINGS.storageKey, JSON.stringify(marks)); } catch (e) {}
+    }
+
+    const isMarked = (i) => i === FREE_INDEX || Boolean(marks[i]);
+
+    let prevBingoCount = null;
+
+    function fireConfetti() {
+      const cs = getComputedStyle(document.body);
+      const themed = ['--state-bingo', '--state-free', '--state-marked', '--state-bingo-soft', '--state-free-soft']
+        .map((v) => cs.getPropertyValue(v).trim()).filter(Boolean);
+      const colors = SETTINGS.confettiColors || (themed.length === 5 ? themed : ['#999', '#bbb', '#ddd', '#aaa', '#ccc']);
+      const container = document.createElement('div');
+      container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
+      document.body.appendChild(container);
+      for (let i = 0; i < 70; i++) {
+        const piece = document.createElement('div');
+        const size = 6 + Math.random() * 8;
+        piece.style.cssText = [
+          'position:absolute', 'top:-20px',
+          'left:' + (Math.random() * 100) + '%',
+          'width:' + size + 'px', 'height:' + (size * 0.6) + 'px',
+          'background:' + colors[i % colors.length],
+          'border-radius:2px',
+          'transform:rotate(' + (Math.random() * 360) + 'deg)',
+          'animation:bingo-confetti-fall ' + (1.8 + Math.random() * 1.4) + 's ease-in ' + (Math.random() * 0.4) + 's forwards',
+        ].join(';');
+        container.appendChild(piece);
+      }
+      setTimeout(() => container.remove(), 3800);
+    }
+
+    const grid = document.getElementById('bingoGrid');
+    const progressEl = document.getElementById('bingoProgress');
+    const trackerItemsEl = document.getElementById('trackerItems');
+    const claimWrap = document.getElementById('claimWrap');
+    const claimBtn = document.getElementById('claimBtn');
+
+    function buildGrid() {
+      grid.innerHTML = '';
+      squares.forEach((square, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'bingo-square';
+        btn.dataset.index = index;
+        const span = document.createElement('span');
+        span.textContent = square;
+        btn.appendChild(span);
+        if (index !== FREE_INDEX) {
+          btn.addEventListener('click', () => {
+            marks[index] = !marks[index];
+            save();
+            render();
+          });
+        }
+        grid.appendChild(btn);
+      });
+    }
+
+    function render() {
+      const completedLines = BINGO_LINES.filter((line) => line.every(isMarked));
+      const bingoLineSquares = new Set(completedLines.flat());
+      const markedCount = squares.filter((_, i) => isMarked(i)).length;
+      const fullCard = markedCount === squares.length;
+
+      Array.from(grid.children).forEach((btn, index) => {
+        const isFree = index === FREE_INDEX;
+        const marked = isFree || marks[index];
+        const inBingo = bingoLineSquares.has(index);
+        btn.className = 'bingo-square'
+          + (isFree ? ' free' : '')
+          + (marked && !isFree ? ' marked' : '')
+          + (inBingo && !isFree ? ' bingoed' : '');
+      });
+
+      progressEl.textContent = markedCount + '/' + squares.length + ' marked · '
+        + (completedLines.length === 1 ? '1 bingo' : completedLines.length + ' bingos');
+
+      trackerItemsEl.innerHTML = '';
+      SETTINGS.milestones.forEach((m) => {
+        const done = m.type === 'full' ? fullCard : completedLines.length >= m.threshold;
+        const item = document.createElement('div');
+        item.className = 'tracker-item' + (done ? ' done' : '');
+        item.innerHTML =
+          '<div class="tracker-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'
+          + '<div><div class="tracker-label">' + m.label + '</div>'
+          + '<div class="tracker-sub">' + (done ? SETTINGS.milestoneDone : m.locked) + '</div></div>';
+        trackerItemsEl.appendChild(item);
+      });
+
+      if (completedLines.length > 0) {
+        claimWrap.classList.remove('hidden');
+        const label = fullCard
+          ? SETTINGS.claimLabelFullCard
+          : completedLines.length >= 2
+            ? SETTINGS.claimLabelRepeat
+            : SETTINGS.claimLabel;
+        claimBtn.childNodes[0].nodeValue = label + ' ';
+        claimBtn.href = SETTINGS.claimLink;
+      } else {
+        claimWrap.classList.add('hidden');
+      }
+
+      if (prevBingoCount !== null && completedLines.length > prevBingoCount) {
+        fireConfetti();
+      }
+      prevBingoCount = completedLines.length;
+    }
+
+    buildGrid();
+    render();
+  </script>
+</body>
+</html>
