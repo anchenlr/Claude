@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Summit Plan — Page Builder Summit</title>
+<meta name="description" content="Get your personal Page Builder Summit plan: picks matched to you, your schedule in your own time zone, and a calendar you can download.">
+<link rel="icon" type="image/png" href="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D85A95;
+    --pink-dark: #CC4E89;
+    --blue: #25AAE1;
+    --blue-dark: #199ED5;
+    --navy: #312E61;
+    --teal: #75B8A1;
+    --teal-dark: #5FA088;
+    --light-blue: #E2F0FB;
+    --white: #FFFFFF;
+    --off-white: #FBFCFE;
+    --text: #333333;
+    --text-light: #666666;
+    --border: rgba(49,46,97,0.12);
+    --radius: 14px;
+  }
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--navy); line-height: 1.15; }
+  a { color: var(--blue); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+  /* ---------- Top bar ---------- */
+  .topbar { background: var(--teal); color: rgba(255,255,255,0.92); padding: 10px 0; font-size: 13px; text-align: center; }
+  .topbar strong { color: var(--white); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 14px 26px; border-radius: 999px; text-decoration: none;
+    white-space: nowrap; border: none; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-white { background: var(--white); color: var(--pink-dark); }
+  .btn-white:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .btn-primary { background: var(--pink); color: var(--white); }
+  .btn-primary:hover { box-shadow: 0 8px 20px rgba(216,90,149,0.35); }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--navy); }
+  .btn-teal { background: var(--teal); color: var(--white); }
+  .btn-teal:hover { box-shadow: 0 8px 20px rgba(117,184,161,0.4); }
+  .btn-sm { padding: 10px 18px; font-size: 12px; }
+  .btn-block { width: 100%; }
+
+  /* =========================================================
+     QUIZ
+  ========================================================= */
+  #quizScreen { min-height: 100vh; }
+  .quiz-hero { background: var(--light-blue); padding: 40px 0 0; }
+  .quiz-logo { height: 40px; width: auto; margin-bottom: 24px; }
+  .quiz-shell { max-width: 560px; margin: 0 auto; padding: 0 20px 60px; }
+  .quiz-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 36px 32px; margin-top: -8px; box-shadow: 0 20px 50px rgba(49,46,97,0.08);
+  }
+  .quiz-progress-track { height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; margin-bottom: 28px; }
+  .quiz-progress-bar { height: 100%; background: linear-gradient(90deg, var(--pink) 0%, var(--blue) 100%); border-radius: 999px; transition: width 0.3s ease; width: 20%; }
+  .quiz-step-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--pink); margin-bottom: 10px; }
+  .quiz-screen { display: none; }
+  .quiz-screen.active { display: block; animation: quizFadeIn 0.25s ease; }
+  @keyframes quizFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .quiz-screen h2 { font-size: clamp(20px, 3vw, 24px); margin-bottom: 10px; }
+  .quiz-screen .quiz-sub { color: var(--text-light); font-size: 14.5px; margin-bottom: 24px; }
+
+  .field { margin-bottom: 18px; }
+  .field label.field-label-text { display: block; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+  .field input[type="text"], .field input[type="email"] {
+    width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'Open Sans', sans-serif; font-size: 15px; color: var(--text); background: var(--white);
+  }
+  .field input:focus { border-color: var(--pink); }
+  .field textarea {
+    width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'Open Sans', sans-serif; font-size: 15px; color: var(--text); background: var(--white);
+    min-height: 90px; resize: vertical;
+  }
+  .consent-row { display: flex; gap: 12px; align-items: flex-start; padding: 14px; background: var(--off-white); border-radius: 10px; margin: 18px 0 6px; }
+  .consent-row input { margin-top: 3px; flex-shrink: 0; width: 17px; height: 17px; }
+  .consent-row label { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .fine-print { font-size: 12.5px; color: var(--text-light); margin-top: 14px; }
+  .hp-field { position: absolute; left: -9999px; top: -9999px; }
+
+  .choice-grid { display: grid; gap: 10px; }
+  .choice-card {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.15s;
+    background: var(--white);
+  }
+  .choice-card:hover { border-color: var(--teal); }
+  .choice-card input { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--pink); }
+  .choice-card .choice-label { font-size: 14.5px; font-weight: 600; color: var(--navy); }
+  .choice-card.checked { border-color: var(--pink); background: rgba(216,90,149,0.05); }
+  .choice-card.disabled { opacity: 0.4; cursor: not-allowed; }
+  .choice-sub-grid { margin: 4px 0 0 30px; padding-left: 16px; border-left: 2px solid var(--light-blue); display: none; }
+  .choice-sub-grid.shown { display: grid; gap: 8px; margin-top: 14px; padding-top: 2px; }
+  .choice-hint { font-size: 12px; color: var(--text-light); margin: -4px 0 12px; }
+
+  .quiz-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .quiz-back { background: none; border: none; color: var(--text-light); font-size: 13px; font-weight: 700; cursor: pointer; padding: 10px; }
+  .quiz-back:hover { color: var(--navy); }
+  .quiz-error-msg { color: var(--pink-dark); font-size: 13px; margin-top: 10px; display: none; }
+  .quiz-error-msg.shown { display: block; }
+
+  .quiz-state {
+    display: none; text-align: center; padding: 60px 24px; flex-direction: column; align-items: center; gap: 18px;
+  }
+  .quiz-state.shown { display: flex; }
+  .spinner { width: 40px; height: 40px; border: 4px solid var(--light-blue); border-top-color: var(--pink); border-radius: 50%; animation: spin 0.9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .quiz-state h3 { font-size: 20px; }
+  .quiz-state p { color: var(--text-light); max-width: 380px; }
+
+  /* =========================================================
+     HUB (shared shell patterns reused from the Speaker Hub)
+  ========================================================= */
+  #loading, #errorState { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; gap: 16px; }
+  #loading, #errorState { display: none; }
+  #loading.shown, #errorState.shown { display: flex; }
+  #hubContent { display: none; }
+  #hubContent.shown { display: block; }
+
+  section { padding: 48px 0; scroll-margin-top: 56px; }
+  section.alt { background: var(--light-blue); }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 2px; background: var(--pink); border-radius: 2px; }
+  h2.section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 8px; }
+  .section-sub { color: var(--text-light); max-width: 640px; margin-bottom: 28px; font-size: 15px; }
+
+  .hero { background: var(--light-blue); padding: 56px 0 40px; }
+  .logo-row { display: flex; align-items: center; margin-bottom: 28px; }
+  .logo-row img { height: 40px; width: auto; }
+  .hero h1 { font-size: clamp(26px, 4.2vw, 40px); font-weight: 800; margin-bottom: 10px; }
+  .hero p.lead { font-size: 16px; color: var(--text); max-width: 560px; margin-bottom: 20px; }
+  .goal-box { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; max-width: 560px; margin-bottom: 22px; }
+  .goal-box .goal-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--pink); margin-bottom: 4px; }
+  .goal-box .goal-line { font-size: 15px; color: var(--navy); font-weight: 600; }
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat-pill { background: rgba(255,255,255,0.75); border: 1px solid rgba(49,46,97,0.14); border-radius: 999px; padding: 10px 20px; font-size: 14px; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+  .stat-pill strong { font-family: 'Montserrat', sans-serif; font-size: 16px; color: var(--navy); }
+
+  .section-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.97); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); }
+  .section-nav-inner { display: flex; gap: 8px; overflow-x: auto; max-width: 980px; margin: 0 auto; padding: 10px 16px; -webkit-overflow-scrolling: touch; }
+  .section-nav a { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--navy); background: var(--off-white); border: 1px solid var(--border); text-decoration: none; white-space: nowrap; }
+  .section-nav a:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .section-nav a.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+  .nav-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--light-blue); color: var(--navy); font-size: 11px; font-weight: 800; }
+  .section-nav a.active .nav-badge { background: rgba(255,255,255,0.22); color: var(--white); }
+
+  /* Timezone row */
+  .tz-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-light); margin-bottom: 22px; }
+  .tz-row select { padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--border); font-size: 13px; color: var(--navy); font-weight: 600; background: var(--white); }
+
+  /* Session cards */
+  .card-grid { display: grid; gap: 16px; }
+  .session-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+  .session-card .info { flex: 1; min-width: 240px; }
+  .session-card .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; }
+  .badge-top { background: rgba(216,90,149,0.12); color: var(--pink-dark); }
+  .badge-wildcard { background: rgba(37,170,225,0.12); color: var(--blue-dark); }
+  .session-card h3 { font-size: 17px; margin-bottom: 4px; }
+  .session-speaker { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
+  .session-reason { font-size: 13.5px; color: var(--text); font-style: italic; margin-bottom: 10px; }
+  .status-line { font-size: 12.5px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 0; }
+  .status-line::before { content: ''; width: 7px; height: 7px; border-radius: 50%; }
+  .status-upcoming { color: var(--text-light); }
+  .status-upcoming::before { background: var(--text-light); }
+  .status-open { color: var(--teal-dark); }
+  .status-open::before { background: var(--teal); }
+  .status-ended { color: var(--text-light); }
+  .status-ended::before { background: var(--border); }
+  .session-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; }
+  .session-side { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; min-width: 150px; }
+  .cal-links { display: flex; gap: 6px; }
+  .cal-links a { font-size: 11px; font-weight: 700; color: var(--text-light); text-decoration: none; padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; }
+  .cal-links a:hover { border-color: var(--navy); color: var(--navy); }
+  .watched-toggle { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-light); cursor: pointer; }
+  .watched-toggle input { accent-color: var(--teal); width: 15px; height: 15px; }
+  .empty-note { background: var(--white); border: 1px dashed var(--border); border-radius: var(--radius); padding: 28px; text-align: center; color: var(--text-light); font-size: 14.5px; }
+
+  /* Day tabs */
+  .day-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; }
+  .day-tab { flex-shrink: 0; padding: 9px 18px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--white); font-size: 13px; font-weight: 700; color: var(--navy); cursor: pointer; }
+  .day-tab.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+  .day-group-label { font-size: 13px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: var(--pink); margin: 22px 0 10px; }
+  .day-group-label:first-child { margin-top: 0; }
+
+  .filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  .filter-row input[type="search"] { flex: 1; min-width: 200px; padding: 11px 16px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 14px; }
+  .filter-toggle { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--navy); font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .filter-toggle input { accent-color: var(--pink); width: 16px; height: 16px; }
+
+  .schedule-row { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 10px; }
+  .schedule-row-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
+  .schedule-row-time { font-size: 13px; font-weight: 700; color: var(--text-light); min-width: 80px; }
+  .schedule-row-main { flex: 1; min-width: 200px; }
+  .schedule-row-main h4 { font-size: 15px; color: var(--navy); }
+  .schedule-row-main .sp { font-size: 12.5px; color: var(--text-light); }
+  .schedule-row-desc { font-size: 13.5px; color: var(--text-light); margin-top: 10px; display: none; }
+  .schedule-row-desc.shown { display: block; }
+  .schedule-row-toggle { font-size: 12px; color: var(--blue); background: none; border: none; cursor: pointer; font-weight: 700; padding: 0; margin-top: 8px; }
+  .in-plan-mark { font-size: 11px; font-weight: 800; color: var(--teal-dark); background: rgba(117,184,161,0.16); padding: 4px 10px; border-radius: 999px; }
+
+  /* Picks */
+  .pick-card { position: relative; }
+
+  /* Live events */
+  .event-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; }
+  .event-card + .event-card { margin-top: 14px; }
+  .event-card h3 { font-size: 16px; margin-bottom: 4px; }
+  .event-card p { font-size: 13.5px; color: var(--text-light); }
+
+  /* Notes */
+  .notes-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 18px; }
+  .session-note-row { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; }
+  .session-note-row:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  .session-note-row h4 { font-size: 14px; margin-bottom: 8px; }
+  .session-note-row textarea { width: 100%; min-height: 60px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13.5px; font-family: 'Open Sans', sans-serif; }
+
+  /* Guide cards (bingo / community / powerpack) */
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .guide-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .guide-card h3 { font-size: 18px; }
+  .guide-card p { font-size: 14px; color: var(--text-light); flex: 1; }
+  .guide-card .btn { align-self: flex-start; }
+  .powerpack-card { background: linear-gradient(135deg, var(--navy) 0%, #3f3b7a 100%); color: var(--white); border-radius: var(--radius); padding: 32px; }
+  .powerpack-card h3 { color: var(--white); font-size: 20px; margin-bottom: 8px; }
+  .powerpack-card p { color: rgba(255,255,255,0.85); margin-bottom: 18px; max-width: 480px; }
+
+  /* Calendar panel */
+  .cal-panel-overlay { display: none; position: fixed; inset: 0; background: rgba(49,46,97,0.45); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+  .cal-panel-overlay.shown { display: flex; }
+  .cal-panel { background: var(--white); border-radius: var(--radius); padding: 30px; max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto; }
+  .cal-panel h3 { margin-bottom: 18px; }
+  .cal-opt { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+  .cal-opt input[type="radio"] { accent-color: var(--pink); width: 17px; height: 17px; }
+  .cal-opt-check { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; }
+  .cal-opt-check input { accent-color: var(--teal); width: 16px; height: 16px; }
+  .cal-panel-divider { border-top: 1px solid var(--border); margin: 14px 0; }
+  .cal-panel-actions { display: flex; gap: 10px; margin-top: 22px; }
+  .cal-help { font-size: 12px; color: var(--text-light); margin-top: 14px; }
+
+  /* Find my plan box */
+  .find-plan-box { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; max-width: 420px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .find-plan-box input { flex: 1; min-width: 180px; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 14px; }
+
+  footer { background: var(--white); border-top: 1px solid var(--border); color: var(--text); padding: 40px 0; text-align: center; font-size: 14px; }
+  footer a { color: var(--pink-dark); font-weight: 700; }
+  footer .fine { font-size: 12px; color: var(--text-light); margin-top: 10px; }
+
+  @media (max-width: 640px) {
+    section { padding: 36px 0; }
+    .session-card { flex-direction: column; }
+    .session-side { align-items: flex-start; width: 100%; }
+    .quiz-card { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><strong>Page Builder Summit 9.0</strong> &nbsp;·&nbsp; 2–6 November 2026 &nbsp;·&nbsp; "What's Working Now"</div>
+
+<!-- ========================================================
+     QUIZ (shown when there's no ?t= token in the URL)
+======================================================== -->
+<div id="quizScreen">
+  <div class="quiz-hero">
+    <div class="wrap">
+      <img class="quiz-logo" src="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png" alt="Page Builder Summit">
+    </div>
+  </div>
+  <div class="quiz-shell">
+    <div class="quiz-card">
+
+      <div class="quiz-progress-track"><div class="quiz-progress-bar" id="quizProgressBar"></div></div>
+
+      <!-- Screen 1: email + name -->
+      <div class="quiz-screen active" data-screen="1">
+        <div class="quiz-step-label">Step 1 of 5</div>
+        <h2>Get your personal summit plan</h2>
+        <p class="quiz-sub">One minute and a few questions. We pick the sessions that fit you, then you add your own and build your calendar.</p>
+        <div class="field">
+          <label class="field-label-text" for="qFirstName">First name</label>
+          <input type="text" id="qFirstName" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label class="field-label-text" for="qEmail">Email</label>
+          <input type="email" id="qEmail" autocomplete="email">
+        </div>
+        <input type="text" class="hp-field" id="qHoneypot" tabindex="-1" autocomplete="off">
+        <div class="consent-row">
+          <input type="checkbox" id="qConsent">
+          <label for="qConsent">Register me free for Page Builder Summit and email me my plan, daily session links and summit updates. I can unsubscribe any time.</label>
+        </div>
+        <p class="fine-print">Already registered? Use the same email and we'll skip straight to your plan.</p>
+        <p class="quiz-error-msg" id="screen1Error">Please add your name, a valid email, and tick the box above.</p>
+        <div class="quiz-actions">
+          <span></span>
+          <button type="button" class="btn btn-primary" id="screen1Next">Start →</button>
+        </div>
+      </div>
+
+      <!-- Screen 2: platforms -->
+      <div class="quiz-screen" data-screen="2">
+        <div class="quiz-step-label">Step 2 of 5</div>
+        <h2>What do you mostly build with?</h2>
+        <p class="quiz-sub">Pick any that apply.</p>
+        <div class="choice-grid" id="platformChoices"></div>
+        <div class="choice-sub-grid" id="builderSubGrid">
+          <div class="choice-hint">Which page builders or editors?</div>
+          <div class="choice-grid" id="builderChoices"></div>
+        </div>
+        <div class="quiz-actions">
+          <button type="button" class="quiz-back" data-back="1">← Back</button>
+          <button type="button" class="btn btn-primary" id="screen2Next">Next →</button>
+        </div>
+      </div>
+
+      <!-- Screen 3: focus -->
+      <div class="quiz-screen" data-screen="3">
+        <div class="quiz-step-label">Step 3 of 5</div>
+        <h2>What do you want more of right now?</h2>
+        <p class="quiz-sub">Pick up to 2.</p>
+        <div class="choice-grid" id="focusChoices"></div>
+        <div class="quiz-actions">
+          <button type="button" class="quiz-back" data-back="2">← Back</button>
+          <button type="button" class="btn btn-primary" id="screen3Next">Next →</button>
+        </div>
+      </div>
+
+      <!-- Screen 4: AI level -->
+      <div class="quiz-screen" data-screen="4">
+        <div class="quiz-step-label">Step 4 of 5</div>
+        <h2>Where are you with AI in your work?</h2>
+        <p class="quiz-sub">Pick one.</p>
+        <div class="choice-grid" id="aiChoices"></div>
+        <div class="quiz-actions">
+          <button type="button" class="quiz-back" data-back="3">← Back</button>
+          <button type="button" class="btn btn-primary" id="screen4Next">Next →</button>
+        </div>
+      </div>
+
+      <!-- Screen 5: open question -->
+      <div class="quiz-screen" data-screen="5">
+        <div class="quiz-step-label">Step 5 of 5</div>
+        <h2>What's the one thing you want to walk away with this week?</h2>
+        <p class="quiz-sub">Optional, but it helps us pick better sessions for you.</p>
+        <div class="field">
+          <textarea id="qGoal" placeholder="e.g. a clearer way to price my projects"></textarea>
+        </div>
+        <div class="quiz-actions">
+          <button type="button" class="quiz-back" data-back="4">← Back</button>
+          <button type="button" class="btn btn-primary" id="screen5Submit">Build my plan →</button>
+        </div>
+      </div>
+
+      <!-- Submission states -->
+      <div class="quiz-state" id="stateSubmitting">
+        <div class="spinner"></div>
+        <h3>Registering you and picking your sessions…</h3>
+      </div>
+      <div class="quiz-state" id="stateNew">
+        <div class="spinner"></div>
+        <h3>You're in! 🎉</h3>
+        <p>One moment while we take you to your welcome page.</p>
+      </div>
+      <div class="quiz-state" id="stateExisting">
+        <div class="spinner"></div>
+        <h3>Building your plan…</h3>
+        <p>This usually takes a few seconds.</p>
+      </div>
+      <div class="quiz-state" id="stateError">
+        <h3>Something went wrong</h3>
+        <p>Nothing is lost, please try again, or email <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a>.</p>
+        <button type="button" class="btn btn-outline" id="stateErrorRetry">Try again</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================
+     HUB (shown when the URL has ?t=<token>)
+======================================================== -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Loading your plan…</p>
+</div>
+
+<div id="errorState">
+  <h2 class="section-title">We couldn't find your plan</h2>
+  <p class="section-sub">Double-check the link we sent you, or use the box below to get it again.</p>
+  <div class="find-plan-box">
+    <input type="email" id="findPlanEmail" placeholder="you@example.com">
+    <button type="button" class="btn btn-primary" id="findPlanBtn">Email my link</button>
+  </div>
+  <p class="fine-print" id="findPlanMsg" style="display:none;"></p>
+</div>
+
+<div id="hubContent">
+
+  <!-- ========== HERO ========== -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="logo-row"><img src="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png" alt="Page Builder Summit"></div>
+      <h1>Hey <em id="heroFirstName" style="color:var(--pink); font-style:normal;">there</em>, your summit plan is ready</h1>
+      <p class="lead">Page Builder Summit 9.0 · 2–6 November 2026 · What's Working Now</p>
+      <div class="goal-box" id="goalBox" style="display:none;">
+        <div class="goal-label">Your goal for the week</div>
+        <div class="goal-line" id="goalLine">–</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill"><strong id="statPickCount">0</strong>&nbsp;sessions in your plan</div>
+        <div class="stat-pill">Free to watch while each session is open</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SECTION NAV ========== -->
+  <nav class="section-nav">
+    <div class="section-nav-inner" id="sectionNavInner">
+      <a href="#today-section">Today</a>
+      <a href="#picks-section">Your picks<span class="nav-badge" id="navBadgePicks"></span></a>
+      <a href="#plan-section">My plan<span class="nav-badge" id="navBadgePlan"></span></a>
+      <a href="#schedule-section">Schedule</a>
+      <a href="#live-events-section">Live events</a>
+      <a href="#notes-section">Notes</a>
+      <a href="#bingo-section">Bingo & community</a>
+      <a href="#powerpack-section">PowerPack</a>
+    </div>
+  </nav>
+
+  <!-- ========== TIME ZONE ROW ========== -->
+  <div class="wrap" style="padding-top:28px;">
+    <div class="tz-row">
+      <span>Showing times in</span>
+      <select id="tzSelect"></select>
+      <span id="serverSkewNote"></span>
+    </div>
+  </div>
+
+  <!-- ========== TODAY ========== -->
+  <section id="today-section">
+    <div class="wrap">
+      <div class="eyebrow">Right now</div>
+      <h2 class="section-title">Open now in your plan</h2>
+      <div class="card-grid" id="todayWrap"></div>
+    </div>
+  </section>
+
+  <!-- ========== YOUR PICKS ========== -->
+  <section class="alt" id="picks-section">
+    <div class="wrap">
+      <div class="eyebrow">Picked for you</div>
+      <h2 class="section-title">Your picks</h2>
+      <p class="section-sub">Start with the top 3. The rest are close behind.</p>
+      <div class="card-grid" id="picksWrap"></div>
+    </div>
+  </section>
+
+  <!-- ========== MY PLAN ========== -->
+  <section id="plan-section">
+    <div class="wrap">
+      <div class="eyebrow">Your plan</div>
+      <h2 class="section-title">My plan</h2>
+      <p class="section-sub"><span id="planCount">0</span> sessions, grouped by day in your own time zone.</p>
+      <div id="planWrap"></div>
+      <div style="margin-top:24px;">
+        <button type="button" class="btn btn-primary" id="buildCalendarBtn">Build my calendar →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FULL SCHEDULE ========== -->
+  <section class="alt" id="schedule-section">
+    <div class="wrap">
+      <div class="eyebrow">Everything on offer</div>
+      <h2 class="section-title">Full schedule</h2>
+      <p class="section-sub">All times are in your own time zone. Every session stays open for 48 hours after it releases.</p>
+      <div class="day-tabs" id="scheduleDayTabs"></div>
+      <div class="filter-row">
+        <input type="search" id="scheduleSearch" placeholder="Search sessions or speakers…">
+        <label class="filter-toggle"><input type="checkbox" id="scheduleInPlanOnly"> In my plan only</label>
+      </div>
+      <div id="scheduleWrap"></div>
+    </div>
+  </section>
+
+  <!-- ========== LIVE EVENTS ========== -->
+  <section id="live-events-section">
+    <div class="wrap">
+      <div class="eyebrow">Don't miss these</div>
+      <h2 class="section-title">Live events</h2>
+      <div id="liveEventsWrap"></div>
+    </div>
+  </section>
+
+  <!-- ========== NOTES ========== -->
+  <section class="alt" id="notes-section">
+    <div class="wrap">
+      <div class="eyebrow">Keep track</div>
+      <h2 class="section-title">Notes</h2>
+      <p class="section-sub">Saved on this device. Open your link in the same browser to see them again.</p>
+      <div class="notes-card">
+        <label class="field-label-text" for="quickNotes" style="margin-bottom:10px; display:block;">Quick notes</label>
+        <textarea id="quickNotes" placeholder="Anything you want to remember from the week…" style="min-height:90px;"></textarea>
+      </div>
+      <div class="notes-card" id="sessionNotesWrap"></div>
+      <button type="button" class="btn btn-outline" id="downloadNotesBtn">Download my notes →</button>
+    </div>
+  </section>
+
+  <!-- ========== BINGO & COMMUNITY ========== -->
+  <section id="bingo-section">
+    <div class="wrap">
+      <div class="eyebrow">Play along</div>
+      <h2 class="section-title">Bingo & community</h2>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>Summit Bingo</h3>
+          <p>Mark your squares as you go, then post your card in the Facebook group to enter the daily draw. You need to be registered to win.</p>
+          <a href="#" id="bingoLink" target="_blank" class="btn btn-primary">Play bingo →</a>
+        </div>
+        <div class="guide-card">
+          <h3>Facebook group</h3>
+          <p>Share your biggest takeaway and tag the speaker. It's where all the live events happen too.</p>
+          <a href="#" id="facebookLink" target="_blank" class="btn btn-teal">Join the group →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== POWERPACK ========== -->
+  <section class="alt" id="powerpack-section">
+    <div class="wrap">
+      <div class="powerpack-card">
+        <h3>Want to keep everything?</h3>
+        <p>The PowerPack gives you lifetime access to every presentation, the companion workbook and bonus resources from the speakers.</p>
+        <a href="#" id="powerpackLink" target="_blank" class="btn btn-white">See the PowerPack →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="wrap">
+      <p>Questions? Email <a href="mailto:anchen@pagebuildersummit.com">anchen@pagebuildersummit.com</a> — happy to help.</p>
+      <p class="fine">Lost your link? <a href="#" id="footerFindLink">Get it again</a></p>
+      <p class="fine">Page Builder Summit 9.0 · 2–6 November 2026</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ========== CALENDAR PANEL ========== -->
+<div class="cal-panel-overlay" id="calPanelOverlay">
+  <div class="cal-panel">
+    <h3>Build my calendar</h3>
+    <div class="cal-opt"><input type="radio" name="calScope" value="all" id="calScopeAll" checked><label for="calScopeAll">Everything in my plan</label></div>
+    <div class="cal-opt"><input type="radio" name="calScope" value="soon" id="calScopeSoon"><label for="calScopeSoon">Today and tomorrow only</label></div>
+    <div class="cal-opt"><input type="radio" name="calScope" value="pick" id="calScopePick"><label for="calScopePick">Pick days</label></div>
+    <div id="calDayPicker" style="display:none; margin:4px 0 4px 28px;"></div>
+    <div class="cal-panel-divider"></div>
+    <div class="cal-opt-check"><input type="checkbox" id="calIncludeQA" checked><label for="calIncludeQA">Include live Q&A times</label></div>
+    <div class="cal-opt-check"><input type="checkbox" id="calIncludeEvents" checked><label for="calIncludeEvents">Include Kickoff and Closing</label></div>
+    <div class="cal-opt-check"><input type="checkbox" id="calIncludeNetworking"><label for="calIncludeNetworking">Include networking sessions</label></div>
+    <div class="cal-panel-actions">
+      <button type="button" class="btn btn-outline" id="calPanelCancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="calPanelDownload">Download calendar file →</button>
+    </div>
+    <p class="cal-help">For Google Calendar, import the downloaded file at calendar.google.com under Settings, then Import.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     WIRING THIS UP
+     Replace the three REPLACE_ME_* URLs once the Make scenarios
+     in section 12 of the build spec exist:
+       - PBS Attendee Hub - Get Data      -> GET_DATA_URL
+       - PBS Attendee Quiz - Submit        -> QUIZ_SUBMIT_URL
+       - PBS Attendee Hub - Resend Link    -> RESEND_URL
+     Until GET_DATA_URL is a real webhook, the hub runs on the
+     MOCK_DATA below so the page itself can be reviewed first.
+  ========================================================= */
+  var CONFIG = {
+    GET_DATA_URL: "REPLACE_ME_GET_DATA_WEBHOOK",
+    QUIZ_SUBMIT_URL: "REPLACE_ME_QUIZ_SUBMIT_WEBHOOK",
+    RESEND_URL: "REPLACE_ME_RESEND_WEBHOOK",
+    SUMMIT_START: "2026-11-02T00:00:00Z",
+    SUMMIT_END: "2026-11-07T00:00:00Z",
+    CONSENT_TEXT_VERSION: "v1-2026-10-24",
+    LINKS: {
+      bingo: "https://pagebuildersummit.com/bingo/",
+      facebook: "https://www.facebook.com/groups/pagebuildersummit",
+      powerpack: "#", // [TBD] final PowerPack page URL — see spec section 16, item 5
+      support: "mailto:anchen@pagebuildersummit.com"
+    }
+  };
+  var DEMO_MODE = CONFIG.GET_DATA_URL.indexOf("REPLACE_ME") === 0;
+
+  var PLATFORM_OPTIONS = ["WordPress", "Shopify", "Squarespace", "HighLevel", "Custom code", "Something else"];
+  var BUILDER_OPTIONS = ["Beaver Builder", "Elementor", "Bricks", "Kadence", "Divi", "Breakdance", "Gutenberg (block editor)", "Other"];
+  var FOCUS_OPTIONS = [
+    "More leads, traffic and marketing",
+    "Better quality websites (UX, conversions, accessibility)",
+    "Happier clients (client experience and delivery)",
+    "More efficient processes (automation, workflows)",
+    "Make more money (revenue streams, upsells, recurring income)",
+    "What's new and innovative (AI, trends, tools)"
+  ];
+  var AI_OPTIONS = ["Not started yet", "Dabbling", "Using it most days", "Building systems with it"];
+
+  /* =========================================================
+     MOCK DATA — demo mode only. Shape matches the real Get Data
+     webhook response (build spec section 7c) so swapping in the
+     real GET_DATA_URL needs no changes to the render code below.
+  ========================================================= */
+  function isoAt(dayOffset, hourUTC) {
+    var d = new Date("2026-11-02T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() + dayOffset);
+    d.setUTCHours(hourUTC, 0, 0, 0);
+    return d.toISOString();
+  }
+  var MOCK_DATA = {
+    ok: true,
+    server_time: new Date().toISOString(),
+    plan_status: "Ready",
+    attendee: {
+      first_name: "Alex",
+      goal_line: "You want a clearer way to price your projects and bring in more of the right clients.",
+      picks: [
+        { id: "mock-1", rank: 1, top: true, wildcard: false, reason: "A practical, repeatable framework for pricing premium work without the scope-creep headache." },
+        { id: "mock-4", rank: 2, top: true, wildcard: false, reason: "Real AI workflows you can put to work this week, not just theory." },
+        { id: "mock-6", rank: 3, top: true, wildcard: false, reason: "Marketing advice built specifically for web designers, not generic business coaching." },
+        { id: "mock-2", rank: 4, top: false, wildcard: false, reason: "A concrete automation example you can adapt for your own business." },
+        { id: "mock-5", rank: 5, top: false, wildcard: true, reason: "A stretch pick: a different way to think about what WordPress sites actually need." }
+      ]
+    },
+    schedule: {
+      summit: { name: "Page Builder Summit 9.0", theme: "What's Working Now", starts: "2026-11-02", ends: "2026-11-06" },
+      replay_hours: 48,
+      qa_offset_minutes: 45,
+      qa_duration_minutes: 15,
+      links: {
+        bingo: "https://pagebuildersummit.com/bingo/",
+        facebook: "https://www.facebook.com/groups/pagebuildersummit",
+        schedule_page: "https://pagebuildersummit.com/schedule",
+        powerpack: "#",
+        support_email: "anchen@pagebuildersummit.com"
+      },
+      items: [
+        { id: "kickoff", type: "kickoff", format: "event", title: "Kickoff Call", opens_at: isoAt(0, 17), location: "Live in the Facebook group" },
+        { id: "mock-1", type: "session", format: "standard", title: "The One Offer Rule: 7 Ways to Deliver Premium Design Work Without the Chaos", speaker: "Sarah Masci", company: "", description: "A container concept that ends scope creep without turning away clients, seven core offer formats, and how to know which one fits your life.", opens_at: isoAt(0, 18), closes_at: isoAt(2, 18), qa_at: isoAt(0, 18.75), page_link: null, gift_url: null, platforms: [], focus: ["Make more money (revenue streams, upsells, recurring income)"] },
+        { id: "mock-2", type: "session", format: "standard", title: "Build Once, Run Forever: Automations Every Web Pro Can Steal", speaker: "Anchen le Roux", company: "", description: "Real automations built with Make, Airtable and Claude, and the simple pattern they all share.", opens_at: isoAt(0, 20), closes_at: isoAt(2, 20), qa_at: isoAt(0, 20.75), page_link: null, gift_url: null, platforms: [], focus: ["More efficient processes (automation, workflows)"] },
+        { id: "mock-3", type: "session", format: "no_qa", title: "Marketing and Getting Clients: What's Working Now", speaker: "Shannon Mattern", company: "", description: "What always works, what almost never works, and the keys to a high-converting marketing strategy in the AI era.", opens_at: isoAt(1, 18), closes_at: isoAt(3, 18), qa_at: null, page_link: null, gift_url: null, platforms: [], focus: ["More leads, traffic and marketing"] },
+        { id: "mock-4", type: "session", format: "standard", title: "Everyday AI Habits for Web Designers", speaker: "Cami MacNamara", company: "", description: "Small, useful AI habits from running a solo web design business, ready to put to work right away.", opens_at: isoAt(1, 20), closes_at: isoAt(3, 20), qa_at: isoAt(1, 20.75), page_link: null, gift_url: null, platforms: [], focus: ["What's new and innovative (AI, trends, tools)"] },
+        { id: "mock-5", type: "session", format: "live_only", title: "85% of the Sites We Build Don't Need WordPress Anymore", speaker: "Kevin Geary", company: "", description: "What if 85% of the sites you build could be maintenance-free, headache-free and essentially hosted for free?", opens_at: isoAt(2, 19), closes_at: isoAt(2, 20), qa_at: null, page_link: null, gift_url: null, platforms: ["WordPress"], focus: ["What's new and innovative (AI, trends, tools)"] },
+        { id: "mock-6", type: "session", format: "standard", title: "The One Week Rule: How to Deliver Premium $5k-$10k Websites in Five Focused Days", speaker: "Whitney Zimmermann", company: "", description: "A 5-day website delivery framework to build income without sacrificing evenings and weekends.", opens_at: isoAt(2, 18), closes_at: isoAt(4, 18), qa_at: isoAt(2, 18.75), page_link: null, gift_url: null, platforms: [], focus: ["Make more money (revenue streams, upsells, recurring income)"] },
+        { id: "closing", type: "closing", format: "event", title: "Closing Call", opens_at: isoAt(4, 18), location: "Live in the Facebook group" }
+      ]
+    }
+  };
+
+  /* =========================================================
+     UTILITIES
+  ========================================================= */
+  function qs(name) { return new URLSearchParams(window.location.search).get(name); }
+  function esc(s) {
+    if (s === null || s === undefined) return "";
+    var d = document.createElement("div");
+    d.textContent = String(s);
+    return d.innerHTML;
+  }
+  function getLocalTimeZone() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"; } catch (e) { return "UTC"; }
+  }
+  var COMMON_ZONES = ["Pacific/Auckland", "Australia/Sydney", "Asia/Singapore", "Europe/London", "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles"];
+  function zoneLabel(tz) { return tz.replace(/_/g, " ").split("/").pop() + " (" + tz + ")"; }
+
+  function storageGet(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function storageSet(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage blocked, hub still works */ }
+  }
+
+  /* =========================================================
+     QUIZ
+  ========================================================= */
+  var quizState = {
+    screen: 1,
+    firstName: "", email: "", consent: false,
+    platforms: [], pageBuilders: [], focus: [], aiLevel: "", goalAnswer: "",
+    startedAt: Date.now()
+  };
+
+  function buildChoiceGrid(containerId, options, stateArray, opts) {
+    opts = opts || {};
+    var wrap = document.getElementById(containerId);
+    wrap.innerHTML = "";
+    options.forEach(function (label) {
+      var row = document.createElement("label");
+      row.className = "choice-card";
+      row.innerHTML = '<input type="' + (opts.single ? "radio" : "checkbox") + '" name="' + containerId + '"><span class="choice-label">' + esc(label) + "</span>";
+      var input = row.querySelector("input");
+      input.addEventListener("change", function () {
+        if (opts.single) {
+          stateArray.length = 0;
+          stateArray.push(label);
+          wrap.querySelectorAll(".choice-card").forEach(function (c) { c.classList.remove("checked"); });
+          row.classList.add("checked");
+        } else {
+          var idx = stateArray.indexOf(label);
+          if (input.checked) {
+            if (opts.max && stateArray.length >= opts.max) { input.checked = false; return; }
+            if (idx === -1) stateArray.push(label);
+            row.classList.add("checked");
+          } else {
+            if (idx !== -1) stateArray.splice(idx, 1);
+            row.classList.remove("checked");
+          }
+          if (opts.max) updateMaxState(wrap, stateArray, opts.max);
+        }
+        if (opts.onChange) opts.onChange();
+      });
+      wrap.appendChild(row);
+    });
+  }
+  function updateMaxState(wrap, stateArray, max) {
+    var atMax = stateArray.length >= max;
+    wrap.querySelectorAll(".choice-card").forEach(function (card) {
+      var input = card.querySelector("input");
+      if (!input.checked) card.classList.toggle("disabled", atMax);
+      input.disabled = atMax && !input.checked;
+    });
+  }
+
+  buildChoiceGrid("platformChoices", PLATFORM_OPTIONS, quizState.platforms, {
+    onChange: function () {
+      var showBuilders = quizState.platforms.indexOf("WordPress") !== -1;
+      document.getElementById("builderSubGrid").classList.toggle("shown", showBuilders);
+    }
+  });
+  buildChoiceGrid("builderChoices", BUILDER_OPTIONS, quizState.pageBuilders);
+  buildChoiceGrid("focusChoices", FOCUS_OPTIONS, quizState.focus, { max: 2 });
+  buildChoiceGrid("aiChoices", AI_OPTIONS, quizState.aiLevel ? [quizState.aiLevel] : [], { single: true });
+  // aiLevel needs a scalar, not array — small adapter so buildChoiceGrid's shared code still works
+  (function () {
+    var wrap = document.getElementById("aiChoices");
+    wrap.querySelectorAll("input").forEach(function (input, i) {
+      input.addEventListener("change", function () { quizState.aiLevel = AI_OPTIONS[i]; });
+    });
+  })();
+
+  function showScreen(n) {
+    document.querySelectorAll(".quiz-screen").forEach(function (s) {
+      s.classList.toggle("active", Number(s.getAttribute("data-screen")) === n);
+    });
+    quizState.screen = n;
+    document.getElementById("quizProgressBar").style.width = (n / 5 * 100) + "%";
+  }
+  document.querySelectorAll(".quiz-back").forEach(function (btn) {
+    btn.addEventListener("click", function () { showScreen(Number(btn.getAttribute("data-back"))); });
+  });
+
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  document.getElementById("screen1Next").addEventListener("click", function () {
+    quizState.firstName = document.getElementById("qFirstName").value.trim();
+    quizState.email = document.getElementById("qEmail").value.trim();
+    quizState.consent = document.getElementById("qConsent").checked;
+    var valid = quizState.firstName && isValidEmail(quizState.email) && quizState.consent;
+    document.getElementById("screen1Error").classList.toggle("shown", !valid);
+    if (valid) showScreen(2);
+  });
+  document.getElementById("screen2Next").addEventListener("click", function () { showScreen(3); });
+  document.getElementById("screen3Next").addEventListener("click", function () { showScreen(4); });
+  document.getElementById("screen4Next").addEventListener("click", function () { showScreen(5); });
+
+  document.getElementById("screen5Submit").addEventListener("click", function () {
+    quizState.goalAnswer = document.getElementById("qGoal").value.trim();
+    submitQuiz();
+  });
+
+  function setQuizState(name) {
+    ["stateSubmitting", "stateNew", "stateExisting", "stateError"].forEach(function (id) {
+      document.getElementById(id).classList.remove("shown");
+    });
+    document.querySelectorAll(".quiz-screen").forEach(function (s) { s.classList.remove("active"); });
+    if (name) document.getElementById(name).classList.add("shown");
+  }
+
+  function submitQuiz() {
+    setQuizState("stateSubmitting");
+    var payload = {
+      first_name: quizState.firstName,
+      email: quizState.email,
+      consent: true,
+      consent_text_version: CONFIG.CONSENT_TEXT_VERSION,
+      platforms: quizState.platforms,
+      page_builders: quizState.pageBuilders,
+      focus: quizState.focus,
+      ai_level: quizState.aiLevel,
+      goal_answer: quizState.goalAnswer,
+      hp: document.getElementById("qHoneypot").value,
+      elapsed_ms: Date.now() - quizState.startedAt
+    };
+
+    if (DEMO_MODE) {
+      // No real Submit webhook yet — simulate an "existing" response so the
+      // rest of the flow (polling, then opening the hub) can be tried end to
+      // end. Swap CONFIG.QUIZ_SUBMIT_URL in once "PBS Attendee Quiz - Submit"
+      // exists and this branch is never reached.
+      setTimeout(function () {
+        handleQuizResponse({ status: "existing", token: "demo-token", hub_url: "?t=demo-token" });
+      }, 900);
+      return;
+    }
+
+    fetch(CONFIG.QUIZ_SUBMIT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(handleQuizResponse)
+      .catch(function () { setQuizState("stateError"); });
+  }
+
+  function handleQuizResponse(resp) {
+    if (!resp || resp.status === "error") { setQuizState("stateError"); return; }
+    if (resp.status === "new") {
+      setQuizState("stateNew");
+      setTimeout(function () { window.location.href = resp.redirect_url; }, 1200);
+      return;
+    }
+    // existing — poll Get Data until the plan is ready, then load the hub in place
+    setQuizState("stateExisting");
+    pollForPlan(resp.token, 0);
+  }
+
+  function pollForPlan(token, attempt) {
+    if (attempt >= 20) { setQuizState("stateError"); return; }
+    fetchHubData(token).then(function (data) {
+      if (data && data.plan_status === "Ready") {
+        var url = new URL(window.location.href);
+        url.searchParams.set("t", token);
+        window.history.replaceState({}, "", url);
+        document.getElementById("quizScreen").style.display = "none";
+        renderHub(data, token);
+      } else {
+        setTimeout(function () { pollForPlan(token, attempt + 1); }, 2000);
+      }
+    }).catch(function () { setQuizState("stateError"); });
+  }
+
+  document.getElementById("stateErrorRetry").addEventListener("click", function () { showScreen(quizState.screen || 1); });
+
+  /* =========================================================
+     HUB
+  ========================================================= */
+  function fetchHubData(token) {
+    if (DEMO_MODE) {
+      return Promise.resolve(JSON.parse(JSON.stringify(MOCK_DATA)));
+    }
+    return fetch(CONFIG.GET_DATA_URL + "?t=" + encodeURIComponent(token)).then(function (r) { return r.json(); });
+  }
+
+  var token = qs("t");
+  var hubData = null;
+  var localTZ = getLocalTimeZone();
+  var storageKey = null;
+  var personalPlan = []; // array of session item ids
+  var watched = {}; // id -> true
+  var sessionNotes = {}; // id -> text
+
+  function initTzSelect() {
+    var sel = document.getElementById("tzSelect");
+    var zones = COMMON_ZONES.slice();
+    if (zones.indexOf(localTZ) === -1) zones.unshift(localTZ);
+    zones.forEach(function (tz) {
+      var opt = document.createElement("option");
+      opt.value = tz;
+      opt.textContent = zoneLabel(tz) + (tz === localTZ ? " — detected" : "");
+      sel.appendChild(opt);
+    });
+    sel.value = localTZ;
+    sel.addEventListener("change", function () {
+      localTZ = sel.value;
+      if (hubData) renderAll();
+    });
+  }
+
+  function fmtTime(iso, tz) {
+    try {
+      return new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).format(new Date(iso));
+    } catch (e) { return iso; }
+  }
+  function dayKeyLocal(iso, tz) {
+    try {
+      return new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(iso));
+    } catch (e) { return iso.slice(0, 10); }
+  }
+  function dayLabelLocal(iso, tz) {
+    try {
+      return new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "long", month: "short", day: "numeric" }).format(new Date(iso));
+    } catch (e) { return iso.slice(0, 10); }
+  }
+
+  function itemStatus(item, now) {
+    if (item.format === "event") return now.getTime() >= new Date(item.opens_at).getTime() - 3600000 && now.getTime() <= new Date(item.opens_at).getTime() + 3600000 ? "open" : (now < new Date(item.opens_at) ? "upcoming" : "ended");
+    var opens = new Date(item.opens_at).getTime();
+    var closes = item.closes_at ? new Date(item.closes_at).getTime() : opens + 3600000;
+    var t = now.getTime();
+    if (t < opens) return "upcoming";
+    if (t < closes) return "open";
+    return "ended";
+  }
+  function timeRemaining(ms) {
+    if (ms <= 0) return "0m";
+    var h = Math.floor(ms / 3600000);
+    var m = Math.floor((ms % 3600000) / 60000);
+    return (h > 0 ? h + "h " : "") + m + "m";
+  }
+
+  function itemById(id) {
+    return hubData.schedule.items.filter(function (i) { return i.id === id; })[0];
+  }
+  function pickFor(id) {
+    return hubData.attendee.picks.filter(function (p) { return p.id === id; })[0];
+  }
+
+  function googleCalUrl(title, desc, startISO, endISO) {
+    var fmt = function (iso) { return iso.replace(/[-:]/g, "").split(".")[0] + "Z"; };
+    var params = new URLSearchParams({ action: "TEMPLATE", text: title, dates: fmt(startISO) + "/" + fmt(endISO), details: desc || "" });
+    return "https://calendar.google.com/calendar/render?" + params.toString();
+  }
+  function outlookCalUrl(title, desc, startISO, endISO) {
+    var params = new URLSearchParams({ path: "/calendar/action/compose", rru: "addevent", subject: title, startdt: startISO, enddt: endISO, body: desc || "" });
+    return "https://outlook.live.com/calendar/0/deeplink/compose?" + params.toString();
+  }
+
+  function icsEscape(s) {
+    return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  }
+  function icsFold(line) {
+    if (line.length <= 75) return line;
+    var out = [], rest = line;
+    while (rest.length > 75) { out.push(rest.slice(0, 75)); rest = " " + rest.slice(75); }
+    out.push(rest);
+    return out.join("\r\n");
+  }
+  function buildICS(entries) {
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "METHOD:PUBLISH", "PRODID:-//Page Builder Summit//Attendee Hub//EN"];
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    entries.forEach(function (e) {
+      lines.push("BEGIN:VEVENT");
+      lines.push(icsFold("UID:" + e.uid + "@pagebuildersummit.com"));
+      lines.push("DTSTAMP:" + stamp);
+      lines.push("DTSTART:" + e.start.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push("DTEND:" + e.end.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push(icsFold("SUMMARY:" + icsEscape(e.title)));
+      if (e.desc) lines.push(icsFold("DESCRIPTION:" + icsEscape(e.desc)));
+      lines.push("BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", icsFold("DESCRIPTION:" + icsEscape(e.title)), "END:VALARM");
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+  function downloadICS(filename, content) {
+    var blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function entriesForItem(item) {
+    var out = [];
+    var addMinutes = function (iso, mins) { return new Date(new Date(iso).getTime() + mins * 60000).toISOString(); };
+    if (item.format === "event") {
+      out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 60), desc: item.location || "" });
+      return out;
+    }
+    out.push({ uid: "pbs9-" + item.id + "-open", title: "Opens: " + item.title + " (" + item.speaker + ")", start: item.opens_at, end: addMinutes(item.opens_at, 15), desc: "Open until " + fmtTime(item.closes_at, localTZ) });
+    if (item.qa_at) {
+      out.push({ uid: "pbs9-" + item.id + "-qa", title: "Live Q&A: " + item.speaker, start: item.qa_at, end: addMinutes(item.qa_at, hubData.schedule.qa_duration_minutes || 15), desc: "" });
+    }
+    return out;
+  }
+
+  /* ---------- Render ---------- */
+  function renderAll() {
+    renderHero();
+    renderToday();
+    renderPicks();
+    renderPlan();
+    renderSchedule();
+    renderLiveEvents();
+    renderNotes();
+    renderBingoCommunity();
+  }
+
+  function renderHero() {
+    document.getElementById("heroFirstName").textContent = hubData.attendee.first_name || "there";
+    var goal = hubData.attendee.goal_line;
+    document.getElementById("goalBox").style.display = goal ? "" : "none";
+    document.getElementById("goalLine").textContent = goal || "";
+    document.getElementById("statPickCount").textContent = String(personalPlan.length);
+  }
+
+  function sessionCardHTML(item, pick) {
+    var now = new Date();
+    var status = itemStatus(item, now);
+    var statusLabel = status === "upcoming" ? "Opens " + fmtTime(item.opens_at, localTZ)
+      : status === "open" ? "Open now · closes in " + timeRemaining(new Date(item.closes_at).getTime() - now.getTime())
+      : "Replay ended";
+    var inPlan = personalPlan.indexOf(item.id) !== -1;
+    var watchBtn = status === "open"
+      ? (item.page_link ? '<a href="' + esc(item.page_link) + '" target="_blank" class="btn btn-primary btn-sm">Watch now →</a>' : '<span class="btn btn-outline btn-sm" style="pointer-events:none;">Link coming soon</span>')
+      : "";
+    var planBtn = inPlan
+      ? '<button type="button" class="btn btn-outline btn-sm" data-remove-plan="' + esc(item.id) + '">In my plan ✓</button>'
+      : '<button type="button" class="btn btn-outline btn-sm" data-add-plan="' + esc(item.id) + '">Add to my plan</button>';
+    var badges = "";
+    if (pick) {
+      if (pick.top) badges += '<span class="badge badge-top">Top pick</span>';
+      if (pick.wildcard) badges += '<span class="badge badge-wildcard">Wildcard</span>';
+    }
+    var gift = item.gift_url ? '<a href="' + esc(item.gift_url) + '" target="_blank" class="btn btn-outline btn-sm">Free gift →</a>' : "";
+    var entries = entriesForItem(item);
+    var calLinks = entries.length ? '<div class="cal-links">' + entries.map(function (e) {
+      return '<a href="' + esc(googleCalUrl(e.title, e.desc, e.start, e.end)) + '" target="_blank">Google</a><a href="' + esc(outlookCalUrl(e.title, e.desc, e.start, e.end)) + '" target="_blank">Outlook</a>';
+    }).join("") + "</div>" : "";
+
+    return '<div class="session-card">' +
+      '<div class="info">' +
+      (badges ? '<div class="badges">' + badges + "</div>" : "") +
+      "<h3>" + esc(item.title) + "</h3>" +
+      '<div class="session-speaker">' + esc(item.speaker || "") + "</div>" +
+      (pick && pick.reason ? '<div class="session-reason">' + esc(pick.reason) + "</div>" : "") +
+      '<div class="status-line status-' + status + '">' + esc(statusLabel) + "</div>" +
+      '<div class="session-actions">' + watchBtn + planBtn + gift + "</div>" +
+      "</div>" +
+      '<div class="session-side">' +
+      '<label class="watched-toggle"><input type="checkbox" data-watched="' + esc(item.id) + '" ' + (watched[item.id] ? "checked" : "") + "> Mark watched</label>" +
+      calLinks +
+      "</div></div>";
+  }
+
+  function wireCardButtons(root) {
+    root.querySelectorAll("[data-add-plan]").forEach(function (btn) {
+      btn.addEventListener("click", function () { togglePlan(btn.getAttribute("data-add-plan"), true); });
+    });
+    root.querySelectorAll("[data-remove-plan]").forEach(function (btn) {
+      btn.addEventListener("click", function () { togglePlan(btn.getAttribute("data-remove-plan"), false); });
+    });
+    root.querySelectorAll("[data-watched]").forEach(function (box) {
+      box.addEventListener("change", function () {
+        var id = box.getAttribute("data-watched");
+        if (box.checked) watched[id] = true; else delete watched[id];
+        persist();
+      });
+    });
+  }
+
+  function togglePlan(id, add) {
+    var idx = personalPlan.indexOf(id);
+    if (add && idx === -1) personalPlan.push(id);
+    if (!add && idx !== -1) personalPlan.splice(idx, 1);
+    persist();
+    renderAll();
+  }
+
+  function renderToday() {
+    var now = new Date();
+    var wrap = document.getElementById("todayWrap");
+    var openPlanItems = personalPlan.map(itemById).filter(Boolean).filter(function (i) { return itemStatus(i, now) === "open"; });
+    if (!openPlanItems.length) {
+      var upcoming = personalPlan.map(itemById).filter(Boolean).filter(function (i) { return itemStatus(i, now) === "upcoming"; })
+        .sort(function (a, b) { return new Date(a.opens_at) - new Date(b.opens_at); })[0];
+      wrap.innerHTML = '<div class="empty-note">Nothing from your plan is open right now.' +
+        (upcoming ? " Up next: " + esc(upcoming.title) + ", opens " + esc(fmtTime(upcoming.opens_at, localTZ)) + "." : "") + "</div>";
+      return;
+    }
+    wrap.innerHTML = openPlanItems.map(function (i) { return sessionCardHTML(i, pickFor(i.id)); }).join("");
+    wireCardButtons(wrap);
+  }
+
+  function renderPicks() {
+    var wrap = document.getElementById("picksWrap");
+    var picks = hubData.attendee.picks.slice().sort(function (a, b) { return a.rank - b.rank; });
+    document.getElementById("navBadgePicks").textContent = String(picks.length);
+    wrap.innerHTML = picks.map(function (p) {
+      var item = itemById(p.id);
+      if (!item) return "";
+      return sessionCardHTML(item, p);
+    }).join("");
+    wireCardButtons(wrap);
+  }
+
+  function renderPlan() {
+    document.getElementById("planCount").textContent = String(personalPlan.length);
+    document.getElementById("navBadgePlan").textContent = String(personalPlan.length);
+    var wrap = document.getElementById("planWrap");
+    var items = personalPlan.map(itemById).filter(Boolean);
+    if (!items.length) {
+      wrap.innerHTML = '<div class="empty-note">Nothing here yet. Add sessions from your picks or the full schedule.</div>';
+      return;
+    }
+    var byDay = {};
+    items.forEach(function (i) {
+      var k = dayKeyLocal(i.opens_at, localTZ);
+      (byDay[k] = byDay[k] || []).push(i);
+    });
+    var days = Object.keys(byDay).sort();
+    wrap.innerHTML = days.map(function (k) {
+      var dayItems = byDay[k].sort(function (a, b) { return new Date(a.opens_at) - new Date(b.opens_at); });
+      return '<div class="day-group-label">' + esc(dayLabelLocal(dayItems[0].opens_at, localTZ)) + '</div><div class="card-grid">' +
+        dayItems.map(function (i) { return sessionCardHTML(i, pickFor(i.id)); }).join("") + "</div>";
+    }).join("");
+    wireCardButtons(wrap);
+  }
+
+  var scheduleActiveDay = null;
+  function renderSchedule() {
+    var items = hubData.schedule.items.filter(function (i) { return i.type === "session"; });
+    var byDay = {};
+    items.forEach(function (i) { (byDay[dayKeyLocal(i.opens_at, localTZ)] = byDay[dayKeyLocal(i.opens_at, localTZ)] || []).push(i); });
+    var days = Object.keys(byDay).sort();
+    if (!scheduleActiveDay || days.indexOf(scheduleActiveDay) === -1) scheduleActiveDay = days[0];
+
+    var tabsWrap = document.getElementById("scheduleDayTabs");
+    tabsWrap.innerHTML = days.map(function (k) {
+      return '<button type="button" class="day-tab' + (k === scheduleActiveDay ? " active" : "") + '" data-day="' + esc(k) + '">' + esc(dayLabelLocal(byDay[k][0].opens_at, localTZ).split(",")[0]) + "</button>";
+    }).join("");
+    tabsWrap.querySelectorAll(".day-tab").forEach(function (btn) {
+      btn.addEventListener("click", function () { scheduleActiveDay = btn.getAttribute("data-day"); renderSchedule(); });
+    });
+
+    renderScheduleRows(byDay[scheduleActiveDay] || []);
+  }
+  function renderScheduleRows(dayItems) {
+    var search = (document.getElementById("scheduleSearch").value || "").toLowerCase();
+    var inPlanOnly = document.getElementById("scheduleInPlanOnly").checked;
+    var rows = dayItems
+      .filter(function (i) { return !search || i.title.toLowerCase().indexOf(search) !== -1 || (i.speaker || "").toLowerCase().indexOf(search) !== -1; })
+      .filter(function (i) { return !inPlanOnly || personalPlan.indexOf(i.id) !== -1; })
+      .sort(function (a, b) { return new Date(a.opens_at) - new Date(b.opens_at); });
+    var wrap = document.getElementById("scheduleWrap");
+    if (!rows.length) { wrap.innerHTML = '<div class="empty-note">Nothing matches.</div>'; return; }
+    wrap.innerHTML = rows.map(function (item) {
+      var inPlan = personalPlan.indexOf(item.id) !== -1;
+      var planBtn = inPlan
+        ? '<button type="button" class="btn btn-outline btn-sm" data-remove-plan="' + esc(item.id) + '">In my plan ✓</button>'
+        : '<button type="button" class="btn btn-outline btn-sm" data-add-plan="' + esc(item.id) + '">Add to my plan</button>';
+      return '<div class="schedule-row">' +
+        '<div class="schedule-row-top">' +
+        '<div class="schedule-row-time">' + esc(fmtTime(item.opens_at, localTZ)) + "</div>" +
+        '<div class="schedule-row-main"><h4>' + esc(item.title) + "</h4>" +
+        '<div class="sp">' + esc(item.speaker || "") + "</div></div>" +
+        (inPlan ? '<span class="in-plan-mark">In my plan</span>' : "") +
+        planBtn +
+        "</div>" +
+        '<button type="button" class="schedule-row-toggle" data-toggle-desc>Show description</button>' +
+        '<div class="schedule-row-desc">' + esc(item.description || "") + "</div>" +
+        "</div>";
+    }).join("");
+    wrap.querySelectorAll("[data-toggle-desc]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var desc = btn.nextElementSibling;
+        var open = desc.classList.toggle("shown");
+        btn.textContent = open ? "Hide description" : "Show description";
+      });
+    });
+    wireCardButtons(wrap);
+  }
+  document.getElementById("scheduleSearch").addEventListener("input", function () { renderSchedule(); });
+  document.getElementById("scheduleInPlanOnly").addEventListener("change", function () { renderSchedule(); });
+
+  function renderLiveEvents() {
+    var wrap = document.getElementById("liveEventsWrap");
+    var events = hubData.schedule.items.filter(function (i) { return i.type !== "session"; });
+    var qaNote = '<div class="event-card"><div><h3>Live Q&A</h3><p>15 minutes with the speaker, 45 minutes after their session releases. Optional, and a great place to ask your question.</p></div></div>';
+    wrap.innerHTML = events.map(function (e) {
+      return '<div class="event-card"><div><h3>' + esc(e.title) + "</h3><p>" + esc(fmtTime(e.opens_at, localTZ)) + (e.location ? " · " + esc(e.location) : "") + "</p></div>" +
+        '<div class="cal-links">' + entriesForItem(e).map(function (en) {
+          return '<a href="' + esc(googleCalUrl(en.title, en.desc, en.start, en.end)) + '" target="_blank">Google</a><a href="' + esc(outlookCalUrl(en.title, en.desc, en.start, en.end)) + '" target="_blank">Outlook</a>';
+        }).join("") + "</div></div>";
+    }).join("") + qaNote;
+  }
+
+  function renderNotes() {
+    document.getElementById("quickNotes").value = storageGet(storageKey + ":quicknote", "");
+    var wrap = document.getElementById("sessionNotesWrap");
+    var items = personalPlan.map(itemById).filter(Boolean);
+    if (!items.length) { wrap.innerHTML = '<p style="color:var(--text-light); font-size:14px;">Add sessions to your plan to take notes on them here.</p>'; return; }
+    wrap.innerHTML = items.map(function (i) {
+      return '<div class="session-note-row"><h4>' + esc(i.title) + '</h4><textarea data-note-id="' + esc(i.id) + '">' + esc(sessionNotes[i.id] || "") + "</textarea></div>";
+    }).join("");
+    wrap.querySelectorAll("[data-note-id]").forEach(function (ta) {
+      ta.addEventListener("input", function () {
+        sessionNotes[ta.getAttribute("data-note-id")] = ta.value;
+        persist();
+      });
+    });
+  }
+  document.getElementById("quickNotes").addEventListener("input", function (e) {
+    storageSet(storageKey + ":quicknote", e.target.value);
+  });
+  document.getElementById("downloadNotesBtn").addEventListener("click", function () {
+    var lines = ["Page Builder Summit 9.0 — My notes", "", "Quick notes:", document.getElementById("quickNotes").value || "(none)", ""];
+    personalPlan.map(itemById).filter(Boolean).forEach(function (i) {
+      lines.push(i.title, sessionNotes[i.id] || "(no notes)", "");
+    });
+    var blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "my-summit-notes.txt";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  function renderBingoCommunity() {
+    document.getElementById("bingoLink").href = hubData.schedule.links.bingo || CONFIG.LINKS.bingo;
+    document.getElementById("facebookLink").href = hubData.schedule.links.facebook || CONFIG.LINKS.facebook;
+    document.getElementById("powerpackLink").href = hubData.schedule.links.powerpack || CONFIG.LINKS.powerpack;
+  }
+
+  function persist() {
+    storageSet(storageKey, { plan: personalPlan, watched: watched, notes: sessionNotes });
+  }
+
+  /* ---------- Calendar panel ---------- */
+  document.getElementById("buildCalendarBtn").addEventListener("click", function () {
+    buildCalDayPicker();
+    document.getElementById("calPanelOverlay").classList.add("shown");
+  });
+  document.getElementById("calPanelCancel").addEventListener("click", function () {
+    document.getElementById("calPanelOverlay").classList.remove("shown");
+  });
+  document.querySelectorAll('input[name="calScope"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      document.getElementById("calDayPicker").style.display = document.getElementById("calScopePick").checked ? "" : "none";
+    });
+  });
+  function buildCalDayPicker() {
+    var items = personalPlan.map(itemById).filter(Boolean);
+    var days = {};
+    items.forEach(function (i) { days[dayKeyLocal(i.opens_at, localTZ)] = true; });
+    var wrap = document.getElementById("calDayPicker");
+    wrap.innerHTML = Object.keys(days).sort().map(function (k) {
+      return '<label class="cal-opt-check"><input type="checkbox" checked data-cal-day="' + esc(k) + '">' + esc(dayLabelLocal(items.filter(function (i) { return dayKeyLocal(i.opens_at, localTZ) === k; })[0].opens_at, localTZ)) + "</label>";
+    }).join("");
+  }
+  document.getElementById("calPanelDownload").addEventListener("click", function () {
+    var scope = document.querySelector('input[name="calScope"]:checked').value;
+    var includeQA = document.getElementById("calIncludeQA").checked;
+    var includeEvents = document.getElementById("calIncludeEvents").checked;
+    var includeNetworking = document.getElementById("calIncludeNetworking").checked;
+    var now = new Date();
+    var tomorrow = new Date(now.getTime() + 86400000);
+
+    var planItems = personalPlan.map(itemById).filter(Boolean);
+    if (scope === "soon") {
+      planItems = planItems.filter(function (i) {
+        var k = dayKeyLocal(i.opens_at, localTZ);
+        return k === dayKeyLocal(now.toISOString(), localTZ) || k === dayKeyLocal(tomorrow.toISOString(), localTZ);
+      });
+    } else if (scope === "pick") {
+      var checkedDays = Array.prototype.slice.call(document.querySelectorAll("[data-cal-day]:checked")).map(function (c) { return c.getAttribute("data-cal-day"); });
+      planItems = planItems.filter(function (i) { return checkedDays.indexOf(dayKeyLocal(i.opens_at, localTZ)) !== -1; });
+    }
+
+    var entries = [];
+    planItems.forEach(function (i) {
+      entriesForItem(i).forEach(function (e) {
+        if (!includeQA && e.uid.indexOf("-qa") !== -1) return;
+        entries.push(e);
+      });
+    });
+    if (includeEvents) {
+      hubData.schedule.items.filter(function (i) { return i.type === "kickoff" || i.type === "closing"; }).forEach(function (i) {
+        entriesForItem(i).forEach(function (e) { entries.push(e); });
+      });
+    }
+    if (includeNetworking) {
+      hubData.schedule.items.filter(function (i) { return i.type === "networking" || i.type === "coworking"; }).forEach(function (i) {
+        entriesForItem(i).forEach(function (e) { entries.push(e); });
+      });
+    }
+    downloadICS("page-builder-summit-my-plan.ics", buildICS(entries));
+    document.getElementById("calPanelOverlay").classList.remove("shown");
+  });
+
+  /* ---------- Section nav highlight ---------- */
+  function setupSectionNav() {
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll(".section-nav a"));
+    var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+    if (!("IntersectionObserver" in window) || !sections.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = "#" + entry.target.id;
+        navLinks.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === id); });
+      });
+    }, { rootMargin: "-100px 0px -70% 0px" });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  /* ---------- Find my plan ---------- */
+  function wireFindPlan() {
+    var doFind = function () {
+      var email = document.getElementById("findPlanEmail").value.trim();
+      var msg = document.getElementById("findPlanMsg");
+      msg.style.display = "";
+      if (!isValidEmail(email)) { msg.textContent = "Please enter a valid email."; return; }
+      msg.textContent = "If that email has a plan, we've sent the link. Check your inbox.";
+      if (!DEMO_MODE) {
+        fetch(CONFIG.RESEND_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email }) }).catch(function () {});
+      }
+    };
+    document.getElementById("findPlanBtn").addEventListener("click", doFind);
+    document.getElementById("footerFindLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("hubContent").classList.remove("shown");
+      document.getElementById("errorState").classList.add("shown");
+    });
+  }
+
+  function renderHub(data, tok) {
+    hubData = data;
+    storageKey = "pbs9:" + tok;
+    var saved = storageGet(storageKey, {});
+    personalPlan = saved.plan || hubData.attendee.picks.map(function (p) { return p.id; });
+    watched = saved.watched || {};
+    sessionNotes = saved.notes || {};
+    initTzSelect();
+    renderAll();
+    setupSectionNav();
+    document.getElementById("loading").classList.remove("shown");
+    document.getElementById("hubContent").classList.add("shown");
+  }
+
+  /* ---------- Boot ---------- */
+  wireFindPlan();
+  if (token) {
+    document.getElementById("quizScreen").style.display = "none";
+    document.getElementById("loading").classList.add("shown");
+    fetchHubData(token).then(function (data) {
+      if (!data || data.ok === false) { document.getElementById("loading").classList.remove("shown"); document.getElementById("errorState").classList.add("shown"); return; }
+      renderHub(data, token);
+    }).catch(function () {
+      document.getElementById("loading").classList.remove("shown");
+      document.getElementById("errorState").classList.add("shown");
+    });
+  }
+})();
+</script>
+</body>
+</html>
