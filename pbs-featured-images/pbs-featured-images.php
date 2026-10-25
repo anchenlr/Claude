@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       PBS Featured Images for MCP
- * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name), bulk-assign terms, apply a speaker schedule (day + time) and create new speaker posts. Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
- * Version:           1.5.0
+ * Description:       Adds MCP abilities so Claude can find posts and media, set featured images (one by one or in bulk by file name), bulk-assign terms, apply a speaker schedule (day + time), create new speaker posts and read/update custom fields (embed codes allowed). Also shows Speaker Categories in the admin list, Quick Edit and Bulk Edit. Requires the MCP Adapter plugin and WordPress 6.9+.
+ * Version:           1.6.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -871,7 +871,7 @@ add_action( 'wp_abilities_api_init', function () {
 								),
 								'fields' => array(
 									'type'                 => 'object',
-									'description'          => 'Optional custom fields as field_name: value, e.g. {"scheduled_time": "10:00am EST", "talk_title": "..."}.',
+									'description'          => 'Optional custom fields as field_name: value, e.g. {"scheduled_time": "10:00am EST"}. Field names, ACF labels or ACF field keys all work. HTML such as an <iframe> embed code is kept.',
 									'additionalProperties' => array( 'type' => 'string' ),
 									'default'              => array(),
 								),
@@ -1044,9 +1044,9 @@ add_action( 'wp_abilities_api_init', function () {
 
 					$fields = array( $name_field => $name );
 					foreach ( (array) ( $row['fields'] ?? array() ) as $field => $value ) {
-						$field = sanitize_key( (string) $field );
-						if ( $field ) {
-							$fields[ $field ] = sanitize_text_field( (string) $value );
+						$field = pbs_clean_field_name( $field );
+						if ( '' !== $field ) {
+							$fields[ $field ] = pbs_clean_field_value( $value );
 						}
 					}
 
@@ -1079,10 +1079,9 @@ add_action( 'wp_abilities_api_init', function () {
 							wp_set_object_terms( $post_id, $term_ids, $taxonomy );
 						}
 						foreach ( $fields as $field => $value ) {
-							if ( function_exists( 'update_field' ) ) {
-								update_field( $field, $value, $post_id );
-							} else {
-								update_post_meta( $post_id, $field, $value );
+							$saved = pbs_save_field( $post_id, $field, $value );
+							if ( ! $saved['saved'] ) {
+								$problems[] = array( 'speaker' => $name, 'reason' => sprintf( 'Field "%s" did not save (stored as "%s").', $field, $saved['field_name'] ) );
 							}
 						}
 						if ( $image_id ) {
@@ -1122,6 +1121,151 @@ add_action( 'wp_abilities_api_init', function () {
 					'readOnlyHint'    => false,
 					'destructiveHint' => false,
 					'idempotentHint'  => false,
+				),
+			),
+		)
+	);
+
+	// 8. Read a post's custom fields (names, labels, types and current values).
+	wp_register_ability(
+		'pbs/get-fields',
+		array(
+			'label'               => 'Get Custom Fields',
+			'description'         => 'List the custom fields of a post: ACF field name, label, key and type, plus the current value. Use this to find the exact field name (e.g. q_a_video_embed) before updating it.',
+			'category'            => 'pbs-content',
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'post_id' => array(
+						'type'        => 'integer',
+						'description' => 'ID of the post.',
+					),
+				),
+				'required'   => array( 'post_id' ),
+			),
+			'execute_callback'    => function ( $input ) {
+				$post_id = (int) ( $input['post_id'] ?? 0 );
+				if ( ! get_post( $post_id ) ) {
+					return new WP_Error( 'pbs_post_not_found', 'No post found with that ID.' );
+				}
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					return new WP_Error( 'pbs_forbidden', 'You are not allowed to edit this post.' );
+				}
+
+				$fields = array();
+				$seen   = array();
+				foreach ( pbs_acf_fields_for_post( $post_id ) as $field ) {
+					$seen[ $field['name'] ] = true;
+					$fields[]               = array(
+						'name'  => $field['name'],
+						'label' => $field['label'],
+						'key'   => $field['key'],
+						'type'  => $field['type'],
+						'value' => pbs_preview_value( get_post_meta( $post_id, $field['name'], true ) ),
+					);
+				}
+
+				// Plain (non-ACF) custom fields, skipping hidden/internal ones.
+				foreach ( get_post_meta( $post_id ) as $meta_key => $values ) {
+					if ( '_' === $meta_key[0] || isset( $seen[ $meta_key ] ) ) {
+						continue;
+					}
+					$fields[] = array(
+						'name'  => $meta_key,
+						'label' => '',
+						'key'   => '',
+						'type'  => 'meta',
+						'value' => pbs_preview_value( maybe_unserialize( $values[0] ?? '' ) ),
+					);
+				}
+
+				return array(
+					'post_id' => $post_id,
+					'title'   => get_the_title( $post_id ),
+					'fields'  => $fields,
+				);
+			},
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'meta'                => array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'annotations'  => array(
+					'readOnlyHint'    => true,
+					'destructiveHint' => false,
+				),
+			),
+		)
+	);
+
+	// 9. Update custom fields on a post, keeping HTML such as embed codes.
+	wp_register_ability(
+		'pbs/update-fields',
+		array(
+			'label'               => 'Update Custom Fields',
+			'description'         => 'Set custom field values on a post. Field names, ACF labels (e.g. "Q&A Video Embed") or ACF field keys all work. HTML such as an <iframe> video embed code is saved as-is for administrators. Each field is read back after saving and the result shows exactly what was stored.',
+			'category'            => 'pbs-content',
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'post_id' => array(
+						'type'        => 'integer',
+						'description' => 'ID of the post.',
+					),
+					'fields'  => array(
+						'type'                 => 'object',
+						'description'          => 'field: value pairs, e.g. {"q_a_video_embed": "<iframe ...></iframe>"}.',
+						'additionalProperties' => array( 'type' => 'string' ),
+					),
+				),
+				'required'   => array( 'post_id', 'fields' ),
+			),
+			'execute_callback'    => function ( $input ) {
+				$post_id = (int) ( $input['post_id'] ?? 0 );
+				if ( ! get_post( $post_id ) ) {
+					return new WP_Error( 'pbs_post_not_found', 'No post found with that ID.' );
+				}
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					return new WP_Error( 'pbs_forbidden', 'You are not allowed to edit this post.' );
+				}
+
+				$results = array();
+				foreach ( (array) ( $input['fields'] ?? array() ) as $field => $value ) {
+					$field = pbs_clean_field_name( $field );
+					if ( '' === $field ) {
+						continue;
+					}
+					$before = pbs_preview_value( get_post_meta( $post_id, pbs_resolve_field( $post_id, $field )['name'], true ) );
+					$saved  = pbs_save_field( $post_id, $field, pbs_clean_field_value( $value ) );
+
+					$results[] = array(
+						'requested'  => $field,
+						'field_name' => $saved['field_name'],
+						'acf_key'    => $saved['acf_key'],
+						'saved'      => $saved['saved'],
+						'before'     => $before,
+						'after'      => pbs_preview_value( $saved['stored'] ),
+						'note'       => $saved['note'],
+					);
+				}
+
+				return array(
+					'post_id' => $post_id,
+					'title'   => get_the_title( $post_id ),
+					'fields'  => $results,
+				);
+			},
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'meta'                => array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'annotations'  => array(
+					'readOnlyHint'    => false,
+					'destructiveHint' => false,
+					'idempotentHint'  => true,
 				),
 			),
 		)
@@ -1264,4 +1408,147 @@ function pbs_term_names( $ids, $taxonomy ) {
 		$names[] = ( $term && ! is_wp_error( $term ) ) ? $term->name : (string) $id;
 	}
 	return $names;
+}
+
+/**
+ * Tidy a field name without changing it: keeps characters like "&" so q&a_video_embed stays intact.
+ *
+ * @param string $name Field name, ACF label or ACF key.
+ * @return string
+ */
+function pbs_clean_field_name( $name ) {
+	return trim( wp_strip_all_tags( (string) $name ) );
+}
+
+/**
+ * Clean a field value. Administrators (unfiltered_html) keep any HTML, like a
+ * normal custom field box; everyone else keeps safe post HTML plus iframes.
+ *
+ * @param mixed $value Value.
+ * @return string
+ */
+function pbs_clean_field_value( $value ) {
+	$value = (string) $value;
+	if ( current_user_can( 'unfiltered_html' ) ) {
+		return $value;
+	}
+
+	$allowed           = wp_kses_allowed_html( 'post' );
+	$allowed['iframe'] = array(
+		'src'             => true,
+		'width'           => true,
+		'height'          => true,
+		'title'           => true,
+		'frameborder'     => true,
+		'allow'           => true,
+		'allowfullscreen' => true,
+		'loading'         => true,
+		'referrerpolicy'  => true,
+		'style'           => true,
+		'class'           => true,
+	);
+	return wp_kses( $value, $allowed );
+}
+
+/**
+ * All top-level ACF fields that apply to a post.
+ *
+ * @param int $post_id Post ID.
+ * @return array[]
+ */
+function pbs_acf_fields_for_post( $post_id ) {
+	if ( ! function_exists( 'acf_get_field_groups' ) || ! function_exists( 'acf_get_fields' ) ) {
+		return array();
+	}
+	$fields = array();
+	foreach ( acf_get_field_groups( array( 'post_id' => $post_id, 'post_type' => get_post_type( $post_id ) ) ) as $group ) {
+		foreach ( (array) acf_get_fields( $group ) as $field ) {
+			$fields[] = $field;
+		}
+	}
+	return $fields;
+}
+
+/**
+ * Work out which field is meant: exact ACF name, ACF key, ACF label, or a loose
+ * match ignoring punctuation (so "q&a_video_embed" finds "q_a_video_embed").
+ * Falls back to the name as given for plain custom fields.
+ *
+ * @param int    $post_id  Post ID.
+ * @param string $selector Field name, label or key.
+ * @return array{name:string,key:string}
+ */
+function pbs_resolve_field( $post_id, $selector ) {
+	$fields = pbs_acf_fields_for_post( $post_id );
+	$loose  = function ( $text ) {
+		return preg_replace( '/[^a-z0-9]/', '', strtolower( (string) $text ) );
+	};
+
+	foreach ( array( 'name', 'key' ) as $prop ) {
+		foreach ( $fields as $field ) {
+			if ( $field[ $prop ] === $selector ) {
+				return array( 'name' => $field['name'], 'key' => $field['key'] );
+			}
+		}
+	}
+	foreach ( $fields as $field ) {
+		if ( 0 === strcasecmp( $field['label'], $selector ) ) {
+			return array( 'name' => $field['name'], 'key' => $field['key'] );
+		}
+	}
+	foreach ( $fields as $field ) {
+		if ( '' !== $loose( $selector ) && ( $loose( $field['name'] ) === $loose( $selector ) || $loose( $field['label'] ) === $loose( $selector ) ) ) {
+			return array( 'name' => $field['name'], 'key' => $field['key'] );
+		}
+	}
+
+	return array( 'name' => $selector, 'key' => '' );
+}
+
+/**
+ * Save a field (through ACF when it is an ACF field) and read it back.
+ *
+ * @param int    $post_id  Post ID.
+ * @param string $selector Field name, label or key.
+ * @param string $value    Cleaned value.
+ * @return array{field_name:string,acf_key:string,saved:bool,stored:mixed,note:string}
+ */
+function pbs_save_field( $post_id, $selector, $value ) {
+	$field = pbs_resolve_field( $post_id, $selector );
+
+	if ( $field['key'] && function_exists( 'update_field' ) ) {
+		update_field( $field['key'], $value, $post_id );
+	} else {
+		update_post_meta( $post_id, $field['name'], wp_slash( $value ) );
+	}
+
+	$stored = get_post_meta( $post_id, $field['name'], true );
+	$note   = '';
+	if ( $field['name'] !== $selector ) {
+		$note = sprintf( 'Matched "%s" to the field "%s".', $selector, $field['name'] );
+	} elseif ( ! $field['key'] ) {
+		$note = 'Not an ACF field on this post, saved as a plain custom field.';
+	}
+
+	return array(
+		'field_name' => $field['name'],
+		'acf_key'    => $field['key'],
+		'saved'      => (string) $stored === (string) $value,
+		'stored'     => $stored,
+		'note'       => $note,
+	);
+}
+
+/**
+ * Shorten long values for display.
+ *
+ * @param mixed $value Value.
+ * @return string
+ */
+function pbs_preview_value( $value ) {
+	if ( is_array( $value ) || is_object( $value ) ) {
+		$value = wp_json_encode( $value );
+	}
+	$value = (string) $value;
+	return strlen( $value ) > 300 ? substr( $value, 0, 300 ) . '…' : $value;
 }
