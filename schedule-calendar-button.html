@@ -1,0 +1,124 @@
+<!--
+  PBS Attendee Hub - Calendar button for the general (public) schedule page
+  ===========================================================================
+  Drop this whole block into a "Custom HTML" widget/block on the existing
+  WordPress schedule page. It does not touch anything else on the page.
+
+  What it does:
+    - One button: "Add full schedule to your calendar"
+    - On click, fetches the live session list from the same "PBS Attendee
+      Hub - Get Data" webhook the personalized hub uses (schedule.items is
+      returned regardless of whether a token matches an attendee, so this
+      works with no token at all), then builds and downloads a single .ics
+      file covering every session (replay-open time + live Q&A, same as
+      the personalized hub's "Add to calendar" logic).
+    - Works with Apple Calendar, Outlook and any .ics-reading app by
+      double-clicking the downloaded file. Google Calendar doesn't support
+      adding multiple events from one link (only single-event "render"
+      links), so for Google the file is imported instead — Settings and
+      sharing > Import & export > select the file. That's noted under the
+      button so it isn't a dead end for Google users.
+
+  If the schedule changes, nothing here needs editing — it always fetches
+  the current list at click time.
+-->
+<div class="pbs-cal-widget">
+  <button type="button" id="pbsCalBtn" class="pbs-cal-btn">Add full schedule to your calendar</button>
+  <p class="pbs-cal-note">Downloads one file that works with Apple Calendar, Outlook and more. <strong>Google Calendar:</strong> open Settings → Import &amp; export, then upload the downloaded file.</p>
+  <p class="pbs-cal-msg" id="pbsCalMsg"></p>
+</div>
+
+<style>
+  .pbs-cal-widget { font-family: 'Open Sans', Arial, sans-serif; max-width: 480px; }
+  .pbs-cal-btn {
+    display: inline-block; background: #D85A95; color: #fff; border: none; border-radius: 10px;
+    padding: 14px 24px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 15px;
+    cursor: pointer; transition: background 0.15s ease;
+  }
+  .pbs-cal-btn:hover { background: #CC4E89; }
+  .pbs-cal-btn:disabled { background: #b9b9c6; cursor: default; }
+  .pbs-cal-note { font-size: 13px; color: #666666; margin: 10px 0 0; line-height: 1.5; }
+  .pbs-cal-msg { font-size: 13.5px; color: #312E61; margin: 8px 0 0; min-height: 1em; }
+  .pbs-cal-msg.pbs-cal-error { color: #c0392b; }
+</style>
+
+<script>
+(function () {
+  var GET_DATA_URL = "https://hook.us2.make.com/x4f8npt1oltt2d0v3lnp8y99dwdvzrw8";
+
+  function addMinutes(iso, mins) { return new Date(new Date(iso).getTime() + mins * 60000).toISOString(); }
+
+  function icsEscape(s) {
+    return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  }
+  function icsFold(line) {
+    if (line.length <= 75) return line;
+    var out = [], rest = line;
+    while (rest.length > 75) { out.push(rest.slice(0, 75)); rest = " " + rest.slice(75); }
+    out.push(rest);
+    return out.join("\r\n");
+  }
+  function buildICS(entries) {
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "METHOD:PUBLISH", "PRODID:-//Page Builder Summit//Public Schedule//EN"];
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    entries.forEach(function (e) {
+      lines.push("BEGIN:VEVENT");
+      lines.push(icsFold("UID:" + e.uid + "@pagebuildersummit.com"));
+      lines.push("DTSTAMP:" + stamp);
+      lines.push("DTSTART:" + e.start.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push("DTEND:" + e.end.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push(icsFold("SUMMARY:" + icsEscape(e.title)));
+      if (e.desc) lines.push(icsFold("DESCRIPTION:" + icsEscape(e.desc)));
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+  function downloadICS(filename, content) {
+    var blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function entriesForItem(item) {
+    var out = [];
+    if (item.format === "event") {
+      out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 60), desc: item.location || "" });
+      return out;
+    }
+    out.push({ uid: "pbs9-" + item.id + "-open", title: item.title + (item.speaker ? " (" + item.speaker + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 15), desc: item.description || "" });
+    if (item.qa_at) {
+      out.push({ uid: "pbs9-" + item.id + "-qa", title: "Live Q&A: " + (item.speaker || item.title), start: item.qa_at, end: addMinutes(item.qa_at, 15), desc: "" });
+    }
+    return out;
+  }
+
+  var btn = document.getElementById("pbsCalBtn");
+  var msg = document.getElementById("pbsCalMsg");
+
+  btn.addEventListener("click", function () {
+    btn.disabled = true;
+    msg.className = "pbs-cal-msg";
+    msg.textContent = "Building your calendar file…";
+
+    fetch(GET_DATA_URL + "?t=")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var items = (data && data.schedule && data.schedule.items) || [];
+        var entries = [];
+        items.forEach(function (item) { entries = entries.concat(entriesForItem(item)); });
+        if (!entries.length) { throw new Error("empty"); }
+        downloadICS("page-builder-summit-schedule.ics", buildICS(entries));
+        msg.textContent = "Downloaded — open the file to add it to your calendar.";
+      })
+      .catch(function () {
+        msg.className = "pbs-cal-msg pbs-cal-error";
+        msg.textContent = "Something went wrong — please try again in a moment.";
+      })
+      .finally(function () { btn.disabled = false; });
+  });
+})();
+</script>
