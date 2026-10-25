@@ -1068,7 +1068,6 @@
       if (pick.top) badges += '<span class="badge badge-top">Top pick</span>';
       if (pick.wildcard) badges += '<span class="badge badge-wildcard">Wildcard</span>';
     }
-    var gift = item.gift_url ? '<a href="' + esc(item.gift_url) + '" target="_blank" class="btn btn-outline btn-sm">Free gift →</a>' : "";
     var entries = entriesForItem(item);
     var calLinks = entries.length ? '<div class="cal-links">' + entries.map(function (e) {
       return '<a href="' + esc(googleCalUrl(e.title, e.desc, e.start, e.end)) + '" target="_blank">Google</a><a href="' + esc(outlookCalUrl(e.title, e.desc, e.start, e.end)) + '" target="_blank">Outlook</a>';
@@ -1081,7 +1080,7 @@
       '<div class="session-speaker">' + esc(item.speaker || "") + "</div>" +
       (pick && pick.reason ? '<div class="session-reason">' + esc(pick.reason) + "</div>" : "") +
       '<div class="status-line status-' + status + '">' + esc(statusLabel) + "</div>" +
-      '<div class="session-actions">' + watchBtn + planBtn + gift + "</div>" +
+      '<div class="session-actions">' + watchBtn + planBtn + "</div>" +
       "</div>" +
       '<div class="session-side">' +
       '<label class="watched-toggle"><input type="checkbox" data-watched="' + esc(item.id) + '" ' + (watched[item.id] ? "checked" : "") + "> Mark watched</label>" +
