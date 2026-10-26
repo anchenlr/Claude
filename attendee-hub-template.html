@@ -158,6 +158,11 @@
   h2.section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 8px; }
   .section-sub { color: var(--text-light); max-width: 640px; margin-bottom: 28px; font-size: 15px; }
 
+  .new-sub-banner { background: var(--navy); padding: 12px 0; }
+  .new-sub-banner .wrap { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; text-align: center; }
+  .new-sub-text { color: #fff; font-size: 14px; font-weight: 600; }
+  .new-sub-banner .btn-primary { white-space: nowrap; }
+
   .hero { background: var(--light-blue); padding: 56px 0 40px; }
   .logo-row { display: flex; align-items: center; margin-bottom: 28px; }
   .logo-row img { height: 40px; width: auto; }
@@ -431,6 +436,15 @@
 </div>
 
 <div id="hubContent">
+
+  <!-- New-subscriber banner: only shown right after a brand-new registration,
+       linking to the welcome offer (Fast Action page). Optional, not forced. -->
+  <div class="new-sub-banner" id="newSubBanner" style="display:none;">
+    <div class="wrap">
+      <span class="new-sub-text">You're in! There's a welcome offer waiting for new subscribers too.</span>
+      <a href="#" id="newSubBannerLink" target="_blank" rel="noopener" class="btn btn-primary btn-sm">See your offer →</a>
+    </div>
+  </div>
 
   <!-- ========== HERO ========== -->
   <div class="hero">
@@ -733,6 +747,8 @@
     platforms: [], pageBuilders: [], focus: [], aiLevel: "", goalAnswer: "",
     startedAt: Date.now()
   };
+  var newSubscriber = false;
+  var fastActionUrl = "";
 
   function buildChoiceGrid(containerId, options, stateArray, opts) {
     opts = opts || {};
@@ -870,11 +886,10 @@
   function handleQuizResponse(resp) {
     if (!resp || resp.status === "error") { setQuizState("stateError"); return; }
     if (resp.status === "new") {
-      setQuizState("stateNew");
-      setTimeout(function () { window.location.href = resp.redirect_url; }, 1200);
-      return;
+      newSubscriber = true;
+      fastActionUrl = resp.redirect_url || "";
     }
-    // existing — poll Get Data until the plan is ready, then load the hub in place
+    // new or existing — poll Get Data until the plan is ready, then load the hub in place
     setQuizState("stateExisting");
     pollForPlan(resp.token, 0);
   }
@@ -888,10 +903,22 @@
         window.history.replaceState({}, "", url);
         document.getElementById("quizScreen").style.display = "none";
         renderHub(data, token);
+        showNewSubBannerIfNeeded();
+      } else if (data && data.plan_status === "Failed") {
+        setQuizState("stateError");
       } else {
         setTimeout(function () { pollForPlan(token, attempt + 1); }, 2000);
       }
     }).catch(function () { setQuizState("stateError"); });
+  }
+
+  function showNewSubBannerIfNeeded() {
+    if (!newSubscriber || !fastActionUrl) return;
+    var banner = document.getElementById("newSubBanner");
+    var link = document.getElementById("newSubBannerLink");
+    if (!banner || !link) return;
+    link.href = fastActionUrl;
+    banner.style.display = "block";
   }
 
   document.getElementById("stateErrorRetry").addEventListener("click", function () { showScreen(quizState.screen || 1); });
