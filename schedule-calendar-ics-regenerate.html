@@ -1,0 +1,99 @@
+<!--
+  One-time tool: download a CORRECTED .ics of the full schedule, to
+  re-import into the "Page Builder Summit 9.0" Google Calendar and
+  replace the events that were built with the wrong (15-minute) session
+  duration.
+
+  Open this file directly in a browser (double-click it, or drag it into
+  a browser tab) — it's not meant to be pasted into WordPress. Click the
+  button, then in Google Calendar: delete the existing wrong events,
+  then Settings > Import & export > Import > select the downloaded file.
+
+  Fix applied: each session's calendar block now runs from opens_at to
+  qa_at (45 minutes by default), instead of a hardcoded 15 minutes.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Regenerate schedule .ics</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 480px; margin: 60px auto; text-align: center;">
+  <h2>Regenerate corrected schedule .ics</h2>
+  <p>Downloads one file with every session, Kickoff and Closing — sessions now run the full 45 minutes until Q&amp;A starts.</p>
+  <button type="button" id="goBtn" style="background:#D85A95; color:#fff; border:none; border-radius:10px; padding:14px 24px; font-weight:700; font-size:15px; cursor:pointer;">Download corrected .ics</button>
+  <p id="msg" style="margin-top:16px; color:#312E61;"></p>
+
+<script>
+(function () {
+  var GET_DATA_URL = "https://hook.us2.make.com/x4f8npt1oltt2d0v3lnp8y99dwdvzrw8";
+
+  function addMinutes(iso, mins) { return new Date(new Date(iso).getTime() + mins * 60000).toISOString(); }
+  function icsEscape(s) {
+    return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  }
+  function icsFold(line) {
+    if (line.length <= 75) return line;
+    var out = [], rest = line;
+    while (rest.length > 75) { out.push(rest.slice(0, 75)); rest = " " + rest.slice(75); }
+    out.push(rest);
+    return out.join("\r\n");
+  }
+  function buildICS(entries) {
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "METHOD:PUBLISH", "PRODID:-//Page Builder Summit//Public Schedule//EN"];
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    entries.forEach(function (e) {
+      lines.push("BEGIN:VEVENT");
+      lines.push(icsFold("UID:" + e.uid + "@pagebuildersummit.com"));
+      lines.push("DTSTAMP:" + stamp);
+      lines.push("DTSTART:" + e.start.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push("DTEND:" + e.end.replace(/[-:]/g, "").split(".")[0] + "Z");
+      lines.push(icsFold("SUMMARY:" + icsEscape(e.title)));
+      if (e.desc) lines.push(icsFold("DESCRIPTION:" + icsEscape(e.desc)));
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+  function downloadICS(filename, content) {
+    var blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function entriesForItem(item) {
+    var out = [];
+    if (item.format === "event") {
+      out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 60), desc: item.location || "" });
+      return out;
+    }
+    var sessionEnd = item.qa_at || addMinutes(item.opens_at, 45);
+    out.push({ uid: "pbs9-" + item.id + "-open", title: item.title + (item.speaker ? " (" + item.speaker + ")" : ""), start: item.opens_at, end: sessionEnd, desc: item.description || "" });
+    if (item.qa_at) {
+      out.push({ uid: "pbs9-" + item.id + "-qa", title: "Live Q&A: " + (item.speaker || item.title), start: item.qa_at, end: addMinutes(item.qa_at, 15), desc: "" });
+    }
+    return out;
+  }
+
+  document.getElementById("goBtn").addEventListener("click", function () {
+    var msg = document.getElementById("msg");
+    msg.textContent = "Building…";
+    fetch(GET_DATA_URL + "?t=")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var items = (data && data.schedule && data.schedule.items) || [];
+        var entries = [];
+        items.forEach(function (item) { entries = entries.concat(entriesForItem(item)); });
+        if (!entries.length) { throw new Error("empty"); }
+        downloadICS("page-builder-summit-schedule-corrected.ics", buildICS(entries));
+        msg.textContent = "Downloaded. Now delete the old events in Google Calendar, then Settings > Import & export > Import this file.";
+      })
+      .catch(function () { msg.textContent = "Something went wrong — try again in a moment."; });
+  });
+})();
+</script>
+</body>
+</html>
