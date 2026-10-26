@@ -1023,7 +1023,8 @@
       out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 60), desc: item.location || "" });
       return out;
     }
-    out.push({ uid: "pbs9-" + item.id + "-open", title: "Opens: " + item.title + " (" + item.speaker + ")", start: item.opens_at, end: addMinutes(item.opens_at, 15), desc: "Open until " + fmtTime(item.closes_at, localTZ) });
+    var sessionEnd = item.qa_at || addMinutes(item.opens_at, hubData.schedule.qa_offset_minutes || 45);
+    out.push({ uid: "pbs9-" + item.id + "-open", title: "Opens: " + item.title + " (" + item.speaker + ")", start: item.opens_at, end: sessionEnd, desc: "Open until " + fmtTime(item.closes_at, localTZ) });
     if (item.qa_at) {
       out.push({ uid: "pbs9-" + item.id + "-qa", title: "Live Q&A: " + item.speaker, start: item.qa_at, end: addMinutes(item.qa_at, hubData.schedule.qa_duration_minutes || 15), desc: "" });
     }
