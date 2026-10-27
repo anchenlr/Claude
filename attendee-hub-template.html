@@ -747,8 +747,6 @@
     platforms: [], pageBuilders: [], focus: [], aiLevel: "", goalAnswer: "",
     startedAt: Date.now()
   };
-  var newSubscriber = false;
-  var fastActionUrl = "";
 
   function buildChoiceGrid(containerId, options, stateArray, opts) {
     opts = opts || {};
@@ -885,10 +883,6 @@
 
   function handleQuizResponse(resp) {
     if (!resp || resp.status === "error") { setQuizState("stateError"); return; }
-    if (resp.status === "new") {
-      newSubscriber = true;
-      fastActionUrl = resp.redirect_url || "";
-    }
     // new or existing — poll Get Data until the plan is ready, then load the hub in place
     setQuizState("stateExisting");
     pollForPlan(resp.token, 0);
@@ -903,7 +897,6 @@
         window.history.replaceState({}, "", url);
         document.getElementById("quizScreen").style.display = "none";
         renderHub(data, token);
-        showNewSubBannerIfNeeded();
       } else if (data && data.plan_status === "Failed") {
         setQuizState("stateError");
       } else {
@@ -912,13 +905,17 @@
     }).catch(function () { setQuizState("stateError"); });
   }
 
-  function showNewSubBannerIfNeeded() {
-    if (!newSubscriber || !fastActionUrl) return;
+  function showNewSubBannerIfNeeded(data) {
     var banner = document.getElementById("newSubBanner");
     var link = document.getElementById("newSubBannerLink");
     if (!banner || !link) return;
-    link.href = fastActionUrl;
-    banner.style.display = "block";
+    var url = data && data.attendee && data.attendee.fast_action_url;
+    if (data && data.attendee && data.attendee.is_new_subscriber && url) {
+      link.href = url;
+      banner.style.display = "block";
+    } else {
+      banner.style.display = "none";
+    }
   }
 
   document.getElementById("stateErrorRetry").addEventListener("click", function () { showScreen(quizState.screen || 1); });
@@ -1407,6 +1404,7 @@
     initTzSelect();
     renderAll();
     setupSectionNav();
+    showNewSubBannerIfNeeded(data);
     document.getElementById("loading").classList.remove("shown");
     document.getElementById("hubContent").classList.add("shown");
   }
