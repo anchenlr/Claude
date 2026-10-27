@@ -4,6 +4,11 @@
   Drop this whole block into a "Custom HTML" widget/block on the existing
   WordPress schedule page. It does not touch anything else on the page.
 
+  Styled to match the page's own Beaver Builder button (same classes as the
+  "GENERATE YOUR ATTENDEE HUB" button elsewhere on this page: fl-button-wrap /
+  fl-button / fl-button-text), so it inherits that button's exact look from
+  the page's own theme CSS instead of carrying its own custom styling.
+
   What it does:
     - One button: "Add full schedule to your calendar"
     - On click, fetches the live session list from the same "PBS Attendee
@@ -26,22 +31,20 @@
   until its live Q&A starts, instead of a hardcoded (wrong) 15 minutes.
 -->
 <div class="pbs-cal-widget">
-  <button type="button" id="pbsCalBtn" class="pbs-cal-btn">Add full schedule to your calendar</button>
+  <p style="text-align: center;">Add the <strong>full summit schedule</strong> straight to your calendar.</p>
+  <div class="fl-button-wrap fl-button-width-auto fl-button-center">
+    <button type="button" id="pbsCalBtn" class="fl-button"><span class="fl-button-text">ADD SCHEDULE TO YOUR CALENDAR</span></button>
+  </div>
   <p class="pbs-cal-note">Downloads one file that works with Apple Calendar, Outlook and more. <strong>Google Calendar:</strong> open Settings → Import &amp; export, then upload the downloaded file.</p>
   <p class="pbs-cal-msg" id="pbsCalMsg"></p>
 </div>
 
 <style>
-  .pbs-cal-widget { font-family: 'Open Sans', Arial, sans-serif; max-width: 480px; }
-  .pbs-cal-btn {
-    display: inline-block; background: #D85A95; color: #fff; border: none; border-radius: 10px;
-    padding: 14px 24px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 15px;
-    cursor: pointer; transition: background 0.15s ease;
-  }
-  .pbs-cal-btn:hover { background: #CC4E89; }
-  .pbs-cal-btn:disabled { background: #b9b9c6; cursor: default; }
-  .pbs-cal-note { font-size: 13px; color: #666666; margin: 10px 0 0; line-height: 1.5; }
-  .pbs-cal-msg { font-size: 13.5px; color: #312E61; margin: 8px 0 0; min-height: 1em; }
+  .pbs-cal-widget { text-align: center; }
+  #pbsCalBtn { cursor: pointer; }
+  #pbsCalBtn:disabled { opacity: 0.6; cursor: default; }
+  .pbs-cal-note { font-size: 13px; color: #666666; margin: 10px 0 0; line-height: 1.5; font-family: Arial, sans-serif; }
+  .pbs-cal-msg { font-size: 13.5px; color: #312E61; margin: 8px 0 0; min-height: 1em; font-family: Arial, sans-serif; }
   .pbs-cal-msg.pbs-cal-error { color: #c0392b; }
 </style>
 
