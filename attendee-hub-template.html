@@ -158,10 +158,15 @@
   h2.section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 8px; }
   .section-sub { color: var(--text-light); max-width: 640px; margin-bottom: 28px; font-size: 15px; }
 
-  .new-sub-banner { background: var(--navy); padding: 12px 0; }
-  .new-sub-banner .wrap { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; text-align: center; }
-  .new-sub-text { color: #fff; font-size: 14px; font-weight: 600; }
-  .new-sub-banner .btn-primary { white-space: nowrap; }
+  .new-sub-banner { background: linear-gradient(90deg, var(--pink) 0%, var(--pink-dark) 100%); padding: 18px 0; }
+  .new-sub-banner .wrap { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; text-align: center; }
+  .new-sub-text { color: #fff; font-family: 'Montserrat', Arial, sans-serif; font-size: 17px; font-weight: 800; letter-spacing: 0.2px; }
+  .new-sub-banner .btn-primary {
+    white-space: nowrap; background: #fff; color: var(--pink-dark); border: none;
+    font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; padding: 11px 22px; border-radius: 999px;
+  }
+  .new-sub-banner .btn-primary:hover { background: var(--navy); color: #fff; }
+  @media (max-width: 600px) { .new-sub-text { font-size: 15px; } }
 
   .hero { background: var(--light-blue); padding: 56px 0 40px; }
   .logo-row { display: flex; align-items: center; margin-bottom: 28px; }
@@ -441,8 +446,8 @@
        linking to the welcome offer (Fast Action page). Optional, not forced. -->
   <div class="new-sub-banner" id="newSubBanner" style="display:none;">
     <div class="wrap">
-      <span class="new-sub-text">You're in! There's a welcome offer waiting for new subscribers too.</span>
-      <a href="#" id="newSubBannerLink" target="_blank" rel="noopener" class="btn btn-primary btn-sm">See your offer →</a>
+      <span class="new-sub-text">🎉 You're in! There's a welcome offer waiting for new subscribers.</span>
+      <a href="#" id="newSubBannerLink" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Claim your offer →</a>
     </div>
   </div>
 
