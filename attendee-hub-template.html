@@ -108,7 +108,7 @@
   .consent-row input { margin-top: 3px; flex-shrink: 0; width: 17px; height: 17px; }
   .consent-row label { font-size: 13px; color: var(--text); line-height: 1.5; }
   .fine-print { font-size: 12.5px; color: var(--text-light); margin-top: 14px; }
-  .already-registered-note { background: var(--light-blue); border: 1px solid rgba(37,170,225,0.25); border-radius: 10px; padding: 13px 16px; font-size: 14px; line-height: 1.5; color: var(--navy); margin-top: 14px; }
+  .already-registered-note { background: var(--light-blue); border: 1px solid rgba(37,170,225,0.25); border-radius: 10px; padding: 13px 16px; font-size: 14px; line-height: 1.5; color: var(--navy); margin: 16px 0 20px; }
   .already-registered-note strong { color: var(--blue-dark); }
   .hp-field { position: absolute; left: -9999px; top: -9999px; }
 
@@ -317,6 +317,7 @@
         <div class="quiz-step-label">Step 1 of 5</div>
         <h2>Get your personal summit plan</h2>
         <p class="quiz-sub">One minute and a few questions. We pick the sessions that fit you, then you add your own and build your calendar.</p>
+        <p class="already-registered-note"><strong>Already registered?</strong> You'll need to use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one.</p>
         <div class="field">
           <label class="field-label-text" for="qFirstName">First name</label>
           <input type="text" id="qFirstName" autocomplete="given-name">
@@ -330,7 +331,6 @@
           <input type="checkbox" id="qConsent">
           <label for="qConsent">Register me free for Page Builder Summit and email me my plan, daily session links and summit updates. I can unsubscribe any time.</label>
         </div>
-        <p class="already-registered-note"><strong>Already registered?</strong> Use the same email and we'll skip straight to your plan.</p>
         <p class="quiz-error-msg" id="screen1Error">Please add your name, a valid email, and tick the box above.</p>
         <div class="quiz-actions">
           <span></span>
