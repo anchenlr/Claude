@@ -552,6 +552,30 @@ html { scroll-behavior: smooth; }
   color: var(--sds-ink-soft);
 }
 
+/* ─── STEPS (numbered "how it works" list) ──────────────────── */
+.sds-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 22px;
+}
+.sds-step { display: flex; gap: 16px; align-items: flex-start; }
+.sds-step-num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sds-burgundy);
+  color: var(--sds-cream);
+  font-family: var(--sds-display);
+  font-size: 1rem;
+  line-height: 1;
+}
+.sds-step p { font-size: 0.95rem; color: var(--sds-ink-soft); padding-top: 5px; }
+
 /* ─── "ONLY AVAILABLE THIS WEEK" (exclusive bonuses) ───────────── */
 .sds-exclusive {
   background: var(--sds-cream);
