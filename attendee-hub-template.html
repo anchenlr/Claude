@@ -976,12 +976,16 @@
     } catch (e) { return iso.slice(0, 10); }
   }
 
+  var EARLY_WATCH_MINUTES = 15; // show "Watch now" a bit before opens_at — the
+  // presentation page itself redirects/holds until ~5 min before, so there's
+  // safe margin; this just saves people the "where do I go" anxiety.
   function itemStatus(item, now) {
     if (item.format === "event") return now.getTime() >= new Date(item.opens_at).getTime() - 3600000 && now.getTime() <= new Date(item.opens_at).getTime() + 3600000 ? "open" : (now < new Date(item.opens_at) ? "upcoming" : "ended");
     var opens = new Date(item.opens_at).getTime();
     var closes = item.closes_at ? new Date(item.closes_at).getTime() : opens + 3600000;
+    var earlyOpens = opens - EARLY_WATCH_MINUTES * 60000;
     var t = now.getTime();
-    if (t < opens) return "upcoming";
+    if (t < earlyOpens) return "upcoming";
     if (t < closes) return "open";
     return "ended";
   }
