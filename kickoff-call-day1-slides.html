@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page Builder Summit 9.0 — Day 1 Kickoff Slides</title>
+<title>Page Builder Summit 9.0 — Kickoff Call Slides</title>
 <!--
-  PBS 9.0 — Daily kickoff/sponsor slide deck
+  PBS 9.0 — Kickoff call slide deck (ONE call for the whole week, not daily)
   ===========================================================================
   Built to match the attendee hub / schedule page branding (same colors,
   fonts, components) rather than the old PBS 8.0 deck's design — but the
   CONTENT FLOW follows that old deck closely: welcome -> where to find
-  links -> where to find live sessions -> today's schedule + live times ->
-  speaker thanks -> sponsors (tiered) -> today's bingo prizes -> reminder ->
+  links -> where to find live sessions -> the week's schedule -> speaker
+  thanks -> sponsors (tiered) -> the week's bingo prizes -> reminder ->
   sign-off.
 
-  REUSE FOR OTHER DAYS: everything slide-specific lives in the DAY object
-  near the bottom of this file (search "DAY =" ). Swap session list, live
-  times and bingo prizes there for Tuesday/Wednesday/etc. — no other edits
-  needed. Sponsor slides are intentionally left as placeholders; there was
-  no PBS 9.0 sponsor list available when this was built.
+  PBS 9.0 runs this as a SINGLE kickoff call (no daily calls like 8.0 had),
+  so the schedule and bingo sections cover the whole week at once rather
+  than "today's" content. All of that content lives in the WEEK array near
+  the top of the script (search "WEEK =") if it ever needs updating.
+  Sponsor slides are intentionally left as placeholders; there was no
+  PBS 9.0 sponsor list available when this was built.
 
   NAVIGATION: arrow keys / click the left-right edges / on-screen buttons /
   dot indicators at the bottom. Press "F" for fullscreen (handy when
@@ -81,29 +82,43 @@
 
   .logo-row img { height: 52px; margin-bottom: 28px; }
 
-  /* ---------- Schedule slide ---------- */
-  .sched-wrap { width: 100%; max-width: 1100px; text-align: left; }
+  /* ---------- Schedule slides (one per day) ---------- */
+  .sched-wrap { width: 100%; max-width: 1150px; text-align: left; }
   .sched-head { text-align: center; margin-bottom: 4px; }
-  .sched-released { text-align: center; font-size: clamp(14px, 1.3vw, 17px); opacity: 0.85; margin-bottom: 28px; }
-  .sched-list { list-style: none; margin: 0 0 28px; padding: 0; columns: 2; column-gap: 40px; }
+  .sched-date { text-align: center; font-size: clamp(14px, 1.3vw, 17px); opacity: 0.85; margin-bottom: 26px; }
+  .sched-list { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 36px; }
+  .sched-list.dense { columns: 2; font-size: 0.92em; }
   .sched-list li {
-    break-inside: avoid; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.5; margin-bottom: 14px; padding-left: 20px; position: relative;
+    break-inside: avoid; font-size: clamp(13px, 1.15vw, 17px); line-height: 1.45; margin-bottom: 11px; padding-left: 18px; position: relative;
   }
   .sched-list li::before { content: "▸"; position: absolute; left: 0; color: var(--pink); font-weight: 800; }
   .sched-list strong { color: var(--navy); font-family: 'Montserrat', sans-serif; font-weight: 700; }
   .sched-list .who { color: var(--pink-dark); font-weight: 600; }
+  .sched-count { text-align: center; font-size: 13px; opacity: 0.6; margin-top: 18px; }
 
+  /* ---------- Live highlights (on the "where to find live" slide) ---------- */
   .live-box {
-    background: var(--navy); color: #fff; border-radius: 16px; padding: 22px 28px; margin-top: 10px;
+    background: rgba(255,255,255,0.12); border-radius: 16px; padding: 20px 28px; margin-top: 28px; max-width: 620px; text-align: left;
   }
   .live-box h3 {
-    font-size: clamp(16px, 1.6vw, 20px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--pink); margin-bottom: 14px;
+    font-size: clamp(14px, 1.3vw, 17px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--pink); margin-bottom: 12px; text-align: center;
   }
-  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.15); }
   .live-item:first-of-type { border-top: none; }
-  .live-item .what { font-size: clamp(14px, 1.3vw, 18px); font-weight: 600; }
-  .live-item .when { font-size: clamp(12px, 1.05vw, 14px); opacity: 0.8; text-align: right; white-space: pre-line; }
+  .live-item .what { font-size: clamp(13px, 1.1vw, 16px); font-weight: 600; }
+  .live-item .when { font-size: clamp(11px, 0.95vw, 13px); opacity: 0.8; text-align: right; white-space: nowrap; }
+
+  /* ---------- Week bingo slide ---------- */
+  .bingo-week { width: 100%; max-width: 1200px; text-align: left; margin-top: 24px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+  .bingo-day { background: rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 14px; }
+  .bingo-day h4 {
+    font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.95; text-align: center;
+  }
+  .bingo-day ul { list-style: none; margin: 0; padding: 0; }
+  .bingo-day li { font-size: 11.5px; line-height: 1.4; padding: 3px 0 3px 12px; position: relative; }
+  .bingo-day li::before { content: "•"; position: absolute; left: 0; opacity: 0.7; }
 
   /* ---------- Sponsor placeholder ---------- */
   .sponsor-card {
@@ -117,14 +132,7 @@
   }
   .sponsor-card p { color: var(--navy); font-size: 17px; line-height: 1.6; margin: 0; }
 
-  /* ---------- Bingo slide ---------- */
-  .bingo-list { list-style: none; margin: 28px 0 0; padding: 0; max-width: 700px; width: 100%; }
-  .bingo-list li {
-    font-size: clamp(16px, 1.6vw, 21px); font-weight: 600; padding: 14px 22px; margin-bottom: 10px;
-    background: rgba(255,255,255,0.14); border-radius: 12px; text-align: left;
-  }
-  .theme-light .bingo-list li { background: rgba(49,46,97,0.06); color: var(--navy); }
-  .bingo-how { margin-top: 24px; font-size: 15px; opacity: 0.85; max-width: 640px; }
+  .bingo-how { margin-top: 20px; font-size: 14px; opacity: 0.85; max-width: 700px; text-align: center; }
 
   /* ---------- Nav controls ---------- */
   .nav-btn {
@@ -164,32 +172,101 @@
   var LOGO_URL = "https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png";
 
   /* =========================================================
-     DAY — everything specific to this call lives here.
-     Swap this block for Tuesday / Wednesday / etc.
+     WEEK — everything specific to this call lives here.
+     PBS 9.0 runs ONE kickoff call for the whole week (not daily like 8.0),
+     so this covers all five days at once rather than a single day.
   ========================================================= */
-  var DAY = {
-    dayLabel: "Day 1 — Monday",
-    dateLabel: "Monday 2 November",
-    scheduleUrl: "pagebuildersummit.com/schedule-2026",
-    liveUrl: "pagebuildersummit.com/schedule-2026",
-    releasedAt: "Released at 12pm (midday) UK time",
-    sessions: [
-      { title: "Build Bold Website Features With AI—On the Platforms You Already Use", who: "Rache De Luna" },
-      { title: "Maintenance Plans Making Big Money (In 2026)", who: "Josh Hall" },
-      { title: "Pixel-Perfect Prompting: Vocabulary and Techniques to Make Your Agent a Better Designer", who: "Robby McCullough" },
-      { title: "Everyday AI Habits for Web Designers", who: "Cami MacNamara" },
-      { title: "Live Build: A Client Onboarding Hub in One Session With Claude", who: "Kinsey Soderberg" }
-    ],
-    liveToday: [
-      { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 2 Nov, 6:00 PM EST / 3:00 PM PST / 11:00 PM GMT" },
-      { what: "VIP Networking Session", when: "Mon 2 Nov, 7:45 PM EST / 4:45 PM PST / 12:45 AM GMT" }
-    ],
-    bingoPrizes: [
-      "60-Minute Marketing Strategy Call with Shannon Mattern ($500 value)",
-      "The Course Hub Build Kit — Kinsey Soderberg ($597)",
-      "$20 Amazon Gift Card"
-    ]
-  };
+  var SCHEDULE_URL = "pagebuildersummit.com/schedule-2026";
+
+  var LIVE_HIGHLIGHTS = [
+    { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 2 Nov, 11:00 PM UK" },
+    { what: "LIVE Q&A: Haley Brown & Sarah Linklater — The Invisible Work", when: "Wed 4 Nov, 12:00 AM UK" },
+    { what: "LIVE: Amber Hinds — The Fastest Way to Make Your Website Accessible", when: "Wed 4 Nov, 3:00 PM UK" }
+  ];
+
+  var WEEK = [
+    {
+      label: "Monday", date: "2 November",
+      sessions: [
+        { title: "Build Bold Website Features With AI—On the Platforms You Already Use", who: "Rache De Luna" },
+        { title: "Maintenance Plans Making Big Money (In 2026)", who: "Josh Hall" },
+        { title: "Pixel-Perfect Prompting: Vocabulary and Techniques to Make Your Agent a Better Designer", who: "Robby McCullough" },
+        { title: "Everyday AI Habits for Web Designers", who: "Cami MacNamara" },
+        { title: "Live Build: A Client Onboarding Hub in One Session With Claude", who: "Kinsey Soderberg" }
+      ],
+      bingo: [
+        "60-Minute Marketing Strategy Call with Shannon Mattern ($500 value)",
+        "The Course Hub Build Kit — Kinsey Soderberg ($597)",
+        "$20 Amazon Gift Card"
+      ]
+    },
+    {
+      label: "Tuesday", date: "3 November",
+      sessions: [
+        { title: "85% of the Sites We Build Don't Need WordPress Anymore", who: "Kevin Geary" },
+        { title: "AI Words (Kinda) Matter", who: "Michelle Bourbonniere, PhD" },
+        { title: "Don't Replace Your Team With AI. Use AI to Finally Build One.", who: "Eric Dingler" },
+        { title: "How to Deliver Premium $5k-$10k Websites in Five Focused Days", who: "Whitney Zimmermann" },
+        { title: "From Web Designer to Creative Director", who: "Alexia Lynn" },
+        { title: "Watch Me Teach AI My SEO Strategy Video Process", who: "Sam Sarsten" }
+      ],
+      bingo: [
+        "Hire to Grow by Eric Dingler, winner's choice of format ($9.99)",
+        "The One Week Website Starter Pack — Whitney Zimmermann ($297)",
+        "BTS My ClickUp System & Web Design Workflow — Alexia Lynn ($97)"
+      ]
+    },
+    {
+      label: "Wednesday", date: "4 November",
+      sessions: [
+        { title: "Live Q&A: The Invisible Work — Managing the Mental Load of Business and Life", who: "Haley Brown & Sarah Linklater" },
+        { title: "Same Standards, Any Builder: How I Get AI to Build Real WordPress and HighLevel Sites", who: "Chantal Edouard-Betsy" },
+        { title: "How Etch Can Make Offering Both WordPress and Non WordPress Solutions Easy", who: "Endre Solem" },
+        { title: "The Gift That Keeps on Giving: How an Online Advent Calendar Builds Your List", who: "Britta Just" },
+        { title: "Rethinking WordPress Maintenance: A Better Way to Run Content-Focused Sites", who: "Patrick Posner" },
+        { title: "$12,872/Month Recurring Revenue From Our Small YouTube Channel", who: "Mike Killen" },
+        { title: "The Fastest Way to Make Your Website Accessible", who: "Amber Hinds" },
+        { title: "AI Changed Everything. Here's Why Content-First Still Matters", who: "Jakson" },
+        { title: "How I Manage Client Projects Without Losing My Mind", who: "Katelyn Dekle" },
+        { title: "The One Offer Rule: 7 Ways to Deliver Premium Design Work", who: "Sarah Masci" },
+        { title: "Marketing and Getting Clients: What's Working Now", who: "Shannon Mattern" },
+        { title: "Inside My Notion HQ: The Mixtape Behind My Whole Business", who: "Lisa Williams" },
+        { title: "The Three AI Workflows That Supercharge Human Web Designers", who: "Tim Strifler" }
+      ],
+      bingo: [
+        "Private 1-Hour Call with Sam Sarsten ($250)",
+        "Rose Sales Page Template — Chantal Edouard-Betsy ($147)",
+        "$20 Amazon Gift Card"
+      ]
+    },
+    {
+      label: "Thursday", date: "5 November",
+      sessions: [
+        { title: "When the Copy Isn't Ready: How to Keep Bad Copy From Derailing Your Website Project", who: "Nicole Kepic" },
+        { title: "Pretty Doesn't Sell on Shopify: What's Converting and How We're Building With AI", who: "Chloe & Hana" },
+        { title: "AI Is AIR for Creators", who: "Maestro Stevens" },
+        { title: "Connecting AI Agents to WordPress: What MCP Unlocks for Page Builders", who: "Dyllon Boynton" },
+        { title: "Accessibility Gems Hidden Inside GenerateBlocks for WordPress", who: "Alicia St Rose" },
+        { title: "Build Once, Run Forever: Automations Every Web Pro Can Steal", who: "Anchen le Roux" }
+      ],
+      bingo: [
+        "1:1 Online Advent Calendar Strategy Session — Britta Just (180 €)",
+        "Signed copies of Sell Futures, Not Features and Five Figure Funnels — Mike Killen",
+        "$20 Amazon Gift Card"
+      ]
+    },
+    {
+      label: "Friday", date: "6 November",
+      sessions: [
+        { title: "Why True Drag and Drop Can Save WordPress", who: "Melissa Love" }
+      ],
+      bingo: [
+        "1-Hour WordPress Consultancy with Jakson ($95)",
+        "30-Minute Live Call with Dyllon Boynton: Build and Fix Pages with AI ($150)",
+        "Build It With Me: 1:1 Automation Session — Anchen ($397)"
+      ]
+    }
+  ];
 
   /* =========================================================
      SLIDE BUILDERS
@@ -223,30 +300,36 @@
     return s;
   }
 
-  function scheduleSlide(day) {
+  function liveHighlightsSlide() {
+    var s = el("div", "slide theme-navy");
+    s.appendChild(el("h1", null, "Where do I find the LIVE sessions<br>in the Facebook Group?"));
+    s.appendChild(el("div", "big-url", SCHEDULE_URL));
+    var box = el("div", "live-box");
+    box.appendChild(el("h3", null, "3 sessions run fully live this week"));
+    LIVE_HIGHLIGHTS.forEach(function (item) {
+      var row = el("div", "live-item");
+      row.appendChild(el("div", "what", item.what));
+      row.appendChild(el("div", "when", item.when));
+      box.appendChild(row);
+    });
+    s.appendChild(box);
+    return s;
+  }
+
+  function daySlide(day) {
     var s = el("div", "slide theme-light");
     var wrap = el("div", "sched-wrap");
-    wrap.appendChild(el("div", "eyebrow sched-head", day.dayLabel));
-    wrap.appendChild(el("h2", null, day.dateLabel + " — What's On"));
-    wrap.appendChild(el("div", "sched-released", day.releasedAt));
+    wrap.appendChild(el("div", "eyebrow sched-head", "This Week's Schedule"));
+    wrap.appendChild(el("h2", null, day.label + " " + day.date));
 
-    var list = el("ul", "sched-list");
+    var list = el("ul", "sched-list" + (day.sessions.length > 7 ? " dense" : ""));
     day.sessions.forEach(function (item) {
       var li = document.createElement("li");
       li.innerHTML = "<strong>" + item.title + "</strong><br><span class=\"who\">" + item.who + "</span>";
       list.appendChild(li);
     });
     wrap.appendChild(list);
-
-    var box = el("div", "live-box");
-    box.appendChild(el("h3", null, "Live sessions today"));
-    day.liveToday.forEach(function (item) {
-      var row = el("div", "live-item");
-      row.appendChild(el("div", "what", item.what));
-      row.appendChild(el("div", "when", item.when));
-      box.appendChild(row);
-    });
-    wrap.appendChild(box);
+    wrap.appendChild(el("div", "sched-count", day.sessions.length + " session" + (day.sessions.length === 1 ? "" : "s") + " — exact times and links on the schedule page"));
 
     s.appendChild(wrap);
     return s;
@@ -265,15 +348,22 @@
     return s;
   }
 
-  function bingoSlide(day) {
+  function weekBingoSlide(week) {
     var s = el("div", "slide theme-pink");
-    s.appendChild(el("div", "eyebrow", "Today's giveaway"));
-    s.appendChild(el("h2", null, "Today's Bingo Prizes &amp; How to Play"));
-    var list = el("ul", "bingo-list");
-    day.bingoPrizes.forEach(function (p) { list.appendChild(el("li", null, p)); });
-    s.appendChild(list);
+    s.appendChild(el("div", "eyebrow", "This week's giveaway"));
+    s.appendChild(el("h2", null, "Bingo Prizes All Week &amp; How to Play"));
+    var wrap = el("div", "bingo-week");
+    week.forEach(function (day) {
+      var dayBlock = el("div", "bingo-day");
+      dayBlock.appendChild(el("h4", null, day.label));
+      var list = el("ul");
+      day.bingo.forEach(function (p) { list.appendChild(el("li", null, p)); });
+      dayBlock.appendChild(list);
+      wrap.appendChild(dayBlock);
+    });
+    s.appendChild(wrap);
     s.appendChild(el("div", "bingo-how",
-      "Tap a square the moment you earn it. Get a bingo (or the full card!) and post a screenshot in the Facebook group under today's bingo post to be entered in today's prize draw."));
+      "Tap a square the moment you earn it. Get a bingo (or the full card!) and post a screenshot in the Facebook group under that day's bingo post to be entered in that day's prize draw."));
     return s;
   }
 
@@ -282,17 +372,19 @@
   ========================================================= */
   var deck = document.getElementById("deck");
   var slides = [
-    titleSlide("theme-navy", "Page Builder Summit 9.0", "Welcome to " + DAY.dayLabel + "<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Let's go! 🎉"),
-    urlSlide("theme-teal", null, "Where do I find the links?", DAY.scheduleUrl),
-    urlSlide("theme-navy", null, "Where do I find the LIVE sessions<br>in the Facebook Group?", DAY.liveUrl),
-    scheduleSlide(DAY),
+    titleSlide("theme-navy", "Page Builder Summit 9.0", "Welcome to the<br>Kickoff Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Monday 2 November · Let's go! 🎉"),
+    urlSlide("theme-teal", null, "Where do I find the links?", SCHEDULE_URL),
+    liveHighlightsSlide()
+  ];
+  WEEK.forEach(function (day) { slides.push(daySlide(day)); });
+  slides.push(
     titleSlide("theme-navy", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
     titleSlide("theme-pink", null, "Page Builder Summit 9.0 Is Proudly<br>Sponsored By The Following<br>Amazing Companies...", null),
     sponsorPlaceholderSlide(),
-    bingoSlide(DAY),
-    urlSlide("theme-navy", "Remember, if you get stuck…", "Everything lives at", DAY.scheduleUrl),
-    titleSlide("theme-pink", null, "Have a great day! 💛", null)
-  ];
+    weekBingoSlide(WEEK),
+    urlSlide("theme-navy", "Remember, if you get stuck…", "Everything lives at", SCHEDULE_URL),
+    titleSlide("theme-pink", null, "Have a great week! 💛", null)
+  );
 
   slides.forEach(function (s, i) { s.dataset.index = i; deck.appendChild(s); });
 
