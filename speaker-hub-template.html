@@ -548,9 +548,6 @@
         <a href="#" id="qaGuestLinkBtn" target="_blank" rel="noopener" class="btn btn-primary">Your live guest link →</a>
         <p class="platform-note" style="margin-top:8px;">Click it 5 minutes before your start time so we can check your camera and mic. It's also under <a href="#all-links">All links</a> if you lose this page.</p>
       </div>
-      <div class="qa-guestlink-row" id="qaGuestLinkPending" style="display:none; margin-bottom:16px;">
-        <p class="platform-note">Your guest link isn't set up yet — it'll appear here (and under All links) once it's ready.</p>
-      </div>
       <div class="qa-confirm-row" id="qaConfirmRow">
         <button type="button" id="qaConfirmBtn" class="btn btn-primary">This time works for me →</button>
         <span class="qa-confirmed-badge" id="qaConfirmedBadge">✓ You've confirmed this time</span>
@@ -691,7 +688,7 @@
             <li><a href="#" data-link="affiliateAccount">Affiliate account</a></li>
             <li><a href="#" data-link="speakerCommunity">Summit community (Facebook)</a></li>
             <li><a href="#" data-link="powerpackRedeem">Redeem my free PowerPack</a></li>
-            <li><a href="#" data-resource="liveGuestLink">Your live guest link</a></li>
+            <li id="allLinksGuestLink" style="display:none;"><a href="#" id="allLinksGuestLinkA" target="_blank" rel="noopener">Your live guest link</a></li>
           </ul>
         </div>
         <div class="links-col">
@@ -1242,19 +1239,19 @@
     });
 
     var guestLinkRow = document.getElementById("qaGuestLinkRow");
-    var guestLinkPending = document.getElementById("qaGuestLinkPending");
-    if (noQA) {
-      if (guestLinkRow) guestLinkRow.style.display = "none";
-      if (guestLinkPending) guestLinkPending.style.display = "none";
-    } else if (data.liveGuestLink) {
+    var allLinksGuestLink = document.getElementById("allLinksGuestLink");
+    if (!noQA && data.liveGuestLink) {
       if (guestLinkRow) {
         guestLinkRow.style.display = "";
         document.getElementById("qaGuestLinkBtn").setAttribute("href", data.liveGuestLink);
       }
-      if (guestLinkPending) guestLinkPending.style.display = "none";
+      if (allLinksGuestLink) {
+        allLinksGuestLink.style.display = "";
+        document.getElementById("allLinksGuestLinkA").setAttribute("href", data.liveGuestLink);
+      }
     } else {
       if (guestLinkRow) guestLinkRow.style.display = "none";
-      if (guestLinkPending) guestLinkPending.style.display = "";
+      if (allLinksGuestLink) allLinksGuestLink.style.display = "none";
     }
 
     var confirmRow = document.getElementById("qaConfirmRow");
