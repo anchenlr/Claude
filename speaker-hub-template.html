@@ -544,6 +544,13 @@
         </div>
         <div id="qaTimesWrap"></div>
       </div>
+      <div class="qa-guestlink-row" id="qaGuestLinkRow" style="display:none; margin-bottom:16px;">
+        <a href="#" id="qaGuestLinkBtn" target="_blank" rel="noopener" class="btn btn-primary">Your live guest link →</a>
+        <p class="platform-note" style="margin-top:8px;">Click it 5 minutes before your start time so we can check your camera and mic. It's also under <a href="#all-links">All links</a> if you lose this page.</p>
+      </div>
+      <div class="qa-guestlink-row" id="qaGuestLinkPending" style="display:none; margin-bottom:16px;">
+        <p class="platform-note">Your guest link isn't set up yet — it'll appear here (and under All links) once it's ready.</p>
+      </div>
       <div class="qa-confirm-row" id="qaConfirmRow">
         <button type="button" id="qaConfirmBtn" class="btn btn-primary">This time works for me →</button>
         <span class="qa-confirmed-badge" id="qaConfirmedBadge">✓ You've confirmed this time</span>
@@ -683,6 +690,8 @@
           <ul>
             <li><a href="#" data-link="affiliateAccount">Affiliate account</a></li>
             <li><a href="#" data-link="speakerCommunity">Summit community (Facebook)</a></li>
+            <li><a href="#" data-link="powerpackRedeem">Redeem my free PowerPack</a></li>
+            <li><a href="#" data-resource="liveGuestLink">Your live guest link</a></li>
           </ul>
         </div>
         <div class="links-col">
@@ -755,6 +764,7 @@
       powerpackGuide: "https://drive.google.com/file/d/1A1Z_1d8xHXkq2UqcP1OTaQ6D-cKd3boW/view?usp=drive_link",
       addCalendar: buildCalendarLink(),
       affiliateAccount: "https://pictureandword.thrivecart.com/page-builder-powerpack/partner/",
+      powerpackRedeem: "https://access.pagebuildersummit.com/page-builder-powerpack-gid-week/?coupon=PBSSPEAKER9",
       speakerInfoPage: "https://pagebuildersummit.com/speaker-information/",
       speakerCommunity: "https://www.facebook.com/groups/pagebuildersummit",
       brandingFolder: "https://drive.google.com/drive/folders/1b_R4w20Q4kivQh0AjhkOl547VU7L7HJX?usp=sharing"
@@ -783,7 +793,8 @@
     { field: "Hub - Schedule emails",             respKey: "chkEmailsScheduled", label: "Schedule my emails" },
     { field: "Hub - Schedule social posts",       respKey: "chkSocialScheduled", label: "Schedule my social posts" },
     { field: "Hub - Show up in chat",             respKey: "chkChatSlot",        label: "Show up for my live Q&A, discussions or community conversations during my slot" },
-    { field: "Hub - Check out other speakers",    respKey: "chkOtherSessions",   label: "Check out other speakers' sessions" }
+    { field: "Hub - Check out other speakers",    respKey: "chkOtherSessions",   label: "Check out other speakers' sessions" },
+    { field: "Hub - Redeemed PowerPack",          respKey: "chkPowerpackRedeemed", label: "Redeem my own free PowerPack (link under All Links)" }
   ];
 
   var QA_FIELD = "Hub - Confirmed Live Q&A Time";
@@ -1229,6 +1240,22 @@
       }
       wrap.appendChild(row);
     });
+
+    var guestLinkRow = document.getElementById("qaGuestLinkRow");
+    var guestLinkPending = document.getElementById("qaGuestLinkPending");
+    if (noQA) {
+      if (guestLinkRow) guestLinkRow.style.display = "none";
+      if (guestLinkPending) guestLinkPending.style.display = "none";
+    } else if (data.liveGuestLink) {
+      if (guestLinkRow) {
+        guestLinkRow.style.display = "";
+        document.getElementById("qaGuestLinkBtn").setAttribute("href", data.liveGuestLink);
+      }
+      if (guestLinkPending) guestLinkPending.style.display = "none";
+    } else {
+      if (guestLinkRow) guestLinkRow.style.display = "none";
+      if (guestLinkPending) guestLinkPending.style.display = "";
+    }
 
     var confirmRow = document.getElementById("qaConfirmRow");
     if (noQA) {
