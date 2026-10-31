@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Builder Summit 9.0 — Day 1 Kickoff Slides</title>
+<!--
+  PBS 9.0 — Daily kickoff/sponsor slide deck
+  ===========================================================================
+  Built to match the attendee hub / schedule page branding (same colors,
+  fonts, components) rather than the old PBS 8.0 deck's design — but the
+  CONTENT FLOW follows that old deck closely: welcome -> where to find
+  links -> where to find live sessions -> today's schedule + live times ->
+  speaker thanks -> sponsors (tiered) -> today's bingo prizes -> reminder ->
+  sign-off.
+
+  REUSE FOR OTHER DAYS: everything slide-specific lives in the DAY object
+  near the bottom of this file (search "DAY =" ). Swap session list, live
+  times and bingo prizes there for Tuesday/Wednesday/etc. — no other edits
+  needed. Sponsor slides are intentionally left as placeholders; there was
+  no PBS 9.0 sponsor list available when this was built.
+
+  NAVIGATION: arrow keys / click the left-right edges / on-screen buttons /
+  dot indicators at the bottom. Press "F" for fullscreen (handy when
+  screen-sharing on the call). Built for 16:9 presentation, not a public
+  page — not intended for mobile/responsive polish.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D85A95;
+    --pink-dark: #CC4E89;
+    --blue: #25AAE1;
+    --blue-dark: #199ED5;
+    --navy: #312E61;
+    --teal: #75B8A1;
+    --teal-dark: #5FA088;
+    --white: #ffffff;
+    --off-white: #FBFCFE;
+    --text-light: rgba(255,255,255,0.85);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%; overflow: hidden;
+    font-family: 'Open Sans', sans-serif; background: var(--navy);
+  }
+  h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; margin: 0; }
+
+  /* ---------- Deck shell ---------- */
+  .deck { position: relative; width: 100%; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0; display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 6vh 8vw;
+  }
+  .slide.active { display: flex; }
+
+  /* Slide background themes */
+  .theme-navy   { background: linear-gradient(160deg, var(--navy) 0%, #241f4a 100%); color: #fff; }
+  .theme-pink   { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%); color: #fff; }
+  .theme-light  { background: var(--off-white); color: var(--navy); }
+  .theme-teal   { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%); color: #fff; }
+
+  .eyebrow {
+    font-family: 'Montserrat', sans-serif; font-size: clamp(13px, 1.4vw, 16px); font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 18px;
+  }
+  .theme-light .eyebrow { color: var(--pink-dark); }
+
+  .slide h1 { font-size: clamp(34px, 5.5vw, 76px); font-weight: 900; line-height: 1.08; }
+  .slide h2 { font-size: clamp(26px, 3.6vw, 48px); font-weight: 800; line-height: 1.15; }
+  .slide .sub { font-size: clamp(16px, 1.8vw, 24px); font-weight: 500; margin-top: 18px; opacity: 0.92; max-width: 900px; }
+  .slide .big-url {
+    font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(22px, 3.2vw, 42px);
+    margin-top: 28px; padding: 14px 32px; border-radius: 999px; background: rgba(255,255,255,0.14);
+    letter-spacing: 0.5px; word-break: break-word;
+  }
+  .theme-light .big-url { background: rgba(49,46,97,0.08); color: var(--navy); }
+
+  .logo-row img { height: 52px; margin-bottom: 28px; }
+
+  /* ---------- Schedule slide ---------- */
+  .sched-wrap { width: 100%; max-width: 1100px; text-align: left; }
+  .sched-head { text-align: center; margin-bottom: 4px; }
+  .sched-released { text-align: center; font-size: clamp(14px, 1.3vw, 17px); opacity: 0.85; margin-bottom: 28px; }
+  .sched-list { list-style: none; margin: 0 0 28px; padding: 0; columns: 2; column-gap: 40px; }
+  .sched-list li {
+    break-inside: avoid; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.5; margin-bottom: 14px; padding-left: 20px; position: relative;
+  }
+  .sched-list li::before { content: "▸"; position: absolute; left: 0; color: var(--pink); font-weight: 800; }
+  .sched-list strong { color: var(--navy); font-family: 'Montserrat', sans-serif; font-weight: 700; }
+  .sched-list .who { color: var(--pink-dark); font-weight: 600; }
+
+  .live-box {
+    background: var(--navy); color: #fff; border-radius: 16px; padding: 22px 28px; margin-top: 10px;
+  }
+  .live-box h3 {
+    font-size: clamp(16px, 1.6vw, 20px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--pink); margin-bottom: 14px;
+  }
+  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .live-item:first-of-type { border-top: none; }
+  .live-item .what { font-size: clamp(14px, 1.3vw, 18px); font-weight: 600; }
+  .live-item .when { font-size: clamp(12px, 1.05vw, 14px); opacity: 0.8; text-align: right; white-space: pre-line; }
+
+  /* ---------- Sponsor placeholder ---------- */
+  .sponsor-card {
+    background: var(--white); border: 2px dashed rgba(49,46,97,0.25); border-radius: 18px;
+    padding: 48px 56px; max-width: 820px;
+  }
+  .sponsor-card .tag {
+    display: inline-block; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--pink-dark); background: rgba(216,90,149,0.1);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .sponsor-card p { color: var(--navy); font-size: 17px; line-height: 1.6; margin: 0; }
+
+  /* ---------- Bingo slide ---------- */
+  .bingo-list { list-style: none; margin: 28px 0 0; padding: 0; max-width: 700px; width: 100%; }
+  .bingo-list li {
+    font-size: clamp(16px, 1.6vw, 21px); font-weight: 600; padding: 14px 22px; margin-bottom: 10px;
+    background: rgba(255,255,255,0.14); border-radius: 12px; text-align: left;
+  }
+  .theme-light .bingo-list li { background: rgba(49,46,97,0.06); color: var(--navy); }
+  .bingo-how { margin-top: 24px; font-size: 15px; opacity: 0.85; max-width: 640px; }
+
+  /* ---------- Nav controls ---------- */
+  .nav-btn {
+    position: fixed; top: 50%; transform: translateY(-50%); width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: none; color: #fff; font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background 0.15s ease; z-index: 10;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.25); }
+  .nav-prev { left: 18px; } .nav-next { right: 18px; }
+  .theme-light ~ .nav-btn, body:has(.slide.active.theme-light) .nav-btn { color: var(--navy); background: rgba(49,46,97,0.08); }
+  body:has(.slide.active.theme-light) .nav-btn:hover { background: rgba(49,46,97,0.16); }
+
+  .dots { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.15s ease, transform 0.15s ease; }
+  .dot.active { background: #fff; transform: scale(1.3); }
+  body:has(.slide.active.theme-light) .dot { background: rgba(49,46,97,0.22); }
+  body:has(.slide.active.theme-light) .dot.active { background: var(--navy); }
+
+  .counter {
+    position: fixed; top: 18px; right: 24px; font-family: 'Montserrat', sans-serif; font-weight: 700;
+    font-size: 13px; color: rgba(255,255,255,0.6); z-index: 10;
+  }
+  body:has(.slide.active.theme-light) .counter { color: rgba(49,46,97,0.45); }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck"></div>
+
+<button class="nav-btn nav-prev" id="btnPrev" aria-label="Previous slide">‹</button>
+<button class="nav-btn nav-next" id="btnNext" aria-label="Next slide">›</button>
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+
+<script>
+(function () {
+  var LOGO_URL = "https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png";
+
+  /* =========================================================
+     DAY — everything specific to this call lives here.
+     Swap this block for Tuesday / Wednesday / etc.
+  ========================================================= */
+  var DAY = {
+    dayLabel: "Day 1 — Monday",
+    dateLabel: "Monday 2 November",
+    scheduleUrl: "pagebuildersummit.com/schedule-2026",
+    liveUrl: "pagebuildersummit.com/schedule-2026",
+    releasedAt: "Released at 12pm (midday) UK time",
+    sessions: [
+      { title: "Build Bold Website Features With AI—On the Platforms You Already Use", who: "Rache De Luna" },
+      { title: "Maintenance Plans Making Big Money (In 2026)", who: "Josh Hall" },
+      { title: "Pixel-Perfect Prompting: Vocabulary and Techniques to Make Your Agent a Better Designer", who: "Robby McCullough" },
+      { title: "Everyday AI Habits for Web Designers", who: "Cami MacNamara" },
+      { title: "Live Build: A Client Onboarding Hub in One Session With Claude", who: "Kinsey Soderberg" }
+    ],
+    liveToday: [
+      { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 2 Nov, 6:00 PM EST / 3:00 PM PST / 11:00 PM GMT" },
+      { what: "VIP Networking Session", when: "Mon 2 Nov, 7:45 PM EST / 4:45 PM PST / 12:45 AM GMT" }
+    ],
+    bingoPrizes: [
+      "60-Minute Marketing Strategy Call with Shannon Mattern ($500 value)",
+      "The Course Hub Build Kit — Kinsey Soderberg ($597)",
+      "$20 Amazon Gift Card"
+    ]
+  };
+
+  /* =========================================================
+     SLIDE BUILDERS
+  ========================================================= */
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function titleSlide(theme, eyebrow, titleHtml, subHtml) {
+    var s = el("div", "slide " + theme);
+    var wrap = el("div", "logo-row");
+    var img = document.createElement("img");
+    img.src = LOGO_URL; img.alt = "Page Builder Summit";
+    if (theme === "theme-light") img.style.filter = "none";
+    wrap.appendChild(img);
+    s.appendChild(wrap);
+    if (eyebrow) s.appendChild(el("div", "eyebrow", eyebrow));
+    s.appendChild(el("h1", null, titleHtml));
+    if (subHtml) s.appendChild(el("div", "sub", subHtml));
+    return s;
+  }
+
+  function urlSlide(theme, eyebrow, titleHtml, url) {
+    var s = el("div", "slide " + theme);
+    if (eyebrow) s.appendChild(el("div", "eyebrow", eyebrow));
+    s.appendChild(el("h1", null, titleHtml));
+    s.appendChild(el("div", "big-url", url));
+    return s;
+  }
+
+  function scheduleSlide(day) {
+    var s = el("div", "slide theme-light");
+    var wrap = el("div", "sched-wrap");
+    wrap.appendChild(el("div", "eyebrow sched-head", day.dayLabel));
+    wrap.appendChild(el("h2", null, day.dateLabel + " — What's On"));
+    wrap.appendChild(el("div", "sched-released", day.releasedAt));
+
+    var list = el("ul", "sched-list");
+    day.sessions.forEach(function (item) {
+      var li = document.createElement("li");
+      li.innerHTML = "<strong>" + item.title + "</strong><br><span class=\"who\">" + item.who + "</span>";
+      list.appendChild(li);
+    });
+    wrap.appendChild(list);
+
+    var box = el("div", "live-box");
+    box.appendChild(el("h3", null, "Live sessions today"));
+    day.liveToday.forEach(function (item) {
+      var row = el("div", "live-item");
+      row.appendChild(el("div", "what", item.what));
+      row.appendChild(el("div", "when", item.when));
+      box.appendChild(row);
+    });
+    wrap.appendChild(box);
+
+    s.appendChild(wrap);
+    return s;
+  }
+
+  function sponsorPlaceholderSlide() {
+    var s = el("div", "slide theme-light");
+    var card = el("div", "sponsor-card");
+    card.appendChild(el("div", "tag", "Content needed"));
+    card.appendChild(el("h2", null, "Sponsor slide(s) go here"));
+    card.appendChild(el("p", null,
+      "No PBS 9.0 sponsor list was available when this deck was built. " +
+      "Replace this slide (and add one per sponsor/tier, same as the old deck's " +
+      "Partner / Patron / Micro sections) once the sponsor details are confirmed."));
+    s.appendChild(card);
+    return s;
+  }
+
+  function bingoSlide(day) {
+    var s = el("div", "slide theme-pink");
+    s.appendChild(el("div", "eyebrow", "Today's giveaway"));
+    s.appendChild(el("h2", null, "Today's Bingo Prizes &amp; How to Play"));
+    var list = el("ul", "bingo-list");
+    day.bingoPrizes.forEach(function (p) { list.appendChild(el("li", null, p)); });
+    s.appendChild(list);
+    s.appendChild(el("div", "bingo-how",
+      "Tap a square the moment you earn it. Get a bingo (or the full card!) and post a screenshot in the Facebook group under today's bingo post to be entered in today's prize draw."));
+    return s;
+  }
+
+  /* =========================================================
+     BUILD DECK
+  ========================================================= */
+  var deck = document.getElementById("deck");
+  var slides = [
+    titleSlide("theme-navy", "Page Builder Summit 9.0", "Welcome to " + DAY.dayLabel + "<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Let's go! 🎉"),
+    urlSlide("theme-teal", null, "Where do I find the links?", DAY.scheduleUrl),
+    urlSlide("theme-navy", null, "Where do I find the LIVE sessions<br>in the Facebook Group?", DAY.liveUrl),
+    scheduleSlide(DAY),
+    titleSlide("theme-navy", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    titleSlide("theme-pink", null, "Page Builder Summit 9.0 Is Proudly<br>Sponsored By The Following<br>Amazing Companies...", null),
+    sponsorPlaceholderSlide(),
+    bingoSlide(DAY),
+    urlSlide("theme-navy", "Remember, if you get stuck…", "Everything lives at", DAY.scheduleUrl),
+    titleSlide("theme-pink", null, "Have a great day! 💛", null)
+  ];
+
+  slides.forEach(function (s, i) { s.dataset.index = i; deck.appendChild(s); });
+
+  var dotsWrap = document.getElementById("dots");
+  slides.forEach(function (_, i) {
+    var d = el("div", "dot");
+    d.addEventListener("click", function () { goTo(i); });
+    dotsWrap.appendChild(d);
+  });
+
+  var current = 0;
+  function render() {
+    slides.forEach(function (s, i) { s.classList.toggle("active", i === current); });
+    Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
+      d.classList.toggle("active", i === current);
+    });
+    document.getElementById("counter").textContent = (current + 1) + " / " + slides.length;
+  }
+  function goTo(i) { current = Math.max(0, Math.min(slides.length - 1, i)); render(); }
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  document.getElementById("btnNext").addEventListener("click", next);
+  document.getElementById("btnPrev").addEventListener("click", prev);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { next(); e.preventDefault(); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { prev(); e.preventDefault(); }
+    else if (e.key.toLowerCase() === "f") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
