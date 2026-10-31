@@ -109,6 +109,8 @@
   .consent-row label { font-size: 13px; color: var(--text); line-height: 1.5; }
   .fine-print { font-size: 12.5px; color: var(--text-light); margin-top: 14px; }
   .already-registered-note { background: var(--light-blue); border: 1px solid rgba(37,170,225,0.25); border-radius: 10px; padding: 13px 16px; font-size: 14px; line-height: 1.5; color: var(--navy); margin: 16px 0 20px; }
+  .already-registered-note p { margin: 0; }
+  .already-registered-note p + p { margin-top: 8px; }
   .already-registered-note strong { color: var(--blue-dark); }
   .hp-field { position: absolute; left: -9999px; top: -9999px; }
 
@@ -322,7 +324,10 @@
         <div class="quiz-step-label">Step 1 of 5</div>
         <h2>Get your personal summit plan</h2>
         <p class="quiz-sub">One minute and a few questions. We pick the sessions that fit you, then you add your own and build your calendar.</p>
-        <p class="already-registered-note"><strong>Already registered?</strong> You'll need to use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one. Just lost your link? <a href="#" id="quizFindLink">Get it again</a> instead of redoing the quiz.</p>
+        <div class="already-registered-note">
+          <p><strong>Already registered?</strong> Use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one.</p>
+          <p>Just lost your link? <a href="#" id="quizFindLink">Get it again</a> instead of redoing the quiz.</p>
+        </div>
         <div class="field">
           <label class="field-label-text" for="qFirstName">First name</label>
           <input type="text" id="qFirstName" autocomplete="given-name">
@@ -431,8 +436,8 @@
 </div>
 
 <div id="errorState">
-  <h2 class="section-title">We couldn't find your plan</h2>
-  <p class="section-sub">Double-check the link we sent you, or use the box below to get it again.</p>
+  <h2 class="section-title" id="errorStateTitle">We couldn't find your plan</h2>
+  <p class="section-sub" id="errorStateSub">Double-check the link we sent you, or use the box below to get it again.</p>
   <div class="find-plan-box">
     <input type="email" id="findPlanEmail" placeholder="you@example.com">
     <button type="button" class="btn btn-primary" id="findPlanBtn">Email my link</button>
@@ -1397,6 +1402,8 @@
     document.getElementById("findPlanBtn").addEventListener("click", doFind);
     var showFindPlan = function (e) {
       e.preventDefault();
+      document.getElementById("errorStateTitle").textContent = "Get your plan link";
+      document.getElementById("errorStateSub").textContent = "Enter the email you registered with and we'll send it straight over.";
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("hubContent").classList.remove("shown");
       document.getElementById("errorState").classList.add("shown");
