@@ -50,6 +50,9 @@ gets up to speed on it without replaying old chat history.
   existing sent emails before asking.
 - CTA links in attendee-facing emails go early (near the top), not buried
   below bullet lists.
+- **No dark navy backgrounds** — use `--light-blue` (#E2F0FB) with navy
+  text for a "light" section instead of a dark navy one. Pink and teal
+  gradients are fine as dark/colored backgrounds; navy specifically isn't.
 
 ## Deploy workflow
 
