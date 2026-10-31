@@ -93,6 +93,14 @@ Three different cases — pick the right one:
   62. Wire the field-write into Make once Anchen confirms it's created.
 - Automation 62 needs to be **active** in ActiveCampaign for the plan email to
   send at all — this is a manual AC-side toggle, not something Make/code fixes.
+- **`Hub - Show to Attendees` checkbox logic (deferred to next year's build)**:
+  Anchen considers the current design flawed — one manually-ticked checkbox
+  per speaker gates whether they appear in the attendee hub/quiz pool, the
+  public schedule, and anything else built from "active sessions." It's easy
+  to miss ticking it for a real session (happened with Melissa Love — fixed
+  by ticking it, but caught by chance, not by any safeguard). Worth
+  rethinking the mechanism next time, not this year — don't start that
+  without her asking.
 
 ## Make formula gotchas (learned the hard way)
 
