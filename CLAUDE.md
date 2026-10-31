@@ -53,6 +53,10 @@ gets up to speed on it without replaying old chat history.
 - **No dark navy backgrounds** — use `--light-blue` (#E2F0FB) with navy
   text for a "light" section instead of a dark navy one. Pink and teal
   gradients are fine as dark/colored backgrounds; navy specifically isn't.
+- **Schedule page link is `https://pagebuildersummit.com/schedule/`** — the
+  plain URL, not `/schedule-2026/` (an earlier, now-wrong variant that had
+  crept into several emails and the kickoff deck — fixed, but don't
+  reintroduce it).
 
 ## Deploy workflow
 
@@ -91,6 +95,15 @@ Three different cases — pick the right one:
   just the next one — if you need "try this, but don't block anything else,"
   use `onerror: Ignore` instead of a filter, or put the filter on the very
   last module in the branch.
+
+## Session Time Slot gotcha
+
+When grouping Speaker Info sessions by calendar day (e.g. for a schedule
+overview), a session landing exactly at `T00:00:00 UTC` is the CLOSING
+session of the *previous* day's lineup (one hour after that day's 23:00
+slot), not the opener of the next day — each day's real content block runs
+roughly 18:00 UTC through 00:00 UTC. Group by that pattern, not by naive
+UTC calendar-date splitting, or sessions land on the wrong day.
 
 ## Git / attribution
 
