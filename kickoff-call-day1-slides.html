@@ -40,6 +40,7 @@
     --teal-dark: #5FA088;
     --white: #ffffff;
     --off-white: #FBFCFE;
+    --light-blue: #E2F0FB;
     --text-light: rgba(255,255,255,0.85);
   }
   * { box-sizing: border-box; }
@@ -58,8 +59,8 @@
   }
   .slide.active { display: flex; }
 
-  /* Slide background themes */
-  .theme-navy   { background: linear-gradient(160deg, var(--navy) 0%, #241f4a 100%); color: #fff; }
+  /* Slide background themes — no dark navy backgrounds */
+  .theme-skyblue { background: var(--light-blue); color: var(--navy); }
   .theme-pink   { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%); color: #fff; }
   .theme-light  { background: var(--off-white); color: var(--navy); }
   .theme-teal   { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%); color: #fff; }
@@ -68,7 +69,7 @@
     font-family: 'Montserrat', sans-serif; font-size: clamp(13px, 1.4vw, 16px); font-weight: 800;
     letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 18px;
   }
-  .theme-light .eyebrow { color: var(--pink-dark); }
+  .theme-light .eyebrow, .theme-skyblue .eyebrow { color: var(--pink-dark); }
 
   .slide h1 { font-size: clamp(34px, 5.5vw, 76px); font-weight: 900; line-height: 1.08; }
   .slide h2 { font-size: clamp(26px, 3.6vw, 48px); font-weight: 800; line-height: 1.15; }
@@ -78,7 +79,7 @@
     margin-top: 28px; padding: 14px 32px; border-radius: 999px; background: rgba(255,255,255,0.14);
     letter-spacing: 0.5px; word-break: break-word;
   }
-  .theme-light .big-url { background: rgba(49,46,97,0.08); color: var(--navy); }
+  .theme-light .big-url, .theme-skyblue .big-url { background: rgba(49,46,97,0.08); color: var(--navy); }
 
   .logo-row img { height: 52px; margin-bottom: 28px; }
 
@@ -98,16 +99,16 @@
 
   /* ---------- Live highlights (on the "where to find live" slide) ---------- */
   .live-box {
-    background: rgba(255,255,255,0.12); border-radius: 16px; padding: 20px 28px; margin-top: 28px; max-width: 620px; text-align: left;
+    background: rgba(255,255,255,0.6); border-radius: 16px; padding: 20px 28px; margin-top: 28px; max-width: 620px; text-align: left;
   }
   .live-box h3 {
     font-size: clamp(14px, 1.3vw, 17px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--pink); margin-bottom: 12px; text-align: center;
+    color: var(--pink-dark); margin-bottom: 12px; text-align: center;
   }
-  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 7px 0; border-top: 1px solid rgba(49,46,97,0.12); }
   .live-item:first-of-type { border-top: none; }
-  .live-item .what { font-size: clamp(13px, 1.1vw, 16px); font-weight: 600; }
-  .live-item .when { font-size: clamp(11px, 0.95vw, 13px); opacity: 0.8; text-align: right; white-space: nowrap; }
+  .live-item .what { font-size: clamp(13px, 1.1vw, 16px); font-weight: 600; color: var(--navy); }
+  .live-item .when { font-size: clamp(11px, 0.95vw, 13px); opacity: 0.75; text-align: right; white-space: nowrap; color: var(--navy); }
 
   /* ---------- Week bingo slide ---------- */
   .bingo-week { width: 100%; max-width: 1200px; text-align: left; margin-top: 24px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
@@ -142,20 +143,25 @@
   }
   .nav-btn:hover { background: rgba(255,255,255,0.25); }
   .nav-prev { left: 18px; } .nav-next { right: 18px; }
-  .theme-light ~ .nav-btn, body:has(.slide.active.theme-light) .nav-btn { color: var(--navy); background: rgba(49,46,97,0.08); }
-  body:has(.slide.active.theme-light) .nav-btn:hover { background: rgba(49,46,97,0.16); }
+  body:has(.slide.active.theme-light) .nav-btn,
+  body:has(.slide.active.theme-skyblue) .nav-btn { color: var(--navy); background: rgba(49,46,97,0.08); }
+  body:has(.slide.active.theme-light) .nav-btn:hover,
+  body:has(.slide.active.theme-skyblue) .nav-btn:hover { background: rgba(49,46,97,0.16); }
 
   .dots { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.15s ease, transform 0.15s ease; }
   .dot.active { background: #fff; transform: scale(1.3); }
-  body:has(.slide.active.theme-light) .dot { background: rgba(49,46,97,0.22); }
-  body:has(.slide.active.theme-light) .dot.active { background: var(--navy); }
+  body:has(.slide.active.theme-light) .dot,
+  body:has(.slide.active.theme-skyblue) .dot { background: rgba(49,46,97,0.22); }
+  body:has(.slide.active.theme-light) .dot.active,
+  body:has(.slide.active.theme-skyblue) .dot.active { background: var(--navy); }
 
   .counter {
     position: fixed; top: 18px; right: 24px; font-family: 'Montserrat', sans-serif; font-weight: 700;
     font-size: 13px; color: rgba(255,255,255,0.6); z-index: 10;
   }
-  body:has(.slide.active.theme-light) .counter { color: rgba(49,46,97,0.45); }
+  body:has(.slide.active.theme-light) .counter,
+  body:has(.slide.active.theme-skyblue) .counter { color: rgba(49,46,97,0.45); }
 </style>
 </head>
 <body>
@@ -301,7 +307,7 @@
   }
 
   function liveHighlightsSlide() {
-    var s = el("div", "slide theme-navy");
+    var s = el("div", "slide theme-skyblue");
     s.appendChild(el("h1", null, "Where do I find the LIVE sessions<br>in the Facebook Group?"));
     s.appendChild(el("div", "big-url", SCHEDULE_URL));
     var box = el("div", "live-box");
@@ -372,17 +378,17 @@
   ========================================================= */
   var deck = document.getElementById("deck");
   var slides = [
-    titleSlide("theme-navy", "Page Builder Summit 9.0", "Welcome to the<br>Kickoff Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Monday 2 November · Let's go! 🎉"),
+    titleSlide("theme-skyblue", "Page Builder Summit 9.0", "Welcome to the<br>Kickoff Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Monday 2 November · Let's go! 🎉"),
     urlSlide("theme-teal", null, "Where do I find the links?", SCHEDULE_URL),
     liveHighlightsSlide()
   ];
   WEEK.forEach(function (day) { slides.push(daySlide(day)); });
   slides.push(
-    titleSlide("theme-navy", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
     titleSlide("theme-pink", null, "Page Builder Summit 9.0 Is Proudly<br>Sponsored By The Following<br>Amazing Companies...", null),
     sponsorPlaceholderSlide(),
     weekBingoSlide(WEEK),
-    urlSlide("theme-navy", "Remember, if you get stuck…", "Everything lives at", SCHEDULE_URL),
+    urlSlide("theme-skyblue", "Remember, if you get stuck…", "Everything lives at", SCHEDULE_URL),
     titleSlide("theme-pink", null, "Have a great week! 💛", null)
   );
 
