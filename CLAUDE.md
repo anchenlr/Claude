@@ -35,7 +35,13 @@ gets up to speed on it without replaying old chat history.
     just update the Airtable field.
 - **ActiveCampaign**: automation **62** = "Send Attendee Hub" (the plan-ready/
   resend email). Automation **60** = "Send Speaker Hub". Custom field id
-  `3` = Attendee Hub Link merge field (`%ATTENDEE_HUB_LINK%`).
+  `3` = Attendee Hub Link merge field (`%ATTENDEE_HUB_LINK%`). Custom field id
+  `4` = **Plan Email Reason** — written by Make as `"ready"` (Quiz Submit
+  scenario, both the new-registration and existing/unsubscribed branches) or
+  `"resend"` (Resend Link scenario), right alongside the field-3 hub link
+  write. Automation 62 itself still needs an If/Else on this field (AC side,
+  not Make) to actually send `attendee-plan-ready-email.html` vs.
+  `attendee-plan-resend-email.html` — see Known open items.
 
 ## Brand palette & email conventions
 
@@ -87,10 +93,15 @@ Three different cases — pick the right one:
   every Make scenario's `base` parameter and the Airtable formula fields
   repointed. Explicitly deferred by Anchen due to summit timing risk — don't
   start this without her asking again.
-- **"Plan Email Reason" custom field**: planned but not yet created in AC,
-  for forking between the plan-ready (`attendee-plan-ready-email.html`) and
-  resend (`attendee-plan-resend-email.html`) email variants inside automation
-  62. Wire the field-write into Make once Anchen confirms it's created.
+- **"Plan Email Reason" custom field (field id 4) — Make side done, AC side
+  still open**: field is created in AC, and both Make scenarios (`PBS
+  Attendee Quiz - Submit` 6758758, `PBS Attendee Hub - Resend Link` 6758760)
+  now write `"ready"`/`"resend"` into it. What's still missing is inside
+  automation 62 itself: an If/Else step branching on this field to send
+  `attendee-plan-ready-email.html` vs. `attendee-plan-resend-email.html`
+  (currently automation 62 presumably just sends one email regardless).
+  That step has to be built in the ActiveCampaign automation editor — not
+  something Make/this repo can do.
 - Automation 62 needs to be **active** in ActiveCampaign for the plan email to
   send at all — this is a manual AC-side toggle, not something Make/code fixes.
 - **`Hub - Show to Attendees` checkbox logic (deferred to next year's build)**:
