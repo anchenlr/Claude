@@ -57,6 +57,13 @@ gets up to speed on it without replaying old chat history.
   plain URL, not `/schedule-2026/` (an earlier, now-wrong variant that had
   crept into several emails and the kickoff deck — fixed, but don't
   reintroduce it).
+- **"Coming soon" vs. "not applicable" — don't conflate them.** "Coming
+  soon" (the hub's `data-resource` pattern) is only for things that are
+  genuinely uniform-and-not-released-yet for everyone (swipe copy, graphics,
+  the summit schedule link). A field that's empty because it just doesn't
+  apply to that particular speaker/attendee (e.g. a live guest link for
+  someone not doing a live session) should hide entirely, not show a
+  "pending"/"coming soon" message implying it'll show up later.
 
 ## Deploy workflow
 
