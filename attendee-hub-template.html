@@ -1403,6 +1403,30 @@
     });
   }
 
+  function refreshTimeDependentUI() {
+    // Only the pieces whose content depends on itemStatus()/the clock —
+    // deliberately skips renderNotes() (would yank focus out of a textarea
+    // if someone's mid-typing a session note) and the static hero/bingo/
+    // community links, which never change between data loads.
+    renderToday();
+    renderPicks();
+    renderPlan();
+    renderSchedule();
+    renderLiveEvents();
+  }
+
+  var autoRefreshTimer = null;
+  function startAutoRefresh() {
+    // Pure client-side re-render on a tick — just re-checks "what time is it
+    // now" against session data already in memory. No re-fetch, no webhook
+    // call, zero Make operations. Keeps open/upcoming/ended (and the Watch
+    // now button) live-updating without anyone needing to reload the page.
+    if (autoRefreshTimer) return;
+    autoRefreshTimer = setInterval(function () {
+      if (hubData) refreshTimeDependentUI();
+    }, 60000);
+  }
+
   function renderHub(data, tok) {
     hubData = data;
     storageKey = "pbs9:" + tok;
@@ -1414,6 +1438,7 @@
     renderAll();
     setupSectionNav();
     showNewSubBannerIfNeeded(data);
+    startAutoRefresh();
     document.getElementById("loading").classList.remove("shown");
     document.getElementById("hubContent").classList.add("shown");
   }
