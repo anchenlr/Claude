@@ -322,7 +322,7 @@
         <div class="quiz-step-label">Step 1 of 5</div>
         <h2>Get your personal summit plan</h2>
         <p class="quiz-sub">One minute and a few questions. We pick the sessions that fit you, then you add your own and build your calendar.</p>
-        <p class="already-registered-note"><strong>Already registered?</strong> You'll need to use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one.</p>
+        <p class="already-registered-note"><strong>Already registered?</strong> You'll need to use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one. Just lost your link? <a href="#" id="quizFindLink">Get it again</a> instead of redoing the quiz.</p>
         <div class="field">
           <label class="field-label-text" for="qFirstName">First name</label>
           <input type="text" id="qFirstName" autocomplete="given-name">
@@ -1395,12 +1395,14 @@
       }
     };
     document.getElementById("findPlanBtn").addEventListener("click", doFind);
-    document.getElementById("footerFindLink").addEventListener("click", function (e) {
+    var showFindPlan = function (e) {
       e.preventDefault();
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("hubContent").classList.remove("shown");
       document.getElementById("errorState").classList.add("shown");
-    });
+    };
+    document.getElementById("footerFindLink").addEventListener("click", showFindPlan);
+    document.getElementById("quizFindLink").addEventListener("click", showFindPlan);
   }
 
   function refreshTimeDependentUI() {
