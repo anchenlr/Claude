@@ -182,7 +182,7 @@
      PBS 9.0 runs ONE kickoff call for the whole week (not daily like 8.0),
      so this covers all five days at once rather than a single day.
   ========================================================= */
-  var SCHEDULE_URL = "pagebuildersummit.com/schedule-2026";
+  var SCHEDULE_URL = "pagebuildersummit.com/schedule/";
 
   var LIVE_HIGHLIGHTS = [
     { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 2 Nov, 11:00 PM UK" },
@@ -214,7 +214,8 @@
         { title: "Don't Replace Your Team With AI. Use AI to Finally Build One.", who: "Eric Dingler" },
         { title: "How to Deliver Premium $5k-$10k Websites in Five Focused Days", who: "Whitney Zimmermann" },
         { title: "From Web Designer to Creative Director", who: "Alexia Lynn" },
-        { title: "Watch Me Teach AI My SEO Strategy Video Process", who: "Sam Sarsten" }
+        { title: "Watch Me Teach AI My SEO Strategy Video Process", who: "Sam Sarsten" },
+        { title: "Live Q&A: The Invisible Work — Managing the Mental Load of Business and Life", who: "Haley Brown & Sarah Linklater" }
       ],
       bingo: [
         "Hire to Grow by Eric Dingler, winner's choice of format ($9.99)",
@@ -225,7 +226,6 @@
     {
       label: "Wednesday", date: "4 November",
       sessions: [
-        { title: "Live Q&A: The Invisible Work — Managing the Mental Load of Business and Life", who: "Haley Brown & Sarah Linklater" },
         { title: "Same Standards, Any Builder: How I Get AI to Build Real WordPress and HighLevel Sites", who: "Chantal Edouard-Betsy" },
         { title: "How Etch Can Make Offering Both WordPress and Non WordPress Solutions Easy", who: "Endre Solem" },
         { title: "The Gift That Keeps on Giving: How an Online Advent Calendar Builds Your List", who: "Britta Just" },
@@ -237,7 +237,8 @@
         { title: "The One Offer Rule: 7 Ways to Deliver Premium Design Work", who: "Sarah Masci" },
         { title: "Marketing and Getting Clients: What's Working Now", who: "Shannon Mattern" },
         { title: "Inside My Notion HQ: The Mixtape Behind My Whole Business", who: "Lisa Williams" },
-        { title: "The Three AI Workflows That Supercharge Human Web Designers", who: "Tim Strifler" }
+        { title: "The Three AI Workflows That Supercharge Human Web Designers", who: "Tim Strifler" },
+        { title: "When the Copy Isn't Ready: How to Keep Bad Copy From Derailing Your Website Project", who: "Nicole Kepic" }
       ],
       bingo: [
         "Private 1-Hour Call with Sam Sarsten ($250)",
@@ -248,12 +249,12 @@
     {
       label: "Thursday", date: "5 November",
       sessions: [
-        { title: "When the Copy Isn't Ready: How to Keep Bad Copy From Derailing Your Website Project", who: "Nicole Kepic" },
         { title: "Pretty Doesn't Sell on Shopify: What's Converting and How We're Building With AI", who: "Chloe & Hana" },
         { title: "AI Is AIR for Creators", who: "Maestro Stevens" },
         { title: "Connecting AI Agents to WordPress: What MCP Unlocks for Page Builders", who: "Dyllon Boynton" },
         { title: "Accessibility Gems Hidden Inside GenerateBlocks for WordPress", who: "Alicia St Rose" },
-        { title: "Build Once, Run Forever: Automations Every Web Pro Can Steal", who: "Anchen le Roux" }
+        { title: "Build Once, Run Forever: Automations Every Web Pro Can Steal", who: "Anchen le Roux" },
+        { title: "Why True Drag and Drop Can Save WordPress", who: "Melissa Love" }
       ],
       bingo: [
         "1:1 Online Advent Calendar Strategy Session — Britta Just (180 €)",
@@ -263,9 +264,8 @@
     },
     {
       label: "Friday", date: "6 November",
-      sessions: [
-        { title: "Why True Drag and Drop Can Save WordPress", who: "Melissa Love" }
-      ],
+      sessions: [],
+      networkingOnly: true,
       bingo: [
         "1-Hour WordPress Consultancy with Jakson ($95)",
         "30-Minute Live Call with Dyllon Boynton: Build and Fix Pages with AI ($150)",
@@ -327,6 +327,16 @@
     var wrap = el("div", "sched-wrap");
     wrap.appendChild(el("div", "eyebrow sched-head", "This Week's Schedule"));
     wrap.appendChild(el("h2", null, day.label + " " + day.date));
+
+    if (day.networkingOnly) {
+      wrap.style.textAlign = "center";
+      var note = el("div", "sub", "No presentations today — just networking.<br>VIP co-working, VIP + attendee networking, and the closing call.");
+      note.style.margin = "18px auto 0";
+      note.style.color = "var(--navy)";
+      wrap.appendChild(note);
+      s.appendChild(wrap);
+      return s;
+    }
 
     var list = el("ul", "sched-list" + (day.sessions.length > 7 ? " dense" : ""));
     day.sessions.forEach(function (item) {
