@@ -80,9 +80,11 @@ Three different cases — pick the right one:
 2. **Standalone page that IS the live page** (e.g. `attendee-hub-template.html`
    → `/attendee-hub/`, served as `index.html`): needs a real deploy —
    `scp -O <file> r4d71765a594b8042@ssh.pressable.com:htdocs/<folder>/index.html`.
-   This is a production deploy and currently requires explicit user confirmation
-   (auto-mode blocks it) — either get a yes and run it, or hand Anchen the
-   terminal script (curl the raw GitHub file + the scp command) to run herself.
+   **This session's cloud environment has no `scp`/SSH client installed and no
+   credentials for the Pressable server** — Claude cannot actually run this
+   command here, confirmation or not. Always hand Anchen the terminal script
+   (curl the raw file from GitHub + the scp command) to run on her own
+   machine. Don't imply a deploy will happen without checking this first.
 3. **Files Anchen just wants to inspect/download**: `SendUserFile` directly.
 
 ## Known open items
