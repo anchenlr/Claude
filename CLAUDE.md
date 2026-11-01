@@ -113,6 +113,19 @@ Three different cases — pick the right one:
   rethinking the mechanism next time, not this year — don't start that
   without her asking.
 
+## Pre-existing bug fixed: wrong cross-branch reference in Quiz Submit
+
+`PBS Attendee Quiz - Submit`'s "New registration" branch had a stale bug in
+module 32's onerror retry (module id 960): its prompt referenced `{{36.text}}`
+(the *other* branch's TextAggregator output) instead of `{{31.text}}` (its
+own). Harmless as long as the retry path never fired — but Make's validator
+flagged it as "references inaccessible module" once something triggered a
+full validation pass, which auto-deactivated the whole scenario. Fixed by
+pointing module 960 at `{{31.text}}`. If this scenario gets auto-deactivated
+again with a vague `BlueprintValidationError`/"1 problem(s) found" and no
+detail from the API, open it in Make's UI directly — it shows a red warning
+icon on the exact broken module, which the API doesn't surface.
+
 ## Testing gotcha: `+`-aliased emails break AC contact lookup
 
 When testing the quiz/resend flow with your own inbox via `+` aliases (e.g.
