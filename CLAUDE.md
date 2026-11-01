@@ -18,8 +18,11 @@ gets up to speed on it without replaying old chat history.
   - `PBS Attendee Hub - Get Data` (scenario id **6758702**) — webhook the hub
     page polls, returns attendee plan + full schedule as JSON.
   - `PBS Attendee Hub - Resend Link` (scenario id **6758760**) — "email my
-    link" resend flow. Also gated to only trigger automation 62 when
-    `Plan Status = Ready`.
+    link" resend flow. Finds the AC contact via `upsertContact2024` (email
+    only, no name fields — passing empty strings there would blank out a
+    real attendee's name), not a `ListAllContacts` search — see the gotcha
+    below for why. Gated to only trigger automation 73 when `Plan Status =
+    Ready`.
 - **Airtable** base `appopyUiFU6NMIdy8` (shared with the Speaker Tracker —
   this is known to be messy; see "Known open items" below):
   - `Attendees` (`tbl7TdR1o4Ur4OpNW`) — one row per attendee/quiz-taker. Key
@@ -126,20 +129,32 @@ again with a vague `BlueprintValidationError`/"1 problem(s) found" and no
 detail from the API, open it in Make's UI directly — it shows a red warning
 icon on the exact broken module, which the API doesn't surface.
 
-## Testing gotcha: `+`-aliased emails break AC contact lookup
+## Fixed bug: `activecampaign:ListAllContacts` (search by email) is unreliable — don't use it to fetch a contact ID
 
-When testing the quiz/resend flow with your own inbox via `+` aliases (e.g.
-`anchenlr+something@gmail.com`), ActiveCampaign's "find contact by email"
-lookup (used in both `PBS Attendee Quiz - Submit` and `PBS Attendee Hub -
-Resend Link`) comes back with a result bundle but an empty contact ID —
-confirmed via a debug test on both `anchenlr+www@gmail.com` and
-`anchenlr+newregistration@gmail.com`. Downstream steps that need that ID
-(updating the AC contact, adding to automation) then silently fail. This
-is specific to `+` aliasing in AC's lookup, not a bug in the Make scenarios
-— **use a plain test email (no `+`) when testing these flows**, or expect
-resend/re-registration to misbehave for `+` addresses. None of the real
-73 attendees currently use `+` addresses, so this hasn't affected anyone
-for real — just testing.
+`PBS Attendee Hub - Resend Link` used to find the AC contact via
+`ListAllContacts` (search by email) + an aggregator, then used that
+aggregated `.id` for the contact-update and automation-add steps. This
+consistently returned a bundle with EVERY field blank (not just id —
+email, firstName, everything), confirmed via a debug test across three
+different test emails, including a plain one (`anchenlr@gmail.com`, no
+`+` alias — an earlier theory blaming `+`-aliasing was wrong, ruled out
+once a plain email showed the same failure). Adding filter params
+(`tagId`, matching Quiz Submit's working calls) did not fix it either.
+
+**Why Quiz Submit never hit this**: it also calls `ListAllContacts` twice,
+but only ever uses the result via `length(X.array)` for branch-routing
+(new vs. existing registrant) — it never reads the `.id` field, so the
+same underlying brokenness was invisible there. Its real contact ID comes
+from a separate, reliable call: `activecampaign:upsertContact2024`.
+
+**Fix applied**: Resend Link now gets the contact ID from
+`upsertContact2024` (email only) instead of `ListAllContacts`, the same
+pattern Quiz Submit already relies on. If you ever need a contact's AC id
+by email again in a new scenario, use `upsertContact2024`, not
+`ListAllContacts` — don't reintroduce the broken pattern. Pass only
+`email` to `upsertContact2024` when you don't have a real name to supply
+— passing empty strings for `firstName`/`lastName` would blank out an
+existing attendee's name.
 
 ## Make formula gotchas (learned the hard way)
 
