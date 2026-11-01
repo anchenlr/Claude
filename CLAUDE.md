@@ -33,15 +33,21 @@ gets up to speed on it without replaying old chat history.
     (Summit Schedule Link, promo/graphics links, etc.) that both the speaker
     hub and attendee pages read live. No code change needed to update these —
     just update the Airtable field.
-- **ActiveCampaign**: automation **62** = "Send Attendee Hub" (the plan-ready/
-  resend email). Automation **60** = "Send Speaker Hub". Custom field id
-  `3` = Attendee Hub Link merge field (`%ATTENDEE_HUB_LINK%`). Custom field id
-  `4` = **Plan Email Reason** — written by Make as `"ready"` (Quiz Submit
-  scenario, both the new-registration and existing/unsubscribed branches) or
-  `"resend"` (Resend Link scenario), right alongside the field-3 hub link
-  write. Automation 62 itself still needs an If/Else on this field (AC side,
-  not Make) to actually send `attendee-plan-ready-email.html` vs.
-  `attendee-plan-resend-email.html` — see Known open items.
+- **ActiveCampaign**: automation **62** = "Send Attendee Hub" — plain, single
+  email action, sends `attendee-plan-ready-email.html`, triggered by the
+  Quiz Submit scenario (both the new-registration and existing/unsubscribed
+  branches). Automation **73** = the resend variant — a straight duplicate
+  of 62 with its one email swapped for `attendee-plan-resend-email.html`,
+  triggered by the Resend Link scenario. Automation **60** = "Send Speaker
+  Hub". Custom field id `3` = Attendee Hub Link merge field
+  (`%ATTENDEE_HUB_LINK%`), written by Make right before every automation
+  trigger in both flows — this is always fresh by the time either
+  automation fires, so there's no race condition to worry about.
+  **Don't reintroduce a single automation + If/Else custom field split for
+  this** — we tried that (custom field id 4, "Plan Email Reason") and it
+  added a fragile Make→AC round-trip for no benefit, since Make already
+  knows which flow is running and can just point straight at the right
+  automation. Field id 4 still exists in AC but is unused/vestigial now.
 
 ## Brand palette & email conventions
 
@@ -95,17 +101,9 @@ Three different cases — pick the right one:
   every Make scenario's `base` parameter and the Airtable formula fields
   repointed. Explicitly deferred by Anchen due to summit timing risk — don't
   start this without her asking again.
-- **"Plan Email Reason" custom field (field id 4) — Make side done, AC side
-  still open**: field is created in AC, and both Make scenarios (`PBS
-  Attendee Quiz - Submit` 6758758, `PBS Attendee Hub - Resend Link` 6758760)
-  now write `"ready"`/`"resend"` into it. What's still missing is inside
-  automation 62 itself: an If/Else step branching on this field to send
-  `attendee-plan-ready-email.html` vs. `attendee-plan-resend-email.html`
-  (currently automation 62 presumably just sends one email regardless).
-  That step has to be built in the ActiveCampaign automation editor — not
-  something Make/this repo can do.
-- Automation 62 needs to be **active** in ActiveCampaign for the plan email to
-  send at all — this is a manual AC-side toggle, not something Make/code fixes.
+- Automations 62 and 73 both need to be **active** in ActiveCampaign for the
+  plan/resend emails to send at all — a manual AC-side toggle, not something
+  Make/code fixes.
 - **`Hub - Show to Attendees` checkbox logic (deferred to next year's build)**:
   Anchen considers the current design flawed — one manually-ticked checkbox
   per speaker gates whether they appear in the attendee hub/quiz pool, the
