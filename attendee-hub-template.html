@@ -108,10 +108,12 @@
   .consent-row input { margin-top: 3px; flex-shrink: 0; width: 17px; height: 17px; }
   .consent-row label { font-size: 13px; color: var(--text); line-height: 1.5; }
   .fine-print { font-size: 12.5px; color: var(--text-light); margin-top: 14px; }
-  .already-registered-note { background: var(--light-blue); border: 1px solid rgba(37,170,225,0.25); border-radius: 10px; padding: 13px 16px; font-size: 14px; line-height: 1.5; color: var(--navy); margin: 16px 0 20px; }
-  .already-registered-note p { margin: 0; }
-  .already-registered-note p + p { margin-top: 8px; }
-  .already-registered-note strong { color: var(--blue-dark); }
+  .already-registered-cta { background: var(--light-blue); border: 1px solid rgba(37,170,225,0.3); border-radius: 12px; padding: 18px 20px; margin: 18px 0 16px; text-align: center; }
+  .already-registered-cta .arc-title { margin: 0 0 4px; font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-weight: 800; font-size: 16px; color: var(--navy); }
+  .already-registered-cta .arc-sub { margin: 0 0 14px; font-size: 13.5px; color: var(--text-light); }
+  .quiz-or-divider { display: flex; align-items: center; gap: 12px; margin: 4px 0 16px; }
+  .quiz-or-divider::before, .quiz-or-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .quiz-or-divider span { font-size: 12px; color: var(--text-light); white-space: nowrap; }
   .hp-field { position: absolute; left: -9999px; top: -9999px; }
 
   .choice-grid { display: grid; gap: 10px; }
@@ -324,10 +326,13 @@
         <div class="quiz-step-label">Step 1 of 5</div>
         <h2>Get your personal summit plan</h2>
         <p class="quiz-sub">One minute and a few questions. We pick the sessions that fit you, then you add your own and build your calendar.</p>
-        <div class="already-registered-note">
-          <p><strong>Already registered?</strong> Use the same email address to build this plan — a different email creates a brand new registration instead of pulling up your existing one.</p>
-          <p>Just lost your link? <a href="#" id="quizFindLink">Get it again</a> instead of redoing the quiz.</p>
+        <div class="already-registered-cta">
+          <p class="arc-title">Already registered for Page Builder Summit?</p>
+          <p class="arc-sub">You don't need to fill this out again — get your existing plan link emailed to you.</p>
+          <button type="button" class="btn btn-outline btn-sm" id="quizFindLinkCta">Email me my plan link →</button>
         </div>
+        <div class="quiz-or-divider"><span>or start fresh below</span></div>
+        <p class="fine-print" style="margin-top:-8px; margin-bottom:20px;">Retaking the quiz? Use the same email address — a different email creates a new registration instead of updating your existing one.</p>
         <div class="field">
           <label class="field-label-text" for="qFirstName">First name</label>
           <input type="text" id="qFirstName" autocomplete="given-name">
@@ -1409,7 +1414,7 @@
       document.getElementById("errorState").classList.add("shown");
     };
     document.getElementById("footerFindLink").addEventListener("click", showFindPlan);
-    document.getElementById("quizFindLink").addEventListener("click", showFindPlan);
+    document.getElementById("quizFindLinkCta").addEventListener("click", showFindPlan);
   }
 
   function refreshTimeDependentUI() {
