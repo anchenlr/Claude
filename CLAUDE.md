@@ -113,6 +113,21 @@ Three different cases — pick the right one:
   rethinking the mechanism next time, not this year — don't start that
   without her asking.
 
+## Testing gotcha: `+`-aliased emails break AC contact lookup
+
+When testing the quiz/resend flow with your own inbox via `+` aliases (e.g.
+`anchenlr+something@gmail.com`), ActiveCampaign's "find contact by email"
+lookup (used in both `PBS Attendee Quiz - Submit` and `PBS Attendee Hub -
+Resend Link`) comes back with a result bundle but an empty contact ID —
+confirmed via a debug test on both `anchenlr+www@gmail.com` and
+`anchenlr+newregistration@gmail.com`. Downstream steps that need that ID
+(updating the AC contact, adding to automation) then silently fail. This
+is specific to `+` aliasing in AC's lookup, not a bug in the Make scenarios
+— **use a plain test email (no `+`) when testing these flows**, or expect
+resend/re-registration to misbehave for `+` addresses. None of the real
+73 attendees currently use `+` addresses, so this hasn't affected anyone
+for real — just testing.
+
 ## Make formula gotchas (learned the hard way)
 
 - `or()` / `and()` are not valid Make function calls — use infix (`a or b`).
