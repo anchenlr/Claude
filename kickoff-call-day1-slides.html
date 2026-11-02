@@ -107,10 +107,10 @@
     font-size: clamp(14px, 1.3vw, 17px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
     color: var(--pink-dark); margin-bottom: 12px; text-align: center;
   }
-  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 10px 0; border-top: 1px solid rgba(49,46,97,0.12); }
+  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 14px 0; border-top: 1px solid rgba(49,46,97,0.12); }
   .live-item:first-of-type { border-top: none; }
-  .live-item .what { font-size: clamp(16px, 1.55vw, 21px); font-weight: 600; color: var(--navy); }
-  .live-item .when { font-size: clamp(13px, 1.25vw, 17px); opacity: 0.75; text-align: right; white-space: nowrap; color: var(--navy); }
+  .live-item .what { font-size: clamp(18px, 1.9vw, 26px); font-weight: 600; color: var(--navy); }
+  .live-item .when { font-size: clamp(14px, 1.5vw, 20px); opacity: 0.75; text-align: right; white-space: nowrap; color: var(--navy); }
 
   /* ---------- Large-format list slides ---------- */
   .big-list { list-style: none; margin: 26px 0 0; padding: 0; max-width: 1050px; text-align: left; counter-reset: n; }
@@ -353,7 +353,6 @@
     var s = el("div", "slide theme-skyblue");
     s.appendChild(el("h1", null, "Where do I find the LIVE sessions?"));
     s.appendChild(el("div", "sub", "Right on the presentation page, the same place you watch everything else. Find the links on the schedule page or in your Attendee Hub."));
-    s.appendChild(el("div", "big-url", SCHEDULE_URL));
     var box = el("div", "live-box");
     box.appendChild(el("h3", null, "3 sessions run fully live this week"));
     LIVE_HIGHLIGHTS.forEach(function (item) {
@@ -586,16 +585,14 @@
       { h: "✨ Your Attendee Hub", p: "Your personal schedule", url: HUB_URL },
       { h: "📌 The Facebook group", p: "Look for the pinned post" }
     ]),
-    listSlide("theme-light", "How the sessions work", "Watch together", [
-      "Sessions are pre-recorded and go live at their scheduled time",
-      "Go to the page at the right time (and refresh!)",
+    // Attendee Hub = the personal schedule, so it sits right after "where do I find the links"
+    hubSlide(),
+    listSlide("theme-light", "How the sessions work", "How the sessions work", [
+      "Sessions are pre-recorded. Go to the page at the scheduled time (and refresh!)",
       "We all watch together, and each session is free for 48 hours",
-      "Most have a live Q&amp;A with the speaker 45 minutes later, on the same page"
-    ]),
-    listSlide("theme-teal", "How the sessions work", "Make the most of each session", [
-      "<b>Stay for the live Q&amp;A</b><small>45 minutes after the session, with most speakers</small>",
+      "<b>Stay for the live Q&amp;A</b><small>45 minutes after the session, with most speakers, on the same page</small>",
       "Use the transcripts and subtitles",
-      "Plan for the next day at <strong>" + SCHEDULE_URL + "</strong> or in your Attendee Hub"
+      "Plan ahead at <strong>" + SCHEDULE_URL + "</strong> or in your Attendee Hub"
     ]),
     liveHighlightsSlide()
   ];
@@ -603,8 +600,6 @@
   slides.push(
     // Networking sessions and Friday
     networkingSlide(),
-    // How to avoid getting overwhelmed -> Attendee Hub
-    hubSlide(),
     // The Page Builder PowerPack
     listSlide("theme-teal", "Reminder about the PowerPack", "What is the Page Builder PowerPack?", [
       "<b>Lifetime access</b> to every presentation, not just 48 hours",
