@@ -123,7 +123,7 @@
   .theme-pink .big-list li::before, .theme-teal .big-list li::before { color: #fff; }
   .theme-pink .big-list.numbered li::before { background: #fff; color: var(--pink-dark); }
   .big-list li small { display: block; font-size: 0.6em; font-weight: 500; opacity: 0.8; margin-top: 2px; }
-  .big-list.prizes li { font-size: clamp(24px, 3.2vw, 46px); font-weight: 700; padding: 16px 0 16px 64px; line-height: 1.25; border-top: 1px solid rgba(255,255,255,0.28); }
+  .big-list.prizes li { font-size: clamp(24px, 3.2vw, 46px); font-weight: 700; padding: 16px 0 16px 64px; line-height: 1.25; border-top: 1px solid rgba(49,46,97,0.14); }
   .big-list.prizes li:first-child { border-top: none; }
   .big-list.prizes li::before { content: "\2605"; top: 16px; }
   .big-list.compact { margin-top: 18px; }
@@ -543,7 +543,7 @@
   }
 
   function bingoHowSlide() {
-    return listSlide("theme-pink", "Prizes all week", "How bingo works", [
+    return listSlide("theme-skyblue", "Prizes all week", "How bingo works", [
       "Open your interactive bingo card at <strong>" + BINGO_URL + "</strong>",
       "Tap a square the moment you earn it",
       "Get a bingo (or the full card!) and post a screenshot in that day's bingo thread in the Facebook group",
@@ -552,8 +552,9 @@
     ], { numbered: true });
   }
 
-  function bingoDaySlide(day) {
-    return listSlide("theme-pink", "Bingo prizes", day.label + "'s prizes", day.bingo, { prizes: true });
+  // alternate white / light blue so the five prize slides feel light rather than repeating
+  function bingoDaySlide(day, i) {
+    return listSlide(i % 2 === 0 ? "theme-light" : "theme-skyblue", "Bingo prizes", day.label + "'s prizes", day.bingo, { prizes: true });
   }
 
   function twoUrlSlide(theme, eyebrow, titleHtml, blocks) {
@@ -619,7 +620,7 @@
     // Bingo: how it works, then each day's prizes (large format)
     bingoHowSlide()
   );
-  WEEK.forEach(function (day) { slides.push(bingoDaySlide(day)); });
+  WEEK.forEach(function (day, i) { slides.push(bingoDaySlide(day, i)); });
   slides.push(
     // Thanks to the presenters, questions, sign-off
     titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
