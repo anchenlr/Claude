@@ -12,7 +12,9 @@
   CONTENT FLOW follows that old deck closely: welcome -> where to find
   links -> where to find live sessions -> the week's schedule -> speaker
   thanks -> sponsors (tiered) -> the week's bingo prizes -> reminder ->
-  sign-off.
+  sign-off. The slide ORDER now follows Anchen's "Kickoff call LIVE Agenda -
+  PBS 9.0" outline (welcome, what's changed, how sessions work, networking,
+  attendee hub, PowerPack, partners/featured speaker, bingo, thanks, Q&A).
 
   PBS 9.0 runs this as a SINGLE kickoff call (no daily calls like 8.0 had),
   so the schedule and bingo sections cover the whole week at once rather
@@ -99,27 +101,53 @@
 
   /* ---------- Live highlights (on the "where to find live" slide) ---------- */
   .live-box {
-    background: rgba(255,255,255,0.6); border-radius: 16px; padding: 20px 28px; margin-top: 28px; max-width: 620px; text-align: left;
+    background: rgba(255,255,255,0.6); border-radius: 16px; padding: 20px 28px; margin-top: 24px; max-width: 1050px; text-align: left;
   }
   .live-box h3 {
     font-size: clamp(14px, 1.3vw, 17px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
     color: var(--pink-dark); margin-bottom: 12px; text-align: center;
   }
-  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 7px 0; border-top: 1px solid rgba(49,46,97,0.12); }
+  .live-item { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 10px 0; border-top: 1px solid rgba(49,46,97,0.12); }
   .live-item:first-of-type { border-top: none; }
-  .live-item .what { font-size: clamp(13px, 1.1vw, 16px); font-weight: 600; color: var(--navy); }
-  .live-item .when { font-size: clamp(11px, 0.95vw, 13px); opacity: 0.75; text-align: right; white-space: nowrap; color: var(--navy); }
+  .live-item .what { font-size: clamp(16px, 1.55vw, 21px); font-weight: 600; color: var(--navy); }
+  .live-item .when { font-size: clamp(13px, 1.25vw, 17px); opacity: 0.75; text-align: right; white-space: nowrap; color: var(--navy); }
 
-  /* ---------- Week bingo slide ---------- */
-  .bingo-week { width: 100%; max-width: 1200px; text-align: left; margin-top: 24px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
-  .bingo-day { background: rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 14px; }
-  .bingo-day h4 {
-    font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.95; text-align: center;
+  /* ---------- Large-format list slides ---------- */
+  .big-list { list-style: none; margin: 26px 0 0; padding: 0; max-width: 1050px; text-align: left; counter-reset: n; }
+  .big-list li { font-size: clamp(20px, 2.5vw, 36px); font-weight: 600; line-height: 1.3; padding: 11px 0 11px 56px; position: relative; }
+  .big-list li::before { content: "\2713"; position: absolute; left: 0; top: 11px; font-weight: 900; color: var(--pink); }
+  .big-list.numbered li::before {
+    counter-increment: n; content: counter(n); width: 38px; height: 38px; border-radius: 50%; top: 14px;
+    background: var(--pink); color: #fff; font-size: 0.7em; display: flex; align-items: center; justify-content: center;
   }
-  .bingo-day ul { list-style: none; margin: 0; padding: 0; }
-  .bingo-day li { font-size: 11.5px; line-height: 1.4; padding: 3px 0 3px 12px; position: relative; }
-  .bingo-day li::before { content: "•"; position: absolute; left: 0; opacity: 0.7; }
+  .theme-pink .big-list li::before, .theme-teal .big-list li::before { color: #fff; }
+  .theme-pink .big-list.numbered li::before { background: #fff; color: var(--pink-dark); }
+  .big-list li small { display: block; font-size: 0.6em; font-weight: 500; opacity: 0.8; margin-top: 2px; }
+  .big-list.prizes li { font-size: clamp(24px, 3.2vw, 46px); font-weight: 700; padding: 16px 0 16px 64px; line-height: 1.25; border-top: 1px solid rgba(255,255,255,0.28); }
+  .big-list.prizes li:first-child { border-top: none; }
+  .big-list.prizes li::before { content: "\2605"; top: 16px; }
+  .slide .note { font-size: clamp(16px, 1.7vw, 24px); font-weight: 600; margin-top: 22px; opacity: 0.9; }
+
+  /* ---------- Link cards ---------- */
+  .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; width: 100%; max-width: 1100px; margin-top: 28px; text-align: left; }
+  .card { background: var(--white); border: 2px solid rgba(117,184,161,0.45); border-radius: 16px; padding: 22px 28px; color: var(--navy); }
+  .card h3 { font-size: clamp(20px, 2vw, 30px); font-weight: 800; }
+  .card p { font-size: clamp(15px, 1.4vw, 20px); margin: 6px 0 0; line-height: 1.4; }
+  .card .url { color: var(--blue-dark); font-weight: 800; }
+
+  /* ---------- Networking slide ---------- */
+  .net-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; width: 100%; max-width: 1180px; margin-top: 24px; text-align: left; }
+  .net-col { background: var(--white); border-radius: 16px; padding: 20px 26px 12px; color: var(--navy); }
+  .net-col h3 { font-size: clamp(16px, 1.6vw, 22px); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--pink-dark); margin-bottom: 8px; }
+  .net-row { padding: 12px 0; border-top: 1px solid rgba(49,46,97,0.12); }
+  .net-row:first-of-type { border-top: none; }
+  .net-row .what { font-size: clamp(17px, 1.7vw, 24px); font-weight: 700; }
+  .net-row .when { font-size: clamp(14px, 1.4vw, 20px); opacity: 0.85; margin-top: 2px; }
+
+  /* ---------- Labelled URLs ---------- */
+  .url-block { margin-top: 24px; }
+  .url-block .lab { font-size: clamp(14px, 1.5vw, 20px); font-weight: 700; opacity: 0.8; margin-bottom: 2px; }
+  .url-block .big-url { margin-top: 6px; }
 
   /* ---------- Partner slide ---------- */
   .sponsor-card {
@@ -146,8 +174,6 @@
   .sponsor-card p { color: var(--navy); font-size: 21px; line-height: 1.55; margin: 0 0 14px; }
   .sponsor-card p:last-child { margin-bottom: 0; }
   .sponsor-card a { color: var(--blue); font-weight: 700; text-decoration: none; }
-
-  .bingo-how { margin-top: 20px; font-size: 14px; opacity: 0.85; max-width: 700px; text-align: center; }
 
   /* ---------- Nav controls ---------- */
   .nav-btn {
@@ -197,11 +223,14 @@
      so this covers all five days at once rather than a single day.
   ========================================================= */
   var SCHEDULE_URL = "pagebuildersummit.com/schedule/";
+  var HUB_URL = "pagebuildersummit.com/attendee-hub/";
+  var BINGO_URL = "pagebuildersummit.com/bingo/";
+  var POWERPACK_URL = "pagebuildersummit.com/page-builder-powerpack-early-bird/";
 
   var LIVE_HIGHLIGHTS = [
-    { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 2 Nov, 11:00 PM UK" },
-    { what: "LIVE Q&A: Haley Brown & Sarah Linklater — The Invisible Work", when: "Wed 4 Nov, 12:00 AM UK" },
-    { what: "LIVE: Amber Hinds — The Fastest Way to Make Your Website Accessible", when: "Wed 4 Nov, 3:00 PM UK" }
+    { what: "LIVE: Kinsey Soderberg — Client Onboarding Hub Build", when: "Mon 3 PM PT · 6 PM ET · 11 PM UK" },
+    { what: "LIVE Q&A: Haley Brown & Sarah Linklater — The Invisible Work", when: "Tue 4 PM PT · 7 PM ET · Wed 12 AM UK" },
+    { what: "LIVE: Amber Hinds — The Fastest Way to Make Your Website Accessible", when: "Wed 7 AM PT · 10 AM ET · 3 PM UK" }
   ];
 
   var WEEK = [
@@ -322,7 +351,8 @@
 
   function liveHighlightsSlide() {
     var s = el("div", "slide theme-skyblue");
-    s.appendChild(el("h1", null, "Where do I find the LIVE sessions<br>in the Facebook Group?"));
+    s.appendChild(el("h1", null, "Where do I find the LIVE sessions?"));
+    s.appendChild(el("div", "sub", "Right on the presentation page, the same place you watch everything else. Find the links on the schedule page or in your Attendee Hub."));
     s.appendChild(el("div", "big-url", SCHEDULE_URL));
     var box = el("div", "live-box");
     box.appendChild(el("h3", null, "3 sessions run fully live this week"));
@@ -422,22 +452,112 @@
     return s;
   }
 
-  function weekBingoSlide(week) {
-    var s = el("div", "slide theme-pink");
-    s.appendChild(el("div", "eyebrow", "This week's giveaway"));
-    s.appendChild(el("h2", null, "Bingo Prizes All Week &amp; How to Play"));
-    var wrap = el("div", "bingo-week");
-    week.forEach(function (day) {
-      var dayBlock = el("div", "bingo-day");
-      dayBlock.appendChild(el("h4", null, day.label));
-      var list = el("ul");
-      day.bingo.forEach(function (p) { list.appendChild(el("li", null, p)); });
-      dayBlock.appendChild(list);
-      wrap.appendChild(dayBlock);
+  // items: plain HTML strings; use "<b>Heading</b><small>detail</small>" for a heading + detail line
+  function listSlide(theme, eyebrow, titleHtml, items, opts) {
+    opts = opts || {};
+    var s = el("div", "slide " + theme);
+    if (eyebrow) s.appendChild(el("div", "eyebrow", eyebrow));
+    s.appendChild(el("h2", null, titleHtml));
+    var ul = el("ul", "big-list" + (opts.numbered ? " numbered" : "") + (opts.prizes ? " prizes" : ""));
+    items.forEach(function (t) { ul.appendChild(el("li", null, t)); });
+    s.appendChild(ul);
+    if (opts.note) s.appendChild(el("div", "note", opts.note));
+    return s;
+  }
+
+  function cardsSlide(theme, titleHtml, cards) {
+    var s = el("div", "slide " + theme);
+    s.appendChild(el("h2", null, titleHtml));
+    var grid = el("div", "card-grid");
+    cards.forEach(function (c) {
+      var card = el("div", "card");
+      card.appendChild(el("h3", null, c.h));
+      if (c.p) card.appendChild(el("p", null, c.p));
+      if (c.url) card.appendChild(el("p", "url", c.url));
+      grid.appendChild(card);
     });
-    s.appendChild(wrap);
-    s.appendChild(el("div", "bingo-how",
-      "Tap a square the moment you earn it. Get a bingo (or the full card!) and post a screenshot in the Facebook group under that day's bingo post to be entered in that day's prize draw."));
+    s.appendChild(grid);
+    return s;
+  }
+
+  function networkingSlide() {
+    var s = el("div", "slide theme-skyblue");
+    s.appendChild(el("div", "eyebrow", "Page Builder PowerPack"));
+    s.appendChild(el("h2", null, "Networking &amp; co-working sessions"));
+    function col(title, rows) {
+      var c = el("div", "net-col");
+      c.appendChild(el("h3", null, title));
+      rows.forEach(function (r) {
+        var row = el("div", "net-row");
+        row.appendChild(el("div", "what", r[0]));
+        row.appendChild(el("div", "when", r[1]));
+        c.appendChild(row);
+      });
+      return c;
+    }
+    var grid = el("div", "net-grid");
+    grid.appendChild(col("Monday – Thursday", [
+      ["VIP Networking 1", "Mon 4 PM PT · 7 PM ET · Tue 12 AM UK"],
+      ["VIP Networking 2", "Wed 1 AM PT · 4 AM ET · 9 AM UK"],
+      ["VIP Networking 3 (hosted by Britta)", "Wed 8 AM PT · 11 AM ET · 4 PM UK"],
+      ["VIP Networking 4", "Thu 11 AM PT · 2 PM ET · 7 PM UK"]
+    ]));
+    grid.appendChild(col("Friday", [
+      ["VIP Co-Working 1", "Fri 11 AM PT · 2 PM ET · 7 PM UK"],
+      ["VIP Co-Working 2", "Fri 12 PM PT · 3 PM ET · 8 PM UK"],
+      ["VIP + Attendee Networking", "Fri 1 PM PT · 4 PM ET · 9 PM UK"],
+      ["Closing Call", "Fri 3 PM PT · 6 PM ET · 11 PM UK"]
+    ]));
+    s.appendChild(grid);
+    s.appendChild(el("div", "note", "Join links are inside the Page Builder PowerPack"));
+    return s;
+  }
+
+  function hubSlide() {
+    var s = el("div", "slide theme-pink");
+    s.appendChild(el("div", "eyebrow", "How to avoid getting overwhelmed"));
+    s.appendChild(el("h1", null, "Build your personal<br>summit plan"));
+    s.appendChild(el("div", "sub", "Answer a few quick questions and get sessions picked for you, in your own time zone, with one-click calendar invites. It's your personalised schedule."));
+    s.appendChild(el("div", "big-url", HUB_URL));
+    return s;
+  }
+
+  function priceSlide() {
+    var s = el("div", "slide theme-pink");
+    s.appendChild(el("div", "eyebrow", "Last chance for the early-bird price"));
+    s.appendChild(el("h1", null, "$97"));
+    s.appendChild(el("div", "sub", "then $147 once the first session goes live<br><strong>11 AM PT · 2 PM ET · 7 PM UK</strong> today"));
+    var u = el("div", "big-url", POWERPACK_URL);
+    u.style.fontSize = "clamp(16px, 2.2vw, 30px)";
+    s.appendChild(u);
+    s.appendChild(el("div", "note", "See every bonus the speakers have contributed"));
+    return s;
+  }
+
+  function bingoHowSlide() {
+    return listSlide("theme-pink", "Prizes all week", "How bingo works", [
+      "Download your card at <strong>" + BINGO_URL + "</strong>",
+      "Mark off squares as you go",
+      "Post a screenshot in that day's bingo thread in the Facebook group",
+      "You have at least 24 hours to post, and you can only win once",
+      "PowerPack owners get more opportunities"
+    ], { numbered: true });
+  }
+
+  function bingoDaySlide(day) {
+    return listSlide("theme-pink", "Bingo prizes", day.label + "'s prizes", day.bingo, { prizes: true });
+  }
+
+  function twoUrlSlide(theme, eyebrow, titleHtml, blocks) {
+    var s = el("div", "slide " + theme);
+    if (eyebrow) s.appendChild(el("div", "eyebrow", eyebrow));
+    s.appendChild(el("h2", null, titleHtml));
+    blocks.forEach(function (b) {
+      var blk = el("div", "url-block");
+      blk.appendChild(el("div", "lab", b.label));
+      blk.appendChild(el("div", "big-url", b.url));
+      s.appendChild(blk);
+    });
     return s;
   }
 
@@ -446,19 +566,77 @@
   ========================================================= */
   var deck = document.getElementById("deck");
   var slides = [
+    // Welcome / intro from Anchen
     titleSlide("theme-skyblue", "Page Builder Summit 9.0", "Welcome to the<br>Kickoff Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Monday 2 November · Let's go! 🎉"),
-    urlSlide("theme-teal", null, "Where do I find the links?", SCHEDULE_URL),
+    titleSlide("theme-light", null, "Hi, I'm Anchen 👋", "Your host for Page Builder Summit 9.0"),
+    // Why we launched the summit + what's changed
+    listSlide("theme-skyblue", "Why we launched the summit… and what's changed", "What's new this year", [
+      "<b>Your personal summit plan</b><small>The Attendee Hub builds your own schedule</small>",
+      "<b>Live Q&amp;A with the speakers</b><small>On most presentations, 45 minutes after release, on the same page</small>",
+      "<b>A few fully live sessions</b>",
+      "<b>Every presentation has its own release time</b>",
+      "<b>Networking &amp; co-working sessions</b><small>All week, for PowerPack owners</small>"
+    ]),
+    // Thanks to
+    titleSlide("theme-teal", null, "A big thank you to<br>Sunita &amp; Britta", null),
+    // How the sessions work
+    cardsSlide("theme-skyblue", "Where do I find the links?", [
+      { h: "📧 Your daily email", p: "Each morning: that day's lineup and links" },
+      { h: "📅 The schedule page", url: SCHEDULE_URL },
+      { h: "✨ Your Attendee Hub", p: "Your personal schedule", url: HUB_URL },
+      { h: "📌 The Facebook group", p: "Look for the pinned post" }
+    ]),
+    listSlide("theme-light", "How the sessions work", "Watch together", [
+      "Sessions are pre-recorded and go live at their scheduled time",
+      "Go to the page at the right time (and refresh!)",
+      "We all watch together, and each session is free for 48 hours",
+      "Most have a live Q&amp;A with the speaker 45 minutes later, on the same page"
+    ]),
+    listSlide("theme-teal", "How the sessions work", "Make the most of each session", [
+      "Get into the chat (pop it out!)",
+      "Use the transcripts and subtitles",
+      "Head to the Facebook group after the presentation",
+      "Plan for the next day at <strong>" + SCHEDULE_URL + "</strong> or in your Attendee Hub"
+    ]),
     liveHighlightsSlide()
   ];
   WEEK.forEach(function (day) { slides.push(daySlide(day)); });
   slides.push(
-    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    // Networking sessions and Friday
+    networkingSlide(),
+    // How to avoid getting overwhelmed -> Attendee Hub
+    hubSlide(),
+    // The Page Builder PowerPack
+    listSlide("theme-teal", "Reminder about the PowerPack", "What is the Page Builder PowerPack?", [
+      "<b>Lifetime access</b> to every presentation, not just 48 hours",
+      "<b>Transcripts, audio recordings and worksheets</b>",
+      "<b>Bonuses and extra resources</b> from our speakers",
+      "<b>Live networking &amp; co-working</b> sessions"
+    ]),
+    priceSlide(),
+    listSlide("theme-light", "How to decide", "Do you need the PowerPack?", [
+      "You can't fit everything into 48 hours",
+      "You want to revisit an idea when you're ready to use it",
+      "You want the worksheets, transcripts and speaker bonuses",
+      "You'd love to join the networking sessions"
+    ], { note: "Not sure? Your free summit ticket is yours either way." }),
+    // Sponsors / partners + featured speaker
     titleSlide("theme-pink", null, "Page Builder Summit 9.0<br>Is Proudly Supported<br>By Our Partners...", null),
     partnerSlide(),
     simplyDigitalShopsSlide(),
     featuredSpeakerSlide(),
-    weekBingoSlide(WEEK),
-    urlSlide("theme-skyblue", "Remember, if you get stuck…", "Everything lives at", SCHEDULE_URL),
+    // Bingo: how it works, then each day's prizes (large format)
+    bingoHowSlide()
+  );
+  WEEK.forEach(function (day) { slides.push(bingoDaySlide(day)); });
+  slides.push(
+    // Thanks to the presenters, questions, sign-off
+    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    titleSlide("theme-light", null, "Any questions?", "Ask away now, or find us in the Facebook group any time"),
+    twoUrlSlide("theme-skyblue", "Remember, if you get stuck…", "Everything lives at", [
+      { label: "The schedule page", url: SCHEDULE_URL },
+      { label: "Your personal schedule: the Attendee Hub", url: HUB_URL }
+    ]),
     titleSlide("theme-pink", null, "Have a great week! 💛", null)
   );
 
