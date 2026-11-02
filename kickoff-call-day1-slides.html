@@ -144,6 +144,11 @@
   .net-row .what { font-size: clamp(17px, 1.7vw, 24px); font-weight: 700; }
   .net-row .when { font-size: clamp(14px, 1.4vw, 20px); opacity: 0.85; margin-top: 2px; }
 
+  /* ---------- Labelled URLs ---------- */
+  .url-block { margin-top: 24px; }
+  .url-block .lab { font-size: clamp(14px, 1.5vw, 20px); font-weight: 700; opacity: 0.8; margin-bottom: 2px; }
+  .url-block .big-url { margin-top: 6px; }
+
   /* ---------- Partner slide ---------- */
   .sponsor-card {
     background: var(--white); border: 2px solid rgba(117,184,161,0.5); border-radius: 18px;
@@ -543,6 +548,19 @@
     return listSlide("theme-pink", "Bingo prizes", day.label + "'s prizes", day.bingo, { prizes: true });
   }
 
+  function twoUrlSlide(theme, eyebrow, titleHtml, blocks) {
+    var s = el("div", "slide " + theme);
+    if (eyebrow) s.appendChild(el("div", "eyebrow", eyebrow));
+    s.appendChild(el("h2", null, titleHtml));
+    blocks.forEach(function (b) {
+      var blk = el("div", "url-block");
+      blk.appendChild(el("div", "lab", b.label));
+      blk.appendChild(el("div", "big-url", b.url));
+      s.appendChild(blk);
+    });
+    return s;
+  }
+
   /* =========================================================
      BUILD DECK
   ========================================================= */
@@ -550,6 +568,7 @@
   var slides = [
     // Welcome / intro from Anchen
     titleSlide("theme-skyblue", "Page Builder Summit 9.0", "Welcome to the<br>Kickoff Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Monday 2 November · Let's go! 🎉"),
+    titleSlide("theme-light", null, "Hi, I'm Anchen 👋", "Your host for Page Builder Summit 9.0"),
     // Why we launched the summit + what's changed
     listSlide("theme-skyblue", "Why we launched the summit… and what's changed", "What's new this year", [
       "<b>Your personal summit plan</b><small>The Attendee Hub builds your own schedule</small>",
@@ -567,16 +586,20 @@
       { h: "✨ Your Attendee Hub", p: "Your personal schedule", url: HUB_URL },
       { h: "📌 The Facebook group", p: "Look for the pinned post" }
     ]),
-    listSlide("theme-light", "How the sessions work", "How the sessions work", [
-      "Sessions are pre-recorded. Go to the page at the scheduled time (and refresh!)",
+    listSlide("theme-light", "How the sessions work", "Watch together", [
+      "Sessions are pre-recorded and go live at their scheduled time",
+      "Go to the page at the right time (and refresh!)",
       "We all watch together, and each session is free for 48 hours",
-      "<b>Stay for the live Q&amp;A</b><small>45 minutes after the session, with most speakers, on the same page</small>",
+      "Most have a live Q&amp;A with the speaker 45 minutes later, on the same page"
+    ]),
+    listSlide("theme-teal", "How the sessions work", "Make the most of each session", [
+      "<b>Stay for the live Q&amp;A</b><small>45 minutes after the session, with most speakers</small>",
       "Use the transcripts and subtitles",
-      "Plan ahead at <strong>" + SCHEDULE_URL + "</strong> or in your Attendee Hub"
+      "Plan for the next day at <strong>" + SCHEDULE_URL + "</strong> or in your Attendee Hub"
     ]),
     liveHighlightsSlide()
   ];
-  WEEK.forEach(function (day) { if (!day.networkingOnly) slides.push(daySlide(day)); }); // Friday is covered by the networking slide
+  WEEK.forEach(function (day) { slides.push(daySlide(day)); });
   slides.push(
     // Networking sessions and Friday
     networkingSlide(),
@@ -590,7 +613,14 @@
       "<b>Live networking &amp; co-working</b> sessions"
     ]),
     priceSlide(),
+    listSlide("theme-light", "How to decide", "Do you need the PowerPack?", [
+      "You can't fit everything into 48 hours",
+      "You want to revisit an idea when you're ready to use it",
+      "You want the worksheets, transcripts and speaker bonuses",
+      "You'd love to join the networking sessions"
+    ], { note: "Not sure? Your free summit ticket is yours either way." }),
     // Sponsors / partners + featured speaker
+    titleSlide("theme-pink", null, "Page Builder Summit 9.0<br>Is Proudly Supported<br>By Our Partners...", null),
     partnerSlide(),
     simplyDigitalShopsSlide(),
     featuredSpeakerSlide(),
@@ -602,6 +632,10 @@
     // Thanks to the presenters, questions, sign-off
     titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
     titleSlide("theme-light", null, "Any questions?", "Ask away now, or find us in the Facebook group any time"),
+    twoUrlSlide("theme-skyblue", "Remember, if you get stuck…", "Everything lives at", [
+      { label: "The schedule page", url: SCHEDULE_URL },
+      { label: "Your personal schedule: the Attendee Hub", url: HUB_URL }
+    ]),
     titleSlide("theme-pink", null, "Have a great week! 💛", null)
   );
 
