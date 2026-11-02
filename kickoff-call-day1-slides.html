@@ -126,6 +126,11 @@
   .big-list.prizes li { font-size: clamp(24px, 3.2vw, 46px); font-weight: 700; padding: 16px 0 16px 64px; line-height: 1.25; border-top: 1px solid rgba(255,255,255,0.28); }
   .big-list.prizes li:first-child { border-top: none; }
   .big-list.prizes li::before { content: "\2605"; top: 16px; }
+  .big-list.compact { margin-top: 18px; }
+  .big-list.compact li { font-size: clamp(18px, 2.1vw, 30px); padding: 7px 0 7px 52px; }
+  .big-list.compact li::before { top: 7px; }
+  .pp-price { background: var(--white); color: var(--navy); border-radius: 16px; padding: 12px 30px; margin-top: 20px; font-size: clamp(17px, 2vw, 28px); font-weight: 600; }
+  .pp-price .amt { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.6em; color: var(--pink-dark); vertical-align: -0.1em; }
   .slide .note { font-size: clamp(16px, 1.7vw, 24px); font-weight: 600; margin-top: 22px; opacity: 0.9; }
 
   /* ---------- Link cards ---------- */
@@ -521,15 +526,19 @@
     return s;
   }
 
-  function priceSlide() {
-    var s = el("div", "slide theme-pink");
-    s.appendChild(el("div", "eyebrow", "Last chance for the early-bird price"));
-    s.appendChild(el("h1", null, "$97"));
-    s.appendChild(el("div", "sub", "then $147 once the first session goes live<br><strong>11 AM PT · 2 PM ET · 7 PM UK</strong> today"));
+  function powerPackSlide() {
+    var s = listSlide("theme-teal", "Last chance for the early-bird price", "What is the Page Builder PowerPack?", [
+      "<b>Lifetime access</b> to every presentation, not just 48 hours",
+      "<b>Transcripts, audio recordings and worksheets</b>",
+      "<b>Bonuses and extra resources</b> from our speakers",
+      "<b>Live networking &amp; co-working</b> sessions"
+    ]);
+    s.querySelector(".big-list").className += " compact";
+    s.appendChild(el("div", "pp-price", "<span class=\"amt\">$97</span> until <strong>11 AM PT · 2 PM ET · 7 PM UK</strong> today, then $147"));
     var u = el("div", "big-url", POWERPACK_URL);
-    u.style.fontSize = "clamp(16px, 2.2vw, 30px)";
+    u.style.fontSize = "clamp(15px, 2vw, 26px)";
+    u.style.marginTop = "16px";
     s.appendChild(u);
-    s.appendChild(el("div", "note", "See every bonus the speakers have contributed"));
     return s;
   }
 
@@ -600,20 +609,8 @@
   slides.push(
     // Networking sessions and Friday
     networkingSlide(),
-    // The Page Builder PowerPack
-    listSlide("theme-teal", "Reminder about the PowerPack", "What is the Page Builder PowerPack?", [
-      "<b>Lifetime access</b> to every presentation, not just 48 hours",
-      "<b>Transcripts, audio recordings and worksheets</b>",
-      "<b>Bonuses and extra resources</b> from our speakers",
-      "<b>Live networking &amp; co-working</b> sessions"
-    ]),
-    priceSlide(),
-    listSlide("theme-light", "How to decide", "Do you need the PowerPack?", [
-      "You can't fit everything into 48 hours",
-      "You want to revisit an idea when you're ready to use it",
-      "You want the worksheets, transcripts and speaker bonuses",
-      "You'd love to join the networking sessions"
-    ], { note: "Not sure? Your free summit ticket is yours either way." }),
+    // The Page Builder PowerPack (one slide: what it is + the early-bird price)
+    powerPackSlide(),
     // Sponsors / partners + featured speaker
     titleSlide("theme-pink", null, "Page Builder Summit 9.0<br>Is Proudly Supported<br>By Our Partners...", null),
     partnerSlide(),
