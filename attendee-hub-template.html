@@ -382,6 +382,7 @@
         <h2>Where are you with AI in your work?</h2>
         <p class="quiz-sub">Pick one.</p>
         <div class="choice-grid" id="aiChoices"></div>
+        <p class="quiz-error-msg" id="screen4Error">Please pick one option above.</p>
         <div class="quiz-actions">
           <button type="button" class="quiz-back" data-back="3">← Back</button>
           <button type="button" class="btn btn-primary" id="screen4Next">Next →</button>
@@ -839,7 +840,12 @@
   });
   document.getElementById("screen2Next").addEventListener("click", function () { showScreen(3); });
   document.getElementById("screen3Next").addEventListener("click", function () { showScreen(4); });
-  document.getElementById("screen4Next").addEventListener("click", function () { showScreen(5); });
+  document.getElementById("screen4Next").addEventListener("click", function () {
+    var valid = !!quizState.aiLevel;
+    document.getElementById("screen4Error").classList.toggle("shown", !valid);
+    if (!valid) return;
+    showScreen(5);
+  });
 
   document.getElementById("screen5Submit").addEventListener("click", function () {
     quizState.goalAnswer = document.getElementById("qGoal").value.trim();
