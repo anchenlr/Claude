@@ -18,7 +18,8 @@
   so the schedule and bingo sections cover the whole week at once rather
   than "today's" content. All of that content lives in the WEEK array near
   the top of the script (search "WEEK =") if it ever needs updating.
-  PBS 9.0 has a single partner, show.fm (logo + blurb on the partner slide).
+  Partners: show.fm (logo + blurb) and Simply Digital Shops (logo only), then the
+  featured speaker slide (Squarestylist / Rache De Luna).
 
   NAVIGATION: arrow keys / click the left-right edges / on-screen buttons /
   dot indicators at the bottom. Press "F" for fullscreen (handy when
@@ -132,6 +133,16 @@
   /* The logo PNG has a lot of transparent padding: cover-crop it to the middle band. */
   .sponsor-logo { width: 480px; max-width: 100%; height: 190px; margin: 0 auto 14px; overflow: hidden; }
   .sponsor-logo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .sponsor-logo.fit { height: auto; max-height: 190px; display: flex; align-items: center; justify-content: center; }
+  .sponsor-logo.fit img { width: auto; height: auto; max-width: 100%; max-height: 190px; object-fit: contain; }
+  .sponsor-card.featured { max-width: 960px; padding: 30px 56px 34px; }
+  .sponsor-card.featured .sponsor-logo.fit, .sponsor-card.featured .sponsor-logo.fit img { max-height: 110px; }
+  .sponsor-card.featured p.small { font-size: 17px; line-height: 1.5; }
+  .sponsor-card.logo-only { padding: 40px 72px 44px; }
+  .sponsor-card h2 { color: var(--navy); font-size: 30px; margin: 4px 0 6px; }
+  .sponsor-card .session { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.35; color: var(--pink-dark); margin: 0 0 6px; }
+  .sponsor-card .when { font-size: 16px; opacity: 0.8; margin: 0 0 14px; }
+  .sponsor-card p.small { font-size: 18px; }
   .sponsor-card p { color: var(--navy); font-size: 21px; line-height: 1.55; margin: 0 0 14px; }
   .sponsor-card p:last-child { margin-bottom: 0; }
   .sponsor-card a { color: var(--blue); font-weight: 700; text-decoration: none; }
@@ -374,6 +385,43 @@
     return s;
   }
 
+  function simplyDigitalShopsSlide() {
+    var s = el("div", "slide theme-light");
+    var card = el("div", "sponsor-card logo-only");
+    card.appendChild(el("div", "tag", "Proudly supported by our partner"));
+    var logo = el("div", "sponsor-logo fit");
+    var img = document.createElement("img");
+    img.src = "https://pagebuildersummit.com/wp-content/uploads/2026/10/Simply-Digital-Shops-Logo.png";
+    img.alt = "Simply Digital Shops";
+    logo.appendChild(img);
+    card.appendChild(logo);
+    s.appendChild(card);
+    return s;
+  }
+
+  // Rache's bio (left out of the slide if this is ever emptied).
+  var FEATURED_BIO = "Rache De Luna is a self-taught web designer and developer and the founder of Squarestylist. From starting with zero coding knowledge to selling over a thousand website templates and building hundreds of websites, she now mentors hundreds of designers through her signature programs, Standout Squarespace, Standout Shopify and Design Forward. Her mission is to help designers master technical skills, create sought-after websites, and build thriving businesses.";
+
+  function featuredSpeakerSlide() {
+    var s = el("div", "slide theme-light");
+    var card = el("div", "sponsor-card featured");
+    card.appendChild(el("div", "tag", "Featured speaker"));
+    var logo = el("div", "sponsor-logo fit");
+    logo.style.marginBottom = "10px";
+    var img = document.createElement("img");
+    img.src = "https://pagebuildersummit.com/wp-content/uploads/2026/10/squarestylist-logo.png";
+    img.alt = "Squarestylist";
+    logo.appendChild(img);
+    card.appendChild(logo);
+    card.appendChild(el("h2", null, "Rache De Luna"));
+    if (FEATURED_BIO) card.appendChild(el("p", "small", FEATURED_BIO));
+    card.appendChild(el("div", "session", "Build bold website features with AI using the platforms you already use"));
+    card.appendChild(el("div", "when", "Today &middot; 11 AM PT / 2 PM ET / 7 PM UK"));
+    card.appendChild(el("p", "small", "Find out more at <a href=\"https://www.squarestylist.com/pbinvite\">squarestylist.com/pbinvite</a>"));
+    s.appendChild(card);
+    return s;
+  }
+
   function weekBingoSlide(week) {
     var s = el("div", "slide theme-pink");
     s.appendChild(el("div", "eyebrow", "This week's giveaway"));
@@ -405,8 +453,10 @@
   WEEK.forEach(function (day) { slides.push(daySlide(day)); });
   slides.push(
     titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
-    titleSlide("theme-pink", null, "Page Builder Summit 9.0<br>Is Proudly Supported<br>By Our Partner...", null),
+    titleSlide("theme-pink", null, "Page Builder Summit 9.0<br>Is Proudly Supported<br>By Our Partners...", null),
     partnerSlide(),
+    simplyDigitalShopsSlide(),
+    featuredSpeakerSlide(),
     weekBingoSlide(WEEK),
     urlSlide("theme-skyblue", "Remember, if you get stuck…", "Everything lives at", SCHEDULE_URL),
     titleSlide("theme-pink", null, "Have a great week! 💛", null)
