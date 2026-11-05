@@ -6,8 +6,6 @@
  * Same pattern as assets/showcase-config.js (the AI Systems Showcase page)
  * and assets/design-summit-config.js (the Future of Design Summit page),
  * kept as its own file because this summit has its own resource and form.
- * Every {{TOKEN}} value below is a placeholder. Search this file for
- * "{{" to find everything that still needs a real value before launch.
  */
 window.SHOWCASE_CONFIG = {
   // Core URLs
@@ -26,12 +24,13 @@ window.SHOWCASE_CONFIG = {
 
   // The Steal-This Automation Cheat Sheet — the only resource/offer on
   // this summit page (no gated second gift, no discount-coded upsell,
-  // unlike the other two summit pages).
-  cheatSheetUrl: "{{CHEAT_SHEET_URL}}",
+  // unlike the other two summit pages). Delivered in two formats.
+  cheatSheetDocUrl: "https://docs.google.com/document/d/1vOKaora3xTHRluy20tY6Sit6nLSFvmPlXr9gc33-oGE/copy",
+  cheatSheetPdfUrl: "https://drive.google.com/file/d/1_u7KBl2Na4tIkG9FpeUfTzYfdit_hLP2/view?usp=sharing",
 
   // The Site Audit Engine, part of Anchen's PowerPack — mentioned as a
   // light teaser/CTA only (no coupon code for this one).
-  powerPackUrl: "{{POWERPACK_URL}}",
+  powerPackUrl: "https://pagebuildersummit.com/page-builder-summit-powerpack/",
 };
 
 /**
