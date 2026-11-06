@@ -100,6 +100,7 @@
   /* ---------- Bingo winners ---------- */
   .winner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; width: 100%; max-width: 1200px; margin-top: 22px; text-align: left; }
   .winner { background: var(--white); border-radius: 12px; padding: 12px 18px; }
+  .winner .day { font-family: 'Montserrat', sans-serif; font-size: clamp(10px, 0.9vw, 12px); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 2px; }
   .winner .prize { font-size: clamp(12px, 1.1vw, 15px); line-height: 1.35; opacity: 0.8; color: var(--navy); }
   .winner .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(16px, 1.6vw, 22px); color: var(--pink-dark); margin-top: 2px; }
 
@@ -175,9 +176,15 @@
      THINGS TO FILL IN
   ========================================================= */
   var FEEDBACK_URL = "pagebuildersummit.com/survey-attendee/";
-  // Bingo winners for the ONE winners slide: ["Prize", "Winner name"] pairs (empty = "And the winners are…").
+  // Bingo winners for the ONE winners slide: ["Prize", "Winner name"] pairs (the optional 3rd item is a small day label; empty list = "And the winners are…").
   var BINGO_WINNERS = [
-    // ["60-Minute Marketing Strategy Call with Shannon Mattern", "Jane Doe"],
+    ["60-Minute Marketing Strategy Call with Shannon Mattern", "Brenda J. Redding", "Day 1"],
+    ["The Course Hub Build Kit — Kinsey Soderberg", "Vernita Kruger", "Day 1"],
+    ["$20 Amazon Gift Card", "Glenn Mulleners", "Day 1"],
+    ["The One Week Website Starter Pack — Whitney Zimmermann", "Rod Milburn", "Day 2"],
+    ["BTS My ClickUp System &amp; Web Design Workflow — Alexia Lynn", "Maria Bakera", "Day 2"],
+    ["Private 1-Hour Call with Sam Sarsten", "Tasya Unsabila", "Day 3"]
+    // more winners: ["Prize", "Winner name", "Day 4"],
   ];
   // What's next (e.g. GID Week). No slide is shown until this is filled in:
   //   var WHATS_NEXT = { eyebrow: "What's next", title: "GID Week", text: "…", url: "pagebuildersummit.com/…" };
@@ -273,6 +280,7 @@
     var grid = el("div", "winner-grid");
     BINGO_WINNERS.forEach(function (w) {
       var card = el("div", "winner");
+      if (w[2]) card.appendChild(el("div", "day", w[2]));
       card.appendChild(el("div", "prize", w[0]));
       card.appendChild(el("div", "name", w[1]));
       grid.appendChild(card);
