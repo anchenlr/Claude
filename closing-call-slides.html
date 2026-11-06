@@ -13,7 +13,7 @@
 
   THINGS TO FILL IN (search for these names in the script):
     FEEDBACK_URL   the feedback form link (the feedback slide shows a fallback until set)
-    BINGO_WINNERS  winners per prize, e.g.  Monday: ["Name 1", "Name 2", "Name 3"]
+    BINGO_WINNERS  the winners, as ["Prize", "Winner name"] pairs (one winners slide)
     WHATS_NEXT     the GID Week details (that slide only appears once this is filled in)
 
   NAVIGATION: arrow keys / space / click the left-right edges / on-screen buttons / dots.
@@ -97,6 +97,12 @@
   .pp-price .amt { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.6em; color: var(--pink-dark); vertical-align: -0.1em; }
   .slide .note { font-size: clamp(16px, 1.7vw, 24px); font-weight: 600; margin-top: 22px; opacity: 0.9; }
 
+  /* ---------- Bingo winners ---------- */
+  .winner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; width: 100%; max-width: 1200px; margin-top: 22px; text-align: left; }
+  .winner { background: var(--white); border-radius: 12px; padding: 12px 18px; }
+  .winner .prize { font-size: clamp(12px, 1.1vw, 15px); line-height: 1.35; opacity: 0.8; color: var(--navy); }
+  .winner .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(16px, 1.6vw, 22px); color: var(--pink-dark); margin-top: 2px; }
+
   /* ---------- Partner slide ---------- */
   .sponsor-card {
     background: var(--white); border: 2px solid rgba(117,184,161,0.5); border-radius: 18px;
@@ -168,11 +174,11 @@
   /* =========================================================
      THINGS TO FILL IN
   ========================================================= */
-  var FEEDBACK_URL = "";   // e.g. "pagebuildersummit.com/feedback/"  (leave empty until you have the link)
-  // Winners, in the same order as that day's prizes. Leave a day out until it is drawn.
-  var BINGO_WINNERS = {
-    // Monday: ["Name 1", "Name 2", "Name 3"],
-  };
+  var FEEDBACK_URL = "pagebuildersummit.com/survey-attendee/";
+  // Bingo winners for the ONE winners slide: ["Prize", "Winner name"] pairs (empty = "And the winners are…").
+  var BINGO_WINNERS = [
+    // ["60-Minute Marketing Strategy Call with Shannon Mattern", "Jane Doe"],
+  ];
   // What's next (e.g. GID Week). No slide is shown until this is filled in:
   //   var WHATS_NEXT = { eyebrow: "What's next", title: "GID Week", text: "…", url: "pagebuildersummit.com/…" };
   var WHATS_NEXT = null;
@@ -180,35 +186,7 @@
   var SCHEDULE_URL = "pagebuildersummit.com/schedule/";
   var HUB_URL = "pagebuildersummit.com/attendee-hub/";
   var BINGO_URL = "pagebuildersummit.com/bingo/";
-  var POWERPACK_URL = "pagebuildersummit.com/page-builder-powerpack-early-bird/";
-
-  var BINGO_DAYS = [
-    { label: "Monday", bingo: [
-        "60-Minute Marketing Strategy Call with Shannon Mattern ($500 value)",
-        "The Course Hub Build Kit — Kinsey Soderberg ($597)",
-        "$20 Amazon Gift Card"
-      ] },
-    { label: "Tuesday", bingo: [
-        "Hire to Grow by Eric Dingler, winner's choice of format ($9.99)",
-        "The One Week Website Starter Pack — Whitney Zimmermann ($297)",
-        "BTS My ClickUp System & Web Design Workflow — Alexia Lynn ($97)"
-      ] },
-    { label: "Wednesday", bingo: [
-        "Private 1-Hour Call with Sam Sarsten ($250)",
-        "Rose Sales Page Template — Chantal Edouard-Betsy ($147)",
-        "$20 Amazon Gift Card"
-      ] },
-    { label: "Thursday", bingo: [
-        "1:1 Online Advent Calendar Strategy Session — Britta Just (180 €)",
-        "Signed copies of Sell Futures, Not Features and Five Figure Funnels — Mike Killen",
-        "$20 Amazon Gift Card"
-      ] },
-    { label: "Friday", bingo: [
-        "1-Hour WordPress Consultancy with Jakson ($95)",
-        "30-Minute Live Call with Dyllon Boynton: Build and Fix Pages with AI ($150)",
-        "Build It With Me: 1:1 Automation Session — Anchen ($397)"
-      ] }
-  ];
+  var POWERPACK_URL = "pagebuildersummit.com/page-builder-summit-powerpack/";
 
   function el(tag, cls, html) {
     var e = document.createElement(tag);
@@ -287,13 +265,20 @@
     return s;
   }
 
-  function bingoDaySlide(day, i) {
-    var winners = BINGO_WINNERS[day.label] || [];
-    var items = day.bingo.map(function (prize, k) {
-      return winners[k] ? prize + "<small>Winner: <strong>" + winners[k] + "</strong></small>" : prize;
+  function bingoWinnersSlide() {
+    var s = el("div", "slide theme-skyblue");
+    s.appendChild(el("div", "eyebrow", "Bingo prize draw 🎉"));
+    s.appendChild(el("h1", null, "Bingo winners!"));
+    if (!BINGO_WINNERS.length) { s.appendChild(el("div", "sub", "And the winners are…")); return s; }
+    var grid = el("div", "winner-grid");
+    BINGO_WINNERS.forEach(function (w) {
+      var card = el("div", "winner");
+      card.appendChild(el("div", "prize", w[0]));
+      card.appendChild(el("div", "name", w[1]));
+      grid.appendChild(card);
     });
-    // alternate white / light blue so the prize slides stay light
-    return listSlide(i % 2 === 0 ? "theme-light" : "theme-skyblue", "Bingo prizes", day.label + "'s prizes", items, { prizes: true });
+    s.appendChild(grid);
+    return s;
   }
 
   function powerPackSlide() {
@@ -311,6 +296,29 @@
     s.appendChild(u);
     return s;
   }
+
+  var FEATURED_BIO = "Rache De Luna is a self-taught web designer and developer and the founder of Squarestylist. From starting with zero coding knowledge to selling over a thousand website templates and building hundreds of websites, she now mentors hundreds of designers through her signature programs, Standout Squarespace, Standout Shopify and Design Forward. Her mission is to help designers master technical skills, create sought-after websites, and build thriving businesses.";
+
+  function featuredSpeakerSlide() {
+    var s = el("div", "slide theme-light");
+    var card = el("div", "sponsor-card featured");
+    card.appendChild(el("div", "tag", "Featured speaker"));
+    var logo = el("div", "sponsor-logo fit");
+    logo.style.marginBottom = "10px";
+    var img = document.createElement("img");
+    img.src = "https://pagebuildersummit.com/wp-content/uploads/2026/10/squarestylist-logo.png";
+    img.alt = "Squarestylist";
+    logo.appendChild(img);
+    card.appendChild(logo);
+    card.appendChild(el("h2", null, "Rache De Luna"));
+    if (FEATURED_BIO) card.appendChild(el("p", "small", FEATURED_BIO));
+    card.appendChild(el("div", "session", "Build bold website features with AI using the platforms you already use"));
+    card.appendChild(el("p", "small", "Find out more at <a href=\"https://www.squarestylist.com/pbinvite\">squarestylist.com/pbinvite</a>"));
+    s.appendChild(card);
+    return s;
+  }
+
+  // items: plain HTML strings; use "<b>Heading</b><small>detail</small>" for a heading + detail line
 
   function whatsNextSlide() {
     if (!WHATS_NEXT) return null;
@@ -334,11 +342,18 @@
   var slides = [
     // Welcome
     titleSlide("theme-skyblue", "Page Builder Summit 9.0", "Welcome to the<br>Closing Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Friday 6 November · What a week! 🎉"),
+    // Sponsors and thank yous first
+    partnerSlide(),
+    simplyDigitalShopsSlide(),
+    featuredSpeakerSlide(),
+    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    titleSlide("theme-teal", null, "A big thank you to<br>Sunita, Britta &amp; Vernita", null),
+    // Welcome (continued): favourite presentation + what we'll cover
     titleSlide("theme-light", null, "What was your favourite<br>presentation this week?", "Tell us in the comments. We'd love to hear what's working for you!"),
     listSlide("theme-skyblue", "What we'll cover", "Today's closing call", [
       "Moving forward: your action plan",
       "Getting the most from the PowerPack",
-      "The bingo prize draw",
+      "The bingo prize winners",
       "Your feedback"
     ], { numbered: true }),
     listSlide("theme-light", "Still catching up?", "Presentations are still open", [
@@ -366,22 +381,14 @@
       "<b>Use the bonus resources</b>"
     ]),
     powerPackSlide(),
-    // Bingo prize draw
-    titleSlide("theme-pink", null, "Time for the<br>bingo prize draw! 🎉", null)
-  ];
-  BINGO_DAYS.forEach(function (day, i) { slides.push(bingoDaySlide(day, i)); });
-  slides.push(
-    // Thank yous
-    partnerSlide(),
-    simplyDigitalShopsSlide(),
-    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
-    titleSlide("theme-teal", null, "A big thank you to<br>Sunita &amp; Britta", null),
-    // Feedback, questions, goodbye
+    // Bingo winners (one slide)
+    bingoWinnersSlide(),
+    // Feedback, what's next, questions, goodbye
     feedbackSlide(),
     whatsNextSlide(),
     titleSlide("theme-skyblue", null, "Any questions?", "Ask away now, or find us in the Facebook group any time"),
     titleSlide("theme-pink", null, "Thank you for an<br>amazing week! 💛", null)
-  );
+  ];
   slides = slides.filter(Boolean);   // drops slides that have nothing to show yet (e.g. What's next)
 
   slides.forEach(function (s, i) { s.dataset.index = i; deck.appendChild(s); });
