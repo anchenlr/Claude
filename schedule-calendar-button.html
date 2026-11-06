@@ -96,7 +96,11 @@
   function entriesForItem(item) {
     var out = [];
     if (item.format === "event") {
-      out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, 60), desc: item.location || "" });
+      // VIP Co-Working 1 (recwzAc4k2wGYG2ib) covers a merged 2-hour slot (its
+      // Co-Working 2 twin was folded into it) — every other event here is a
+      // genuine 1-hour block, so this is a one-off, not a new default.
+      var eventMinutes = item.id === "recwzAc4k2wGYG2ib" ? 120 : 60;
+      out.push({ uid: "pbs9-" + item.id, title: item.title + (item.location ? " (" + item.location + ")" : ""), start: item.opens_at, end: addMinutes(item.opens_at, eventMinutes), desc: item.location || "" });
       return out;
     }
     var sessionEnd = item.qa_at || addMinutes(item.opens_at, 45);
