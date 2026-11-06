@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Builder Summit 9.0 — Co-Working Session</title>
+<!--
+  PBS 9.0 — Co-Working session deck (separate from the kickoff-call deck)
+  ======================================================================
+  One slide: a 50-minute countdown for the VIP Co-Working session.
+
+  The timer logic is taken unchanged from co-working-session-slide.html
+  (branch claude/gallant-mendel-8s68q9):
+    - counts down from a wall-clock end time (Date.now()), so dropped or throttled
+      ticks in a background window never make the clock drift
+    - starts on click or the T key (armed on load, so the host can talk first)
+    - a silent Web Audio tone (20Hz, gain 0.0008) starts inside the click handler so
+      the browser doesn't throttle the window while it's being shared
+    - a visibilitychange listener redraws immediately when the window comes back
+  Only the styling is restyled for the summit palette. Change the length with
+  data-seconds on the .timer-widget (3000 = 50 minutes). Press F for fullscreen.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #D85A95; --pink-dark: #CC4E89; --blue: #25AAE1; --navy: #312E61;
+    --teal: #75B8A1; --white: #ffffff; --off-white: #FBFCFE; --light-blue: #E2F0FB;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Open Sans', sans-serif; background: var(--light-blue); color: var(--navy); }
+  h1 { font-family: 'Montserrat', sans-serif; margin: 0; }
+
+  .slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6vh 8vw; }
+  .logo img { height: 52px; margin-bottom: 24px; }
+  .eyebrow { font-family: 'Montserrat', sans-serif; font-size: clamp(13px, 1.4vw, 16px); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--pink-dark); margin-bottom: 14px; }
+  .slide h1 { font-size: clamp(34px, 5.5vw, 76px); font-weight: 900; line-height: 1.08; }
+  .sub { font-size: clamp(16px, 1.8vw, 24px); font-weight: 500; margin-top: 16px; opacity: 0.92; max-width: 900px; }
+
+  /* ---------- Countdown timer ---------- */
+  .timer-widget {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 12px;
+    margin: 28px 0 8px; padding: 28px 80px; background: var(--white);
+    border: 4px solid var(--pink); border-radius: 28px; cursor: pointer; user-select: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .timer-widget:hover { background: rgba(216,90,149,0.06); }
+  .timer-display { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(80px, 15vw, 210px); line-height: 1; color: var(--navy); letter-spacing: -2px; }
+  .timer-hint { font-family: 'Montserrat', sans-serif; font-size: clamp(12px, 1.2vw, 16px); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(49,46,97,0.55); }
+  .timer-widget.is-running { background: rgba(216,90,149,0.1); }
+  .timer-widget.is-paused { border-color: rgba(49,46,97,0.35); }
+  .timer-widget.is-paused .timer-display { color: rgba(49,46,97,0.6); }
+  .timer-widget.is-finished { border-color: var(--pink-dark); animation: timer-pulse 1s ease-in-out infinite; }
+  .timer-widget.is-finished .timer-display, .timer-widget.is-finished .timer-hint { color: var(--pink-dark); }
+  .timer-widget.is-finished .timer-display { font-size: clamp(48px, 8vw, 110px); }
+  @keyframes timer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+  .keepalive-note { font-size: 13px; font-weight: 500; color: rgba(49,46,97,0.5); max-width: 520px; margin-top: 18px; }
+  @media (prefers-reduced-motion: reduce) { .timer-widget { animation: none !important; transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <div class="logo"><img src="https://pagebuildersummit.com/wp-content/uploads/2021/03/cropped-Asset-1.png" alt="Page Builder Summit"></div>
+  <div class="eyebrow">VIP Co-Working</div>
+  <h1>Co-Working.</h1>
+  <div class="sub">What are you focusing on in this session?</div>
+  <div class="timer-widget" data-seconds="3000" tabindex="0" role="button" aria-label="Start 50 minute timer">
+    <div class="timer-display">50:00</div>
+    <div class="timer-hint">Click or press T to start</div>
+  </div>
+  <div class="keepalive-note">Once started, this page plays a silent tone to stay accurate while you work in other windows &mdash; share this whole window as normal.</div>
+</div>
+
+<script>
+const timers = new Map();
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+function currentRemaining(t) {
+  if (t.state !== 'running') return t.remaining;
+  return Math.max(0, Math.ceil((t.endTime - Date.now()) / 1000));
+}
+
+function renderTimer(widget) {
+  const t = timers.get(widget);
+  const remaining = currentRemaining(t);
+  if (t.state === 'running' && remaining <= 0) {
+    t.remaining = 0;
+    t.state = 'finished';
+    clearInterval(t.intervalId);
+    t.intervalId = null;
+    stopKeepAliveAudio();
+    widget.classList.remove('is-running');
+    widget.classList.add('is-finished');
+    widget.querySelector('.timer-display').textContent = "Time's up";
+    widget.querySelector('.timer-hint').textContent = 'Click or press T to reset';
+    return;
+  }
+  widget.querySelector('.timer-display').textContent = formatTime(remaining);
+}
+
+function resetTimerDisplay(widget) {
+  const t = timers.get(widget);
+  clearInterval(t.intervalId);
+  t.intervalId = null;
+  t.remaining = t.seconds;
+  t.endTime = null;
+  t.state = 'armed';
+  stopKeepAliveAudio();
+  widget.classList.remove('is-running', 'is-paused', 'is-finished');
+  widget.querySelector('.timer-display').textContent = formatTime(t.remaining);
+  widget.querySelector('.timer-hint').textContent = 'Click or press T to start';
+}
+
+function toggleTimer(widget) {
+  const t = timers.get(widget);
+  if (t.state === 'running') {
+    t.remaining = currentRemaining(t);
+    clearInterval(t.intervalId);
+    t.intervalId = null;
+    t.state = 'paused';
+    stopKeepAliveAudio();
+    widget.classList.remove('is-running');
+    widget.classList.add('is-paused');
+    widget.querySelector('.timer-hint').textContent = 'Paused · click or press T to resume';
+  } else if (t.state === 'finished') {
+    resetTimerDisplay(widget);
+  } else {
+    t.endTime = Date.now() + t.remaining * 1000;
+    t.state = 'running';
+    startKeepAliveAudio();
+    widget.classList.remove('is-paused', 'is-finished');
+    widget.classList.add('is-running');
+    widget.querySelector('.timer-hint').textContent = 'Running · click or press T to pause';
+    t.intervalId = setInterval(() => renderTimer(widget), 1000);
+  }
+}
+
+document.querySelectorAll('.timer-widget').forEach(widget => {
+  const seconds = parseInt(widget.dataset.seconds, 10);
+  timers.set(widget, { seconds, remaining: seconds, endTime: null, intervalId: null, state: 'armed' });
+  widget.addEventListener('click', () => toggleTimer(widget));
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 't' || e.key === 'T') {
+    const widget = document.querySelector('.timer-widget');
+    if (widget) { e.preventDefault(); toggleTimer(widget); }
+  }
+});
+
+/* Force an immediate, correct redraw the moment the window becomes
+   visible again, so there's never a stale frame waiting on the next tick. */
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    document.querySelectorAll('.timer-widget').forEach(renderTimer);
+  }
+});
+
+/* AUDIO KEEP-ALIVE: browsers exempt a tab/window that's actively
+   playing audio from the background/occlusion throttling that causes
+   setInterval ticks to be dropped (the same exemption that lets music
+   or video keep playing normally in a window you've switched away
+   from). Playing a continuous, effectively inaudible tone for as long
+   as the timer is running keeps this window out of that throttled
+   state, so the whole branded slide -- not just the timer -- keeps
+   rendering live while shared in a call, even while you're working in
+   another window. Started on the same click that starts the timer, so
+   it reuses that click as the user gesture browsers require before
+   audio can play. Not a 100% guarantee on every browser version, which
+   is why the timestamp-based countdown above is the real safety net:
+   whatever happens, the instant this window is looked at again it
+   shows the correct time, never a stale one. */
+let audioCtx = null;
+let keepAliveGain = null;
+let keepAliveOsc = null;
+
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    keepAliveGain = audioCtx.createGain();
+    keepAliveGain.gain.value = 0.0008;
+    keepAliveGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function startKeepAliveAudio() {
+  try {
+    ensureAudioCtx();
+    keepAliveOsc = audioCtx.createOscillator();
+    keepAliveOsc.frequency.value = 20;
+    keepAliveOsc.connect(keepAliveGain);
+    keepAliveOsc.start();
+  } catch (e) { /* Web Audio unsupported -- timer still runs, just without this safeguard */ }
+}
+
+function stopKeepAliveAudio() {
+  if (keepAliveOsc) {
+    try { keepAliveOsc.stop(); } catch (e) {}
+    keepAliveOsc.disconnect();
+    keepAliveOsc = null;
+  }
+}
+
+/* fullscreen with F (handy when screen-sharing) */
+document.addEventListener('keydown', e => {
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    else document.exitFullscreen && document.exitFullscreen();
+  }
+});
+</script>
+
+</body>
+</html>
