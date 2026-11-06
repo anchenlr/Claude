@@ -14,7 +14,19 @@ gets up to speed on it without replaying old chat history.
     (Claude via `anthropic-claude:createAMessage`, with a one-shot automatic
     retry built into the onerror chain), writes Plan Status (Ready/Failed), and
     triggers AC automation 62 — **gated so it only fires when the plan actually
-    has picks** (`filter` on the `AddContactToAutomation` module).
+    has picks** (`filter` on the `AddContactToAutomation` module). **Guarded
+    against direct/bot hits on the raw webhook URL**: module 2 (the first
+    Airtable search, right after the trigger) carries a `filter` requiring
+    `{{1.email}}` to match a real email pattern. Since a Make filter blocks
+    everything downstream in that linear branch, a blank/malformed email now
+    dead-ends the execution immediately — no Airtable write, no AC contact
+    created, no error logged — instead of reaching `upsertContact2024` (module
+    23) and throwing `[422] Invalid attribute. This value should not be
+    blank.`. The quiz UI itself already blocks blank emails via its own
+    screen-1 validation, so this only matters for someone/something posting
+    straight to the webhook URL (which is visible in the page's JS as
+    `CONFIG.QUIZ_SUBMIT_URL`) — added Nov 6 after two such hits showed up
+    back-to-back in the Make error log.
   - `PBS Attendee Hub - Get Data` (scenario id **6758702**) — webhook the hub
     page polls, returns attendee plan + full schedule as JSON.
   - `PBS Attendee Hub - Resend Link` (scenario id **6758760**) — "email my
