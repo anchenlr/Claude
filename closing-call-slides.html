@@ -342,14 +342,7 @@
   var slides = [
     // Welcome
     titleSlide("theme-skyblue", "Page Builder Summit 9.0", "Welcome to the<br>Closing Call<br><em style=\"color:var(--pink); font-style:normal;\">What's Working Now</em>", "Friday 6 November · What a week! 🎉"),
-    // Sponsors and thank yous first
-    partnerSlide(),
-    simplyDigitalShopsSlide(),
-    featuredSpeakerSlide(),
-    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
-    titleSlide("theme-teal", null, "A big thank you to<br>Sunita, Britta &amp; Vernita", null),
-    // Welcome (continued): favourite presentation + what we'll cover
-    titleSlide("theme-light", null, "What was your favourite<br>presentation this week?", "Tell us in the comments. We'd love to hear what's working for you!"),
+    // Agenda and reminders first
     listSlide("theme-skyblue", "What we'll cover", "Today's closing call", [
       "Moving forward: your action plan",
       "Getting the most from the PowerPack",
@@ -360,7 +353,15 @@
       "Each presentation is free to watch for <b>48 hours</b> after it goes live",
       "Your Attendee Hub shows what's still open<small>" + HUB_URL + "</small>"
     ]),
-    // Moving forward + action plan
+    // Thank yous and sponsors
+    titleSlide("theme-skyblue", null, "Massive Thanks To Our Speakers", "What a line-up! A whole heap of talented people for you to enjoy this week..."),
+    titleSlide("theme-teal", null, "A big thank you to<br>Sunita, Britta &amp; Vernita", null),
+    partnerSlide(),
+    simplyDigitalShopsSlide(),
+    featuredSpeakerSlide(),
+    // Favourite presentation
+    titleSlide("theme-light", null, "What was your favourite<br>presentation this week?", "Tell us in the comments. We'd love to hear what's working for you!"),
+    // Moving forward, action plan, hub
     titleSlide("theme-teal", null, "This summit won't do anything for you<br>if you don't take action", null),
     listSlide("theme-light", "Moving forward", "Build your action plan", [
       "Break down what you learned and what you need to act on",
@@ -383,7 +384,7 @@
     powerPackSlide(),
     // Bingo winners (one slide)
     bingoWinnersSlide(),
-    // Feedback, what's next, questions, goodbye
+    // Feedback, what's next (hidden until filled in), questions, goodbye
     feedbackSlide(),
     whatsNextSlide(),
     titleSlide("theme-skyblue", null, "Any questions?", "Ask away now, or find us in the Facebook group any time"),
