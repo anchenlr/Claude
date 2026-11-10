@@ -29,9 +29,13 @@ window.SHOWCASE_CONFIG = {
   checklistDocUrl: "https://docs.google.com/document/d/12Mp0YKhVAYmZ8PoOxCIh_FeAmVnkDi8H9q5evFgpuQ4/copy",
   checklistPdfUrl: "https://drive.google.com/file/d/1ShD_boD6chTvKpn4ZCOYKk3mkquoOT30/view?usp=sharing",
 
-  // The Site Audit Engine — free inside the Summit Swag Bag, but also
-  // linked directly here for anyone who wants it without digging for
-  // the Swag Bag. No coupon code for this one.
+  // The Site Audit Engine — already included in the Women Of Web Summit
+  // Swag Bag (no link needed for that, attendees already have it).
+  // These two links are the alternate path for anyone without the Swag
+  // Bag: buy the Swag Bag itself (with all the other goodies and
+  // summit replays), or get just the Site Audit Engine on its own.
+  // No coupon code for either.
+  swagBagUrl: "https://womenofweb.co/?via=anchen-wow-awards-judges",
   siteAuditEngineUrl: "https://simplydigitaldesign.thrivecart.com/the-site-audit-engine/",
 };
 
