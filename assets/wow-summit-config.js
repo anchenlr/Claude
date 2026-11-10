@@ -35,7 +35,7 @@ window.SHOWCASE_CONFIG = {
   // Bag: buy the Swag Bag itself (with all the other goodies and
   // summit replays), or get just the Site Audit Engine on its own.
   // No coupon code for either.
-  swagBagUrl: "https://womenofweb.co/?via=anchen-wow-awards-judges",
+  swagBagUrl: "https://womenofweb.co/swag-bag?via=anchen-wow-awards-judges",
   siteAuditEngineUrl: "https://simplydigitaldesign.thrivecart.com/the-site-audit-engine/",
 };
 
